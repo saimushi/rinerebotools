@@ -112,6 +112,10 @@
 							<botton class="btn btn-success">登録</botton>
 						</form>
 					</div>
+					this.on('mount', function() {
+						// 認証
+						auth();
+					});
 				</top>
 			</script>
 
@@ -365,6 +369,9 @@
 						loginRedirect = true;
 					} else if ('undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length) {
 						key = getParams['clanid'];
+						if ('' == location.hash) {
+							loginRedirect = true;
+						}
 					}
 					if (key == null) {
 						// ログイン画面へ
