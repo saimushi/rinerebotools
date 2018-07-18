@@ -11,6 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"/>
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/css-spinning-spinners/1.1.1/load8.css"/>
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
 		<!-- this app -->
 		<style>
 			html, body {
@@ -59,14 +60,26 @@
 				<route path="/">
 					<top/>
 				</route>
-				<route path="login">
-					<login/>
-				</route>
 				<route path="dashboard">
 					<dashboard/>
 				</route>
+				<route path="login">
+					<login/>
+				</route>
+				<route path="addclan">
+					<addclan/>
+				</route>
 				<route path="adduser">
 					<adduser/>
+				</route>
+				<route path="addschedule">
+					<addschedule/>
+				</route>
+				<route path="modifyuser">
+					<adduser/>
+				</route>
+				<route path="detailschedule">
+					<detailschedule/>
 				</route>
 			</router>
 		</app>
@@ -91,6 +104,7 @@
 							<div class="collapse navbar-collapse">
 								<ul class="nav navbar-nav">
 									<li><a href="#dashboard">血盟ページ</a></li>
+									<li><a href="/">ログアウト</a></li>
 									<li><a href="mailto:saimushi@gmail.com">お問い合わせ</a></li>
 								</ul>
 							</div>
@@ -101,17 +115,6 @@
 
 			<script type="riot/tag">
 				<top>
-					<div style="padding: 10px;">
-						<form>
-							<div class="form-group">
-								<div class="btn-group">
-									<input type="text" name="clan" class="form-control" placeholder="血盟名"/>
-									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
-								</div>
-							</div>
-							<botton class="btn btn-success">登録</botton>
-						</form>
-					</div>
 					this.on('mount', function() {
 						// 認証
 						auth();
@@ -122,68 +125,63 @@
 			<script type="riot/tag">
 				<dashboard>
 					<div  class="row">
-
-						<div class="col-xs-2">
+						<div class="col-xs-4">
 							<div class="container-fluid">
-								<h2 style="margin-top: 10px;">{clanname}</h2>
+								<h2 style="margin-top: 10px;"><a href="{clanurl}">{clanname}</a></h2>
 								<h4>血盟員数: {usercnt}</h4>
 								<div  class="row">
 									<div class="col-md-6" style="padding-top: 10px;">
-										<a class="btn btn-success" href="#adduser">血盟員追加</a>
+										<a class="btn btn-success" href="#addschedule">予定追加</a>
 									</div>
-									<div class="col-md-6" style="padding-top: 10px;">
-										<botton class="btn btn-success" href="#addschedule">予定追加</botton>
+									<div class="col-md-6" style="padding-top: 10px; padding-bottom: 20px;">
+										<a class="btn btn-info" href="#adduser">血盟員追加</a>
 									</div>
 								</div>
-							</div>
-						</div>
-
-						<div class="col-xs-10">
-							<div class="container-fluid" style="padding-top: 50px;">
-								<table class="table table-bordered table-hover table-striped">
+								<table class="table table-bordered table-hover table-striped" style="padding-top: 10px;">
 									<thead>
 										<tr class="info">
-											<th>キャラクター名</th>
-											<th>職種</th>
-											<th>戦闘力</th>
-											<th>レベル</th>
-											<th>メテオ</th>
-											<th>状態</th>
-											<th>入隊日</th>
+											<th>予定日</th>
+											<th>予定内容</th>
+											<th>参加人数</th>
 										</tr>
 									</thead>
 									<tbody>
-										<tr each="{user, index in list}">
-											<td onclick="alert('{user.ID}');">{user.name}</td>
-											<td>{user.job}</td>
-											<td>{user.cp}</td>
-											<td>{user.level}</td>
-											<td>{user.meteo}</td>
-											<td if={user.activity==1} class="success">アクティブ</td>
-											<td if={user.activity==0} class="warning">インアクティブ</td>
-											<td if={user.activity==-1} class="danger">除名</td>
-											<td>{user.joind}</td>
+										<tr each="{schedule, index in schedules}" onclick="onclickSchedule(this, '{schedule.ID}');">
+											<td>{schedule.date}</td>
+											<td>{schedule.name}</td>
+											<td>{schedule.incount}</td>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
+						<div class="col-xs-8">
+							<div class="container-fluid" style="padding-top: 50px;">
+								<users data='{users}'/>
+							</div>
+						</div>
 
 					</div>
 					var clanname = '';
+					var clanurl = 'javascript: void(0); return false;';
 					var usercnt = 0;
-					var list = [];
+					var users = [];
+					var schedules = [];
+					var cpSort = false;
 					this.on('mount', function() {
 						// 認証
 						auth(false, function (clan) {
 							if ('undefined' != typeof clan.name) {
-								console.log(clan);
 								this.clanname = clan.name;
-								this.usercnt = clan.users.length;
+								this.clanurl = clan.url;
 								getUsers(clan.ID, function(users) {
-									console.log(users);
-									this.list = users;
+									this.users = users;
+									this.usercnt = users.length;
 									riot.update();
+									getSchedules(clan.ID, function(schedules) {
+										this.schedules = schedules;
+										riot.update();
+									});
 								});
 							}
 						});
@@ -203,6 +201,7 @@
 								</div>
 							</div>
 							<botton class="btn btn-success" onclick="onclickLogin(this)">ログイン</botton>
+							<botton class="btn btn-info" onclick="onclickAddClan(this)">血盟登録</botton>
 						</form>
 					</div>
 					this.on('mount', function() {
@@ -212,95 +211,297 @@
 			</script>
 
 			<script type="riot/tag">
+				<addclan>
+					<div style="padding: 10px;">
+						<form id="registerClanform">
+							<div class="form-group">
+								<div class="btn-group">
+									<input type="text" name="clan" class="form-control" placeholder="血盟名"/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="btn-group">
+									<input type="text" name="url" class="form-control" placeholder="血盟コミュニティURL"/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<botton class="btn btn-success" onclick="onclickRegisterClan(this)">登録</botton>
+						</form>
+					</div>
+				</addclan>
+			</script>
+
+			<script type="riot/tag">
 				<adduser>
 					<div style="padding: 10px;">
 						<h2>血盟員追加</h2>
 						<form id="registerform">
 							<div class="form-group">
 								<div class="btn-group">
-									<input type="text" name="username" class="form-control" placeholder="キャラクター名"/>
+									<input type="text" name="username" value="{user.name}" class="form-control" placeholder="キャラクター名"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
 							<div class="form-group">
 								<select class="form-control" name="userjob">
-									<option disabled="disabled" selected="selected">職業</option>
+									<option>職業</option>
 									<optgroup label="ヒューマン">
-										<option value="パラディン">パラディン</option>
-										<option value="ウォーロード">ウォーロード</option>
-										<option value="トレジャーハンター">トレジャーハンター</option>
-										<option value="ホークアイ">ホークアイ</option>
-										<option value="ソーサラー">ソーサラー</option>
-										<option value="ビショップ">ビショップ</option>
+										<option if={user.job=='パラディン'} value="パラディン" selected="selected">パラディン</option>
+										<option if={user.job=='ウォーロード'} value="ウォーロード" selected="selected">ウォーロード</option>
+										<option if={user.job=='トレジャーハンター'} value="トレジャーハンター" selected="selected">トレジャーハンター</option>
+										<option if={user.job=='ホークアイ'} value="ホークアイ" selected="selected">ホークアイ</option>
+										<option if={user.job=='ソーサラー'} value="ソーサラー" selected="selected">ソーサラー</option>
+										<option if={user.job=='ビショップ'} value="ビショップ" selected="selected">ビショップ</option>
+										<option if={user.job!='パラディン'} value="パラディン">パラディン</option>
+										<option if={user.job!='ウォーロード'} value="ウォーロード">ウォーロード</option>
+										<option if={user.job!='トレジャーハンター'} value="トレジャーハンター">トレジャーハンター</option>
+										<option if={user.job!='ホークアイ'} value="ホークアイ">ホークアイ</option>
+										<option if={user.job!='ソーサラー'} value="ソーサラー">ソーサラー</option>
+										<option if={user.job!='ビショップ'} value="ビショップ">ビショップ</option>
 									</optgroup>
 									<optgroup label="エルフ">
-										<option value="テンプルナイト">テンプルナイト	</option>
-										<option value="ソードシンガー">ソードシンガー	</option>
-										<option value="プレインズウォーカー">プレインズウォーカー</option>
-										<option value="シルバーレンジャー">シルバーレンジャー</option>
-										<option value="スペルシンガー">スペルシンガー</option>
-										<option value="エルダー">エルダー</option>
+										<option if={user.job=='テンプルナイト'} value="テンプルナイト" selected="selected">テンプルナイト	</option>
+										<option if={user.job=='ソードシンガー'} value="ソードシンガー" selected="selected">ソードシンガー	</option>
+										<option if={user.job=='プレインズウォーカー'} value="プレインズウォーカー" selected="selected">プレインズウォーカー</option>
+										<option if={user.job=='シルバーレンジャー'} value="シルバーレンジャー" selected="selected">シルバーレンジャー</option>
+										<option if={user.job=='スペルシンガー'} value="スペルシンガー" selected="selected">スペルシンガー</option>
+										<option if={user.job=='エルダー'} value="エルダー" selected="selected">エルダー</option>
+										<option if={user.job!='テンプルナイト'} value="テンプルナイト">テンプルナイト	</option>
+										<option if={user.job!='ソードシンガー'} value="ソードシンガー">ソードシンガー	</option>
+										<option if={user.job!='プレインズウォーカー'} value="プレインズウォーカー">プレインズウォーカー</option>
+										<option if={user.job!='シルバーレンジャー'} value="シルバーレンジャー">シルバーレンジャー</option>
+										<option if={user.job!='スペルシンガー'} value="スペルシンガー">スペルシンガー</option>
+										<option if={user.job!='エルダー'} value="エルダー">エルダー</option>
 									</optgroup>
 									<optgroup label="ダークエルフ">
-										<option value="シリエンナイト">シリエンナイト</option>
-										<option value="ブレードダンサー">ブレードダンサー</option>
-										<option value="アビスウォーカー">アビスウォーカー</option>
-										<option value="ファントムレンジャー">ファントムレンジャー</option>
-										<option value="スペルハウラー">スペルハウラー</option>
-										<option value="シリエンエルダー">シリエンエルダー</option>
+										<option if={user.job=='シリエンナイト'} value="シリエンナイト" selected="selected">シリエンナイト</option>
+										<option if={user.job=='ブレードダンサー'} value="ブレードダンサー" selected="selected">ブレードダンサー</option>
+										<option if={user.job=='アビスウォーカー'} value="アビスウォーカー" selected="selected">アビスウォーカー</option>
+										<option if={user.job=='ファントムレンジャー'} value="ファントムレンジャー" selected="selected">ファントムレンジャー</option>
+										<option if={user.job=='スペルハウラー'} value="スペルハウラー" selected="selected">スペルハウラー</option>
+										<option if={user.job=='シリエンエルダー'} value="シリエンエルダー" selected="selected">シリエンエルダー</option>
+										<option if={user.job!='シリエンナイト'} value="シリエンナイト">シリエンナイト</option>
+										<option if={user.job!='ブレードダンサー'} value="ブレードダンサー">ブレードダンサー</option>
+										<option if={user.job!='アビスウォーカー'} value="アビスウォーカー">アビスウォーカー</option>
+										<option if={user.job!='ファントムレンジャー'} value="ファントムレンジャー">ファントムレンジャー</option>
+										<option if={user.job!='スペルハウラー'} value="スペルハウラー">スペルハウラー</option>
+										<option if={user.job!='シリエンエルダー'} value="シリエンエルダー">シリエンエルダー</option>
 									</optgroup>
 									<optgroup label="ドワーフ">
-										<option value="ガーディアン">ガーディアン</option>
-										<option value="スレイヤー">スレイヤー</option>
-										<option value="スカベンジャー">スカベンジャー</option>
-										<option value="ウォーレンジャー">ウォーレンジャー</option>
-										<option value="クォーラルウィザード">クォーラルウィザード</option>
-										<option value="セイジ">セイジ</option>
+										<option if={user.job=='ガーディアン'} value="ガーディアン" selected="selected">ガーディアン</option>
+										<option if={user.job=='スレイヤー'} value="スレイヤー" selected="selected">スレイヤー</option>
+										<option if={user.job=='スカベンジャー'} value="スカベンジャー" selected="selected">スカベンジャー</option>
+										<option if={user.job=='ウォーレンジャー'} value="ウォーレンジャー" selected="selected">ウォーレンジャー</option>
+										<option if={user.job=='クォーラルウィザード'} value="クォーラルウィザード" selected="selected">クォーラルウィザード</option>
+										<option if={user.job=='セイジ'} value="セイジ" selected="selected">セイジ</option>
+										<option if={user.job!='ガーディアン'} value="ガーディアン">ガーディアン</option>
+										<option if={user.job!='スレイヤー'} value="スレイヤー">スレイヤー</option>
+										<option if={user.job!='スカベンジャー'} value="スカベンジャー">スカベンジャー</option>
+										<option if={user.job!='ウォーレンジャー'} value="ウォーレンジャー">ウォーレンジャー</option>
+										<option if={user.job!='クォーラルウィザード'} value="クォーラルウィザード">クォーラルウィザード</option>
+										<option if={user.job!='セイジ'} value="セイジ">セイジ</option>
 									</optgroup>
 								</select>
 							</div>
 							<div class="form-group">
 								<div class="btn-group">
-									<input type="number" pattern="\d{4,8}" name="usercp" class="form-control" placeholder="戦闘力"/>
+									<input type="number" pattern="\d{4,8}" name="usercp" value="{user.cp}" class="form-control" placeholder="戦闘力"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="btn-group">
-									<input type="number" pattern="\d{2,3}" name="userlevel" class="form-control" placeholder="レベル"/>
+									<input type="number" pattern="\d{2,3}" name="userlevel" value="{user.level}" class="form-control" placeholder="レベル"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
 							<div class="form-group">
 								<select class="form-control" name="usermeteo">
-									<option disabled="disabled" selected="selected">メテオ</option>
-									<option>10</option>
-									<option>9</option>
-									<option>8</option>
-									<option>7</option>
-									<option>6</option>
-									<option>5</option>
-									<option>4</option>
-									<option>3</option>
-									<option>2</option>
-									<option>1</option>
+									<option>メテオ</option>
+									<option if={user.meteo==10} selected="selected">10</option>
+									<option if={user.meteo==9} selected="selected">9</option>
+									<option if={user.meteo==8} selected="selected">8</option>
+									<option if={user.meteo==7} selected="selected">7</option>
+									<option if={user.meteo==6} selected="selected">6</option>
+									<option if={user.meteo==5} selected="selected">5</option>
+									<option if={user.meteo==4} selected="selected">4</option>
+									<option if={user.meteo==3} selected="selected">3</option>
+									<option if={user.meteo==2} selected="selected">2</option>
+									<option if={user.meteo==1} selected="selected">1</option>
+									<option if={user.meteo!=10}>10</option>
+									<option if={user.meteo!=9}>9</option>
+									<option if={user.meteo!=8}>8</option>
+									<option if={user.meteo!=7}>7</option>
+									<option if={user.meteo!=6}>6</option>
+									<option if={user.meteo!=5}>5</option>
+									<option if={user.meteo!=4}>4</option>
+									<option if={user.meteo!=3}>3</option>
+									<option if={user.meteo!=2}>2</option>
+									<option if={user.meteo!=1}>1</option>
 								</select>
 							</div>
 							<div class="form-group">
 								<select class="form-control" name="useractivity">
-									<option disabled="disabled" selected="selected">状態</option>
-									<option value="1">アクティブ</option>
-									<option value="0">インアクティブ</option>
-									<option value="-1">除名</option>
+									<option>状態</option>
+									<option if={user.activity==1} value="1" selected="selected">アクティブ</option>
+									<option if={user.activity==0} value="0" selected="selected">インアクティブ</option>
+									<option if={user.activity==-1} value="-1" selected="selected">除名</option>
+									<option if={user.activity!=1} value="1">アクティブ</option>
+									<option if={user.activity!=0} value="0">インアクティブ</option>
+									<option if={user.activity!=-1} value="-1">除名</option>
 								</select>
 							</div>
-							<botton class="btn btn-success" onclick="onclickRegister(this)">登録</botton>
+							<div class="form-group">
+								<div class="btn-group">
+									<input type="text" name="userjoind" value="{user.joind}" class="form-control" placeholder="2018/01/01 12:55" id='joinddate'/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<botton class="btn btn-success" onclick="onclickRegister(this, '{user.ID}')">登録</botton>
+							<botton if={user.ID!=''} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
+					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '',};
 					this.on('mount', function() {
-						auth();
+						$('#joinddate').datetimepicker({locale: 'ja', format: "YYYY/MM/DD 00:00:00",});
+						auth(false, function (clan) {
+							if ('#modifyuser' == location.hash && 'undefined' != typeof getParams['userid'] && 0 < getParams['userid'].length) {
+								// modifyモード
+								getUser(getParams['userid'], function(user) {
+									console.log(user);
+									this.user = user;
+									riot.update();
+								});
+							}
+							else {
+								// 初期化
+								this.user = user;
+								riot.update();
+							}
+						});
 					});
 				</adduser>
+			</script>
+
+			<script type="riot/tag">
+				<addschedule>
+					<div style="padding: 10px;">
+						<form id="addscheduleform">
+							<div class="form-group">
+								<div class="btn-group">
+									<input type="text" name="schedulename" value="{schedule.name}" class="form-control" placeholder="予定名"/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="btn-group">
+									<input type="text" name="scheduledate" value="{schedule.date}" class="form-control" placeholder="2018/01/01 12:55" id='scheduledate'/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<botton class="btn btn-success" onclick="onclickRegisterSchedule(this, '{schedule.ID}')">登録</botton>
+						</form>
+					</div>
+					var schedule = { ID: '', name: '', date: '',};
+					this.on('mount', function() {
+						$('#scheduledate').datetimepicker({locale: 'ja',});
+						auth(false, function (clan) {
+							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
+								// modifyモード
+								getSchedule(getParams['scheduleid'], function(schedule) {
+									console.log(schedule);
+									this.schedule = schedule;
+									riot.update();
+								});
+							}
+							else {
+								// 初期化
+								this.schedule = schedule;
+								riot.update();
+							}
+						});
+					});
+				</addschedule>
+			</script>
+
+			<script type="riot/tag">
+				<detailschedule>
+					<div  class="row">
+						<div class="col-xs-4">
+							<div class="container-fluid">
+								<addschedule/>
+								<div style="padding: 10px;">
+									<form id="entryscheduleform">
+										<div class="form-group">
+											<select class="form-control" name="scheduleusername">
+												<option each="{user, index in selectusers}" value={index}>{user.name}</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<div class="btn-group">
+												<botton class="btn btn-success" onclick="onclickEntrySchedule(this, '{schedule.ID}', 1)">○</botton>
+												<botton class="btn btn-warning" onclick="onclickEntrySchedule(this, '{schedule.ID}', 0)">△</botton>
+												<botton class="btn btn-danger" onclick="onclickEntrySchedule(this, '{schedule.ID}', -1)">☓</botton>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-8">
+							<div class="container-fluid">
+								<h3>参加者一覧</h3>
+								<users data='{scheduleusers}' mode='schedule'/>
+							</div>
+						</div>
+					</div>
+					var selectusers = [];
+					var scheduleusers = [];
+					this.on('mount', function() {
+						// 認証
+						auth(false, function (clan) {
+							getUsers(clan.ID, function(users) {
+								this.selectusers = users;
+								getScheduleUsers(getParams['scheduleid'], function(scheduleusers) {
+									this.scheduleusers = scheduleusers;
+									riot.update();
+								});
+							});
+						});
+					});
+				</detailschedule>
+			</script>
+
+			<script type="riot/tag">
+				<users>
+					<table class="table table-bordered table-hover table-striped">
+						<thead>
+							<tr class="info">
+								<th>キャラクター名</th>
+								<th>戦闘力</th>
+								<th>レベル</th>
+								<th>職種</th>
+								<th>メテオ</th>
+								<th if={opts.mode!='schedule'}>状態</th>
+								<th if={opts.mode!='schedule'}>入隊日</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr each="{user, index in opts.data}" onclick="onclickModify(this, '{user.ID}');">
+								<td>{user.name}</td>
+								<td>{user.cp}</td>
+								<td>{user.level}</td>
+								<td>{user.job}</td>
+								<td>{user.meteo}</td>
+								<td if={opts.mode!='schedule' && user.activity==1} class="success">アクティブ</td>
+								<td if={opts.mode!='schedule' && user.activity==0} class="warning">インアクティブ</td>
+								<td if={opts.mode!='schedule' && user.activity==-1} class="danger">除名</td>
+								<td if={opts.mode!='schedule'}>{user.joind}</td>
+							</tr>
+						</tbody>
+					</table>
+				</users>
 			</script>
 
 		</section>
@@ -308,7 +509,11 @@
 		<section id="scripts">
 			<!-- bootstrap -->
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
 			<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script
+
 			<!-- Riot -->
 			<script src="//cdn.jsdelivr.net/npm/riot@3.9/riot+compiler.min.js"></script>
 			<!-- Riot tag base rooting -->
@@ -335,6 +540,8 @@
 				var getParams = {};
 				var loadingCount = 0;
 				var clan = null;
+				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '',};
+				var schedule = { ID: '', name: '', date: '',};
 				var getUrlVars = function(){
 					var vars = {};
 					var param = location.search.substring(1).split('&');
@@ -369,7 +576,7 @@
 						loginRedirect = true;
 					} else if ('undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length) {
 						key = getParams['clanid'];
-						if ('' == location.hash) {
+						if ('' == location.hash || '#login' == location.hash) {
 							loginRedirect = true;
 						}
 					}
@@ -388,7 +595,8 @@
 								clan = data;
 								clan.ID = snapshot.id;
 								if (loginRedirect) {
-									location.href = '?clanid='+key+'#dashboard';
+									getParams['clanid'] = key;
+									location.href = '?clanid=' + key + '#dashboard';
 								}
 								if (callback) {
 									callback(data);
@@ -408,16 +616,11 @@
 						loading(false);
 					});
 				};
-				var registerUser = function (clanID, data, callback) {
-					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
-						return;
-					}
+				var registerClan = function (data, callback) {
 					loading(true);
-					data.clanid = clanID;
-					console.log(data);
-					firebase.firestore().collection("users").add(data).then(function() {
+					firebase.firestore().collection("clans").add(data).then(function(snapshot) {
 						if (callback) {
-							callback();
+							callback(snapshot.id);
 						}
 						loading(false);
 						return;
@@ -428,12 +631,139 @@
 						loading(false);
 					});
 				};
+				var registerSchedule = function (clanID, data, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					data.clanid = clanID;
+					if (data.ID != '') {
+						scheduleID = data.ID;
+						delete data.ID;
+						console.log(data);
+						firebase.firestore().collection("schedules").doc(scheduleID).set(data).then(function() {
+							if (callback) {
+								callback();
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('予定更新エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
+					else {
+						console.log(data);
+						alert('is');
+						firebase.firestore().collection("schedules").add(data).then(function() {
+							if (callback) {
+								callback();
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('予定追加エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
+				};
+				var registerUser = function (clanID, data, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					data.clanid = clanID;
+					if (data.ID != '') {
+						userID = data.ID;
+						delete data.ID;
+						console.log(data);
+						firebase.firestore().collection("users").doc(userID).set(data).then(function() {
+							if (callback) {
+								callback();
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('更新エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
+					else {
+						firebase.firestore().collection("users").add(data).then(function() {
+							if (callback) {
+								callback();
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('追加エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
+				};
+				var unregisterUser = function (userID, callback) {
+					if (userID == null || 'undefined' == typeof userID || 1 > userID.length) {
+						return;
+					}
+					loading(true);
+					firebase.firestore().collection("users").doc(userID).delete().then(function() {
+						if (callback) {
+							callback();
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('更新エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
+				var getSchedules = function (clanID, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					firebase.firestore().collection("schedules").where("clanid", "==", clanID).get().then(function(querySnapshot) {
+						var datas = [];
+						querySnapshot.forEach(function(snapshot) {
+							if(snapshot.exists) {
+								console.log(snapshot);
+								var data = snapshot.data();
+								data.ID = snapshot.id;
+								if ('undefined' != typeof data.date) {
+									data.date = data.date.toLocaleString();
+								}
+								datas.push(data);
+							}
+						});
+						if ('undefined' != typeof datas) {
+							if (callback) {
+								callback(datas);
+							}
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('予定一覧参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
 				var getUsers = function (clanID, callback) {
 					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
 						return;
 					}
 					loading(true);
-					// firbase問い合わせ
 					firebase.firestore().collection("users").where("clanid", "==", clanID).get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
@@ -443,12 +773,12 @@
 								data.ID = snapshot.id;
 								if ('undefined' != typeof data.joind) {
 									data.joind = data.joind.toLocaleString();
+									data.joind = data.joind.split(' ')[0];
 								}
 								datas.push(data);
 							}
 						});
-						console.log(datas);
-						if ('undefined' != typeof datas[0] && 0 < datas.length) {
+						if ('undefined' != typeof datas) {
 							if (callback) {
 								callback(datas);
 							}
@@ -462,8 +792,64 @@
 						loading(false);
 					});
 				};
+				var getSchedule = function (scheduleID, callback) {
+					if (scheduleID == null || 'undefined' == typeof scheduleID || 1 > scheduleID.length) {
+						return;
+					}
+					loading(true);
+					// firbase問い合わせ
+					firebase.firestore().collection("schedules").doc(scheduleID).get().then(function(snapshot){
+  					if(snapshot.exists) {
+							var data = snapshot.data();
+							data.ID = snapshot.id;
+							if ('undefined' != typeof data.date) {
+								data.date = data.date.toLocaleString();
+							}
+							if ('undefined' != typeof data.name && 0 < data.name.length) {
+								if (callback) {
+									callback(data);
+								}
+							}
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('予定詳細参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
+				var getScheduleUsers = function (scheduleID, callback) {
+					if (scheduleID == null || 'undefined' == typeof scheduleID || 1 > scheduleID.length) {
+						return;
+					}
+					loading(true);
+					firebase.firestore().collection("schedules").doc(scheduleID).collection("users").get().then(function(querySnapshot) {
+						var datas = [];
+						querySnapshot.forEach(function(snapshot) {
+							if(snapshot.exists) {
+								var data = snapshot.data();
+								data.ID = snapshot.id;
+								datas.push(data);
+							}
+						});
+						if ('undefined' != typeof datas) {
+							if (callback) {
+								callback(datas);
+							}
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
 				var getUser = function (userID, callback) {
-					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+					if (userID == null || 'undefined' == typeof userID || 1 > userID.length) {
 						return;
 					}
 					loading(true);
@@ -471,6 +857,10 @@
 					firebase.firestore().collection("users").doc(userID).get().then(function(snapshot){
   					if(snapshot.exists) {
 							var data = snapshot.data();
+							data.ID = snapshot.id;
+							if ('undefined' != typeof data.joind) {
+								data.joind = data.joind.toLocaleString();
+							}
 							if ('undefined' != typeof data.name && 0 < data.name.length) {
 								if (callback) {
 									callback(data);
@@ -493,21 +883,78 @@
 					var clanID = $('#loginform').find('input[name=clanID]').val();
 					auth(clanID);
 				};
-				var onclickRegister = function (target) {
+				var onclickAddClan = function (target) {
+					location.href='#addclan';
+				};
+				var onclickRegisterClan = function (target) {
+					var clanname = $('#registerClanform').find('input[name=clan]').val();
+					var clanurl = $('#registerClanform').find('input[name=url]').val();
+					if (0 < clanname.length) {
+						var data = {name: clanname, url: clanurl, };
+						console.log(data);
+						registerClan(data, function (newClanID){
+							alert('登録しました。');
+							getParams['clanid'] = newClanID;
+							location.href = '?clanid=' + newClanID + '#dashboard';
+						});
+						return;
+					}
+					alert('入力が正しくない項目があった為、処理を中断します。');
+				};
+				var onclickRegisterSchedule = function (target, scheduleID) {
+					var schedulename = $('#addscheduleform').find('input[name=schedulename]').val();
+					var scheduledate = $('#addscheduleform').find('input[name=scheduledate]').val();
+					if (0 < schedulename.length && 0 < scheduledate.length) {
+						var data = {ID: scheduleID, name: schedulename, date: new Date(scheduledate), incount: 0, };
+						console.log(data);
+						registerSchedule(clan.ID, data, function (newScheduleID){
+							alert('登録しました。');
+							location.href = '#dashboard';
+						});
+						return;
+					}
+					alert('入力が正しくない項目があった為、処理を中断します。');
+				};
+				var onclickRegister = function (target, userID) {
 					var username = $('#registerform').find('input[name=username]').val();
 					var userjob = $('#registerform').find('select[name=userjob] option:selected').val();
 					var userlevel = $('#registerform').find('input[name=userlevel]').val();
 					var usercp = $('#registerform').find('input[name=usercp]').val();
 					var usermeteo = $('#registerform').find('select[name=usermeteo] option:selected').val();
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
+					var userjoind = $('#registerform').find('input[name=userjoind]').val();
 					if ('職業' != userjob && 'メテオ' != usermeteo && '状態' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
-						registerUser(clan.ID, {name: username, level: parseInt(userlevel), cp: parseInt(usercp), meteo: parseInt(usermeteo), activity: parseInt(useractivity)}, function (){
+						var data = {ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), meteo: parseInt(usermeteo), activity: parseInt(useractivity)};
+						if (0 < userjoind.length) {
+							data.joind = new Date(userjoind);
+						}
+						console.log(data);
+						registerUser(clan.ID, data, function (){
 							alert('登録しました。');
 							location.href='#dashboard';
 						});
 						return;
 					}
 					alert('入力が正しくない項目があった為、処理を中断します。');
+				};
+				var onclickUnregister = function (target, userID) {
+					if (confirm('本当に削除してよろしいですか？')) {
+						unregisterUser(userID, function (){
+							alert('削除しました。');
+							location.href='#dashboard';
+						});
+						return;
+					}
+				};
+				var onclickSchedule = function (target, scheduleID) {
+					getParams['clanid'] = clan.ID;
+					getParams['scheduleid'] = scheduleID;
+					location.href = '?clanid=' + clan.ID + '&scheduleid=' + scheduleID + '#detailschedule';
+				};
+				var onclickModify = function (target, userID) {
+					getParams['clanid'] = clan.ID;
+					getParams['userid'] = userID;
+					location.href = '?clanid=' + clan.ID + '&userid=' + userID + '#modifyuser';
 				};
 				$(function() {
 					loading(true);
