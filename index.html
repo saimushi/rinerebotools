@@ -558,7 +558,8 @@
 									<td>{user.cp}</td>
 									<td>{user.level}</td>
 									<td>{user.job}</td>
-									<td>{user.meteo}</td>
+									<td if={user.meteo==10}>{user.meteo}</td>
+									<td if={user.meteo!=10} class="warning">{user.meteo}</td>
 									<td if={opts.mode!='schedule' && user.activity==1} class="success">アクティブ</td>
 									<td if={opts.mode!='schedule' && user.activity==0} class="warning">インアクティブ</td>
 									<td if={opts.mode!='schedule' && user.activity==-1} class="danger">除名</td>
