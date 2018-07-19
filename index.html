@@ -400,6 +400,7 @@
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
+							<input type="hidden" name="scheduleincount" value="{schedule.incount}" id='scheduleincount'/>
 							<botton class="btn btn-success" onclick="onclickRegisterSchedule(this, '{schedule.ID}')">登録</botton>
 						</form>
 					</div>
@@ -434,15 +435,16 @@
 								<div style="padding: 10px;">
 									<form id="entryscheduleform">
 										<div class="form-group">
-											<select class="form-control" name="scheduleusername">
+											<select class="form-control" name="scheduleuser">
+												<option value="-1">参加キャラ</option>
 												<option each="{user, index in selectusers}" value={index}>{user.name}</option>
 											</select>
 										</div>
 										<div class="form-group">
 											<div class="btn-group">
-												<botton class="btn btn-success" onclick="onclickEntrySchedule(this, '{schedule.ID}', 1)">○</botton>
-												<botton class="btn btn-warning" onclick="onclickEntrySchedule(this, '{schedule.ID}', 0)">△</botton>
-												<botton class="btn btn-danger" onclick="onclickEntrySchedule(this, '{schedule.ID}', -1)">☓</botton>
+												<botton class="btn btn-success" onclick="{onEntryOK}">◯</botton>
+												<botton class="btn btn-warning" onclick="{onEntryMaybe}">△</botton>
+												<botton class="btn btn-danger" onclick="{onEntryNG}">✕</botton>
 											</div>
 										</div>
 									</form>
@@ -458,18 +460,68 @@
 					</div>
 					var selectusers = [];
 					var scheduleusers = [];
+					var thisis;
 					this.on('mount', function() {
+						thisis = this;
 						// 認証
 						auth(false, function (clan) {
 							getUsers(clan.ID, function(users) {
-								this.selectusers = users;
-								getScheduleUsers(getParams['scheduleid'], function(scheduleusers) {
-									this.scheduleusers = scheduleusers;
+								thisis.selectusers = users;
+								getScheduleUsers(getParams['scheduleid'], null, function(scheduleusers) {
+									thisis.scheduleusers = scheduleusers;
 									riot.update();
 								});
 							});
 						});
 					});
+					onEntryOK = function () {
+						var index = $('#entryscheduleform').find('select[name=scheduleuser] option:selected').val();
+						if (0 > parseInt(index)) {
+							alert('参加キャラを選択して下さい。');
+							return;
+						}
+						var scheduleuser = thisis.selectusers[index];
+						scheduleuser.entry = 1;
+						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
+							getScheduleUsers(getParams['scheduleid'], true, function(entryOKUsers) {
+								$('#addscheduleform').find('input[name=scheduleincount]').val(entryOKUsers.length).ready(function (){
+									onclickRegisterSchedule(null, getParams['scheduleid']);
+								});
+							});
+						});
+					};
+					onEntryMaybe = function () {
+						var index = $('#entryscheduleform').find('select[name=scheduleuser] option:selected').val();
+						if (0 > parseInt(index)) {
+							alert('参加キャラを選択して下さい。');
+							return;
+						}
+						var scheduleuser = thisis.selectusers[index];
+						scheduleuser.entry = 0;
+						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
+							getScheduleUsers(getParams['scheduleid'], true, function(entryOKUsers) {
+								$('#addscheduleform').find('input[name=scheduleincount]').val(entryOKUsers.length).ready(function (){
+									onclickRegisterSchedule(null, getParams['scheduleid']);
+								});
+							});
+						});
+					};
+					onEntryNG = function () {
+						var index = $('#entryscheduleform').find('select[name=scheduleuser] option:selected').val();
+						if (0 > parseInt(index)) {
+							alert('参加キャラを選択して下さい。');
+							return;
+						}
+						var scheduleuser = thisis.selectusers[index];
+						scheduleuser.entry = -1;
+						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
+							getScheduleUsers(getParams['scheduleid'], true, function(entryOKUsers) {
+								$('#addscheduleform').find('input[name=scheduleincount]').val(entryOKUsers.length).ready(function (){
+									onclickRegisterSchedule(null, getParams['scheduleid']);
+								});
+							});
+						});
+					};
 				</detailschedule>
 			</script>
 
@@ -478,17 +530,21 @@
 					<table class="table table-bordered table-hover table-striped">
 						<thead>
 							<tr class="info">
+								<th if={opts.mode=='schedule'}>参加</th>
 								<th>キャラクター名</th>
-								<th>戦闘力</th>
-								<th>レベル</th>
+								<th onclick="{sortCP}">戦闘力</th>
+								<th onclick="{sortLevel}">レベル</th>
 								<th>職種</th>
 								<th>メテオ</th>
 								<th if={opts.mode!='schedule'}>状態</th>
-								<th if={opts.mode!='schedule'}>入隊日</th>
+								<th if={opts.mode!='schedule'} onclick="{sortJoind}">入隊日</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr each="{user, index in opts.data}" onclick="onclickModify(this, '{user.ID}');">
+								<td if={opts.mode=='schedule' && user.entry==1} class="success">◯</td>
+								<td if={opts.mode=='schedule' && user.entry==0} class="warning">△</td>
+								<td if={opts.mode=='schedule' && user.entry==-1} class="danger">✕</td>
 								<td>{user.name}</td>
 								<td>{user.cp}</td>
 								<td>{user.level}</td>
@@ -501,6 +557,85 @@
 							</tr>
 						</tbody>
 					</table>
+					var thisis;
+					this.on('mount', function() {
+						thisis = this;
+						thisis.users = opts.data;
+					});
+					var cpdesc = true;
+					var leveldesc = true;
+					var joinddesc = true;
+					sortCP = function () {
+						if (cpdesc) {
+							cpdesc = false;
+							leveldesc = false;
+							joinddesc = false;
+							opts.data.sort(function(a, b){
+								if( a.cp < b.cp ) return -1;
+								if( a.cp > b.cp ) return 1;
+								return 0;
+							});
+						}
+						else {
+							cpdesc = true;
+							leveldesc = true;
+							joinddesc = true;
+							opts.data.sort(function(a, b){
+								if( a.cp > b.cp ) return -1;
+								if( a.cp < b.cp ) return 1;
+								return 0;
+							});
+						}
+					};
+					sortLevel = function () {
+						if (leveldesc) {
+							cpdesc = false;
+							leveldesc = false;
+							joinddesc = false;
+							opts.data.sort(function(a, b){
+								if( a.level < b.level ) return -1;
+								if( a.level > b.level ) return 1;
+								return 0;
+							});
+						}
+						else {
+							cpdesc = true;
+							leveldesc = true;
+							joinddesc = true;
+							opts.data.sort(function(a, b){
+								if( a.level > b.level ) return -1;
+								if( a.level < b.level ) return 1;
+								return 0;
+							});
+						}
+					};
+					sortJoind = function () {
+						if (joinddesc) {
+							cpdesc = false;
+							leveldesc = false;
+							joinddesc = false;
+							opts.data.sort(function(a, b){
+								if ('' == a.joind || 'undefined' == typeof a.joind) return -1;
+								if ('' == b.joind || 'undefined' == typeof b.joind) return 1;
+								if( new Date(a.joind).getTime() < new Date(b.joind).getTime() ) return -1;
+								if( new Date(a.joind).getTime() > new Date(b.joind).getTime() ) return 1;
+								if( a.level > b.level ) return 1;
+								return 0;
+							});
+						}
+						else {
+							cpdesc = true;
+							leveldesc = true;
+							joinddesc = true;
+							opts.data.sort(function(a, b){
+								if ('' == a.joind || 'undefined' == typeof a.joind) return 1;
+								if ('' == b.joind || 'undefined' == typeof b.joind) return -1;
+								if( new Date(a.joind).getTime() > new Date(b.joind).getTime() ) return -1;
+								if( new Date(a.joind).getTime() < new Date(b.joind).getTime() ) return 1;
+								return 0;
+							});
+						}
+					};
 				</users>
 			</script>
 
@@ -541,7 +676,7 @@
 				var loadingCount = 0;
 				var clan = null;
 				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '',};
-				var schedule = { ID: '', name: '', date: '',};
+				var schedule = { ID: '', name: '', date: '', incount: 0, };
 				var getUrlVars = function(){
 					var vars = {};
 					var param = location.search.substring(1).split('&');
@@ -640,7 +775,6 @@
 					if (data.ID != '') {
 						scheduleID = data.ID;
 						delete data.ID;
-						console.log(data);
 						firebase.firestore().collection("schedules").doc(scheduleID).set(data).then(function() {
 							if (callback) {
 								callback();
@@ -655,8 +789,6 @@
 						});
 					}
 					else {
-						console.log(data);
-						alert('is');
 						firebase.firestore().collection("schedules").add(data).then(function() {
 							if (callback) {
 								callback();
@@ -671,6 +803,24 @@
 						});
 					}
 				};
+				var registerScheduleuser = function (scheduleID, data, callback) {
+					if (scheduleID == null || 'undefined' == typeof scheduleID || 1 > scheduleID.length) {
+						return;
+					}
+					loading(true);
+					firebase.firestore().collection("schedules").doc(scheduleID).collection("users").doc(data.ID).set(data).then(function() {
+						if (callback) {
+							callback();
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('参加登録エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
 				var registerUser = function (clanID, data, callback) {
 					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
 						return;
@@ -680,7 +830,6 @@
 					if (data.ID != '') {
 						userID = data.ID;
 						delete data.ID;
-						console.log(data);
 						firebase.firestore().collection("users").doc(userID).set(data).then(function() {
 							if (callback) {
 								callback();
@@ -732,7 +881,7 @@
 						return;
 					}
 					loading(true);
-					firebase.firestore().collection("schedules").where("clanid", "==", clanID).get().then(function(querySnapshot) {
+					firebase.firestore().collection("schedules").where("clanid", "==", clanID).orderBy("date", "asc").get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
@@ -764,7 +913,7 @@
 						return;
 					}
 					loading(true);
-					firebase.firestore().collection("users").where("clanid", "==", clanID).get().then(function(querySnapshot) {
+					firebase.firestore().collection("users").where("clanid", "==", clanID).orderBy("cp", "desc").get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
@@ -820,12 +969,16 @@
 						loading(false);
 					});
 				};
-				var getScheduleUsers = function (scheduleID, callback) {
+				var getScheduleUsers = function (scheduleID, entryOK, callback) {
 					if (scheduleID == null || 'undefined' == typeof scheduleID || 1 > scheduleID.length) {
 						return;
 					}
 					loading(true);
-					firebase.firestore().collection("schedules").doc(scheduleID).collection("users").get().then(function(querySnapshot) {
+					var collection = firebase.firestore().collection("schedules").doc(scheduleID).collection("users");
+					if (entryOK) {
+						collection = collection.where('entry', '==', 1);
+					}
+					collection.get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
@@ -891,7 +1044,6 @@
 					var clanurl = $('#registerClanform').find('input[name=url]').val();
 					if (0 < clanname.length) {
 						var data = {name: clanname, url: clanurl, };
-						console.log(data);
 						registerClan(data, function (newClanID){
 							alert('登録しました。');
 							getParams['clanid'] = newClanID;
@@ -904,10 +1056,23 @@
 				var onclickRegisterSchedule = function (target, scheduleID) {
 					var schedulename = $('#addscheduleform').find('input[name=schedulename]').val();
 					var scheduledate = $('#addscheduleform').find('input[name=scheduledate]').val();
-					if (0 < schedulename.length && 0 < scheduledate.length) {
-						var data = {ID: scheduleID, name: schedulename, date: new Date(scheduledate), incount: 0, };
-						console.log(data);
+					var scheduleincount = $('#addscheduleform').find('input[name=scheduleincount]').val();
+					if (1 > scheduleincount.length) {
+						scheduleincount = '0';
+					}
+					if (0 < schedulename.length && 0 < scheduledate.length && 0 < scheduleincount.length) {
+						var data = {ID: scheduleID, name: schedulename, date: new Date(scheduledate), incount: parseInt(scheduleincount), };
 						registerSchedule(clan.ID, data, function (newScheduleID){
+							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
+								if (target) {
+									alert('更新しました。');
+								}
+								else {
+									//location.href = '?clanid=' + clan.ID + '&scheduleid=' + getParams['scheduleid'] + '#detailschedule';
+									location.reload();
+								}
+								return;
+							}
 							alert('登録しました。');
 							location.href = '#dashboard';
 						});
@@ -928,7 +1093,6 @@
 						if (0 < userjoind.length) {
 							data.joind = new Date(userjoind);
 						}
-						console.log(data);
 						registerUser(clan.ID, data, function (){
 							alert('登録しました。');
 							location.href='#dashboard';
@@ -952,6 +1116,10 @@
 					location.href = '?clanid=' + clan.ID + '&scheduleid=' + scheduleID + '#detailschedule';
 				};
 				var onclickModify = function (target, userID) {
+					if ('#detailschedule' == location.hash) {
+						// 無視
+						return;
+					}
 					getParams['clanid'] = clan.ID;
 					getParams['userid'] = userID;
 					location.href = '?clanid=' + clan.ID + '&userid=' + userID + '#modifyuser';
