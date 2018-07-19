@@ -360,7 +360,8 @@
 									<option if={user.activity!=-1} value="-1">除名</option>
 								</select>
 							</div>
-							<div class="form-group">
+							<div class="form-group bg-info">
+								<h5>入団日(選択して下さい)</h5>
 								<div class='input-group date' id='joinddate'/>
 							</div>
 							<botton class="btn btn-success" onclick="onclickRegister(this, '{user.ID}')">登録</botton>
@@ -399,7 +400,8 @@
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
-							<div class="form-group">
+							<div class="form-group bg-info">
+								<h5>予定日時(選択して下さい)</h5>
 								<div class='input-group date' id='scheduledate'/>
 							</div>
 							<input type="hidden" name="scheduleincount" value="{schedule.incount}" id='scheduleincount'/>
