@@ -370,19 +370,21 @@
 					</div>
 					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '',};
 					this.on('mount', function() {
-						$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00",});
+						//$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00",});
 						auth(false, function (clan) {
 							if ('#modifyuser' == location.hash && 'undefined' != typeof getParams['userid'] && 0 < getParams['userid'].length) {
 								// modifyモード
 								getUser(getParams['userid'], function(user) {
 									console.log(user);
 									this.user = user;
+									$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00", defaultDate: user.joind, });
 									riot.update();
 								});
 							}
 							else {
 								// 初期化
 								this.user = user;
+								$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00"});
 								riot.update();
 							}
 						});
@@ -410,19 +412,20 @@
 					</div>
 					var schedule = { ID: '', name: '', date: '',};
 					this.on('mount', function() {
-						$('#scheduledate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, });
 						auth(false, function (clan) {
 							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
 								// modifyモード
 								getSchedule(getParams['scheduleid'], function(schedule) {
 									console.log(schedule);
 									this.schedule = schedule;
+									$('#scheduledate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, defaultDate: schedule.date, });
 									riot.update();
 								});
 							}
 							else {
 								// 初期化
 								this.schedule = schedule;
+								$('#scheduledate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, });
 								riot.update();
 							}
 						});
