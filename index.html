@@ -28,6 +28,15 @@
 				z-index: 9999;
 				background-color: rgba(0, 0, 0, 0.4);
 			}
+			div.row div.col-xs-4 {
+				padding-right: 0;
+			}
+			div.row div.col-xs-8 {
+				padding-left: 0;
+			}
+			div.row div div.container-fluid {
+				padding: 0;
+			}
 			.btn-group {
 				width: 100%;
 			}
@@ -44,6 +53,9 @@
 				font-size: 14px;
 				cursor: pointer;
 				color: #ccc;
+			}
+			th, tr {
+				font-size: 10px;
 			}
 			#loader {
 				z-index: 99999;
@@ -126,7 +138,7 @@
 				<dashboard>
 					<div  class="row">
 						<div class="col-xs-4">
-							<div class="container-fluid">
+							<div class="container-fluid" style="padding: 10px;">
 								<h2 style="margin-top: 10px;"><a href="{clanurl}">{clanname}</a></h2>
 								<h4>血盟員数: {usercnt}</h4>
 								<div  class="row">
@@ -527,36 +539,38 @@
 
 			<script type="riot/tag">
 				<users>
-					<table class="table table-bordered table-hover table-striped">
-						<thead>
-							<tr class="info">
-								<th if={opts.mode=='schedule'}>参加</th>
-								<th>キャラクター名</th>
-								<th onclick="{sortCP}">戦闘力</th>
-								<th onclick="{sortLevel}">レベル</th>
-								<th>職種</th>
-								<th>メテオ</th>
-								<th if={opts.mode!='schedule'}>状態</th>
-								<th if={opts.mode!='schedule'} onclick="{sortJoind}">入隊日</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr each="{user, index in opts.data}" onclick="onclickModify(this, '{user.ID}');">
-								<td if={opts.mode=='schedule' && user.entry==1} class="success">◯</td>
-								<td if={opts.mode=='schedule' && user.entry==0} class="warning">△</td>
-								<td if={opts.mode=='schedule' && user.entry==-1} class="danger">✕</td>
-								<td>{user.name}</td>
-								<td>{user.cp}</td>
-								<td>{user.level}</td>
-								<td>{user.job}</td>
-								<td>{user.meteo}</td>
-								<td if={opts.mode!='schedule' && user.activity==1} class="success">アクティブ</td>
-								<td if={opts.mode!='schedule' && user.activity==0} class="warning">インアクティブ</td>
-								<td if={opts.mode!='schedule' && user.activity==-1} class="danger">除名</td>
-								<td if={opts.mode!='schedule'}>{user.joind}</td>
-							</tr>
-						</tbody>
-					</table>
+					<div style="padding-right: 10px;">
+						<table class="table table-bordered table-hover table-striped">
+							<thead>
+								<tr class="info">
+									<th if={opts.mode=='schedule'}>参加</th>
+									<th>キャラクター名</th>
+									<th onclick="{sortCP}">戦闘力</th>
+									<th onclick="{sortLevel}">レベル</th>
+									<th>職種</th>
+									<th>メテオ</th>
+									<th if={opts.mode!='schedule'}>状態</th>
+									<th if={opts.mode!='schedule'} onclick="{sortJoind}">入隊日</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr each="{user, index in opts.data}" onclick="onclickModify(this, '{user.ID}');">
+									<td if={opts.mode=='schedule' && user.entry==1} class="success">◯</td>
+									<td if={opts.mode=='schedule' && user.entry==0} class="warning">△</td>
+									<td if={opts.mode=='schedule' && user.entry==-1} class="danger">✕</td>
+									<td>{user.name}</td>
+									<td>{user.cp}</td>
+									<td>{user.level}</td>
+									<td>{user.job}</td>
+									<td>{user.meteo}</td>
+									<td if={opts.mode!='schedule' && user.activity==1} class="success">アクティブ</td>
+									<td if={opts.mode!='schedule' && user.activity==0} class="warning">インアクティブ</td>
+									<td if={opts.mode!='schedule' && user.activity==-1} class="danger">除名</td>
+									<td if={opts.mode!='schedule'}>{user.joind}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 					var thisis;
 					this.on('mount', function() {
 						thisis = this;
