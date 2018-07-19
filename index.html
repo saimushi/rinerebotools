@@ -361,10 +361,7 @@
 								</select>
 							</div>
 							<div class="form-group">
-								<div class="btn-group">
-									<input type="text" name="userjoind" value="{user.joind}" class="form-control" placeholder="2018/01/01 12:55" id='joinddate'/>
-									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
-								</div>
+								<div class='input-group date' id='joinddate'/>
 							</div>
 							<botton class="btn btn-success" onclick="onclickRegister(this, '{user.ID}')">登録</botton>
 							<botton if={user.ID!=''} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
@@ -372,7 +369,7 @@
 					</div>
 					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '',};
 					this.on('mount', function() {
-						$('#joinddate').datetimepicker({locale: 'ja', format: "YYYY/MM/DD 00:00:00",});
+						$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00",});
 						auth(false, function (clan) {
 							if ('#modifyuser' == location.hash && 'undefined' != typeof getParams['userid'] && 0 < getParams['userid'].length) {
 								// modifyモード
@@ -398,15 +395,12 @@
 						<form id="addscheduleform">
 							<div class="form-group">
 								<div class="btn-group">
-									<input type="text" name="schedulename" value="{schedule.name}" class="form-control" placeholder="予定名"/>
+									<input type="text" name="schedulename" value="{schedule.name}" class="form-control" placeholder="予定内容"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
 							<div class="form-group">
-								<div class="btn-group">
-									<input type="text" name="scheduledate" value="{schedule.date}" class="form-control" placeholder="2018/01/01 12:55" id='scheduledate'/>
-									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
-								</div>
+								<div class='input-group date' id='scheduledate'/>
 							</div>
 							<input type="hidden" name="scheduleincount" value="{schedule.incount}" id='scheduleincount'/>
 							<botton class="btn btn-success" onclick="onclickRegisterSchedule(this, '{schedule.ID}')">登録</botton>
@@ -414,7 +408,7 @@
 					</div>
 					var schedule = { ID: '', name: '', date: '',};
 					this.on('mount', function() {
-						$('#scheduledate').datetimepicker({locale: 'ja',});
+						$('#scheduledate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, });
 						auth(false, function (clan) {
 							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
 								// modifyモード
@@ -439,8 +433,8 @@
 					<div  class="row">
 						<div class="col-xs-4">
 							<div class="container-fluid">
-								<addschedule/>
-								<div style="padding: 10px;">
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h3 style="margin-left: 10px;">参加登録</h3>
 									<form id="entryscheduleform">
 										<div class="form-group">
 											<select class="form-control" name="scheduleuser">
@@ -457,6 +451,8 @@
 										</div>
 									</form>
 								</div>
+								<h3 style="margin-left: 10px;">予定詳細</h3>
+								<addschedule/>
 							</div>
 						</div>
 						<div class="col-xs-8">
@@ -1066,7 +1062,7 @@
 				};
 				var onclickRegisterSchedule = function (target, scheduleID) {
 					var schedulename = $('#addscheduleform').find('input[name=schedulename]').val();
-					var scheduledate = $('#addscheduleform').find('input[name=scheduledate]').val();
+					var scheduledate = $('#addscheduleform').find('#scheduledate').data().date;
 					var scheduleincount = $('#addscheduleform').find('input[name=scheduleincount]').val();
 					if (1 > scheduleincount.length) {
 						scheduleincount = '0';
@@ -1098,7 +1094,7 @@
 					var usercp = $('#registerform').find('input[name=usercp]').val();
 					var usermeteo = $('#registerform').find('select[name=usermeteo] option:selected').val();
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
-					var userjoind = $('#registerform').find('input[name=userjoind]').val();
+					var userjoind = $('#registerform').find('#joinddate').data().date;
 					if ('職業' != userjob && 'メテオ' != usermeteo && '状態' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
 						var data = {ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), meteo: parseInt(usermeteo), activity: parseInt(useractivity)};
 						if (0 < userjoind.length) {
