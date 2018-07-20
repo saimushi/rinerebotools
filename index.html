@@ -14,6 +14,9 @@
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
 		<!-- this app -->
 		<style>
+			* {
+				overflow-x: hidden;
+			}
 			html, body {
 				height: 100%;
 			}
@@ -27,6 +30,10 @@
 				width: 100%;
 				z-index: 9999;
 				background-color: rgba(0, 0, 0, 0.4);
+			}
+			div.row {
+				padding-left: 0;
+				padding-right: 0;
 			}
 			div.row div.col-xs-4 {
 				padding-right: 0;
@@ -551,20 +558,20 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr each="{user, index in opts.data}" onclick="onclickModify(this, '{user.ID}');">
+								<tr each="{user, index in opts.data}">
 									<td if={opts.mode=='schedule' && user.entry==1} class="success">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} class="warning">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} class="danger">✕</td>
-									<td>{user.name}</td>
+									<td onclick="onclickModify(this, '{user.ID}');">{user.name}</td>
 									<td>{user.cp}</td>
-									<td>{user.level}</td>
-									<td>{user.job}</td>
-									<td if={user.meteo==10}>{user.meteo}</td>
-									<td if={user.meteo!=10} class="warning">{user.meteo}</td>
-									<td if={opts.mode!='schedule' && user.activity==1} class="success">アクティブ</td>
-									<td if={opts.mode!='schedule' && user.activity==0} class="warning">インアクティブ</td>
-									<td if={opts.mode!='schedule' && user.activity==-1} class="danger">除名</td>
-									<td if={opts.mode!='schedule'}>{user.joind}</td>
+									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
+									<td onclick="onclickModify(this, '{user.ID}');">{user.job}</td>
+									<td if={user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
+									<td if={user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning">{user.meteo}</td>
+									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success">アクティブ</td>
+									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning">インアクティブ</td>
+									<td if={opts.mode!='schedule' && user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">除名</td>
+									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');">{user.joind}</td>
 								</tr>
 							</tbody>
 						</table>
