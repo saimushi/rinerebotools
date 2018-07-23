@@ -405,6 +405,7 @@
 			<script type="riot/tag">
 				<addschedule>
 					<div style="padding: 10px;">
+						<h4 if={'#detailschedule' == location.hash}>参加予定: {schedule.incount} 人<h4/>
 						<form id="addscheduleform">
 							<div class="form-group">
 								<div class="btn-group">
@@ -449,13 +450,19 @@
 						<div class="col-xs-4">
 							<div class="container-fluid">
 								<div style="padding-left: 10px; padding-right: 10px;">
-									<h3 style="margin-left: 10px;">参加登録</h3>
+									<h3>参加登録</h3>
 									<form id="entryscheduleform">
 										<div class="form-group">
 											<select class="form-control" name="scheduleuser">
 												<option value="-1">参加キャラ</option>
-												<option each="{user, index in selectusers}" value={index}>{user.name}</option>
+												<option each="{user, index in selectusers}" value={index} data={user.name}>{user.name}</option>
 											</select>
+										</div>
+										<div class="form-group">
+											<div class="btn-group">
+												<input type="text" name="schedulecomment" class="form-control" placeholder="コメント(任意 希望配置とかあれば)"/>
+												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+											</div>
 										</div>
 										<div class="form-group">
 											<div class="btn-group">
@@ -466,7 +473,7 @@
 										</div>
 									</form>
 								</div>
-								<h3 style="margin-left: 10px;">予定詳細</h3>
+								<h3 style="margin-left: 10px; margin-bottom: -10px;">予定詳細</h3>
 								<addschedule/>
 							</div>
 						</div>
@@ -501,6 +508,11 @@
 						}
 						var scheduleuser = thisis.selectusers[index];
 						scheduleuser.entry = 1;
+						scheduleuser.comment = '';
+						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
+						if (0 < comment.length) {
+							scheduleuser.comment = comment;
+						}
 						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
 							getScheduleUsers(getParams['scheduleid'], true, function(entryOKUsers) {
 								$('#addscheduleform').find('input[name=scheduleincount]').val(entryOKUsers.length).ready(function (){
@@ -517,6 +529,11 @@
 						}
 						var scheduleuser = thisis.selectusers[index];
 						scheduleuser.entry = 0;
+						scheduleuser.comment = '';
+						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
+						if (0 < comment.length) {
+							scheduleuser.comment = comment;
+						}
 						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
 							getScheduleUsers(getParams['scheduleid'], true, function(entryOKUsers) {
 								$('#addscheduleform').find('input[name=scheduleincount]').val(entryOKUsers.length).ready(function (){
@@ -533,6 +550,11 @@
 						}
 						var scheduleuser = thisis.selectusers[index];
 						scheduleuser.entry = -1;
+						scheduleuser.comment = '';
+						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
+						if (0 < comment.length) {
+							scheduleuser.comment = comment;
+						}
 						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
 							getScheduleUsers(getParams['scheduleid'], true, function(entryOKUsers) {
 								$('#addscheduleform').find('input[name=scheduleincount]').val(entryOKUsers.length).ready(function (){
@@ -556,6 +578,7 @@
 									<th onclick="{sortLevel}">レベル</th>
 									<th>職種</th>
 									<th>メテオ</th>
+									<th if={opts.mode=='schedule'}>コメント</th>
 									<th if={opts.mode!='schedule'}>状態</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}">入隊日</th>
 								</tr>
@@ -565,12 +588,13 @@
 									<td if={opts.mode=='schedule' && user.entry==1} class="success">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} class="warning">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} class="danger">✕</td>
-									<td onclick="onclickModify(this, '{user.ID}');">{user.name}</td>
+									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername">{user.name}</td>
 									<td>{user.cp}</td>
 									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
 									<td onclick="onclickModify(this, '{user.ID}');">{user.job}</td>
 									<td if={user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
 									<td if={user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning">{user.meteo}</td>
+									<td if={opts.mode=='schedule'} class="schedulecomment">{user.comment}</td>
 									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success">アクティブ</td>
 									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning">インアクティブ</td>
 									<td if={opts.mode!='schedule' && user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">除名</td>
@@ -903,7 +927,8 @@
 						return;
 					}
 					loading(true);
-					firebase.firestore().collection("schedules").where("clanid", "==", clanID).orderBy("date", "asc").get().then(function(querySnapshot) {
+					var targettime = Math.round((new Date()).getTime() - (60 * 60 * 24 * 1000));
+					firebase.firestore().collection("schedules").where("clanid", "==", clanID).orderBy("date", "asc").startAt(targettime).get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
@@ -911,6 +936,9 @@
 								var data = snapshot.data();
 								data.ID = snapshot.id;
 								if ('undefined' != typeof data.date) {
+									if (targettime > data.date.getTime()){
+										return;
+									}
 									data.date = data.date.toLocaleString();
 								}
 								datas.push(data);
@@ -1139,6 +1167,11 @@
 				};
 				var onclickModify = function (target, userID) {
 					if ('#detailschedule' == location.hash) {
+						var scheduleusername = $(target).parent().find('.scheduleusername').text();
+						var schedulecomment = $(target).parent().find('.schedulecomment').text();
+						var scheduleuserindex = $('#entryscheduleform').find("select[name=scheduleuser] option[data='" + scheduleusername + "']").val();
+						$('#entryscheduleform').find('select[name=scheduleuser]').val(scheduleuserindex);
+						$('#entryscheduleform').find('input[name=schedulecomment]').val(schedulecomment);
 						// 無視
 						return;
 					}
