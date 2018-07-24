@@ -195,7 +195,7 @@
 								this.url = url + '?clanid=' + clan.ID;
 								this.clanname = clan.name;
 								this.clanurl = clan.url;
-								getUsers(clan.ID, function(users) {
+								getUsers(clan.ID, false, function(users) {
 									this.users = users;
 									this.usercnt = users.length;
 									riot.update();
@@ -458,7 +458,7 @@
 										<div class="form-group">
 											<select class="form-control" name="scheduleuser">
 												<option value="-1">参加キャラ</option>
-												<option each="{user, index in selectusers}" value={index} data={user.name}>{user.name}</option>
+												<option each="{user, index in selectusers}" value={index} data={user.name}>{user.outlabel}{user.name}</option>
 											</select>
 										</div>
 										<div class="form-group">
@@ -494,10 +494,27 @@
 						thisis = this;
 						// 認証
 						auth(false, function (clan) {
-							getUsers(clan.ID, function(users) {
+							getUsers(clan.ID, true, function(users) {
 								thisis.selectusers = users;
 								getScheduleUsers(getParams['scheduleid'], null, function(scheduleusers) {
+									var inuser = [];
+									var outuser = [];
 									thisis.scheduleusers = scheduleusers;
+									for (var uidx=0; uidx < thisis.selectusers.length; uidx++) {
+										var entryed = false;
+										thisis.selectusers[uidx].outlabel = '未表明:';
+										for (var suidx=0; suidx < thisis.scheduleusers.length; suidx++) {
+											if (thisis.selectusers[uidx].name == thisis.scheduleusers[suidx].name){
+												thisis.selectusers[uidx].outlabel = '';
+												inuser.push(thisis.selectusers[uidx]);
+												entryed = true;
+											}
+										}
+										if (false === entryed) {
+											outuser.push(thisis.selectusers[uidx]);
+										}
+									}
+									thisis.selectusers = outuser.concat(inuser);
 									riot.update();
 								});
 							});
@@ -961,12 +978,20 @@
 						loading(false);
 					});
 				};
-				var getUsers = function (clanID, callback) {
+				var getUsers = function (clanID, selectable, callback) {
 					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
 						return;
 					}
 					loading(true);
-					firebase.firestore().collection("users").where("clanid", "==", clanID).orderBy("joind", "asc").get().then(function(querySnapshot) {
+					var collection = firebase.firestore().collection("users").where("clanid", "==", clanID);
+					if (selectable) {
+						// XXX >,>=,<,=<とorderはどうも一緒には出来ない模様・・・
+						collection = collection.where("activity", ">", 0);
+					}
+					else {
+						collection = collection.orderBy("joind", "asc");
+					}
+					collection.get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
@@ -1030,6 +1055,9 @@
 					var collection = firebase.firestore().collection("schedules").doc(scheduleID).collection("users");
 					if (entryOK) {
 						collection = collection.where('entry', '>', -1);
+					}
+					else {
+						collection = collection.orderBy("joind", "asc");
 					}
 					collection.get().then(function(querySnapshot) {
 						var datas = [];
