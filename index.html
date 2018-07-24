@@ -1026,7 +1026,7 @@
 					loading(true);
 					var collection = firebase.firestore().collection("schedules").doc(scheduleID).collection("users");
 					if (entryOK) {
-						collection = collection.where('entry', '==', 1);
+						collection = collection.where('entry', '>', -1);
 					}
 					collection.get().then(function(querySnapshot) {
 						var datas = [];
