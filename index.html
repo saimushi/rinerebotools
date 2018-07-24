@@ -151,7 +151,8 @@
 							<div class="container-fluid" style="padding: 10px;">
 								<h2 style="margin-top: 10px;"><a href="{clanurl}">{clanname}</a></h2>
 								<h4>血盟員数: {usercnt}</h4>
-								<div  class="row" style="padding-left: 15px; padding-bottom: 10px;">
+								<span>{url}</span>
+								<div  class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
 									<a class="btn btn-success" href="#addschedule">予定追加</a>
 									<a class="btn btn-info" href="#adduser">血盟員追加</a>
 								</div>
@@ -180,6 +181,7 @@
 						</div>
 
 					</div>
+					var url = location.protocol + '//' + document.domain + '/';
 					var clanname = '';
 					var clanurl = 'javascript: void(0); return false;';
 					var usercnt = 0;
@@ -190,6 +192,7 @@
 						// 認証
 						auth(false, function (clan) {
 							if ('undefined' != typeof clan.name) {
+								this.url = url + '?clanid=' + clan.ID;
 								this.clanname = clan.name;
 								this.clanurl = clan.url;
 								getUsers(clan.ID, function(users) {
@@ -585,16 +588,16 @@
 							</thead>
 							<tbody>
 								<tr each="{user, index in opts.data}">
-									<td if={opts.mode=='schedule' && user.entry==1} class="success">◯</td>
-									<td if={opts.mode=='schedule' && user.entry==0} class="warning">△</td>
-									<td if={opts.mode=='schedule' && user.entry==-1} class="danger">✕</td>
+									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success">◯</td>
+									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning">△</td>
+									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">✕</td>
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername">{user.name}</td>
 									<td>{user.cp}</td>
 									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
 									<td onclick="onclickModify(this, '{user.ID}');">{user.job}</td>
 									<td if={user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
 									<td if={user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning">{user.meteo}</td>
-									<td if={opts.mode=='schedule'} class="schedulecomment">{user.comment}</td>
+									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment">{user.comment}</td>
 									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success">アクティブ</td>
 									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning">インアクティブ</td>
 									<td if={opts.mode!='schedule' && user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">除名</td>
@@ -963,7 +966,7 @@
 						return;
 					}
 					loading(true);
-					firebase.firestore().collection("users").where("clanid", "==", clanID).orderBy("cp", "desc").get().then(function(querySnapshot) {
+					firebase.firestore().collection("users").where("clanid", "==", clanID).orderBy("joind", "asc").get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
