@@ -85,6 +85,9 @@
 				<route path="dashboard">
 					<dashboard/>
 				</route>
+				<route path="setting">
+					<addclan/>
+				</route>
 				<route path="login">
 					<login/>
 				</route>
@@ -126,6 +129,7 @@
 							<div class="collapse navbar-collapse">
 								<ul class="nav navbar-nav">
 									<li><a href="#dashboard">血盟ページ</a></li>
+									<li><a href="#setting">設定</a></li>
 									<li><a href="./">ログアウト</a></li>
 									<li><a href="mailto:saimushi@gmail.com">お問い合わせ</a></li>
 								</ul>
@@ -237,19 +241,44 @@
 						<form id="registerClanform">
 							<div class="form-group">
 								<div class="btn-group">
-									<input type="text" name="clan" class="form-control" placeholder="血盟名"/>
+									<input type="text" name="clan" value="{clan.name}" class="form-control" placeholder="血盟名"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
 							<div class="form-group">
 								<div class="btn-group">
-									<input type="text" name="url" class="form-control" placeholder="血盟コミュニティURL"/>
+									<input type="text" name="url" value="{clan.url}" class="form-control" placeholder="血盟コミュニティURL"/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<div if={'#setting' == location.hash} class="form-group">
+								<div class="btn-group">
+									<input type="text" name="discordhookid" value="{clan.discordhookid}" class="form-control" placeholder="Discord Webhook ID"/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<div if={'#setting' == location.hash} class="form-group">
+								<div class="btn-group">
+									<input type="text" name="discordhooktoken" value="{clan.discordhooktoken}" class="form-control" placeholder="Discord Webhook Token"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
 							<botton class="btn btn-success" onclick="onclickRegisterClan(this)">登録</botton>
 						</form>
 					</div>
+					var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
+					this.on('mount', function() {
+						if ('#setting' == location.hash && 'undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length) {
+							auth(false, function (clan) {
+								// modifyモード
+								this.clan = clan;
+								riot.update();
+							});
+						}
+						else {
+							location.href='./';
+						}
+					});
 				</addclan>
 			</script>
 
@@ -334,6 +363,12 @@
 							<div class="form-group">
 								<div class="btn-group">
 									<input type="number" pattern="\d{2,3}" name="userlevel" value="{user.level}" class="form-control" placeholder="レベル"/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="btn-group">
+									<input type="text" name="discord" value="{user.discord}" class="form-control" placeholder="でぃすこ#4321"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
@@ -485,10 +520,19 @@
 								<h3>参加者一覧</h3>
 								<users data='{scheduleusers}' mode='schedule'/>
 							</div>
+							<div class="container-fluid">
+								<h4>未表明者一覧</h4>
+								<div class="row" style="padding-left: 20px; padding-bottom: 5px;" each="{outuser, index in outusers}">
+										<botton class="btn btn-danger" onclick="onclickNotify(this, '{outuser.name}', '{outuser.discord}');">催促</botton>
+										<strong>{outuser.name}</strong>
+										<strong class="danger">(discrod:{outuser.discord})</strong>
+								</div>
+							</div>
 						</div>
 					</div>
 					var selectusers = [];
 					var scheduleusers = [];
+					var outusers = [];
 					var thisis;
 					this.on('mount', function() {
 						thisis = this;
@@ -514,6 +558,7 @@
 											outuser.push(thisis.selectusers[uidx]);
 										}
 									}
+									thisis.outusers = outuser;
 									thisis.selectusers = outuser.concat(inuser);
 									riot.update();
 								});
@@ -722,6 +767,10 @@
 
 			<!-- Firebase -->
 			<script src="//www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
+
+			<!-- Discord -->
+			<script src="//greasyfork.org/scripts/29088-discord-js-for-browser/code/Discordjs%20for%20Browser.js?version=208579"></script>
+
 			<script>
 				// Initialize Firebase
 				var config = {
@@ -738,10 +787,11 @@
 
 			<!-- this app -->
 			<script>
+				var publicURL = 'saimushi.github.io/rinerebotools';
 				var getParams = {};
 				var loadingCount = 0;
-				var clan = null;
-				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '',};
+				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
+				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '', discord: ''};
 				var schedule = { ID: '', name: '', date: '', incount: 0, };
 				var getUrlVars = function(){
 					var vars = {};
@@ -817,20 +867,37 @@
 						loading(false);
 					});
 				};
-				var registerClan = function (data, callback) {
+				var registerClan = function (updateID, data, callback) {
 					loading(true);
-					firebase.firestore().collection("clans").add(data).then(function(snapshot) {
-						if (callback) {
-							callback(snapshot.id);
-						}
-						loading(false);
-						return;
-					}).catch(function(error) {
-						alert('登録エラーが発生した為、処理を中断します。');
-						console.error("Error writing document: ", error);
-						// ログイン出来ていないのでログイン画面へ戻す
-						loading(false);
-					});
+					if (updateID != null && 0 < updateID.length) {
+						console.log(data);
+						firebase.firestore().collection("clans").doc(updateID).set(data).then(function(snapshot) {
+							if (callback) {
+								callback(updateID);
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('更新エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
+					else  {
+						firebase.firestore().collection("clans").add(data).then(function(snapshot) {
+							if (callback) {
+								callback(snapshot.id);
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('登録エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
 				};
 				var registerSchedule = function (clanID, data, callback) {
 					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
@@ -1123,9 +1190,19 @@
 				var onclickRegisterClan = function (target) {
 					var clanname = $('#registerClanform').find('input[name=clan]').val();
 					var clanurl = $('#registerClanform').find('input[name=url]').val();
+					var updateClnaID = null;
 					if (0 < clanname.length) {
 						var data = {name: clanname, url: clanurl, };
-						registerClan(data, function (newClanID){
+						var webhookID = $('#registerClanform').find('input[name=discordhookid]').val();
+						var webhookToken = $('#registerClanform').find('input[name=discordhooktoken]').val();
+						if (0 < webhookID.length && 0 < webhookToken.length) {
+							data.discordhookid = webhookID;
+							data.discordhooktoken = webhookToken;
+						}
+						if ('#setting' == location.hash && 'undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length) {
+							updateClnaID = getParams['clanid'];
+						}
+						registerClan(updateClnaID, data, function (newClanID){
 							alert('登録しました。');
 							getParams['clanid'] = newClanID;
 							location.href = '?clanid=' + newClanID + '#dashboard';
@@ -1166,11 +1243,12 @@
 					var userjob = $('#registerform').find('select[name=userjob] option:selected').val();
 					var userlevel = $('#registerform').find('input[name=userlevel]').val();
 					var usercp = $('#registerform').find('input[name=usercp]').val();
+					var userdiscord = $('#registerform').find('input[name=discord]').val();
 					var usermeteo = $('#registerform').find('select[name=usermeteo] option:selected').val();
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
 					if ('職業' != userjob && 'メテオ' != usermeteo && '状態' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
-						var data = {ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), meteo: parseInt(usermeteo), activity: parseInt(useractivity)};
+						var data = {ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), meteo: parseInt(usermeteo), activity: parseInt(useractivity), discord: userdiscord, };
 						if (0 < userjoind.length) {
 							data.joind = new Date(userjoind);
 						}
@@ -1209,6 +1287,24 @@
 					getParams['clanid'] = clan.ID;
 					getParams['userid'] = userID;
 					location.href = '?clanid=' + clan.ID + '&userid=' + userID + '#modifyuser';
+				};
+				var onclickNotify = function (target, name, discord) {
+					var schedulename = $('#addscheduleform').find('input[name=schedulename]').val();
+					var scheduledate = $('#addscheduleform').find('#scheduledate').data().date;
+					if (false === ('undefined' != typeof clan.discordhookid && 0 < clan.discordhookid.length)) {
+						alert('血盟で使用しているDiscordのWebhook情報が登録されていない為、この機能を利用出来ません！\n「設定」から設定して下さい。');
+						return;
+					}
+					if (false === ('undefined' != typeof discord && 0 < discord.length)) {
+						alert('この人はDiscord IDを登録していない為、ここからの催促は出来ません！\n直接ささやきを送りましょう！');
+						return;
+					}
+					var discordID = discord.split('#');
+					var message = '【緊急】おいぃ！ ' + name + ' ( @' + discord + ' ) ！！「 ' + schedulename + ' (' + scheduledate + '開催) 」' + 'への出欠登録がされてないぞ！！【催促】';
+					message = message + '\n欠席でいいのか！？良くないならば今スグ登録タノムっ！！ => ' + location.protocol + '//' + publicURL + '/?clanid=' + getParams['clanid'] + '&scheduleid=' + getParams['scheduleid'] + '#detailschedule';
+					var discordHook = new Discord.WebhookClient(clan.discordhookid, clan.discordhooktoken);
+					discordHook.send(message);
+					return;
 				};
 				$(function() {
 					loading(true);
