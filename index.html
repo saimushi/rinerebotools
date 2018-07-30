@@ -1292,12 +1292,11 @@
 						alert('血盟で使用しているDiscordのWebhook情報が登録されていない為、この機能を利用出来ません！\n「設定」から設定して下さい。');
 						return;
 					}
-					if (false === ('undefined' != typeof discord && 0 < discord.length)) {
-						alert('この人はDiscord IDを登録していない為、ここからの催促は出来ません！\n直接ささやきを送りましょう！');
-						return;
+					var discordIDMsg = '';
+					if ('undefined' != typeof discord && 0 < discord.length) {
+						discordIDMsg = ' ( @ ' + discord + ' ) ';
 					}
-					var discordID = discord.split('#');
-					var message = '【緊急】おいぃ！ ' + name + ' ( @' + discord + ' ) ！！「 ' + schedulename + ' (' + scheduledate + '開催) 」' + 'への出欠登録がされてないぞ！！【催促】';
+					var message = '【緊急】おいぃ！ ' + name + discordIDMsg + '！！「 ' + schedulename + ' (' + scheduledate + '開催) 」' + 'への出欠登録がされてないぞ！！【催促】';
 					message = message + '\n欠席でいいのか！？良くないならば今スグ登録タノムっ！！ => ' + location.protocol + '//' + publicURL + '/?clanid=' + getParams['clanid'] + '&scheduleid=' + getParams['scheduleid'] + '#detailschedule';
 					var discordHook = new Discord.WebhookClient(clan.discordhookid, clan.discordhooktoken);
 					discordHook.send(message);
