@@ -1294,7 +1294,7 @@
 					}
 					var discordIDMsg = '';
 					if ('undefined' != typeof discord && 0 < discord.length) {
-						discordIDMsg = ' ( @ ' + discord + ' ) ';
+						discordIDMsg = ' ( \@' + discord + ' ) ';
 					}
 					var message = '【緊急】おいぃ！ ' + name + discordIDMsg + '！！「 ' + schedulename + ' (' + scheduledate + '開催) 」' + 'への出欠登録がされてないぞ！！【催促】';
 					message = message + '\n欠席でいいのか！？良くないならば今スグ登録タノムっ！！ => ' + location.protocol + '//' + publicURL + '/?clanid=' + getParams['clanid'] + '&scheduleid=' + getParams['scheduleid'] + '#detailschedule';
