@@ -14,9 +14,6 @@
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
 		<!-- this app -->
 		<style>
-			* {
-				overflow-x: hidden;
-			}
 			html, body {
 				height: 100%;
 			}
@@ -34,15 +31,32 @@
 				z-index: 9999;
 				background-color: rgba(0, 0, 0, 0.4);
 			}
+			.row {
+				margin-left: 0;
+				margin-right: 0;
+			}
 			div.row {
 				padding-left: 0;
 				padding-right: 0;
 			}
 			div.row div.col-xs-4 {
+				padding-left: 0;
 				padding-right: 0;
 			}
 			div.row div.col-xs-8 {
 				padding-left: 0;
+				padding-right: 0;
+			}
+			dashboard div.row div.col-xs-8 {
+				padding-top: 50px;
+			}
+			div.row div.col-sm-4 {
+				padding-left: 0;
+				padding-right: 0;
+			}
+			div.row div.col-sm-8 {
+				padding-left: 0;
+				padding-right: 0;
 			}
 			div.row div div.container-fluid {
 				padding: 0;
@@ -179,11 +193,10 @@
 							</div>
 						</div>
 						<div class="col-xs-8">
-							<div class="container-fluid" style="padding-top: 50px;">
+							<div class="container-fluid">
 								<users data='{users}'/>
 							</div>
 						</div>
-
 					</div>
 					var url = location.protocol + '//' + document.domain + '/';
 					var clanname = '';
@@ -210,6 +223,7 @@
 								});
 							}
 						});
+						dispatchPortlateLayout();
 					});
 				</dashboard>
 			</script>
@@ -561,6 +575,7 @@
 								});
 							});
 						});
+						dispatchPortlateLayout();
 					});
 					onEntryOK = function () {
 						var index = $('#entryscheduleform').find('select[name=scheduleuser] option:selected').val();
@@ -630,7 +645,7 @@
 
 			<script type="riot/tag">
 				<users>
-					<div style="padding-right: 10px;">
+					<div style="padding-left: 10px; padding-right: 10px;">
 						<table class="table table-bordered table-hover table-striped">
 							<thead>
 								<tr class="info">
@@ -790,6 +805,25 @@
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
 				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '', discord: ''};
 				var schedule = { ID: '', name: '', date: '', incount: 0, };
+
+				var dispatchPortlateLayout = function(){
+					if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
+						var orientation = window.orientation;
+						if(orientation == 0){
+							$("body").addClass("portrait");
+							$("body").removeClass("landscape");
+							$('.col-xs-4').addClass('col-sm-4').removeClass('col-xs-4');
+							$('.col-xs-8').addClass('col-sm-8').removeClass('col-xs-8');
+						}
+						else{
+							$("body").addClass("landscape");
+							$("body").removeClass("portrait");
+							$('.col-sm-4').addClass('col-xs-4').removeClass('col-sm-4');
+							$('.col-sm-8').addClass('col-xs-8').removeClass('col-sm-8');
+						}
+					}
+				}
+
 				var getUrlVars = function(){
 					var vars = {};
 					var param = location.search.substring(1).split('&');
@@ -1192,8 +1226,10 @@
 						var data = {name: clanname, url: clanurl, };
 						var webhookID = $('#registerClanform').find('input[name=discordhookid]').val();
 						var webhookToken = $('#registerClanform').find('input[name=discordhooktoken]').val();
-						if (0 < webhookID.length && 0 < webhookToken.length) {
+						if ('undefined' != typeof webhookID && 0 < webhookID.length) {
 							data.discordhookid = webhookID;
+						}
+						if ('undefined' != typeof webhookToken && 0 < webhookToken.length) {
 							data.discordhooktoken = webhookToken;
 						}
 						if ('#setting' == location.hash && 'undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length) {
@@ -1309,6 +1345,9 @@
 						riot.mount('navigationbar');
 						riot.mount('router');
 						loading(false);
+					});
+					$(window).resize(function(){
+						dispatchPortlateLayout();
 					});
 				});
 			</script>
