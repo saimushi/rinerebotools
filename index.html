@@ -28,7 +28,7 @@
 			}
 			.orverlay {
 				display: none;
-				position: absolute;
+				position: fixed;
 				height: 100%;
 				width: 100%;
 				z-index: 9999;
@@ -205,7 +205,7 @@
 							</div>
 						</div>
 					</div>
-					var url = location.protocol + '//' + document.domain + '/';
+					var url = location.protocol + '//' + document.domain + location.pathname;
 					var clanname = '';
 					var clanurl = 'javascript: void(0); return false;';
 					var usercnt = 0;
@@ -529,10 +529,40 @@
 											</div>
 										</div>
 										<div class="form-group">
+											<input type="hidden" name="scheduleparty" class="form-control" value="0"/>
 											<div class="btn-group">
 												<botton class="btn btn-success" onclick="{onEntryOK}">◯</botton>
 												<botton class="btn btn-warning" onclick="{onEntryMaybe}">△</botton>
 												<botton class="btn btn-danger" onclick="{onEntryNG}">✕</botton>
+											</div>
+										</div>
+										<h4>PT設定</h4>
+										<div class="form-group">
+											<div class="btn-group">
+												<botton class="btn btn-info" onclick="{onEntryPT}" data-party="39">聖刻</botton>
+												<botton class="btn btn-info" onclick="{onEntryPT}" data-party="38">偵察</botton>
+												<botton class="btn btn-info" onclick="{onEntryPT}" data-party="37">撮影</botton>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="btn-group">
+												<botton class="btn btn-success" onclick="{onEntryPT}" data-party="29">FW1</botton>
+												<botton class="btn btn-success" onclick="{onEntryPT}" data-party="28">FW2</botton>
+												<botton class="btn btn-success" onclick="{onEntryPT}" data-party="27">FW3</botton>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="btn-group">
+												<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="19">MF1</botton>
+												<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="18">MF2</botton>
+												<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="17">MF3</botton>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="btn-group">
+												<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="9">DF1</botton>
+												<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="8">DF2</botton>
+												<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="7">DF3</botton>
 											</div>
 										</div>
 									</form>
@@ -609,6 +639,7 @@
 										for (var suidx=0; suidx < thisis.scheduleusers.length; suidx++) {
 											if (thisis.selectusers[uidx].name == thisis.scheduleusers[suidx].name){
 												thisis.selectusers[uidx].outlabel = '';
+												thisis.selectusers[uidx].entry = thisis.scheduleusers[suidx].entry;
 												inuser.push(thisis.selectusers[uidx]);
 												entryed = true;
 											}
@@ -642,6 +673,7 @@
 						}
 						var scheduleuser = thisis.selectusers[index];
 						scheduleuser.entry = 1;
+						scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
 						scheduleuser.comment = '';
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
 						if (0 < comment.length) {
@@ -663,6 +695,7 @@
 						}
 						var scheduleuser = thisis.selectusers[index];
 						scheduleuser.entry = 0;
+						scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
 						scheduleuser.comment = '';
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
 						if (0 < comment.length) {
@@ -684,6 +717,7 @@
 						}
 						var scheduleuser = thisis.selectusers[index];
 						scheduleuser.entry = -1;
+						scheduleuser.party = 0;
 						scheduleuser.comment = '';
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
 						if (0 < comment.length) {
@@ -696,6 +730,41 @@
 								});
 							});
 						});
+					};
+					onEntryPT = function (target) {
+						var partyData = $(target.srcElement).data();
+						if ('undefined' != typeof partyData && 'undefined' != typeof partyData.party && 0 < parseInt(partyData.party)){
+							var index = $('#entryscheduleform').find('select[name=scheduleuser] option:selected').val();
+							if (0 > parseInt(index)) {
+								alert('参加キャラを選択して下さい。');
+								return;
+							}
+							var scheduleuser = thisis.selectusers[index];
+							scheduleuser.comment = '';
+							var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
+							if (0 < comment.length) {
+								scheduleuser.comment = comment;
+							}
+							var entryCnt = 0;
+							for (var eIdx=0; eIdx < thisis.scheduleusers.length; eIdx++) {
+								if ('undefined' != typeof thisis.scheduleusers[eIdx].party && partyData.party == thisis.scheduleusers[eIdx].party) {
+									entryCnt++;
+									if (5 < entryCnt) {
+										alert('このPTは既に5人編成済みです。');
+										return;
+										break;
+									}
+								}
+							}
+							scheduleuser.party = partyData.party;
+							registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
+								getScheduleUsers(getParams['scheduleid'], true, function(entryOKUsers) {
+									$('#addscheduleform').find('input[name=scheduleincount]').val(entryOKUsers.length).ready(function (){
+										onclickRegisterSchedule(null, getParams['scheduleid']);
+									});
+								});
+							});
+						}
 					};
 				</detailschedule>
 			</script>
@@ -777,6 +846,7 @@
 							<thead>
 								<tr class="info">
 									<th if={opts.mode=='schedule'} style="width: 28px; font-size: 5px;">参加</th>
+									<th if={opts.mode=='schedule'} style="width: 30px;">PT</th>
 									<th>キャラ</th>
 									<th onclick="{sortCP}" style="width: 56px;">戦闘力</th>
 									<th onclick="{sortLevel}" style="width: 34px; font-size: 5px;">レベル</th>
@@ -792,6 +862,21 @@
 									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">✕</td>
+									<td if={opts.mode=='schedule' && user.party==39} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="39" style="background-color: blue; color: white; font-size: 6px;">聖刻</td>
+									<td if={opts.mode=='schedule' && user.party==38} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="38" style="background-color: blue; color: white; font-size: 6px;">偵察</td>
+									<td if={opts.mode=='schedule' && user.party==37} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="37" style="background-color: blue; color: white; font-size: 6px;">撮影</td>
+									<td if={opts.mode=='schedule' && user.party==29} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="29" style="background-color: green; color: white; font-size: 8px;">FW1</td>
+									<td if={opts.mode=='schedule' && user.party==28} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="28" style="background-color: green; color: white; font-size: 8px;">FW2</td>
+									<td if={opts.mode=='schedule' && user.party==27} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="27" style="background-color: green; color: white; font-size: 8px;">FW3</td>
+									<td if={opts.mode=='schedule' && user.party==19} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="19" style="background-color: orange; color: white; font-size: 8px;">MF1</td>
+									<td if={opts.mode=='schedule' && user.party==18} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="18" style="background-color: orange; color: white; font-size: 8px;">MF2</td>
+									<td if={opts.mode=='schedule' && user.party==17} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="17" style="background-color: orange; color: white; font-size: 8px;">MF3</td>
+									<td if={opts.mode=='schedule' && user.party==9} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="9" style="background-color: red; color: white; font-size: 8px;">DF1</td>
+									<td if={opts.mode=='schedule' && user.party==8} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="8" style="background-color: red; color: white; font-size: 8px;">DF2</td>
+									<td if={opts.mode=='schedule' && user.party==7} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="7" style="background-color: red; color: white; font-size: 8px;">DF3</td>
+									<td if={opts.mode=='schedule' && user.party==0} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: gray; color: white; font-size: 8px;">無</td>
+									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
+									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername">{user.name}</td>
 									<td>{user.cp}</td>
 									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
@@ -1256,7 +1341,7 @@
 						collection = collection.where("activity", ">", 0);
 					}
 					else {
-						collection = collection.orderBy("joind", "asc");
+						collection = collection.orderBy("activity", "desc").orderBy("joind", "asc");
 					}
 					collection.get().then(function(querySnapshot) {
 						var datas = [];
@@ -1357,7 +1442,8 @@
 						collection = collection.where('entry', '>', -1);
 					}
 					else {
-						collection = collection.orderBy("joind", "asc");
+						//collection = collection.orderBy("entry", "desc").orderBy("cp", "desc");
+						collection = collection.orderBy("party", "desc").orderBy("entry", "desc").orderBy("cp", "desc");
 					}
 					collection.get().then(function(querySnapshot) {
 						var datas = [];
@@ -1538,9 +1624,11 @@
 					else if ('#detailschedule' == location.hash) {
 						var scheduleusername = $(target).parent().find('.scheduleusername').text();
 						var schedulecomment = $(target).parent().find('.schedulecomment').text();
+						var scheduleparty = $(target).parent().find('.scheduleparty').data();
 						var scheduleuserindex = $('#entryscheduleform').find("select[name=scheduleuser] option[data='" + scheduleusername + "']").val();
 						$('#entryscheduleform').find('select[name=scheduleuser]').val(scheduleuserindex);
 						$('#entryscheduleform').find('input[name=schedulecomment]').val(schedulecomment);
+						$('#entryscheduleform').find('input[name=scheduleparty]').val(scheduleparty.party);
 						return;
 					}
 					getParams['clanid'] = clan.ID;
