@@ -1549,6 +1549,9 @@
 				};
 				var onclickInfomation = function (target) {
 					var message = $(target).parent().parent().find('.newstext').text();
+					if (-1 < message.indexOf('***url***')) {
+						message = message.replace('***url***', location.href);
+					}
 					var discordHook = new Discord.WebhookClient(clan.discordhookid, clan.discordhooktoken);
 					discordHook.send(message);
 					return;
