@@ -17,8 +17,11 @@
 			html, body {
 				height: 100%;
 			}
-			input, select {
+			input, select, textarea {
 				font-size: 16px !important;
+			}
+			table {
+			  table-layout: fixed;
 			}
 			navigationbar .container {
 				width: 100%;
@@ -114,6 +117,9 @@
 				<route path="addschedule">
 					<addschedule/>
 				</route>
+				<route path="addnews">
+					<addnews/>
+				</route>
 				<route path="modifyuser">
 					<adduser/>
 				</route>
@@ -169,10 +175,11 @@
 							<div class="container-fluid" style="padding: 10px;">
 								<h2 style="margin-top: 10px;"><a href="{clanurl}">{clanname}</a></h2>
 								<h4>血盟員数: {usercnt}</h4>
-								<small>{url}</small>
-								<div  class="row" style="padding-left: 15px; padding-top: 10px; padding-bottom: 10px;">
-									<a class="btn btn-success" href="#addschedule">予定追加</a>
-									<a class="btn btn-info" href="#adduser">血盟員追加</a>
+								<small><b>{url}</b><br/><small style="color: red; font-size: xx-small;">※この血盟のURLです。忘れずにメモしてください！</small></small>
+								<div  class="row" style="padding-top: 10px;">
+									<a class="btn btn-success" href="#addschedule" style="margin-bottom: 10px;">予定追加</a>
+									<a class="btn btn-info" href="#adduser" style="margin-bottom: 10px;">血盟員追加</a>
+									<a class="btn btn-warning" href="#addnews" style="margin-bottom: 10px;">お知らせ管理</a>
 								</div>
 								<table class="table table-bordered table-hover table-striped">
 									<thead>
@@ -410,13 +417,15 @@
 							</div>
 							<div class="form-group">
 								<select class="form-control" name="useractivity">
-									<option>状態</option>
+									<option>区分</option>
 									<option if={user.activity==1} value="1" selected="selected">アクティブ</option>
 									<option if={user.activity==0} value="0" selected="selected">インアクティブ</option>
-									<option if={user.activity==-1} value="-1" selected="selected">除名</option>
+									<option if={user.activity==-9} value="-9" selected="selected">除名</option>
+									<option if={user.activity==-1} value="-1" selected="selected">傭兵</option>
 									<option if={user.activity!=1} value="1">アクティブ</option>
 									<option if={user.activity!=0} value="0">インアクティブ</option>
-									<option if={user.activity!=-1} value="-1">除名</option>
+									<option if={user.activity!=-9} value="-9">除名</option>
+									<option if={user.activity!=-1} value="-1">傭兵</option>
 								</select>
 							</div>
 							<div class="form-group bg-info">
@@ -462,6 +471,12 @@
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
+							<div class="form-group">
+								<div class="btn-group">
+									<input type="text" name="scheduletag" value="{schedule.tag}" class="form-control" placeholder="#要塞戦"/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
 							<div class="form-group bg-info">
 								<h5>予定日時(選択して下さい)</h5>
 								<div class='input-group date' id='scheduledate'/>
@@ -470,7 +485,7 @@
 							<botton class="btn btn-success" onclick="onclickRegisterSchedule(this, '{schedule.ID}')">登録</botton>
 						</form>
 					</div>
-					var schedule = { ID: '', name: '', date: '',};
+					var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, };
 					this.on('mount', function() {
 						auth(false, function (clan) {
 							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
@@ -532,11 +547,43 @@
 								<users data='{scheduleusers}' mode='schedule'/>
 							</div>
 							<div class="container-fluid">
-								<h4 style="padding-left: 10px;">未表明者一覧</h4>
-								<div class="row" style="padding-left: 20px; padding-bottom: 5px;" each="{outuser, index in outusers}">
-										<botton class="btn btn-danger" onclick="onclickNotify(this, '{outuser.name}', '{outuser.discord}');">催促</botton>
-										<strong>{outuser.name}</strong>
-										<strong class="danger">(discrod:{outuser.discord})</strong>
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h4>未表明者一覧</h4>
+									<table class="table table-bordered table-hover table-striped">
+										<thead>
+											<tr class="info">
+												<th style="width:70px;">アクション</th>
+												<th style="width:80px;">未表明キャラ</th>
+												<th>discordタグ</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr each="{outuser, index in outusers}">
+												<td class="action"><botton class="btn btn-danger" onclick="onclickNotify(this, '{outuser.name}', '{outuser.discord}');">催促</botton></td>
+												<td><strong>{outuser.name}</strong></td>
+												<td><strong class="danger">{outuser.discord}</strong></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="container-fluid">
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h4>同一タグお知らせ一覧</h4>
+									<table class="table table-bordered table-hover table-striped">
+										<thead>
+											<tr class="info">
+												<th style="width:70px;">アクション</th>
+												<th>お知らせテキスト</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr each="{news, index in newses}">
+												<td class="action"><botton class="btn btn-danger" onclick="onclickInfomation(this);">通知</botton></td>
+												<td class="newstext" style="width: 34px; font-size: 5px;"><pre>{news.text}</pre></td>
+											</tr>
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
@@ -544,6 +591,7 @@
 					var selectusers = [];
 					var scheduleusers = [];
 					var outusers = [];
+					var newses = [];
 					var thisis;
 					this.on('mount', function() {
 						thisis = this;
@@ -572,6 +620,15 @@
 									thisis.outusers = outuser;
 									thisis.selectusers = outuser.concat(inuser);
 									riot.update();
+									$('#addscheduleform input[name=scheduletag]').ready(function (){
+										var tag = $('#addscheduleform input[name=scheduletag]').val();
+										if ('undefined' != typeof tag && 0 < tag.length) {
+											getNews(clan.ID, tag, function (newses) {
+												thisis.newses = newses;
+												riot.update();
+											});
+										}
+									});
 								});
 							});
 						});
@@ -644,20 +701,90 @@
 			</script>
 
 			<script type="riot/tag">
+				<addnews>
+					<div  class="row">
+						<div class="col-xs-4">
+							<div class="container-fluid">
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h3>定型お知らせ登録</h3>
+									<form id="editnewsform">
+										<div class="form-group">
+											<textarea class="form-control" name="newstext" placeholder="【周知】木曜22時はギロフェスです！" rows="3">{news.text}</textarea>
+										</div>
+										<div class="form-group">
+											<div class="btn-group">
+												<input type="text" name="newstag" class="form-control" placeholder="#要塞戦"/>
+												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											<div class="btn-group">
+												<input type="text" name="newsid" class="form-control" placeholder="任意:空欄は新規登録"/>
+												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+											</div>
+										</div>
+										<botton class="btn btn-success" onclick="onclickRegisterNews(this)">登録</botton>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-8">
+							<div class="container-fluid">
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h3>定型お知らせ一覧</h3>
+									<table class="table table-bordered table-hover table-striped">
+										<thead>
+											<tr class="info">
+												<th style="width:70px;">アクション</th>
+												<th>お知らせテキスト</th>
+												<th style="width:60px;">タグ</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr each="{news, index in newses}">
+												<td class="action">
+													<botton class="btn btn-danger" onclick="onclickInfomation(this);">通知</botton>
+													<botton class="btn btn-success" onclick="onclickModify(this, '{news.ID}');" style="margin-top: 10px;">修正</botton>
+												</td>
+												<td class="newstext"><pre>{news.text}</pre></td>
+												<td class="newstag">{news.tag}</td>
+											</tr>
+										</tbody>
+									</table>
+							</div>
+						</div>
+					</div>
+					var newses = [];
+					var thisis;
+					this.on('mount', function() {
+						thisis = this;
+						// 認証
+						auth(false, function (clan) {
+							getNews(clan.ID, null, function(newses) {
+								thisis.newses = newses;
+								riot.update();
+							});
+						});
+						dispatchPortlateLayout();
+					});
+				</addnews>
+			</script>
+
+			<script type="riot/tag">
 				<users>
 					<div style="padding-left: 10px; padding-right: 10px;">
 						<table class="table table-bordered table-hover table-striped">
 							<thead>
 								<tr class="info">
-									<th if={opts.mode=='schedule'}>参加</th>
-									<th>キャラクター名</th>
-									<th onclick="{sortCP}">戦闘力</th>
-									<th onclick="{sortLevel}">レベル</th>
+									<th if={opts.mode=='schedule'} style="width: 28px; font-size: 5px;">参加</th>
+									<th>キャラ</th>
+									<th onclick="{sortCP}" style="width: 56px;">戦闘力</th>
+									<th onclick="{sortLevel}" style="width: 34px; font-size: 5px;">レベル</th>
 									<th>職種</th>
-									<th>メテオ</th>
+									<th style="width: 28px; font-size: 5px;">メテオ</th>
 									<th if={opts.mode=='schedule'}>コメント</th>
-									<th if={opts.mode!='schedule'}>状態</th>
-									<th if={opts.mode!='schedule'} onclick="{sortJoind}">入隊日</th>
+									<th style="width: 70px;">区分</th>
+									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 70px;">入隊日</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -672,9 +799,10 @@
 									<td if={user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
 									<td if={user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning">{user.meteo}</td>
 									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment">{user.comment}</td>
-									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success">アクティブ</td>
-									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning">インアクティブ</td>
-									<td if={opts.mode!='schedule' && user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">除名</td>
+									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success">アクティブ</td>
+									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: 7px;">インアクティブ</td>
+									<td if={user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger">除名</td>
+									<td if={user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info">傭兵</td>
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');">{user.joind}</td>
 								</tr>
 							</tbody>
@@ -804,7 +932,8 @@
 				var loadingCount = 0;
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
 				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '', discord: ''};
-				var schedule = { ID: '', name: '', date: '', incount: 0, };
+				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, };
+				var news = { ID: '', text: '', tag: '', };
 
 				var dispatchPortlateLayout = function(){
 					if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
@@ -930,6 +1059,44 @@
 						});
 					}
 				};
+				var registerNews = function (clanID, data, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					data.clanid = clanID;
+					if (data.ID != '') {
+						newsID = data.ID;
+						delete data.ID;
+						firebase.firestore().collection("news").doc(newsID).set(data).then(function() {
+							if (callback) {
+								callback();
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('予定更新エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
+					else {
+						delete data.ID;
+						firebase.firestore().collection("news").add(data).then(function() {
+							if (callback) {
+								callback();
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('予定追加エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
+				};
 				var registerSchedule = function (clanID, data, callback) {
 					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
 						return;
@@ -953,6 +1120,7 @@
 						});
 					}
 					else {
+						delete data.ID;
 						firebase.firestore().collection("schedules").add(data).then(function() {
 							if (callback) {
 								callback();
@@ -1008,6 +1176,7 @@
 						});
 					}
 					else {
+						delete data.ID;
 						firebase.firestore().collection("users").add(data).then(function() {
 							if (callback) {
 								callback();
@@ -1100,6 +1269,39 @@
 									data.joind = data.joind.toLocaleString();
 									data.joind = data.joind.split(' ')[0];
 								}
+								datas.push(data);
+							}
+						});
+						if ('undefined' != typeof datas) {
+							if (callback) {
+								callback(datas);
+							}
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('一覧参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
+				var getNews = function (clanID, tag, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					var collection = firebase.firestore().collection("news").where("clanid", "==", clanID);
+					if (null != tag && 0 < tag.length) {
+						collection = collection.where("tag", "==", tag);
+					}
+					collection.get().then(function(querySnapshot) {
+						var datas = [];
+						querySnapshot.forEach(function(snapshot) {
+							if(snapshot.exists) {
+								console.log(snapshot);
+								var data = snapshot.data();
+								data.ID = snapshot.id;
 								datas.push(data);
 							}
 						});
@@ -1246,13 +1448,14 @@
 				};
 				var onclickRegisterSchedule = function (target, scheduleID) {
 					var schedulename = $('#addscheduleform').find('input[name=schedulename]').val();
+					var scheduletag = $('#addscheduleform').find('input[name=scheduletag]').val();
 					var scheduledate = $('#addscheduleform').find('#scheduledate').data().date;
 					var scheduleincount = $('#addscheduleform').find('input[name=scheduleincount]').val();
 					if (1 > scheduleincount.length) {
 						scheduleincount = '0';
 					}
 					if (0 < schedulename.length && 0 < scheduledate.length && 0 < scheduleincount.length) {
-						var data = {ID: scheduleID, name: schedulename, date: new Date(scheduledate), incount: parseInt(scheduleincount), };
+						var data = { ID: scheduleID, name: schedulename, date: new Date(scheduledate), tag: scheduletag, incount: parseInt(scheduleincount), };
 						registerSchedule(clan.ID, data, function (newScheduleID){
 							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
 								if (target) {
@@ -1271,6 +1474,21 @@
 					}
 					alert('入力が正しくない項目があった為、処理を中断します。');
 				};
+				var onclickRegisterNews = function (target) {
+					var newstext = $('#editnewsform').find('textarea[name=newstext]').val();
+					var newsID = $('#editnewsform').find('input[name=newsid]').val();
+					var newstag = $('#editnewsform').find('input[name=newstag]').val();
+					if ('undefined' != typeof newstext && 0 < newstext.length) {
+						var data = { ID: newsID, text: newstext, tag: newstag, };
+						registerNews(clan.ID, data, function (){
+							alert('登録しました。');
+							location.reload();
+							return;
+						});
+						return;
+					}
+					alert('入力が正しくない項目があった為、処理を中断します。');
+				};
 				var onclickRegister = function (target, userID) {
 					var username = $('#registerform').find('input[name=username]').val();
 					var userjob = $('#registerform').find('select[name=userjob] option:selected').val();
@@ -1281,7 +1499,7 @@
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
 					if ('職業' != userjob && 'メテオ' != usermeteo && '状態' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
-						var data = {ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), meteo: parseInt(usermeteo), activity: parseInt(useractivity), discord: userdiscord, };
+						var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), meteo: parseInt(usermeteo), activity: parseInt(useractivity), discord: userdiscord, };
 						if (0 < userjoind.length) {
 							data.joind = new Date(userjoind);
 						}
@@ -1307,19 +1525,33 @@
 					getParams['scheduleid'] = scheduleID;
 					location.href = '?clanid=' + clan.ID + '&scheduleid=' + scheduleID + '#detailschedule';
 				};
-				var onclickModify = function (target, userID) {
-					if ('#detailschedule' == location.hash) {
+				var onclickModify = function (target, rowID) {
+					if ('#addnews' == location.hash) {
+						var newstext = $(target).parent().parent().find('.newstext').text();
+						var newstag = $(target).parent().parent().find('.newstag').text();
+						$('#editnewsform').find('input[name=newsid]').val(rowID);
+						$('#editnewsform').find('textarea[name=newstext]').val(newstext);
+						$('#editnewsform').find('input[name=newstag]').val(newstag);
+						$("html,body").animate({scrollTop: 0}, "100");
+						return;
+					}
+					else if ('#detailschedule' == location.hash) {
 						var scheduleusername = $(target).parent().find('.scheduleusername').text();
 						var schedulecomment = $(target).parent().find('.schedulecomment').text();
 						var scheduleuserindex = $('#entryscheduleform').find("select[name=scheduleuser] option[data='" + scheduleusername + "']").val();
 						$('#entryscheduleform').find('select[name=scheduleuser]').val(scheduleuserindex);
 						$('#entryscheduleform').find('input[name=schedulecomment]').val(schedulecomment);
-						// 無視
 						return;
 					}
 					getParams['clanid'] = clan.ID;
-					getParams['userid'] = userID;
-					location.href = '?clanid=' + clan.ID + '&userid=' + userID + '#modifyuser';
+					getParams['userid'] = rowID;
+					location.href = '?clanid=' + clan.ID + '&userid=' + rowID + '#modifyuser';
+				};
+				var onclickInfomation = function (target) {
+					var message = $(target).parent().parent().find('.newstext').text();
+					var discordHook = new Discord.WebhookClient(clan.discordhookid, clan.discordhooktoken);
+					discordHook.send(message);
+					return;
 				};
 				var onclickNotify = function (target, name, discord) {
 					var schedulename = $('#addscheduleform').find('input[name=schedulename]').val();
