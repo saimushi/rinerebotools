@@ -17,7 +17,7 @@
 			html, body {
 				height: 100%;
 			}
-			input {
+			input, select {
 				font-size: 16px !important;
 			}
 			navigationbar .container {
@@ -528,11 +528,11 @@
 						</div>
 						<div class="col-xs-8">
 							<div class="container-fluid">
-								<h3>参加者一覧</h3>
+								<h3 style="padding-left: 10px;">参加者一覧</h3>
 								<users data='{scheduleusers}' mode='schedule'/>
 							</div>
 							<div class="container-fluid">
-								<h4>未表明者一覧</h4>
+								<h4 style="padding-left: 10px;">未表明者一覧</h4>
 								<div class="row" style="padding-left: 20px; padding-bottom: 5px;" each="{outuser, index in outusers}">
 										<botton class="btn btn-danger" onclick="onclickNotify(this, '{outuser.name}', '{outuser.discord}');">催促</botton>
 										<strong>{outuser.name}</strong>
