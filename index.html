@@ -758,15 +758,24 @@
 							if (0 < comment.length) {
 								scheduleuser.comment = comment;
 							}
+							var duplicated = false;
 							var entryCnt = 0;
 							for (var eIdx=0; eIdx < thisis.scheduleusers.length; eIdx++) {
 								if ('undefined' != typeof thisis.scheduleusers[eIdx].party && partyData.party == thisis.scheduleusers[eIdx].party) {
 									entryCnt++;
+									if (scheduleuser.job == thisis.scheduleusers[eIdx].job) {
+										duplicated = true;
+									}
 									if (5 < entryCnt) {
 										alert('このPTは既に5人編成済みです。');
 										return;
 										break;
 									}
+								}
+							}
+							if (duplicated) {
+								if (!confirm('同じ職種のキャラが既にPTに居ますが登録しますか？')) {
+									return;
 								}
 							}
 							scheduleuser.party = partyData.party;
