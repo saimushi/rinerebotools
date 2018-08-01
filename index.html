@@ -1656,6 +1656,7 @@
 					}
 					var discordHook = new Discord.WebhookClient(clan.discordhookid, clan.discordhooktoken);
 					discordHook.send(message);
+					alert('ディスコに通知しました!');
 					return;
 				};
 				var onclickNotify = function (target, name, discord) {
@@ -1673,6 +1674,7 @@
 					message = message + '\n欠席でいいのか！？良くないならば今スグ登録タノムっ！！ => ' + location.protocol + '//' + publicURL + '/?clanid=' + getParams['clanid'] + '&scheduleid=' + getParams['scheduleid'] + '#detailschedule';
 					var discordHook = new Discord.WebhookClient(clan.discordhookid, clan.discordhooktoken);
 					discordHook.send(message);
+					alert('ディスコに催促通知しました!');
 					return;
 				};
 				$(function() {
