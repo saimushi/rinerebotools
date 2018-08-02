@@ -135,6 +135,9 @@
 				<route path="detailschedule">
 					<detailschedule/>
 				</route>
+				<route path="party">
+					<party/>
+				</route>
 			</router>
 		</app>
 
@@ -518,6 +521,172 @@
 			</script>
 
 			<script type="riot/tag">
+				<party>
+					<div>
+						<h5 style="margin-top: 0; padding-left: 5px;"><a href="{scheduleURL}">PT編成 {partySchedule.date} {partySchedule.name} 参加予定:{partySchedule.incount}人</a></h5>
+						<div class="row">
+							<table class="table">
+								<tr each="{party, index in parties}">
+									<td if={'undefined' != typeof pusers} each="{pusers, pindex in party}" style="padding: 0;">
+
+												<table class="table table-bordered table-striped"style="overflow: hidden">
+													<tr if={pusers[0].party==39} style="background-color: dodgerblue; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">聖刻</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==38} style="background-color: blue; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">偵察</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==37} style="background-color: navy; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">封殺</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==29} style="background-color: limegreen; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">FW1</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==28} style="border: none; background-color: green; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">FW2</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==27} style="border: none; background-color: darkgreen; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">FW3</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==19} style="border: none; background-color: gold; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">MF1</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==18} style="border: none; background-color: orange; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">MF2</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==17} style="border: none; background-color: darkorange; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">MF3</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==9} style="border: none; background-color: red; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">DF1</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==8} style="border: none; background-color: crimson; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">DF2</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==7} style="border: none; background-color: firebrick; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">DF3</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr if={pusers[0].party==0} style="border: none; background-color: gray; color: white; font-size: 8px;">
+														<th style="border: none; width:110px;">欠席</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:30px;"></th>
+													</tr>
+													<tr each="{puser, uindex in pusers}">
+														<td>{puser.name}</td>
+														<td style="overflow: hidden;">{puser.cp}</td>
+														<td if={jobbufs[puser.job]=='攻撃'} style="background-color: firebrick;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='クリ'} style="background-color: orange;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='防御'} style="background-color: blue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='移動'} style="background-color: green;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='命中'} style="background-color: dodgerblue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='HP'} style="background-color: deeppink;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={'undefined' == typeof jobbufs[puser.job]}>&nbsp;</td>
+													</tr>
+												</table>
+
+									</td>
+								</tr>
+							</table>
+
+						</div>
+					</div>
+					var scheduleURL = '';
+					var partySchedule = {name:'', date: '', incount: 0, };
+					var parties = [];
+					this.on('mount', function() {
+						var viewGrid = function (schedule, data) {
+							this.scheduleURL = '?clanid=' + clan.ID + '&scheduleid=' + schedule.ID + '#detailschedule';
+							this.partySchedule = schedule;
+							this.parties = parties;
+							var rowCnt = 0;
+							var partyCnt = 0;
+							var beforeParty = 0;
+							this.parties[rowCnt] = [];
+							for (var pidx=0; pidx < data.length; pidx++) {
+								if (beforeParty != data[pidx].party) {
+									if (0 < partyCnt && 5 > this.parties[rowCnt][partyCnt-1].length) {
+										var paddingLen = 5 - this.parties[rowCnt][partyCnt-1].length;
+										for (var mpidx=0; mpidx < paddingLen; mpidx++) {
+											var emptyUser = {name: '　', cp: '　',};
+											this.parties[rowCnt][partyCnt-1].push(emptyUser);
+										}
+									}
+									partyCnt++;
+									if (0 < partyCnt && 0 == partyCnt%6) {
+										rowCnt++;
+									}
+									if ('undefined' == typeof this.parties[rowCnt]) {
+										this.parties[rowCnt] = [];
+									}
+									if ('undefined' == typeof this.parties[rowCnt][partyCnt-1]) {
+										this.parties[rowCnt][partyCnt-1] = [];
+									}
+								}
+								this.parties[rowCnt][partyCnt-1].push(data[pidx]);
+								beforeParty = data[pidx].party;
+							}
+							if (0 < partyCnt && 5 > this.parties[rowCnt][partyCnt-1].length) {
+								var paddingLen = 5 - this.parties[rowCnt][partyCnt-1].length;
+								for (var mpidx=0; mpidx < paddingLen; mpidx++) {
+									var emptyUser = {name: '　', cp: '　',};
+									this.parties[rowCnt][partyCnt-1].push(emptyUser);
+								}
+							}
+							console.log(this.parties);
+							riot.update();
+						};
+						if (partyUsers != null && 'undefined' != typeof partyUsers.length) {
+							partyUsers.sort(function(a, b){
+								if( a.cp > b.cp ) return -1;
+								if( a.cp < b.cp ) return 1;
+								return 0;
+							});
+							partyUsers.sort(function(a, b){
+								if( a.party > b.party ) return -1;
+								if( a.party < b.party ) return 1;
+								return 0;
+							});
+							viewGrid(schedule, partyUsers);
+						}
+						else {
+							auth(false, function (clan) {
+								// APIからデータを撮ってくる
+								getSchedule(getParams['scheduleid'], function(schedule) {
+									getScheduleUsers(getParams['scheduleid'], null, function(entryOKUsers) {
+										viewGrid(schedule, entryOKUsers);
+									});
+								});
+							});
+						}
+					});
+				</party>
+			</script>
+
+			<script type="riot/tag">
 				<detailschedule>
 					<div  class="row">
 						<div class="col-xs-4">
@@ -582,7 +751,7 @@
 						</div>
 						<div class="col-xs-8">
 							<div class="container-fluid">
-								<h3 style="padding-left: 10px;">参加者一覧</h3>
+								<h3 style="padding-left: 10px;">参加者一覧 <small><a href="javascript: void(0);" onclick="{showPT}">[PT表]</a><small></h3>
 								<users data='{scheduleusers}' mode='schedule'/>
 							</div>
 							<div class="container-fluid">
@@ -674,6 +843,10 @@
 						});
 						dispatchPortlateLayout();
 					});
+					showPT = function () {
+						partyUsers = thisis.scheduleusers;
+						location.href = '?clanid=' + getParams['clanid'] + '&scheduleid=' + getParams['scheduleid'] + '#party';
+					};
 					onEntryOK = function () {
 						var index = $('#entryscheduleform').find('select[name=scheduleuser] option:selected').val();
 						if (0 > parseInt(index)) {
@@ -884,7 +1057,7 @@
 									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">✕</td>
-									<td if={opts.mode=='schedule' && user.party==39} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="39" style="background-color: aqua; color: white; font-size: 8px;">聖刻</td>
+									<td if={opts.mode=='schedule' && user.party==39} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="39" style="background-color: dodgerblue; color: white; font-size: 8px;">聖刻</td>
 									<td if={opts.mode=='schedule' && user.party==38} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="38" style="background-color: blue; color: white; font-size: 8px;">偵察</td>
 									<td if={opts.mode=='schedule' && user.party==37} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="37" style="background-color: navy; color: white; font-size: 8px;">封殺</td>
 									<td if={opts.mode=='schedule' && user.party==29} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="29" style="background-color: limegreen; color: white; font-size: 8px;">FW1</td>
@@ -1106,7 +1279,9 @@
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
 				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '', discord: ''};
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, };
+				var partySchedule = {name:'', date: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', };
+				var partyUsers = null;
 
 				var jobimages = [];
 				jobimages['パラディン'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/pa_icon.png';
@@ -1134,6 +1309,31 @@
 				jobimages['クォーラルウィザード'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/qw_icon.png';
 				jobimages['セイジ'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sj_icon.png';
 
+				var jobbufs = [];
+				jobbufs['パラディン'] = '防御';
+				jobbufs['ウォーロード'] = '攻撃';
+				jobbufs['トレジャーハンター'] = '移動';
+				jobbufs['ホークアイ'] = '命中';
+				jobbufs['ソーサラー'] = 'クリ';
+				jobbufs['ビショップ'] = 'HP';
+				jobbufs['テンプルナイト'] = '防御';
+				jobbufs['ソードシンガー'] = '攻撃';
+				jobbufs['プレインズウォーカー'] = '移動';
+				jobbufs['シルバーレンジャー'] = '命中';
+				jobbufs['スペルシンガー'] = 'クリ';
+				jobbufs['エルダー'] = 'HP';
+				jobbufs['シリエンナイト'] = '防御';
+				jobbufs['ブレードダンサー'] = '攻撃';
+				jobbufs['アビスウォーカー'] = '移動';
+				jobbufs['ファントムレンジャー'] = '命中';
+				jobbufs['スペルハウラー'] = 'クリ';
+				jobbufs['シリエンエルダー'] = 'HP';
+				jobbufs['ガーディアン'] = '防御';
+				jobbufs['スレイヤー'] = '攻撃';
+				jobbufs['スカベンジャー'] = '移動';
+				jobbufs['ウォーレンジャー'] = '命中';
+				jobbufs['クォーラルウィザード'] = 'クリ';
+				jobbufs['セイジ'] = 'HP';
 
 				var dispatchPortlateLayout = function(){
 					if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
@@ -1558,7 +1758,7 @@
 					}
 					else {
 						//collection = collection.orderBy("entry", "desc").orderBy("cp", "desc");
-						collection = collection.orderBy("party", "desc").orderBy("entry", "desc").orderBy("cp", "desc");
+						collection = collection.orderBy("party", "desc").orderBy("cp", "desc").orderBy("entry", "desc");
 					}
 					collection.get().then(function(querySnapshot) {
 						var datas = [];
@@ -1755,6 +1955,9 @@
 					var message = $(target).parent().parent().find('.newstext').text();
 					if (-1 < message.indexOf('***url***')) {
 						message = message.replace('***url***', location.href);
+					}
+					if (-1 < message.indexOf('***pt***')) {
+						message = message.replace('***pt***', location.href.replace('#detailschedule', '#party'));
 					}
 					var discordHook = new Discord.WebhookClient(clan.discordhookid, clan.discordhooktoken);
 					discordHook.send(message);
