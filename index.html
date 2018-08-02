@@ -202,10 +202,10 @@
 										</tr>
 									</thead>
 									<tbody>
-										<tr each="{schedule, index in schedules}" onclick="onclickSchedule(this, '{schedule.ID}');">
-											<td>{schedule.date}</td>
-											<td>{schedule.name}</td>
-											<td>{schedule.incount}</td>
+										<tr each="{schedule, index in schedules}">
+											<td onclick="onclickSchedule(this, '{schedule.ID}');">{schedule.date}</td>
+											<td onclick="onclickSchedule(this, '{schedule.ID}');">{schedule.name}</td>
+											<td><a href="?clanid={clan.ID}&scheduleid={schedule.ID}#party">{schedule.incount}</a></td>
 										</tr>
 									</tbody>
 								</table>
@@ -403,6 +403,12 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<div class="btn-group">
+									<input type="text" name="memo" value="{user.memo}" class="form-control" placeholder="なんでもメモ"/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<div class="form-group">
 								<select class="form-control" name="usermeteo">
 									<option>メテオ</option>
 									<option if={user.meteo==10} selected="selected">10</option>
@@ -448,7 +454,7 @@
 							<botton if={user.ID!=''} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
-					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '',};
+					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, memo: '', activity: 9, joind: '',};
 					this.on('mount', function() {
 						//$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00",});
 						auth(false, function (clan) {
@@ -495,6 +501,7 @@
 							</div>
 							<input type="hidden" name="scheduleincount" value="{schedule.incount}" id='scheduleincount'/>
 							<botton class="btn btn-success" onclick="onclickRegisterSchedule(this, '{schedule.ID}')">登録</botton>
+							<botton if={'#detailschedule' != location.hash} class="btn btn-danger" onclick="onclickRegisterSchedule(this, '{schedule.ID}', true)">登録(同一タグの前回のPT編成をコピー)</botton>
 						</form>
 					</div>
 					var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, };
@@ -531,67 +538,67 @@
 
 												<table class="table table-bordered table-striped"style="overflow: hidden">
 													<tr if={pusers[0].party==39} style="background-color: dodgerblue; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">聖刻</th>
+														<th style="border: none; width:100px;">聖刻</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==38} style="background-color: blue; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">偵察</th>
+														<th style="border: none; width:100px;">偵察</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==37} style="background-color: navy; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">封殺</th>
+														<th style="border: none; width:100px;">封殺</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==29} style="background-color: limegreen; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">FW1</th>
+														<th style="border: none; width:100px;">FW1</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==28} style="border: none; background-color: green; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">FW2</th>
+														<th style="border: none; width:100px;">FW2</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==27} style="border: none; background-color: darkgreen; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">FW3</th>
+														<th style="border: none; width:100px;">FW3</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==19} style="border: none; background-color: gold; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">MF1</th>
+														<th style="border: none; width:100px;">MF1</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==18} style="border: none; background-color: orange; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">MF2</th>
+														<th style="border: none; width:100px;">MF2</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==17} style="border: none; background-color: darkorange; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">MF3</th>
+														<th style="border: none; width:100px;">MF3</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==9} style="border: none; background-color: red; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">DF1</th>
+														<th style="border: none; width:100px;">DF1</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==8} style="border: none; background-color: crimson; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">DF2</th>
+														<th style="border: none; width:100px;">DF2</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==7} style="border: none; background-color: firebrick; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">DF3</th>
+														<th style="border: none; width:100px;">DF3</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
 													<tr if={pusers[0].party==0} style="border: none; background-color: gray; color: white; font-size: 8px;">
-														<th style="border: none; width:110px;">欠席</th>
+														<th style="border: none; width:100px;">欠席</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:30px;"></th>
 													</tr>
@@ -761,8 +768,9 @@
 										<thead>
 											<tr class="info">
 												<th style="width:70px;">アクション</th>
-												<th style="width:80px;">未表明キャラ</th>
-												<th>discordタグ</th>
+												<th style="width:100px;">未表明キャラ</th>
+												<th style="width:200px;">discordタグ</th>
+												<th>メモ</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -770,6 +778,7 @@
 												<td class="action"><botton class="btn btn-danger" onclick="onclickNotify(this, '{outuser.name}', '{outuser.discord}');">催促</botton></td>
 												<td><strong>{outuser.name}</strong></td>
 												<td><strong class="danger">{outuser.discord}</strong></td>
+												<td>{outuser.memo}</td>
 											</tr>
 										</tbody>
 									</table>
@@ -931,13 +940,18 @@
 							if (0 < comment.length) {
 								scheduleuser.comment = comment;
 							}
-							var duplicated = false;
+							var bufDuplicated = false;
+							var jobDuplicated = false;
 							var entryCnt = 0;
 							for (var eIdx=0; eIdx < thisis.scheduleusers.length; eIdx++) {
 								if ('undefined' != typeof thisis.scheduleusers[eIdx].party && partyData.party == thisis.scheduleusers[eIdx].party) {
 									entryCnt++;
 									if (scheduleuser.job == thisis.scheduleusers[eIdx].job) {
-										duplicated = true;
+										jobDuplicated = true;
+										bufDuplicated = false;
+									}
+									if (false == jobDuplicated && 'undefined' != jobbufs[scheduleuser.job] && 'undefined' != typeof jobbufs[thisis.scheduleusers[eIdx].job] && jobbufs[scheduleuser.job] == jobbufs[thisis.scheduleusers[eIdx].job]) {
+										bufDuplicated = true;
 									}
 									if (5 < entryCnt) {
 										alert('このPTは既に5人編成済みです。');
@@ -946,8 +960,13 @@
 									}
 								}
 							}
-							if (duplicated) {
+							if (jobDuplicated) {
 								if (!confirm('同じ職種のキャラが既にPTに居ますが登録しますか？')) {
+									return;
+								}
+							}
+							if (bufDuplicated) {
+								if (!confirm('同種PTバフのキャラが既にPTに居ますが登録しますか？')) {
 									return;
 								}
 							}
@@ -1047,8 +1066,9 @@
 									<th onclick="{sortJob}" style="width: 30px; font-size: 5px;">Job</th>
 									<th onclick="{sortLevel}" style="width: 34px; font-size: 5px;">Lv</th>
 									<th style="width: 28px; font-size: 5px;">メ</th>
+									<th if={opts.mode!='schedule'}>メモ</th>
 									<th if={opts.mode=='schedule'}>コメント</th>
-									<th style="width: 70px;">区分</th>
+									<th style="width: 40px;">区分</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 70px;">入隊日</th>
 								</tr>
 							</thead>
@@ -1074,13 +1094,22 @@
 									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername">{user.name}</td>
 									<td>{user.cp}</td>
-									<td onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
+
+									<td if={jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" style="background-color: firebrick;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" style="background-color: orange;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" style="background-color: blue;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" style="background-color: green;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" style="background-color: dodgerblue;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" style="background-color: deeppink;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
+									<td if={'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;">{puser.job}</td>
+
 									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
 									<td if={user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
 									<td if={user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning">{user.meteo}</td>
+									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');">{user.memo}</td>
 									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment">{user.comment}</td>
-									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success">アクティブ</td>
-									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: 7px;">インアクティブ</td>
+									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success">アク</td>
+									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: 7px;">イン</td>
 									<td if={user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger">除名</td>
 									<td if={user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info">傭兵</td>
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');">{user.joind}</td>
@@ -1277,7 +1306,7 @@
 				var getParams = {};
 				var loadingCount = 0;
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
-				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '', discord: ''};
+				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, memo: '', activity: 9, joind: '', discord: ''};
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, };
 				var partySchedule = {name:'', date: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', };
@@ -1468,9 +1497,9 @@
 					if (data.ID != '') {
 						newsID = data.ID;
 						delete data.ID;
-						firebase.firestore().collection("news").doc(newsID).set(data).then(function() {
+						firebase.firestore().collection("news").doc(newsID).set(data).then(function(snapshot) {
 							if (callback) {
-								callback();
+								callback(newsID);
 							}
 							loading(false);
 							return;
@@ -1483,9 +1512,9 @@
 					}
 					else {
 						delete data.ID;
-						firebase.firestore().collection("news").add(data).then(function() {
+						firebase.firestore().collection("news").add(data).then(function(snapshot) {
 							if (callback) {
-								callback();
+								callback(snapshot.id);
 							}
 							loading(false);
 							return;
@@ -1506,9 +1535,9 @@
 					if (data.ID != '') {
 						scheduleID = data.ID;
 						delete data.ID;
-						firebase.firestore().collection("schedules").doc(scheduleID).set(data).then(function() {
+						firebase.firestore().collection("schedules").doc(scheduleID).set(data).then(function(snapshot) {
 							if (callback) {
-								callback();
+								callback(scheduleID);
 							}
 							loading(false);
 							return;
@@ -1521,9 +1550,9 @@
 					}
 					else {
 						delete data.ID;
-						firebase.firestore().collection("schedules").add(data).then(function() {
+						firebase.firestore().collection("schedules").add(data).then(function(snapshot) {
 							if (callback) {
-								callback();
+								callback(snapshot.id);
 							}
 							loading(false);
 							return;
@@ -1562,9 +1591,9 @@
 					if (data.ID != '') {
 						userID = data.ID;
 						delete data.ID;
-						firebase.firestore().collection("users").doc(userID).set(data).then(function() {
+						firebase.firestore().collection("users").doc(userID).set(data).then(function(snapshot) {
 							if (callback) {
-								callback();
+								callback(userID);
 							}
 							loading(false);
 							return;
@@ -1577,9 +1606,9 @@
 					}
 					else {
 						delete data.ID;
-						firebase.firestore().collection("users").add(data).then(function() {
+						firebase.firestore().collection("users").add(data).then(function(snapshot) {
 							if (callback) {
-								callback();
+								callback(snapshot.id);
 							}
 							loading(false);
 							return;
@@ -1702,6 +1731,40 @@
 								console.log(snapshot);
 								var data = snapshot.data();
 								data.ID = snapshot.id;
+								datas.push(data);
+							}
+						});
+						if ('undefined' != typeof datas) {
+							if (callback) {
+								callback(datas);
+							}
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('一覧参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
+				var getScheduleByTag = function (clanID, tag, callback) {
+					if (tag == null || 'undefined' == typeof tag || 1 > tag.length) {
+						return;
+					}
+					loading(true);
+					// firbase問い合わせ
+					firebase.firestore().collection("schedules").where("clanid", "==", clanID).where("tag", "==", tag).orderBy('incount', 'desc').limit(3).get().then(function(querySnapshot) {
+						var datas = [];
+						querySnapshot.forEach(function(snapshot) {
+							if(snapshot.exists) {
+								console.log(snapshot);
+								var data = snapshot.data();
+								data.ID = snapshot.id;
+								if ('undefined' != typeof data.joind) {
+									data.joind = data.joind.toLocaleString();
+									data.joind = data.joind.split(' ')[0];
+								}
 								datas.push(data);
 							}
 						});
@@ -1847,7 +1910,33 @@
 					}
 					alert('入力が正しくない項目があった為、処理を中断します。');
 				};
-				var onclickRegisterSchedule = function (target, scheduleID) {
+				var duplicateEntryUserCnt = 0;
+				var duplicateEntryCnt = 0;
+				var duplicateEntrySchedule = function (baseSchedule, newSchedule, duplicateEntryUsers) {
+					if (duplicateEntryUserCnt < duplicateEntryUsers.length) {
+						if (0 > duplicateEntryUsers[duplicateEntryUserCnt].entry) {
+							duplicateEntryUserCnt++;
+							duplicateEntrySchedule(baseSchedule, newSchedule, duplicateEntryUsers);
+							return;
+						}
+						duplicateEntryUsers[duplicateEntryUserCnt].entry = 0;
+						registerScheduleuser(newSchedule.ID, duplicateEntryUsers[duplicateEntryUserCnt], function (){
+							duplicateEntryCnt++;
+							duplicateEntryUserCnt++;
+							duplicateEntrySchedule(baseSchedule, newSchedule, duplicateEntryUsers);
+						});
+						return;
+					}
+					else {
+						newSchedule.incount = duplicateEntryCnt;
+						registerSchedule(clan.ID, newSchedule, function (){
+							// コピー完了
+							alert('登録しました。');
+							location.href = '#dashboard';
+						});
+					}
+				};
+				var onclickRegisterSchedule = function (target, scheduleID, duplicate) {
 					var schedulename = $('#addscheduleform').find('input[name=schedulename]').val();
 					var scheduletag = $('#addscheduleform').find('input[name=scheduletag]').val();
 					var scheduledate = $('#addscheduleform').find('#scheduledate').data().date;
@@ -1855,9 +1944,16 @@
 					if (1 > scheduleincount.length) {
 						scheduleincount = '0';
 					}
+					if (true == duplicate) {
+						if (1 > scheduletag.length) {
+							alert('コピー元になるタグの設定がありません。');
+							return;
+						}
+					}
 					if (0 < schedulename.length && 0 < scheduledate.length && 0 < scheduleincount.length) {
 						var data = { ID: scheduleID, name: schedulename, date: new Date(scheduledate), tag: scheduletag, incount: parseInt(scheduleincount), };
 						registerSchedule(clan.ID, data, function (newScheduleID){
+							data.ID = newScheduleID;
 							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
 								if (target) {
 									alert('更新しました。');
@@ -1866,6 +1962,39 @@
 									//location.href = '?clanid=' + clan.ID + '&scheduleid=' + getParams['scheduleid'] + '#detailschedule';
 									location.reload();
 								}
+								return;
+							}
+							if (true == duplicate) {
+								getScheduleByTag(clan.ID, scheduletag, function(datas){
+									console.log(datas);
+									console.log(datas.length);
+									if (1 < datas.length) {
+										var baseSchedule = {incount:0};
+										if ('undefined' != typeof datas[2] && baseSchedule.incount < datas[2].incount) {
+											baseSchedule = datas[2];
+										}
+										if ('undefined' != typeof datas[1] && baseSchedule.incount < datas[1].incount) {
+											baseSchedule = datas[1];
+										}
+										if ('undefined' != typeof datas[0] && baseSchedule.incount < datas[0].incount) {
+											baseSchedule = datas[0];
+										}
+										if (1 > baseSchedule.incount){
+											alert('登録しました。');
+											location.href = '#dashboard';
+											return;
+										}
+										getScheduleUsers(baseSchedule.ID, null, function (entryUsers){
+											if (0 < entryUsers.length) {
+												duplicateEntryUserCnt = 0;
+												duplicateEntrySchedule(baseSchedule, data, entryUsers);
+												return;
+											}
+											alert('登録しました。');
+											location.href = '#dashboard';
+										});
+									}
+								});
 								return;
 							}
 							alert('登録しました。');
@@ -1895,12 +2024,13 @@
 					var userjob = $('#registerform').find('select[name=userjob] option:selected').val();
 					var userlevel = $('#registerform').find('input[name=userlevel]').val();
 					var usercp = $('#registerform').find('input[name=usercp]').val();
+					var usermemo = $('#registerform').find('input[name=memo]').val();
 					var userdiscord = $('#registerform').find('input[name=discord]').val();
 					var usermeteo = $('#registerform').find('select[name=usermeteo] option:selected').val();
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
 					if ('職業' != userjob && 'メテオ' != usermeteo && '状態' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
-						var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), meteo: parseInt(usermeteo), activity: parseInt(useractivity), discord: userdiscord, };
+						var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), activity: parseInt(useractivity), discord: userdiscord, };
 						if (0 < userjoind.length) {
 							data.joind = new Date(userjoind);
 						}
