@@ -550,7 +550,7 @@
 											<div class="btn-group">
 												<botton class="btn btn-info" onclick="{onEntryPT}" data-party="39">聖刻</botton>
 												<botton class="btn btn-info" onclick="{onEntryPT}" data-party="38">偵察</botton>
-												<botton class="btn btn-info" onclick="{onEntryPT}" data-party="37">撮影</botton>
+												<botton class="btn btn-info" onclick="{onEntryPT}" data-party="37">封殺</botton>
 											</div>
 										</div>
 										<div class="form-group">
@@ -867,13 +867,13 @@
 						<table class="table table-bordered table-hover table-striped">
 							<thead>
 								<tr class="info">
-									<th if={opts.mode=='schedule'} style="width: 28px; font-size: 5px;">参加</th>
-									<th if={opts.mode=='schedule'} style="width: 30px;">PT</th>
-									<th>キャラ</th>
+									<th if={opts.mode=='schedule'} style="width: 28px; font-size: 5px;"></th>
+									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 40px;">PT</th>
+									<th style="width: 100px;">キャラ</th>
 									<th onclick="{sortCP}" style="width: 56px;">戦闘力</th>
-									<th onclick="{sortLevel}" style="width: 34px; font-size: 5px;">レベル</th>
-									<th>職種</th>
-									<th style="width: 28px; font-size: 5px;">メテオ</th>
+									<th onclick="{sortJob}" style="width: 30px; font-size: 5px;">Job</th>
+									<th onclick="{sortLevel}" style="width: 34px; font-size: 5px;">Lv</th>
+									<th style="width: 28px; font-size: 5px;">メ</th>
 									<th if={opts.mode=='schedule'}>コメント</th>
 									<th style="width: 70px;">区分</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 70px;">入隊日</th>
@@ -884,25 +884,25 @@
 									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">✕</td>
-									<td if={opts.mode=='schedule' && user.party==39} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="39" style="background-color: blue; color: white; font-size: 6px;">聖刻</td>
-									<td if={opts.mode=='schedule' && user.party==38} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="38" style="background-color: blue; color: white; font-size: 6px;">偵察</td>
-									<td if={opts.mode=='schedule' && user.party==37} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="37" style="background-color: blue; color: white; font-size: 6px;">撮影</td>
-									<td if={opts.mode=='schedule' && user.party==29} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="29" style="background-color: green; color: white; font-size: 8px;">FW1</td>
+									<td if={opts.mode=='schedule' && user.party==39} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="39" style="background-color: aqua; color: white; font-size: 8px;">聖刻</td>
+									<td if={opts.mode=='schedule' && user.party==38} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="38" style="background-color: blue; color: white; font-size: 8px;">偵察</td>
+									<td if={opts.mode=='schedule' && user.party==37} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="37" style="background-color: navy; color: white; font-size: 8px;">封殺</td>
+									<td if={opts.mode=='schedule' && user.party==29} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="29" style="background-color: limegreen; color: white; font-size: 8px;">FW1</td>
 									<td if={opts.mode=='schedule' && user.party==28} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="28" style="background-color: green; color: white; font-size: 8px;">FW2</td>
-									<td if={opts.mode=='schedule' && user.party==27} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="27" style="background-color: green; color: white; font-size: 8px;">FW3</td>
-									<td if={opts.mode=='schedule' && user.party==19} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="19" style="background-color: orange; color: white; font-size: 8px;">MF1</td>
+									<td if={opts.mode=='schedule' && user.party==27} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="27" style="background-color: darkgreen; color: white; font-size: 8px;">FW3</td>
+									<td if={opts.mode=='schedule' && user.party==19} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="19" style="background-color: gold; color: white; font-size: 8px;">MF1</td>
 									<td if={opts.mode=='schedule' && user.party==18} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="18" style="background-color: orange; color: white; font-size: 8px;">MF2</td>
-									<td if={opts.mode=='schedule' && user.party==17} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="17" style="background-color: orange; color: white; font-size: 8px;">MF3</td>
+									<td if={opts.mode=='schedule' && user.party==17} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="17" style="background-color: darkorange; color: white; font-size: 8px;">MF3</td>
 									<td if={opts.mode=='schedule' && user.party==9} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="9" style="background-color: red; color: white; font-size: 8px;">DF1</td>
-									<td if={opts.mode=='schedule' && user.party==8} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="8" style="background-color: red; color: white; font-size: 8px;">DF2</td>
-									<td if={opts.mode=='schedule' && user.party==7} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="7" style="background-color: red; color: white; font-size: 8px;">DF3</td>
+									<td if={opts.mode=='schedule' && user.party==8} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="8" style="background-color: crimson; color: white; font-size: 8px;">DF2</td>
+									<td if={opts.mode=='schedule' && user.party==7} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="7" style="background-color: firebrick; color: white; font-size: 8px;">DF3</td>
 									<td if={opts.mode=='schedule' && user.party==0} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: gray; color: white; font-size: 8px;">無</td>
 									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
 									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername">{user.name}</td>
 									<td>{user.cp}</td>
+									<td onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
 									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
-									<td onclick="onclickModify(this, '{user.ID}');">{user.job}</td>
 									<td if={user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
 									<td if={user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning">{user.meteo}</td>
 									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment">{user.comment}</td>
@@ -923,11 +923,15 @@
 					var cpdesc = true;
 					var leveldesc = true;
 					var joinddesc = true;
+					var jobdesc = true;
+					var partydesc = true;
 					sortCP = function () {
 						if (cpdesc) {
 							cpdesc = false;
 							leveldesc = false;
 							joinddesc = false;
+							jobdesc = false;
+							partydesc = false;
 							opts.data.sort(function(a, b){
 								if( a.cp < b.cp ) return -1;
 								if( a.cp > b.cp ) return 1;
@@ -938,6 +942,8 @@
 							cpdesc = true;
 							leveldesc = true;
 							joinddesc = true;
+							jobdesc = true;
+							partydesc = true;
 							opts.data.sort(function(a, b){
 								if( a.cp > b.cp ) return -1;
 								if( a.cp < b.cp ) return 1;
@@ -950,6 +956,8 @@
 							cpdesc = false;
 							leveldesc = false;
 							joinddesc = false;
+							jobdesc = false;
+							partydesc = false;
 							opts.data.sort(function(a, b){
 								if( a.level < b.level ) return -1;
 								if( a.level > b.level ) return 1;
@@ -960,9 +968,63 @@
 							cpdesc = true;
 							leveldesc = true;
 							joinddesc = true;
+							jobdesc = true;
+							partydesc = true;
 							opts.data.sort(function(a, b){
 								if( a.level > b.level ) return -1;
 								if( a.level < b.level ) return 1;
+								return 0;
+							});
+						}
+					};
+					sortPT = function () {
+						if (partydesc) {
+							cpdesc = false;
+							leveldesc = false;
+							joinddesc = false;
+							jobdesc = false;
+							partydesc = false;
+							opts.data.sort(function(a, b){
+								if( a.party < b.party ) return -1;
+								if( a.party > b.party ) return 1;
+								return 0;
+							});
+						}
+						else {
+							cpdesc = true;
+							leveldesc = true;
+							joinddesc = true;
+							jobdesc = true;
+							partydesc = true;
+							opts.data.sort(function(a, b){
+								if( a.party > b.party ) return -1;
+								if( a.party < b.party ) return 1;
+								return 0;
+							});
+						}
+					};
+					sortJob = function () {
+						if (jobdesc) {
+							cpdesc = false;
+							leveldesc = false;
+							joinddesc = false;
+							jobdesc = false;
+							partydesc = false;
+							opts.data.sort(function(a, b){
+								if( a.job < b.job ) return -1;
+								if( a.job > b.job ) return 1;
+								return 0;
+							});
+						}
+						else {
+							cpdesc = true;
+							leveldesc = true;
+							joinddesc = true;
+							jobdesc = true;
+							partydesc = true;
+							opts.data.sort(function(a, b){
+								if( a.job > b.job ) return -1;
+								if( a.job < b.job ) return 1;
 								return 0;
 							});
 						}
@@ -972,6 +1034,8 @@
 							cpdesc = false;
 							leveldesc = false;
 							joinddesc = false;
+							jobdesc = false;
+							partydesc = false;
 							opts.data.sort(function(a, b){
 								if ('' == a.joind || 'undefined' == typeof a.joind) return -1;
 								if ('' == b.joind || 'undefined' == typeof b.joind) return 1;
@@ -985,6 +1049,8 @@
 							cpdesc = true;
 							leveldesc = true;
 							joinddesc = true;
+							jobdesc = true;
+							partydesc = true;
 							opts.data.sort(function(a, b){
 								if ('' == a.joind || 'undefined' == typeof a.joind) return 1;
 								if ('' == b.joind || 'undefined' == typeof b.joind) return -1;
@@ -1041,6 +1107,33 @@
 				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, activity: 9, joind: '', discord: ''};
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', };
+
+				var jobimages = [];
+				jobimages['パラディン'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/pa_icon.png';
+				jobimages['ウォーロード'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/waro_icon.png';
+				jobimages['トレジャーハンター'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/tr_icon.png';
+				jobimages['ホークアイ'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/ho_icon.png';
+				jobimages['ソーサラー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/so_icon.png';
+				jobimages['ビショップ'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/bs_icon.png';
+				jobimages['テンプルナイト'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/te_icon.png';
+				jobimages['ソードシンガー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sws_icon.png';
+				jobimages['プレインズウォーカー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/pw_icon.png';
+				jobimages['シルバーレンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sr_icon.png';
+				jobimages['スペルシンガー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sps_icon.png';
+				jobimages['エルダー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/el_icon.png';
+				jobimages['シリエンナイト'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sn_icon.png';
+				jobimages['ブレードダンサー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/bd_icon.png';
+				jobimages['アビスウォーカー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/aw_icon.png';
+				jobimages['ファントムレンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/fr_icon.png';
+				jobimages['スペルハウラー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sh_icon.png';
+				jobimages['シリエンエルダー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/se_icon.png';
+				jobimages['ガーディアン'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/gd_icon.png';
+				jobimages['スレイヤー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sl_icon.png';
+				jobimages['スカベンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sb_icon.png';
+				jobimages['ウォーレンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/wl_icon.png';
+				jobimages['クォーラルウィザード'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/qw_icon.png';
+				jobimages['セイジ'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sj_icon.png';
+
 
 				var dispatchPortlateLayout = function(){
 					if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
@@ -1647,7 +1740,7 @@
 						var scheduleusername = $(target).parent().find('.scheduleusername').text();
 						var schedulecomment = $(target).parent().find('.schedulecomment').text();
 						var scheduleparty = $(target).parent().find('.scheduleparty').data();
-						var scheduleuserindex = $('#entryscheduleform').find("select[name=scheduleuser] option[data='" + scheduleusername + "']").val();
+						var scheduleuserindex = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
 						$('#entryscheduleform').find('select[name=scheduleuser]').val(scheduleuserindex);
 						$('#entryscheduleform').find('input[name=schedulecomment]').val(schedulecomment);
 						$('#entryscheduleform').find('input[name=scheduleparty]').val(scheduleparty.party);
