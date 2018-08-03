@@ -954,7 +954,7 @@
 									if (false == jobDuplicated && 'undefined' != jobbufs[scheduleuser.job] && 'undefined' != typeof jobbufs[thisis.scheduleusers[eIdx].job] && jobbufs[scheduleuser.job] == jobbufs[thisis.scheduleusers[eIdx].job]) {
 										bufDuplicated = true;
 									}
-									if (5 < entryCnt) {
+									if (5 <= entryCnt) {
 										alert('このPTは既に5人編成済みです。');
 										return;
 										break;
