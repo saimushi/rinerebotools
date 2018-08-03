@@ -146,7 +146,7 @@
 
 			<script type="riot/tag">
 				<navigationbar>
-					<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+					<div if={'#party' != location.hash} class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 						<div class="container">
 							<div class="navbar-header">
 								<!-- sp用 -->
@@ -529,89 +529,89 @@
 
 			<script type="riot/tag">
 				<party>
-					<div>
-						<h5 style="margin-top: 0; padding-left: 5px;"><a href="{scheduleURL}">PT編成 {partySchedule.date} {partySchedule.name} 参加予定:{partySchedule.incount}人</a></h5>
+					<div style="margin-top: -55px;">
+						<h5 style="margin-top: 0; margin-bottom: 5px; padding-left: 5px;"><a href="{scheduleURL}">PT編成 {partySchedule.date} {partySchedule.name} 参加予定:{partySchedule.incount}人</a></h5>
 						<div class="row">
 							<table class="table">
 								<tr each="{party, index in parties}">
 									<td if={'undefined' != typeof pusers} each="{pusers, pindex in party}" style="padding: 0;">
 
-												<table class="table table-bordered table-striped"style="overflow: hidden">
+												<table class="table table-striped"style="overflow: hidden; margin-bottom: 5px;">
 													<tr if={pusers[0].party==39} style="background-color: dodgerblue; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">聖刻</th>
+														<th style="border: none; width:100px; padding: 5px;">聖刻</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==38} style="background-color: blue; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">偵察</th>
+														<th style="border: none; width:100px; padding: 5px;">偵察</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==37} style="background-color: navy; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">封殺</th>
+														<th style="border: none; width:100px; padding: 5px;">封殺</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==29} style="background-color: limegreen; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">FW1</th>
+														<th style="border: none; width:100px; padding: 5px;">FW1</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==28} style="border: none; background-color: green; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">FW2</th>
+														<th style="border: none; width:100px; padding: 5px;">FW2</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==27} style="border: none; background-color: darkgreen; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">FW3</th>
+														<th style="border: none; width:100px; padding: 5px;">FW3</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==19} style="border: none; background-color: gold; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">MF1</th>
+														<th style="border: none; width:100px; padding: 5px;">MF1</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==18} style="border: none; background-color: orange; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">MF2</th>
+														<th style="border: none; width:100px; padding: 5px;">MF2</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==17} style="border: none; background-color: darkorange; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">MF3</th>
+														<th style="border: none; width:100px; padding: 5px;">MF3</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==9} style="border: none; background-color: red; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">DF1</th>
+														<th style="border: none; width:100px; padding: 5px;">DF1</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==8} style="border: none; background-color: crimson; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">DF2</th>
+														<th style="border: none; width:100px; padding: 5px;">DF2</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==7} style="border: none; background-color: firebrick; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">DF3</th>
+														<th style="border: none; width:100px; padding: 5px;">DF3</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==0} style="border: none; background-color: gray; color: white; font-size: 8px;">
-														<th style="border: none; width:100px;">欠席</th>
+														<th style="border: none; width:100px; padding: 5px;">欠席</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:30px;"></th>
+														<th style="border: none; width:25px;"></th>
 													</tr>
-													<tr each="{puser, uindex in pusers}">
-														<td>{puser.name}</td>
-														<td style="overflow: hidden;">{puser.cp}</td>
-														<td if={jobbufs[puser.job]=='攻撃'} style="background-color: firebrick;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='クリ'} style="background-color: orange;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='防御'} style="background-color: blue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='移動'} style="background-color: green;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='命中'} style="background-color: dodgerblue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='HP'} style="background-color: deeppink;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={'undefined' == typeof jobbufs[puser.job]}>&nbsp;</td>
+													<tr each="{puser, uindex in pusers}" style="border: none;">
+														<td style="border: none; padding: 5px; height: 26px;">{puser.name}</td>
+														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid #ddd">{puser.cp}&nbsp;</td>
+														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; background-color: firebrick;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; background-color: orange;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='防御'} style="border: none; padding: 5px; background-color: blue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='移動'} style="border: none; padding: 5px; background-color: green;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='命中'} style="border: none; padding: 5px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='HP'} style="border: none; padding: 5px; background-color: deeppink;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px;">&nbsp;</td>
 													</tr>
 												</table>
 
