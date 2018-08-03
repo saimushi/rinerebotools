@@ -603,7 +603,7 @@
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr each="{puser, uindex in pusers}" style="border: none;">
-														<td style="border: none; padding: 5px; height: 26px;">{puser.name}</td>
+														<td style="border: none; padding: 5px;">{puser.name}&nbsp;</td>
 														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid #ddd">{puser.cp}&nbsp;</td>
 														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; background-color: firebrick;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
 														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; background-color: orange;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
