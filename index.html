@@ -604,15 +604,15 @@
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr each="{puser, uindex in pusers}" style="border: none;">
-														<td style="border: none; padding: 5px; height: 26px;">{puser.name}</td>
-														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid #ddd">{puser.cp}</td>
+														<td style="border: none; padding: 5px; border-left: 1px solid #ddd; height: 26px;">{puser.name}</td>
+														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid #ddd;">{puser.cp}</td>
 														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; background-color: firebrick;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
 														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; background-color: orange;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
 														<td if={jobbufs[puser.job]=='防御'} style="border: none; padding: 5px; background-color: blue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
 														<td if={jobbufs[puser.job]=='移動'} style="border: none; padding: 5px; background-color: green;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
 														<td if={jobbufs[puser.job]=='命中'} style="border: none; padding: 5px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
 														<td if={jobbufs[puser.job]=='HP'} style="border: none; padding: 5px; background-color: deeppink;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px;">&nbsp;</td>
+														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: gray;">&nbsp;</td>
 													</tr>
 												</table>
 
