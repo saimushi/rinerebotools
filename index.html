@@ -971,6 +971,10 @@
 								return;
 							}
 							var scheduleuser = thisis.selectusers[index];
+							if ('undefined' != typeof scheduleuser.outlabel && '未表明' == scheduleuser.outlabel) {
+								alert('出欠登録を先にする必要があります。');
+								return;
+							}
 							if (0 > parseInt(scheduleuser.entry)) {
 								alert('欠席予定の方をPTに入れる事は出来ません。');
 								return;
