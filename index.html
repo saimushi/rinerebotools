@@ -23,6 +23,9 @@
 			table {
 			  table-layout: fixed;
 			}
+			tr.activity-1 {
+				background-color: rgb(183, 227, 255) !important;
+			}
 			.table-striped>tbody>tr {
 				background-color: #f6f6f6;
 			}
@@ -621,9 +624,9 @@
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
-													<tr each="{puser, uindex in pusers}" style="border: none;">
-														<td style="border: none; padding: 5px; border-left: 1px solid #ddd; height: 26px;">{puser.name}</td>
-														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid #ddd;">{puser.cp}</td>
+													<tr each="{puser, uindex in pusers}" style="border: none;" class="activity{puser.activity}">
+														<td style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;">{puser.name}</td>
+														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray;">{puser.cp}</td>
 														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; background-color: firebrick;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
 														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; background-color: orange;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
 														<td if={jobbufs[puser.job]=='防御'} style="border: none; padding: 5px; background-color: blue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
@@ -1102,7 +1105,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr each="{user, index in opts.data}">
+								<tr each="{user, index in opts.data}" class="activity{user.activity}">
 									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">✕</td>
@@ -1736,7 +1739,7 @@
 					var collection = firebase.firestore().collection("users").where("clanid", "==", clanID);
 					if (selectable) {
 						// XXX >,>=,<,=<とorderはどうも一緒には出来ない模様・・・
-						collection = collection.where("activity", ">", 0);
+						collection = collection.where("activity", ">", -9);
 					}
 					else {
 						collection = collection.orderBy("activity", "desc").orderBy("joind", "asc");
