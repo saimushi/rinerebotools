@@ -169,8 +169,8 @@
 								<ul class="nav navbar-nav">
 									<li if={'#login' != location.hash}><a href="#dashboard">血盟ページ</a></li>
 									<li if={'#login' != location.hash}><a href="{clan.url}">血盟コミュ</a></li>
-									<li if={'#login' != location.hash}><a href="#setting">設定</a></li>
-									<li if={'#login' != location.hash}><a href="./">ログアウト</a></li>
+									<li if={'#login' != location.hash && 'on'!=getParams['view']}><a href="#setting">設定</a></li>
+									<li if={'#login' != location.hash && 'on'!=getParams['view']}><a href="./">ログアウト</a></li>
 									<li><a href="https://twitter.com/saimushi">お問い合わせ</a></li>
 								</ul>
 							</div>
@@ -196,7 +196,7 @@
 								<h2 style="margin-top: 10px;"><a href="{clanurl}">{clanname}</a></h2>
 								<h4>血盟員数: {usercnt}</h4>
 								<small><b style="font-size: x-small;">{url}</b><br/><small style="color: red; font-size: xx-small;">※この血盟のURLです。忘れずにメモしてください！</small></small>
-								<div  class="row" style="padding-top: 10px;">
+								<div if={'on'!=getParams['view']} class="row" style="padding-top: 10px;">
 									<a class="btn btn-success" href="#addschedule" style="margin-bottom: 10px;">予定追加</a>
 									<a class="btn btn-info" href="#adduser" style="margin-bottom: 10px;">血盟員追加</a>
 									<a class="btn btn-warning" href="#addnews" style="margin-bottom: 10px;">お知らせ管理</a>
@@ -213,7 +213,7 @@
 										<tr each="{schedule, index in schedules}">
 											<td onclick="onclickSchedule(this, '{schedule.ID}');">{schedule.date}</td>
 											<td onclick="onclickSchedule(this, '{schedule.ID}');">{schedule.name}</td>
-											<td><a href="?clanid={clan.ID}&scheduleid={schedule.ID}#party">{schedule.incount}</a></td>
+											<td><a href="?clanid={clan.ID}&scheduleid={schedule.ID}{viewON}#party">{schedule.incount}</a></td>
 										</tr>
 									</tbody>
 								</table>
@@ -232,7 +232,11 @@
 					var users = [];
 					var schedules = [];
 					var cpSort = false;
+					var viewON = '';
 					this.on('mount', function() {
+						if ('on' == getParams['view']) {
+							this.viewON = '&view=on';
+						}
 						// 認証
 						auth(false, function (clan) {
 							if ('undefined' != typeof clan.name) {
@@ -459,7 +463,7 @@
 								<div class='input-group date' id='joinddate'/>
 							</div>
 							<botton class="btn btn-success" onclick="onclickRegister(this, '{user.ID}')">登録</botton>
-							<botton if={user.ID!=''} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
+							<botton if={user.ID!='' && 'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
 					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, memo: '', activity: 9, joind: '',};
@@ -489,7 +493,14 @@
 			<script type="riot/tag">
 				<addschedule>
 					<div style="padding: 10px;">
+						<h4 if={'on'==getParams['view']}>{schedule.date}<h4/>
+						<h4 if={'on'==getParams['view']}>{schedule.name}<h4/>
 						<h4 if={'#detailschedule' == location.hash}>参加予定: {schedule.incount} 人<h4/>
+						<style if={'on'==getParams['view']}>
+							#addscheduleform {
+								display: none;
+							}
+						</style>
 						<form id="addscheduleform">
 							<div class="form-group">
 								<div class="btn-group">
@@ -635,11 +646,14 @@
 					this.on('mount', function() {
 						var viewGrid = function (schedule, data) {
 							this.scheduleURL = '?clanid=' + clan.ID + '&scheduleid=' + schedule.ID + '#detailschedule';
+							if ('on' == getParams['view']) {
+									this.scheduleURL = this.scheduleURL.replace('#detailschedule', '&view=on#detailschedule')
+							}
 							this.partySchedule = schedule;
 							this.parties = parties;
 							var rowCnt = 0;
 							var partyCnt = 0;
-							var beforeParty = 0;
+							var beforeParty = -1;
 							this.parties[rowCnt] = [];
 							for (var pidx=0; pidx < data.length; pidx++) {
 								if (beforeParty != data[pidx].party) {
@@ -729,33 +743,35 @@
 												<botton class="btn btn-danger" onclick="{onEntryNG}">✕</botton>
 											</div>
 										</div>
-										<h4>PT設定</h4>
-										<div class="form-group">
-											<div class="btn-group">
-												<botton class="btn btn-info" onclick="{onEntryPT}" data-party="39">聖刻</botton>
-												<botton class="btn btn-info" onclick="{onEntryPT}" data-party="38">偵察</botton>
-												<botton class="btn btn-info" onclick="{onEntryPT}" data-party="37">封殺</botton>
+										<div if={'on'!=getParams['view']}>
+											<h4 >PT設定</h4>
+											<div class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-info" onclick="{onEntryPT}" data-party="39">聖刻</botton>
+													<botton class="btn btn-info" onclick="{onEntryPT}" data-party="38">偵察</botton>
+													<botton class="btn btn-info" onclick="{onEntryPT}" data-party="37">封殺</botton>
+												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<div class="btn-group">
-												<botton class="btn btn-success" onclick="{onEntryPT}" data-party="29">FW1</botton>
-												<botton class="btn btn-success" onclick="{onEntryPT}" data-party="28">FW2</botton>
-												<botton class="btn btn-success" onclick="{onEntryPT}" data-party="27">FW3</botton>
+											<div class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-success" onclick="{onEntryPT}" data-party="29">FW1</botton>
+													<botton class="btn btn-success" onclick="{onEntryPT}" data-party="28">FW2</botton>
+													<botton class="btn btn-success" onclick="{onEntryPT}" data-party="27">FW3</botton>
+												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<div class="btn-group">
-												<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="19">MF1</botton>
-												<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="18">MF2</botton>
-												<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="17">MF3</botton>
+											<div class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="19">MF1</botton>
+													<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="18">MF2</botton>
+													<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="17">MF3</botton>
+												</div>
 											</div>
-										</div>
-										<div class="form-group">
-											<div class="btn-group">
-												<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="9">DF1</botton>
-												<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="8">DF2</botton>
-												<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="7">DF3</botton>
+											<div class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="9">DF1</botton>
+													<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="8">DF2</botton>
+													<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="7">DF3</botton>
+												</div>
 											</div>
 										</div>
 									</form>
@@ -769,7 +785,7 @@
 								<h3 style="padding-left: 10px;">参加者一覧 <small><a href="javascript: void(0);" onclick="{showPT}">[PT表]</a><small></h3>
 								<users data='{scheduleusers}' mode='schedule'/>
 							</div>
-							<div class="container-fluid">
+							<div if={'on'!=getParams['view']} class="container-fluid">
 								<div style="padding-left: 10px; padding-right: 10px;">
 									<h4>未表明者一覧</h4>
 									<table class="table table-bordered table-hover table-striped">
@@ -792,7 +808,7 @@
 									</table>
 								</div>
 							</div>
-							<div class="container-fluid">
+							<div if={'on'!=getParams['view']} class="container-fluid">
 								<div style="padding-left: 10px; padding-right: 10px;">
 									<h4>同一タグお知らせ一覧</h4>
 									<table class="table table-bordered table-hover table-striped">
@@ -835,6 +851,7 @@
 											if (thisis.selectusers[uidx].name == thisis.scheduleusers[suidx].name){
 												thisis.selectusers[uidx].outlabel = '';
 												thisis.selectusers[uidx].entry = thisis.scheduleusers[suidx].entry;
+												thisis.selectusers[uidx].party = thisis.scheduleusers[suidx].party;
 												inuser.push(thisis.selectusers[uidx]);
 												entryed = true;
 											}
@@ -862,7 +879,11 @@
 					});
 					showPT = function () {
 						partyUsers = thisis.scheduleusers;
-						location.href = '?clanid=' + getParams['clanid'] + '&scheduleid=' + getParams['scheduleid'] + '#party';
+						var newhref = '?clanid=' + getParams['clanid'] + '&scheduleid=' + getParams['scheduleid'] + '#party';
+						if ('on' == getParams['view']) {
+								newhref = newhref.replace('#party', '&view=on#party')
+						}
+						location.href = newhref;
 					};
 					onEntryOK = function () {
 						var index = $('#entryscheduleform').find('select[name=scheduleuser] option:selected').val();
@@ -872,7 +893,7 @@
 						}
 						var scheduleuser = thisis.selectusers[index];
 						scheduleuser.entry = 1;
-						scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
+						//scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
 						scheduleuser.comment = '';
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
 						if (0 < comment.length) {
@@ -894,7 +915,7 @@
 						}
 						var scheduleuser = thisis.selectusers[index];
 						scheduleuser.entry = 0;
-						scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
+						//scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
 						scheduleuser.comment = '';
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
 						if (0 < comment.length) {
@@ -1345,6 +1366,31 @@
 				jobimages['ウォーレンジャー'] = 'https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-33.png';
 				jobimages['クォーラルウィザード'] = 'https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-35.png';
 				jobimages['セイジ'] = 'https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-36.png';
+
+				// jobimages['パラディン'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/pa_icon.png';
+				// jobimages['ウォーロード'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/waro_icon.png';
+				// jobimages['トレジャーハンター'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/tr_icon.png';
+				// jobimages['ホークアイ'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/ho_icon.png';
+				// jobimages['ソーサラー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/so_icon.png';
+				// jobimages['ビショップ'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/bs_icon.png';
+				// jobimages['テンプルナイト'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/te_icon.png';
+				// jobimages['ソードシンガー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sws_icon.png';
+				// jobimages['プレインズウォーカー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/pw_icon.png';
+				// jobimages['シルバーレンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sr_icon.png';
+				// jobimages['スペルシンガー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sps_icon.png';
+				// jobimages['エルダー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/el_icon.png';
+				// jobimages['シリエンナイト'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sn_icon.png';
+				// jobimages['ブレードダンサー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/bd_icon.png';
+				// jobimages['アビスウォーカー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/aw_icon.png';
+				// jobimages['ファントムレンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/fr_icon.png';
+				// jobimages['スペルハウラー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sh_icon.png';
+				// jobimages['シリエンエルダー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/se_icon.png';
+				// jobimages['ガーディアン'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/gd_icon.png';
+				// jobimages['スレイヤー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sl_icon.png';
+				// jobimages['スカベンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sb_icon.png';
+				// jobimages['ウォーレンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/wl_icon.png';
+				// jobimages['クォーラルウィザード'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/qw_icon.png';
+				// jobimages['セイジ'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sj_icon.png';
 
 				var jobbufs = [];
 				jobbufs['パラディン'] = '防御';
@@ -2062,7 +2108,11 @@
 				var onclickSchedule = function (target, scheduleID) {
 					getParams['clanid'] = clan.ID;
 					getParams['scheduleid'] = scheduleID;
-					location.href = '?clanid=' + clan.ID + '&scheduleid=' + scheduleID + '#detailschedule';
+					var newhref = '?clanid=' + clan.ID + '&scheduleid=' + scheduleID + '#detailschedule';
+					if ('on' == getParams['view']) {
+						newhref = newhref.replace('#detailschedule', '&view=on#detailschedule');
+					}
+					location.href = newhref;
 				};
 				var onclickModify = function (target, rowID) {
 					if ('#addnews' == location.hash) {
@@ -2087,15 +2137,25 @@
 					}
 					getParams['clanid'] = clan.ID;
 					getParams['userid'] = rowID;
-					location.href = '?clanid=' + clan.ID + '&userid=' + rowID + '#modifyuser';
+					var newhref = '?clanid=' + clan.ID + '&userid=' + rowID + '#modifyuser';
+					if ('on' == getParams['view']) {
+						newhref = newhref.replace('#modifyuser', '&view=on#modifyuser');
+					}
+					location.href = newhref;
 				};
 				var onclickInfomation = function (target) {
 					var message = $(target).parent().parent().find('.newstext').text();
 					if (-1 < message.indexOf('***url***')) {
 						message = message.replace('***url***', location.href);
 					}
+					if (-1 < message.indexOf('***urlview***')) {
+						message = message.replace('***urlview***', location.href.replace('#detailschedule', '&view=on#detailschedule'));
+					}
 					if (-1 < message.indexOf('***pt***')) {
 						message = message.replace('***pt***', location.href.replace('#detailschedule', '#party'));
+					}
+					if (-1 < message.indexOf('***ptview***')) {
+						message = message.replace('***ptview***', location.href.replace('#detailschedule', '&view=on#party'));
 					}
 					var discordHook = new Discord.WebhookClient(clan.discordhookid, clan.discordhooktoken);
 					discordHook.send(message);
