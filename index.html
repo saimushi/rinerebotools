@@ -504,11 +504,6 @@
 						<h4 if={'on'==getParams['view']}>{schedule.date}<h4/>
 						<h4 if={'on'==getParams['view']}>{schedule.name}<h4/>
 						<h4 if={'#detailschedule' == location.hash}>参加予定: {schedule.incount} 人<h4/>
-						<style if={'on'==getParams['view']}>
-							#addscheduleform {
-								display: none;
-							}
-						</style>
 						<form id="addscheduleform">
 							<div class="form-group">
 								<div class="btn-group">
@@ -533,6 +528,9 @@
 					</div>
 					var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, };
 					this.on('mount', function() {
+						if ('on'==getParams['view']) {
+							$('#addscheduleform').hide();
+						}
 						auth(false, function (clan) {
 							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
 								// modifyモード
@@ -852,6 +850,7 @@
 									var inuser = [];
 									var outuser = [];
 									thisis.scheduleusers = scheduleusers;
+									console.log(thisis.scheduleusers);
 									for (var uidx=0; uidx < thisis.selectusers.length; uidx++) {
 										var entryed = false;
 										thisis.selectusers[uidx].outlabel = '未表明:';
@@ -901,7 +900,9 @@
 						}
 						var scheduleuser = thisis.selectusers[index];
 						scheduleuser.entry = 1;
-						//scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
+						if ('undefined' == typeof scheduleuser.party) {
+							scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
+						}
 						scheduleuser.comment = '';
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
 						if (0 < comment.length) {
@@ -923,7 +924,9 @@
 						}
 						var scheduleuser = thisis.selectusers[index];
 						scheduleuser.entry = 0;
-						//scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
+						if ('undefined' == typeof scheduleuser.party) {
+							scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
+						}
 						scheduleuser.comment = '';
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
 						if (0 < comment.length) {
