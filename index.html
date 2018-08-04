@@ -971,7 +971,7 @@
 								return;
 							}
 							var scheduleuser = thisis.selectusers[index];
-							if ('undefined' != typeof scheduleuser.outlabel && '未表明' == scheduleuser.outlabel) {
+							if ('undefined' == typeof scheduleuser.entry) {
 								alert('出欠登録を先にする必要があります。');
 								return;
 							}
