@@ -671,7 +671,7 @@
 										}
 									}
 									partyCnt++;
-									if (0 < partyCnt && 0 == partyCnt%6) {
+									if (0 < partyCnt && 0 == (partyCnt-1)%5) {
 										rowCnt++;
 									}
 									if ('undefined' == typeof this.parties[rowCnt]) {
