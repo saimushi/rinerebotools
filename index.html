@@ -248,7 +248,12 @@
 								this.clanurl = clan.url;
 								getUsers(clan.ID, false, function(users) {
 									this.users = users;
-									this.usercnt = users.length;
+									this.usercnt = usercnt;
+									for (var uidx=0; uidx < users.length; uidx++) {
+										if (users[uidx].activity > -1) {
+											this.usercnt++;
+										}
+									}
 									riot.update();
 									getSchedules(clan.ID, function(schedules) {
 										this.schedules = schedules;
