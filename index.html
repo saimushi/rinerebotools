@@ -836,11 +836,11 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr each="{outuser, index in outusers}">
+											<tr each="{outuser, index in outusers}" >
 												<td class="action"><botton class="btn btn-danger" onclick="onclickNotify(this, '{outuser.name}', '{outuser.discord}');">催促</botton></td>
-												<td><strong>{outuser.name}</strong></td>
-												<td><strong class="danger">{outuser.discord}</strong></td>
-												<td>{outuser.memo}</td>
+												<td onclick="onclickModify(this, '{outuser.ID}');"><strong class="scheduleusername">{outuser.name}</strong></td>
+												<td onclick="onclickModify(this, '{outuser.ID}');"><strong class="danger">{outuser.discord}</strong></td>
+												<td onclick="onclickModify(this, '{outuser.ID}');">{outuser.memo}</td>
 											</tr>
 										</tbody>
 									</table>
@@ -894,6 +894,11 @@
 												inuser.push(thisis.selectusers[uidx]);
 												entryed = true;
 											}
+										}
+										if (thisis.selectusers[uidx].activity < 0) {
+											thisis.selectusers[uidx].outlabel = '';
+											inuser.push(thisis.selectusers[uidx]);
+											entryed = true;
 										}
 										if (false === entryed) {
 											outuser.push(thisis.selectusers[uidx]);
@@ -2178,7 +2183,9 @@
 						var scheduleuserindex = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
 						$('#entryscheduleform').find('select[name=scheduleuser]').val(scheduleuserindex);
 						$('#entryscheduleform').find('input[name=schedulecomment]').val(schedulecomment);
-						$('#entryscheduleform').find('input[name=scheduleparty]').val(scheduleparty.party);
+						if ('undefined' != typeof scheduleparty && 'undefined' != typeof scheduleparty.party) {
+							$('#entryscheduleform').find('input[name=scheduleparty]').val(scheduleparty.party);
+						}
 						$("html,body").animate({scrollTop: 0}, "100");
 						return;
 					}
