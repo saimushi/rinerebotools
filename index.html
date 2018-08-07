@@ -8,6 +8,7 @@
 		<meta name="robots" content="noindex"/>
 		<title>L2R Tool</title>
 		<link rel="icon" href="./favicon.ico">
+		<link rel="mask-icon" href="./favicon.svg" sizes="any" color="black">
 		<!-- bootstrap -->
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"/>
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/css-spinning-spinners/1.1.1/load8.css"/>
@@ -2042,6 +2043,10 @@
 						}
 						registerClan(updateClnaID, data, function (newClanID){
 							alert('登録しました。');
+							if ('#addclan' == location.hash) {
+								var url = location.protocol + '//' + document.domain + location.pathname + '?clanid=' + newClanID;
+								alert('あなたの血盟URLは「' + url + '」です。\nログイン用血盟IDは「' + newClanID + '」です。\n無くさないように保管してください！');
+							}
 							getParams['clanid'] = newClanID;
 							location.href = '?clanid=' + newClanID + '#dashboard';
 						});
