@@ -52,10 +52,10 @@
 				margin-right: 0;
 			}
 			route>.riotcontes>div {
-				min-height: calc(100% - 370px);
+				min-height: calc(100% - 300px);
 			}
 			route>party.riotcontes>div {
-				min-height: calc(100% - 315px);
+				min-height: calc(100% - 250px);
 			}
 			div.row {
 				padding-left: 0;
@@ -108,7 +108,7 @@
 			}
 			.footer {
 				width: 100%;
-				height: 250px;
+				height: 180px;
 			  background-color: lightgray;
 			}
 			.footer div {
@@ -177,7 +177,7 @@
 				<!-- お名前.com -->
 				<div class="col-sm-3">
 					<a href="https://px.a8.net/svt/ejp?a8mat=2ZNAZL+FP0DV6+50+2HMLEP" target="_blank" rel="nofollow">
-						<img border="0" width="200" height="200" alt="" src="https://www26.a8.net/svt/bgt?aid=180806241949&wid=001&eno=01&mid=s00000000018015054000&mc=1">
+						<img border="0" width="140" height="140" alt="" src="https://www26.a8.net/svt/bgt?aid=180806241949&wid=001&eno=01&mid=s00000000018015054000&mc=1">
 					</a>
 					<img border="0" width="1" height="1" src="https://www14.a8.net/0.gif?a8mat=2ZNAZL+FP0DV6+50+2HMLEP" alt="">
 				</div>
@@ -199,7 +199,7 @@
 									<span class="icon-bar"></span>
 									<span class="icon-bar"></span>
 								</button>
-								<a class="navbar-brand" href="#">L2R Tool</a>
+								<a class="navbar-brand" href="#" style="padding: 0;"><img src="./titlelogo.png" border="0" height="50" alt="L2R Tool"/></a>
 							</div>
 							<div class="collapse navbar-collapse">
 								<ul class="nav navbar-nav">
@@ -302,18 +302,42 @@
 
 			<script type="riot/tag">
 				<login>
-					<div style="padding: 10px;">
-						<h2>血盟ログイン</h2>
-						<form id="loginform">
-							<div class="form-group">
-								<div class="btn-group">
-									<input type="text" name="clanID" class="form-control" placeholder="血盟ID"/>
-									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+					<div class="row" style="padding-top: 100px">
+						<div class="col-sm-2">
+							&nbsp;
+						</div>
+						<div class="col-sm-6" style="height: 200px; padding-top: 50px; text-align: center; background-image: url('./logo.png'); background-repeat: no-repeat; background-size: contain; background-position: center bottom;">
+							<h2>&nbsp;&nbsp;&nbsp;血盟管理を<b style="font-size: 120%;">も</b><b>っと</b>簡単に。</h2>
+						</div>
+						<div class="col-sm-1">
+							&nbsp;
+						</div>
+						<div class="col-sm-2 bg-primary" style="margin-top: 50px; padding: 30px;">
+							<h4>血盟ログイン</h4>
+							<form id="loginform">
+								<div class="form-group">
+									<div class="btn-group">
+										<input type="text" name="clanID" class="form-control" placeholder="血盟ID"/>
+										<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+									</div>
 								</div>
-							</div>
-							<botton class="btn btn-success" onclick="onclickLogin(this)">ログイン</botton>
-							<botton class="btn btn-info" onclick="onclickAddClan(this)">血盟登録</botton>
-						</form>
+								<botton class="btn btn-success" onclick="onclickLogin(this)">ログイン</botton>
+								&nbsp;&nbsp;&nbsp;<botton class="btn btn-info" onclick="onclickAddClan(this)">血盟登録</botton>
+							</form>
+						</div>
+						<div class="col-sm-1">
+							&nbsp;
+						</div>
+						<div class="col-sm-2">
+							&nbsp;
+						</div>
+						<div class="col-sm-6" style="padding-top: 30px; text-align: center;">
+								<h4 style="margin: 0;">&nbsp;&nbsp;&nbsp;<small>血盟員管理／血盟イベントスケジュール／お知らせ通知／パーティ編成</small></h4>
+								<h3 style="margin: 0;">&nbsp;&nbsp;&nbsp;<small><b>必要な全ての機能を備えています。</b></small></h3>
+						</div>
+						<div class="col-sm-4">
+							&nbsp;
+						</div>
 					</div>
 					this.on('mount', function() {
 						auth();
