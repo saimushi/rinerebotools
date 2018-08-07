@@ -7,6 +7,7 @@
 		<meta name="description" content="血盟管理ツール"/>
 		<meta name="robots" content="noindex"/>
 		<title>L2R Tool</title>
+		<link rel="icon" href="./favicon.ico">
 		<!-- bootstrap -->
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"/>
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/css-spinning-spinners/1.1.1/load8.css"/>
@@ -1216,6 +1217,7 @@
 							jobdesc = false;
 							partydesc = false;
 							opts.data.sort(function(a, b){
+								if( a.activity < 0 ) return 1;
 								if( a.cp < b.cp ) return -1;
 								if( a.cp > b.cp ) return 1;
 								return 0;
@@ -1228,6 +1230,7 @@
 							jobdesc = true;
 							partydesc = true;
 							opts.data.sort(function(a, b){
+								if( a.activity < 0 ) return 1;
 								if( a.cp > b.cp ) return -1;
 								if( a.cp < b.cp ) return 1;
 								return 0;
@@ -1242,6 +1245,7 @@
 							jobdesc = false;
 							partydesc = false;
 							opts.data.sort(function(a, b){
+								if( a.activity < 0 ) return 1;
 								if( a.level < b.level ) return -1;
 								if( a.level > b.level ) return 1;
 								return 0;
@@ -1254,6 +1258,7 @@
 							jobdesc = true;
 							partydesc = true;
 							opts.data.sort(function(a, b){
+								if( a.activity < 0 ) return 1;
 								if( a.level > b.level ) return -1;
 								if( a.level < b.level ) return 1;
 								return 0;
@@ -1294,6 +1299,7 @@
 							jobdesc = false;
 							partydesc = false;
 							opts.data.sort(function(a, b){
+								if( a.activity < 0 ) return 1;
 								if( a.job < b.job ) return -1;
 								if( a.job > b.job ) return 1;
 								return 0;
@@ -1306,6 +1312,7 @@
 							jobdesc = true;
 							partydesc = true;
 							opts.data.sort(function(a, b){
+								if( a.activity < 0 ) return 1;
 								if( a.job > b.job ) return -1;
 								if( a.job < b.job ) return 1;
 								return 0;
@@ -1320,6 +1327,7 @@
 							jobdesc = false;
 							partydesc = false;
 							opts.data.sort(function(a, b){
+								if( a.activity < 0 ) return 1;
 								if ('' == a.joind || 'undefined' == typeof a.joind) return -1;
 								if ('' == b.joind || 'undefined' == typeof b.joind) return 1;
 								if( new Date(a.joind).getTime() < new Date(b.joind).getTime() ) return -1;
@@ -1335,6 +1343,7 @@
 							jobdesc = true;
 							partydesc = true;
 							opts.data.sort(function(a, b){
+								if( a.activity < 0 ) return 1;
 								if ('' == a.joind || 'undefined' == typeof a.joind) return 1;
 								if ('' == b.joind || 'undefined' == typeof b.joind) return -1;
 								if( new Date(a.joind).getTime() > new Date(b.joind).getTime() ) return -1;
