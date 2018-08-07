@@ -1576,7 +1576,11 @@
 								clan.ID = snapshot.id;
 								if (loginRedirect) {
 									getParams['clanid'] = key;
-									location.href = '?clanid=' + key + '#dashboard';
+									var newhref = '?clanid=' + key + '#dashboard';
+									if ('on' == getParams['view']) {
+										newhref = newhref.replace('#dashboard', '&view=on#dashboard');
+									}
+									location.href = newhref;
 								}
 								if (callback) {
 									callback(data);
