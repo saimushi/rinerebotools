@@ -15,6 +15,7 @@
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/css-spinning-spinners/1.1.1/load8.css"/>
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 		<!-- this app -->
 		<style>
 			html, body {
@@ -53,8 +54,8 @@
 				margin-left: 0;
 				margin-right: 0;
 			}
-			route>.riotcontes+div {
-				min-height: calc(100% - 300px);
+			route>.riotcontes>div:first-child {
+				min-height: calc(100% - 250px);
 			}
 			route>party.riotcontes+div {
 				min-height: calc(100% - 250px);
@@ -136,7 +137,7 @@
 					<addclan class="riotcontes"/>
 				</route>
 				<route path="login">
-					<login class="riotcontes"/>
+					<login/>
 				</route>
 				<route path="addclan">
 					<addclan class="riotcontes"/>
@@ -158,6 +159,9 @@
 				</route>
 				<route path="party">
 					<party class="riotcontes"/>
+				</route>
+				<route path="inquiry">
+					<inquiry class="riotcontes"/>
 				</route>
 			</router>
 		</app>
@@ -212,7 +216,7 @@
 									<li if={'#login' != location.hash}><a href="{clan.url}">血盟コミュ</a></li>
 									<li if={'#login' != location.hash && 'on'!=getParams['view']}><a href="#setting">設定</a></li>
 									<li if={'#login' != location.hash && 'on'!=getParams['view']}><a href="./">ログアウト</a></li>
-									<li><a href="https://twitter.com/saimushi">お問い合わせ</a></li>
+									<li><a href="#inquiry">お問い合わせ</a></li>
 								</ul>
 							</div>
 						</div>
@@ -1411,6 +1415,20 @@
 						}
 					};
 				</users>
+			</script>
+
+			<script type="riot/tag">
+				<inquiry>
+					<div style="padding: 20px;">
+						<h3>お問い合わせ</h3>
+						<br/>
+						<h4><a href="https://twitter.com/saimushi" target="_blank" class="text-success"><i class="fab fa-twitter"></i> saimushi</a></h4>
+						<h4><a href="https://discord.gg/mKbGHCd" target="_blank" class="text-info"><i class="fab fa-discord"></i> L2R血盟管理ツール</a></h4>
+						<br/>
+						<h5>各種SNS上でお気軽にお問い合わせ下さい。</h5>
+						<h5>ご要望もお待ちしています！m(_ _)m</5>
+					</div>
+				</inquiry>
 			</script>
 
 		</section>
