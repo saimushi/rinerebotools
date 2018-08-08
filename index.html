@@ -934,6 +934,7 @@
 								getScheduleUsers(getParams['scheduleid'], null, function(scheduleusers) {
 									var inuser = [];
 									var outuser = [];
+									thisis.outusers = [];
 									thisis.scheduleusers = scheduleusers;
 									console.log(thisis.scheduleusers);
 									for (var uidx=0; uidx < thisis.selectusers.length; uidx++) {
@@ -957,9 +958,10 @@
 											outuser.push(thisis.selectusers[uidx]);
 										}
 									}
-									thisis.outusers = outuser;
-									thisis.selectusers = outuser.concat(inuser);
-									riot.update();
+									if (0 < outuser.length) {
+										thisis.outusers = outuser;
+										thisis.selectusers = outuser.concat(inuser);
+									}
 									$('#addscheduleform input[name=scheduletag]').ready(function (){
 										var tag = $('#addscheduleform input[name=scheduletag]').val();
 										if ('undefined' != typeof tag && 0 < tag.length) {
@@ -967,6 +969,9 @@
 												thisis.newses = newses;
 												riot.update();
 											});
+										}
+										else {
+											riot.update();
 										}
 									});
 								});
