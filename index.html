@@ -242,7 +242,15 @@
 							<div class="container-fluid" style="padding: 10px;">
 								<h2 style="margin-top: 10px;"><a href="{clanurl}">{clanname}</a></h2>
 								<h4>血盟員数: {usercnt}</h4>
-								<small><b style="font-size: x-small;">{url}</b><br/><small style="color: red; font-size: xx-small;">※この血盟のURLです。忘れずメモして下さい！</small></small>
+								<small>
+									<b style="font-size: x-small;">{url}</b>
+									<br/>
+									<small style="color: red; font-size: xx-small;">
+										※この血盟のURLです。忘れずメモして下さい！
+										<br/>
+										※ゲーム内のコミュにこのURLをリンクすると幸せになれます！
+									</small>
+								</small>
 								<div if={'on'!=getParams['view']} class="row" style="padding-top: 10px;">
 									<a class="btn btn-success" href="#addschedule" style="margin-bottom: 10px;">予定追加</a>
 									<a class="btn btn-info" href="#adduser" style="margin-bottom: 10px;">血盟員追加</a>
