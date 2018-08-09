@@ -15,7 +15,9 @@
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/css-spinning-spinners/1.1.1/load8.css"/>
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"/>
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
 		<!-- this app -->
 		<style>
 			html, body {
@@ -352,27 +354,34 @@
 						</div>
 					</div>
 					<!-- 次行 -->
-					<div class="row">
+					<div class="row parent-container">
 						<div class="col-sm-1">
 							&nbsp;
 						</div>
 						<div class="col-sm-2">
-							<img width="240" src="./images/sample001.png"/>
+							<a href="./images/sample001.png"><img width="240" src="./images/sample001.png"/></a>
 						</div>
 						<div class="col-sm-2">
-							<img width="240" src="./images/sample002.png"/>
+							<a href="./images/sample002.png"><img width="240" src="./images/sample002.png"/></a>
 						</div>
 						<div class="col-sm-2">
-							<img width="240" src="./images/sample003.png"/>
+							<a href="./images/sample003.png"><img width="240" src="./images/sample003.png"/></a>
 						</div>
 						<div class="col-sm-2">
-							<img width="240" src="./images/sample004.png"/>
+							<a href="./images/sample004.png"><img width="240" src="./images/sample004.png"/></a>
 						</div>
 						<div class="col-sm-3">
 							&nbsp;
 						</div>
 					</div>
 					this.on('mount', function() {
+						$('.parent-container').magnificPopup({
+  						delegate: 'a',
+  						type: 'image',
+  						gallery: {
+    						enabled:true
+  						}
+  					});
 						auth();
 					});
 				</login>
@@ -1440,6 +1449,7 @@
 			<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
 			<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 			<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
 
 			<!-- Riot -->
 			<script src="//cdn.jsdelivr.net/npm/riot@3.9/riot+compiler.min.js"></script>
@@ -1451,6 +1461,7 @@
 
 			<!-- Discord -->
 			<script src="//greasyfork.org/scripts/29088-discord-js-for-browser/code/Discordjs%20for%20Browser.js?version=208579"></script>
+
 
 			<script>
 				// Initialize Firebase
