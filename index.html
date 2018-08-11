@@ -845,7 +845,7 @@
 										<div class="form-group">
 											<select class="form-control" name="scheduleuser">
 												<option value="-1">参加キャラ</option>
-												<option each="{user, index in selectusers}" value={index} data={user.name}>{user.outlabel}{user.name}</option>
+												<option each="{_user, index in selectusers_}" value={index} data={_user.name}>{_user.outlabel}{_user.name}</option>
 											</select>
 										</div>
 										<div class="form-group">
@@ -917,11 +917,11 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr each="{outuser, index in outusers}" >
-												<td class="action"><botton class="btn btn-danger" onclick="onclickNotify(this, '{outuser.name}', '{outuser.discord}');">催促</botton></td>
-												<td onclick="onclickModify(this, '{outuser.ID}');"><strong class="scheduleusername">{outuser.name}</strong></td>
-												<td onclick="onclickModify(this, '{outuser.ID}');"><strong class="danger">{outuser.discord}</strong></td>
-												<td onclick="onclickModify(this, '{outuser.ID}');">{outuser.memo}</td>
+											<tr each="{_outuser, index in outusers}" >
+												<td class="action"><botton class="btn btn-danger" onclick="onclickNotify(this, '{_outuser.name}', '{_outuser.discord}');">催促</botton></td>
+												<td onclick="onclickModify(this, '{_outuser.ID}');"><strong class="scheduleusername">{_outuser.name}</strong></td>
+												<td onclick="onclickModify(this, '{_outuser.ID}');"><strong class="danger">{_outuser.discord}</strong></td>
+												<td onclick="onclickModify(this, '{_outuser.ID}');">{_outuser.memo}</td>
 											</tr>
 										</tbody>
 									</table>
@@ -977,7 +977,7 @@
 												entryed = true;
 											}
 										}
-										if (thisis.selectusers[uidx].activity < 0) {
+										if (false == entryed && thisis.selectusers[uidx].activity < 0) {
 											thisis.selectusers[uidx].outlabel = '';
 											inuser.push(thisis.selectusers[uidx]);
 											entryed = true;
@@ -988,7 +988,17 @@
 									}
 									if (0 < outuser.length) {
 										thisis.outusers = outuser;
-										thisis.selectusers = outuser.concat(inuser);
+										thisis.selectusers = inuser;
+										console.log(inuser);
+										var length = outuser.length;
+										for (var oIdx=0; oIdx < length; oIdx++) {
+											console.log(outuser[oIdx]);
+											thisis.selectusers.unshift(outuser[oIdx]);
+										}
+										// XXX バグ対応の暫定処理
+										selectusers_ = thisis.selectusers;
+										thisis.selectusers_ = selectusers_;
+										console.log(thisis.selectusers_);
 									}
 									$('#addscheduleform input[name=scheduletag]').ready(function (){
 										var tag = $('#addscheduleform input[name=scheduletag]').val();
