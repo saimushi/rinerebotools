@@ -275,7 +275,8 @@
 										<tr each="{schedule, index in schedules}">
 											<td onclick="onclickSchedule(this, '{schedule.ID}');">{schedule.date}</td>
 											<td onclick="onclickSchedule(this, '{schedule.ID}');">{schedule.name}</td>
-											<td><a href="?clanid={clan.ID}&scheduleid={schedule.ID}{viewON}#party">{schedule.incount}</a></td>
+											<td if={schedule.type!=1}><a href="?clanid={clan.ID}&scheduleid={schedule.ID}{viewON}#party">{schedule.incount}</a></td>
+											<td if={schedule.type==1}>出欠不要</td>
 										</tr>
 									</tbody>
 								</table>
@@ -617,7 +618,7 @@
 					<div style="padding: 10px;">
 						<h4 if={'on'==getParams['view']}>{schedule.date}<h4/>
 						<h4 if={'on'==getParams['view']}>{schedule.name}<h4/>
-						<h4 if={'#detailschedule' == location.hash}>参加予定: {schedule.incount} 人<h4/>
+						<h4 if={'#detailschedule' == location.hash && schedule.type!=1}>参加予定: {schedule.incount} 人<h4/>
 						<form id="addscheduleform">
 							<div class="form-group">
 								<div class="btn-group">
@@ -635,12 +636,19 @@
 								<h5>予定日時(選択して下さい)</h5>
 								<div class='input-group date' id='scheduledate'/>
 							</div>
+							<div class="form-group">
+								<select class="form-control" name="scheduletype">
+									<option value="0">出欠確認アリ</option>
+									<option if={schedule.type!=1} value="1">出欠確認不要(予定のみ)</option>
+									<option if={schedule.type==1} value="1" selected="selected">出欠確認不要(予定のみ)</option>
+								</select>
+							</div>
 							<input type="hidden" name="scheduleincount" value="{schedule.incount}" id='scheduleincount'/>
 							<botton class="btn btn-success" onclick="onclickRegisterSchedule(this, '{schedule.ID}')">登録</botton>
 							<botton if={'#detailschedule' != location.hash} class="btn btn-danger" onclick="onclickRegisterSchedule(this, '{schedule.ID}', true)">登録(同一タグの前回のPT編成をコピー)</botton>
 						</form>
 					</div>
-					var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, };
+					var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, };
 					this.on('mount', function() {
 						if ('on'==getParams['view']) {
 							$('#addscheduleform').hide();
@@ -839,7 +847,7 @@
 					<div  class="row">
 						<div class="col-xs-4">
 							<div class="container-fluid">
-								<div style="padding-left: 10px; padding-right: 10px;">
+								<div if={schedule.type!=1} style="padding-left: 10px; padding-right: 10px;">
 									<h3>参加登録</h3>
 									<form id="entryscheduleform">
 										<div class="form-group">
@@ -900,11 +908,11 @@
 							</div>
 						</div>
 						<div class="col-xs-8">
-							<div class="container-fluid">
+							<div if={schedule.type!=1} class="container-fluid">
 								<h3 style="padding-left: 10px;">参加者一覧 <small><a href="javascript: void(0);" onclick="{showPT}">[PT表]</a><small></h3>
 								<users data='{scheduleusers}' mode='schedule'/>
 							</div>
-							<div if={'on'!=getParams['view']} class="container-fluid">
+							<div if={schedule.type!=1 && 'on'!=getParams['view']} class="container-fluid">
 								<div style="padding-left: 10px; padding-right: 10px;">
 									<h4>未表明者一覧</h4>
 									<table class="table table-bordered table-hover table-striped">
@@ -1507,8 +1515,8 @@
 				var getParams = {};
 				var loadingCount = 0;
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
-				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, memo: '', activity: 9, joind: '', discord: ''};
-				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, };
+				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, memo: '', activity: 9, joind: '', discord: '', };
+				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, };
 				var partySchedule = {name:'', date: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', };
 				var partyUsers = null;
@@ -2175,6 +2183,7 @@
 					var scheduletag = $('#addscheduleform').find('input[name=scheduletag]').val();
 					var scheduledate = $('#addscheduleform').find('#scheduledate').data().date;
 					var scheduleincount = $('#addscheduleform').find('input[name=scheduleincount]').val();
+					var scheduletype = $('#addscheduleform').find('select[name=scheduletype] option:selected').val();
 					if (1 > scheduleincount.length) {
 						scheduleincount = '0';
 					}
@@ -2185,7 +2194,7 @@
 						}
 					}
 					if (0 < schedulename.length && 0 < scheduledate.length && 0 < scheduleincount.length) {
-						var data = { ID: scheduleID, name: schedulename, date: new Date(scheduledate), tag: scheduletag, incount: parseInt(scheduleincount), };
+						var data = { ID: scheduleID, name: schedulename, date: new Date(scheduledate), tag: scheduletag, incount: parseInt(scheduleincount), type: parseInt(scheduletype), };
 						registerSchedule(clan.ID, data, function (newScheduleID){
 							data.ID = newScheduleID;
 							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
