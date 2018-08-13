@@ -29,6 +29,10 @@
 			table {
 			  table-layout: fixed;
 			}
+			ul li {
+				padding-top: 5px;
+				padding-bottom: 5px;
+			}
 			tr.activity-1 {
 				background-color: rgb(183, 227, 255) !important;
 			}
@@ -51,6 +55,15 @@
 				width: 100%;
 				z-index: 9999;
 				background-color: rgba(0, 0, 0, 0.4);
+			}
+			.helppanel {
+				margin-top: 20px;
+				padding: 10px;
+				padding-top: 5px;
+			}
+			.helppanel div {
+				background-color: white;
+				padding: 10px;
 			}
 			.row {
 				margin-left: 0;
@@ -168,6 +181,9 @@
 				</route>
 				<route path="party">
 					<party class="riotcontes"/>
+				</route>
+				<route path="howto">
+					<howto class="riotcontes"/>
 				</route>
 				<route path="inquiry">
 					<inquiry class="riotcontes"/>
@@ -1008,6 +1024,9 @@
 										thisis.selectusers_ = selectusers_;
 										console.log(thisis.selectusers_);
 									}
+									else {
+										thisis.selectusers_ = thisis.selectusers;
+									}
 									$('#addscheduleform input[name=scheduletag]').ready(function (){
 										var tag = $('#addscheduleform input[name=scheduletag]').val();
 										if ('undefined' != typeof tag && 0 < tag.length) {
@@ -1456,6 +1475,59 @@
 						}
 					};
 				</users>
+			</script>
+
+			<script type="riot/tag">
+				<howto>
+					<div  class="row">
+						<div class="col-xs-4">
+							<div class="container-fluid">
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h3>ヘルプ</h3>
+									<ul>
+										<li><a herf="javascript:void(0);" onclick="scrollHelp(1);">●要塞戦の出欠を取りたい場合はどうすれば良いですか？</a></li>
+										<li><a herf="javascript:void(0);" onclick="scrollHelp(2);">●予定を通知して出欠を促す事は出来ますか？</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-8">
+							<div class="container-fluid">
+								<div id="helpContents" style="padding-left: 10px; padding-right: 10px;">
+									<div class="bg-info helppanel">
+										<h4 id="help1">●要塞戦の出欠を取りたい場合はどうすれば良いですか？</h4>
+										<div>
+											<h5>1. 「血盟ページ」から「血盟員追加」をしましょう。</h5>
+											<img src="./images/help/help001-001.png" width="100%"/>
+											<h5>2. 血盟員を追加したら「予定追加」をしましょう。</h5>
+											<h6>予定を追加すると「血盟ページ」の予定の一覧に新しい予定が追加されます。</h6>
+											<img src="./images/help/help001-002.png" width="100%"/>
+											<h5>3. 追加された予定から予定の詳細ページに移動出来るようになります。</h5>
+											<h6>予定の詳細ページの「未表明一覧」にまだ出欠表明をしていない血盟員が一覧されます。</h6>
+											<h6><a herf="javascript:void(0);" onclick="scrollHelp(2);">予定詳細ページのURLを血盟員に知らせましょう。[予定の通知について]</a></h6>
+											<h6>血盟員に予定詳細ページへ移動して貰い、自分の名前を選んで出欠登録をして貰いましょう。</h6>
+											<img src="./images/help/help001-003.png" width="100%"/>
+											<h5>4. 無事参加表明が完了すると、参加者一覧に表示されるようになります。</h5>
+										</div>
+									</div>
+									<div class="bg-info helppanel">
+										<h4 id="help2">●スケジュールの参加者に通知を送る事は出来ますか？</h4>
+										<div>
+											ああああああああああああああああああああああああ
+											ああああああああああああああああああああああああ
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					scrollHelp = function (helpID) {
+						$("html,body").animate({scrollTop: $('#helpContents #help' + helpID).offset().top -75 }, "100");
+					};
+					this.on('mount', function() {
+						dispatchPortlateLayout();
+					});
+				</howto>
 			</script>
 
 			<script type="riot/tag">
