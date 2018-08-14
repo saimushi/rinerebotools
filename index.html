@@ -2276,7 +2276,7 @@
 					}
 					else {
 						//collection = collection.orderBy("entry", "desc").orderBy("cp", "desc");
-						collection = collection.orderBy("party", "desc").orderBy("cp", "desc").orderBy("entry", "desc");
+						collection = collection.orderBy("party", "desc").orderBy("entry", "desc").orderBy("cp", "desc");
 					}
 					collection.get().then(function(querySnapshot) {
 						var datas = [];
