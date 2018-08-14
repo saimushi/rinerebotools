@@ -1279,7 +1279,6 @@
 								if (1 == next) {
 									$(target).addClass('bg-info');
 									$(target).removeClass('bg-success');
-									$(target).removeClass('bg-danger');
 									$(target).attr('propaty', next);
 									$(target).find('i.fas').addClass('fa-microphone');
 									$(target).find('i.fas').removeClass('fa-microphone-slash');
@@ -1288,7 +1287,6 @@
 								else if (2 == next) {
 									$(target).removeClass('bg-info');
 									$(target).addClass('bg-success');
-									$(target).removeClass('bg-danger');
 									$(target).attr('propaty', next);
 									$(target).find('i.fas').addClass('fa-microphone-slash');
 									$(target).find('i.fas').removeClass('fa-microphone');
@@ -1297,7 +1295,6 @@
 								else {
 									$(target).removeClass('bg-success');
 									$(target).removeClass('bg-info');
-									$(target).addClass('bg-danger');
 									$(target).attr('propaty', next);
 									$(target).find('i.fas').removeClass('fa-microphone');
 									$(target).find('i.fas').removeClass('fa-microphone-slash');
@@ -1489,7 +1486,7 @@
 									<td if={opts.mode=='schedule' && user.leader!=2 && user.leader!=1} class="scheduleuserleader" propaty="0" onclick="switchType(this, 'leader');" >&nbsp;</td>
 									<td if={opts.mode=='schedule' && user.voice==1} class="scheduleuservoice bg-info" propaty="1" onclick="switchType(this, 'voice');"><i class="fas fa-microphone"></i></td>
 									<td if={opts.mode=='schedule' && user.voice==2} class="scheduleuservoice bg-success" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
-									<td if={opts.mode=='schedule' && user.voice!=2 && user.voice!=1} class="scheduleuservoice bg-danger" propaty="0" onclick="switchType(this, 'voice');">&nbsp;<i class="fas">✕</i></td>
+									<td if={opts.mode=='schedule' && user.voice!=2 && user.voice!=1} class="scheduleuservoice" propaty="0" onclick="switchType(this, 'voice');">&nbsp;<i class="fas">✕</i></td>
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername">{user.name}</td>
 									<td>{user.cp}</td>
 
