@@ -301,10 +301,27 @@
 						</div>
 						<div class="col-xs-8">
 							<div class="container-fluid">
+								<div style="width: 150px; margin-top: -45px; margin-left: auto; margin-right: 10px; margin-bottom: 5px;">
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: firebrick;">&nbsp;前衛&nbsp;{attckAssistans}</span>
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: orange;">&nbsp;魔攻&nbsp;{criticalAssistants}</span>
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: blue;">&nbsp;盾職&nbsp;{defenseAssistans}</span>
+									<br style="clear: both;"/>
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: green;">&nbsp;短剣&nbsp;{moveAssistants}</span>
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: dodgerblue;">&nbsp;弓職&nbsp;{hitAssistants}</span>
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: deeppink;">&nbsp;回復&nbsp;{healAssistans}</span>
+									<br style="clear: both;"/>
+								</div>
 								<users data='{users}'/>
 							</div>
 						</div>
 					</div>
+					var attckAssistans = 0;
+					var criticalAssistants = 0;
+					var defenseAssistans = 0;
+					var moveAssistants = 0;
+					var hitAssistants = 0;
+					var healAssistans = 0;
+
 					var url = location.protocol + '//' + document.domain + location.pathname;
 					var clanname = '';
 					var clanurl = 'javascript: void(0); return false;';
@@ -313,7 +330,15 @@
 					var schedules = [];
 					var cpSort = false;
 					var viewON = '';
+					var thisis;
 					this.on('mount', function() {
+						thisis = this;
+						thisis.attckAssistans = attckAssistans;
+						thisis.criticalAssistants = criticalAssistants;
+						thisis.defenseAssistans = defenseAssistans;
+						thisis.moveAssistants = moveAssistants;
+						thisis.hitAssistants = hitAssistants;
+						thisis.healAssistans = healAssistans;
 						if ('on' == getParams['view']) {
 							this.viewON = '&view=on';
 						}
@@ -327,8 +352,27 @@
 									this.users = users;
 									this.usercnt = usercnt;
 									for (var uidx=0; uidx < users.length; uidx++) {
-										if (users[uidx].activity > -1) {
+										if (users[uidx].activity > 0) {
 											this.usercnt++;
+											// 種別振り分けは一度すれば十分
+											if (jobbufs[users[uidx].job]=='攻撃') {
+												thisis.attckAssistans++;
+											}
+											if (jobbufs[users[uidx].job]=='クリ') {
+												thisis.criticalAssistants++;
+											}
+											if (jobbufs[users[uidx].job]=='防御') {
+												thisis.defenseAssistans++;
+											}
+											if (jobbufs[users[uidx].job]=='移動') {
+												thisis.moveAssistants++;
+											}
+											if (jobbufs[users[uidx].job]=='命中') {
+												thisis.hitAssistants++;
+											}
+											if (jobbufs[users[uidx].job]=='HP') {
+												thisis.healAssistans++;
+											}
 										}
 									}
 									riot.update();
@@ -769,12 +813,12 @@
 													<tr each="{puser, uindex in pusers}" style="border: none;" class="activity{puser.activity}">
 														<td style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;">{puser.name}</td>
 														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray;">{puser.cp}</td>
-														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; background-color: firebrick;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; background-color: orange;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='防御'} style="border: none; padding: 5px; background-color: blue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='移動'} style="border: none; padding: 5px; background-color: green;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='命中'} style="border: none; padding: 5px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='HP'} style="border: none; padding: 5px; background-color: deeppink;"><img src="{jobimages[puser.job]}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='防御'} style="border: none; padding: 5px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='移動'} style="border: none; padding: 5px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='命中'} style="border: none; padding: 5px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='HP'} style="border: none; padding: 5px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
 														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: gray;">&nbsp;</td>
 													</tr>
 												</table>
@@ -926,8 +970,18 @@
 						</div>
 						<div class="col-xs-8">
 							<div if={schedule.type!=1} class="container-fluid">
-								<h3 style="padding-left: 10px;">参加者一覧 <small><a href="javascript: void(0);" onclick="{showPT}">[PT表]</a><small></h3>
-								<users data='{scheduleusers}' mode='schedule'/>
+								<h3 style="padding-left: 10px;">参加者一覧 <small><a href="javascript: void(0);" onclick="{showPT}">[PT表]</a></small></h3>
+								<div style="width: 150px; margin-top: -50px; margin-left: auto; margin-right: 10px; margin-bottom: 5px;">
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: firebrick;">&nbsp;前衛&nbsp;{attckAssistans}</span>
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: orange;">&nbsp;魔攻&nbsp;{criticalAssistants}</span>
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: blue;">&nbsp;盾職&nbsp;{defenseAssistans}</span>
+									<br style="clear: both;"/>
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: green;">&nbsp;短剣&nbsp;{moveAssistants}</span>
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: dodgerblue;">&nbsp;弓職&nbsp;{hitAssistants}</span>
+									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: deeppink;">&nbsp;回復&nbsp;{healAssistans}</span>
+									<br style="clear: both;"/>
+								</div>
+								<users data='{scheduleusers}' mode='schedule' criticalAssistants={criticalAssistants} defenseAssistans={defenseAssistans} moveAssistants={moveAssistants} hitAssistants={hitAssistants} healAssistans={healAssistans} />
 							</div>
 							<div if={schedule.type!=1 && 'on'!=getParams['view']} class="container-fluid">
 								<div style="padding-left: 10px; padding-right: 10px;">
@@ -973,6 +1027,13 @@
 							</div>
 						</div>
 					</div>
+					var attckAssistans = 0;
+					var criticalAssistants = 0;
+					var defenseAssistans = 0;
+					var moveAssistants = 0;
+					var hitAssistants = 0;
+					var healAssistans = 0;
+
 					var selectusers = [];
 					var scheduleusers = [];
 					var outusers = [];
@@ -985,11 +1046,17 @@
 							getUsers(clan.ID, true, function(users) {
 								thisis.selectusers = users;
 								getScheduleUsers(getParams['scheduleid'], null, function(scheduleusers) {
+									thisis.attckAssistans = attckAssistans;
+									thisis.criticalAssistants = criticalAssistants;
+									thisis.defenseAssistans = defenseAssistans;
+									thisis.moveAssistants = moveAssistants;
+									thisis.hitAssistants = hitAssistants;
+									thisis.healAssistans = healAssistans;
 									var inuser = [];
 									var outuser = [];
 									thisis.outusers = [];
 									thisis.scheduleusers = scheduleusers;
-									console.log(thisis.scheduleusers);
+									var inLoop = 0;
 									for (var uidx=0; uidx < thisis.selectusers.length; uidx++) {
 										var entryed = false;
 										thisis.selectusers[uidx].outlabel = '未表明:';
@@ -998,6 +1065,28 @@
 												thisis.selectusers[uidx].outlabel = '';
 												thisis.selectusers[uidx].entry = thisis.scheduleusers[suidx].entry;
 												thisis.selectusers[uidx].party = thisis.scheduleusers[suidx].party;
+												if (inLoop < thisis.scheduleusers.length) {
+													// 種別振り分けは一度すれば十分
+													if (jobbufs[thisis.scheduleusers[suidx].job]=='攻撃') {
+														thisis.attckAssistans++;
+													}
+													if (jobbufs[thisis.scheduleusers[suidx].job]=='クリ') {
+														thisis.criticalAssistants++;
+													}
+													if (jobbufs[thisis.scheduleusers[suidx].job]=='防御') {
+														thisis.defenseAssistans++;
+													}
+													if (jobbufs[thisis.scheduleusers[suidx].job]=='移動') {
+														thisis.moveAssistants++;
+													}
+													if (jobbufs[thisis.scheduleusers[suidx].job]=='命中') {
+														thisis.hitAssistants++;
+													}
+													if (jobbufs[thisis.scheduleusers[suidx].job]=='HP') {
+														thisis.healAssistans++;
+													}
+													inLoop++;
+												}
 												inuser.push(thisis.selectusers[uidx]);
 												entryed = true;
 											}
@@ -1092,6 +1181,9 @@
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
 						if (0 < comment.length) {
 							scheduleuser.comment = comment;
+						}
+						else if (!confirm('条件付きで参加可の場合コメントにその条件を明記して\n予定の管理者にその旨を伝えましょう！\n無視して登録を続ける場合はOKを押して下さい。')){
+							return;
 						}
 						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
 							getScheduleUsers(getParams['scheduleid'], true, function(entryOKUsers) {
@@ -1300,12 +1392,12 @@
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername">{user.name}</td>
 									<td>{user.cp}</td>
 
-									<td if={jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" style="background-color: firebrick;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
-									<td if={jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" style="background-color: orange;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
-									<td if={jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" style="background-color: blue;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
-									<td if={jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" style="background-color: green;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
-									<td if={jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" style="background-color: dodgerblue;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
-									<td if={jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" style="background-color: deeppink;"><img src="{jobimages[user.job]}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" style="background-color: firebrick;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" style="background-color: orange;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" style="background-color: blue;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" style="background-color: green;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" style="background-color: dodgerblue;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" style="background-color: deeppink;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
 									<td if={'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;">{puser.job}</td>
 
 									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
