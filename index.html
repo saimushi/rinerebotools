@@ -811,7 +811,9 @@
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr each="{puser, uindex in pusers}" style="border: none;" class="activity{puser.activity}">
-														<td style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;">{puser.name}</td>
+														<td if={puser.leader==1} class="info" style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
+														<td if={puser.leader==2} class="success" style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
+														<td if={puser.leader!=2 && puser.leader!=1} style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray;">{puser.cp}</td>
 														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
 														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
@@ -1065,6 +1067,12 @@
 												thisis.selectusers[uidx].outlabel = '';
 												thisis.selectusers[uidx].entry = thisis.scheduleusers[suidx].entry;
 												thisis.selectusers[uidx].party = thisis.scheduleusers[suidx].party;
+												if ('undefined' != typeof thisis.scheduleusers[suidx].leader) {
+													thisis.selectusers[uidx].leader = thisis.scheduleusers[suidx].leader;
+												}
+												if ('undefined' != typeof thisis.scheduleusers[suidx].voice) {
+													thisis.selectusers[uidx].voice = thisis.scheduleusers[suidx].voice;
+												}
 												if (inLoop < thisis.scheduleusers.length) {
 													// 種別振り分けは一度すれば十分
 													if (jobbufs[thisis.scheduleusers[suidx].job]=='攻撃') {
@@ -1148,7 +1156,7 @@
 							alert('参加キャラを選択して下さい。');
 							return;
 						}
-						var scheduleuser = thisis.selectusers[index];
+						var scheduleuser = thisis.selectusers_[index];
 						scheduleuser.entry = 1;
 						if ('undefined' == typeof scheduleuser.party) {
 							scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
@@ -1172,7 +1180,7 @@
 							alert('参加キャラを選択して下さい。');
 							return;
 						}
-						var scheduleuser = thisis.selectusers[index];
+						var scheduleuser = thisis.selectusers_[index];
 						scheduleuser.entry = 0;
 						if ('undefined' == typeof scheduleuser.party) {
 							scheduleuser.party = parseInt($('#entryscheduleform').find('input[name=scheduleparty]').val());
@@ -1199,7 +1207,7 @@
 							alert('参加キャラを選択して下さい。');
 							return;
 						}
-						var scheduleuser = thisis.selectusers[index];
+						var scheduleuser = thisis.selectusers_[index];
 						scheduleuser.entry = -1;
 						scheduleuser.party = 0;
 						scheduleuser.comment = '';
@@ -1215,6 +1223,91 @@
 							});
 						});
 					};
+					switchType = function (target, propaty) {
+						var now = $(target).attr('propaty');
+						next = parseInt(now) + 1;
+						if (2 < next) {
+							next = 0;
+						}
+						var scheduleusername = $(target).parent().find('.scheduleusername').text();
+						var index = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
+						var scheduleuser = thisis.selectusers_[index];
+						if ('undefined' == typeof scheduleuser.entry) {
+							alert('出欠登録を先にする必要があります。');
+							return;
+						}
+						if ('leader' == propaty) {
+							if (0 > parseInt(scheduleuser.entry)) {
+								alert('欠席予定の方をリーダーにする事は出来ません。');
+								return;
+							}
+							if ('undefined' == typeof scheduleuser.party) {
+								alert('PTに入っていない方をリーダーにする事は出来ません。');
+								return;
+							}
+							if (0 >= parseInt(scheduleuser.party)) {
+								alert('PTに入っていない方をリーダーにする事は出来ません。');
+								return;
+							}
+							scheduleuser.leader = next;
+						}
+						scheduleuser[propaty] = next;
+						console.log(scheduleuser);
+						loading(true);
+						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
+							if ('leader' == propaty) {
+								if (1 == next) {
+									$(target).removeClass('bg-success');
+									$(target).addClass('bg-info');
+									$(target).attr('propaty', next);
+									$(target).text('リダ');
+								}
+								else if (2 == next) {
+									$(target).removeClass('bg-info');
+									$(target).addClass('bg-success');
+									$(target).attr('propaty', next);
+									$(target).text('サブ');
+								}
+								else {
+									$(target).removeClass('bg-success');
+									$(target).removeClass('bg-info');
+									$(target).attr('propaty', next);
+									$(target).text('');
+								}
+							}
+							else if ('voice' == propaty) {
+								if (1 == next) {
+									$(target).addClass('bg-info');
+									$(target).removeClass('bg-success');
+									$(target).removeClass('bg-danger');
+									$(target).attr('propaty', next);
+									$(target).find('i.fas').addClass('fa-microphone');
+									$(target).find('i.fas').removeClass('fa-microphone-slash');
+									$(target).find('i.fas').text('');
+								}
+								else if (2 == next) {
+									$(target).removeClass('bg-info');
+									$(target).addClass('bg-success');
+									$(target).removeClass('bg-danger');
+									$(target).attr('propaty', next);
+									$(target).find('i.fas').addClass('fa-microphone-slash');
+									$(target).find('i.fas').removeClass('fa-microphone');
+									$(target).find('i.fas').text('');
+								}
+								else {
+									$(target).removeClass('bg-success');
+									$(target).removeClass('bg-info');
+									$(target).addClass('bg-danger');
+									$(target).attr('propaty', next);
+									$(target).find('i.fas').removeClass('fa-microphone');
+									$(target).find('i.fas').removeClass('fa-microphone-slash');
+									$(target).find('i.fas').text('✕');
+								}
+							}
+							thisis.selectusers_[index] = scheduleuser;
+							loading(false);
+						});
+					}
 					onEntryPT = function (target) {
 						var partyData = $(target.srcElement).data();
 						if ('undefined' != typeof partyData && 'undefined' != typeof partyData.party && 0 < parseInt(partyData.party)){
@@ -1223,7 +1316,7 @@
 								alert('参加キャラを選択して下さい。');
 								return;
 							}
-							var scheduleuser = thisis.selectusers[index];
+							var scheduleuser = thisis.selectusers_[index];
 							if ('undefined' == typeof scheduleuser.entry) {
 								alert('出欠登録を先にする必要があります。');
 								return;
@@ -1357,15 +1450,17 @@
 							<thead>
 								<tr class="info">
 									<th if={opts.mode=='schedule'} style="width: 28px; font-size: 5px;"></th>
-									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 40px;">PT</th>
+									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 32px;">PT</th>
+									<th if={opts.mode=='schedule'} style="width: 40px; font-size: 10px;">リダ</th>
+									<th if={opts.mode=='schedule'} style="width: 28px;">VC</th>
 									<th style="width: 100px;">キャラ</th>
 									<th onclick="{sortCP}" style="width: 50px;">戦闘力</th>
 									<th onclick="{sortJob}" style="width: 30px; font-size: 5px;">Job</th>
 									<th onclick="{sortLevel}" style="width: 34px; font-size: 5px;">Lv</th>
-									<th style="width: 28px; font-size: 5px;">メ</th>
+									<th if={opts.mode!='schedule'} style="width: 28px; font-size: 5px;">メ</th>
 									<th if={opts.mode!='schedule'}>メモ</th>
 									<th if={opts.mode=='schedule'}>コメント</th>
-									<th style="width: 40px;">区分</th>
+									<th if={opts.mode!='schedule'} style="width: 40px;">区分</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 70px;">入隊日</th>
 								</tr>
 							</thead>
@@ -1374,21 +1469,27 @@
 									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">✕</td>
-									<td if={opts.mode=='schedule' && user.party==39} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="39" style="background-color: dodgerblue; color: white; font-size: 8px;">聖刻</td>
-									<td if={opts.mode=='schedule' && user.party==38} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="38" style="background-color: blue; color: white; font-size: 8px;">偵察</td>
-									<td if={opts.mode=='schedule' && user.party==37} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="37" style="background-color: navy; color: white; font-size: 8px;">封殺</td>
-									<td if={opts.mode=='schedule' && user.party==29} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="29" style="background-color: limegreen; color: white; font-size: 8px;">FW1</td>
-									<td if={opts.mode=='schedule' && user.party==28} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="28" style="background-color: green; color: white; font-size: 8px;">FW2</td>
-									<td if={opts.mode=='schedule' && user.party==27} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="27" style="background-color: darkgreen; color: white; font-size: 8px;">FW3</td>
-									<td if={opts.mode=='schedule' && user.party==19} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="19" style="background-color: gold; color: white; font-size: 8px;">MF1</td>
-									<td if={opts.mode=='schedule' && user.party==18} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="18" style="background-color: orange; color: white; font-size: 8px;">MF2</td>
-									<td if={opts.mode=='schedule' && user.party==17} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="17" style="background-color: darkorange; color: white; font-size: 8px;">MF3</td>
-									<td if={opts.mode=='schedule' && user.party==9} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="9" style="background-color: red; color: white; font-size: 8px;">DF1</td>
-									<td if={opts.mode=='schedule' && user.party==8} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="8" style="background-color: crimson; color: white; font-size: 8px;">DF2</td>
-									<td if={opts.mode=='schedule' && user.party==7} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="7" style="background-color: firebrick; color: white; font-size: 8px;">DF3</td>
+									<td if={opts.mode=='schedule' && user.party==39} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="39" style="background-color: dodgerblue; color: white; font-size: 8px; padding-left: 3px;">聖刻</td>
+									<td if={opts.mode=='schedule' && user.party==38} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="38" style="background-color: blue; color: white; font-size: 8px; padding-left: 3px;">偵察</td>
+									<td if={opts.mode=='schedule' && user.party==37} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="37" style="background-color: navy; color: white; font-size: 8px; padding-left: 3px;">封殺</td>
+									<td if={opts.mode=='schedule' && user.party==29} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="29" style="background-color: limegreen; color: white; font-size: 8px; padding-left: 3px;">FW1</td>
+									<td if={opts.mode=='schedule' && user.party==28} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="28" style="background-color: green; color: white; font-size: 8px; padding-left: 3px;">FW2</td>
+									<td if={opts.mode=='schedule' && user.party==27} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="27" style="background-color: darkgreen; color: white; font-size: 8px; padding-left: 3px;">FW3</td>
+									<td if={opts.mode=='schedule' && user.party==19} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="19" style="background-color: gold; color: white; font-size: 8px; padding-left: 3px;">MF1</td>
+									<td if={opts.mode=='schedule' && user.party==18} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="18" style="background-color: orange; color: white; font-size: 8px; padding-left: 3px;">MF2</td>
+									<td if={opts.mode=='schedule' && user.party==17} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="17" style="background-color: darkorange; color: white; font-size: 8px; padding-left: 3px;">MF3</td>
+									<td if={opts.mode=='schedule' && user.party==9} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="9" style="background-color: red; color: white; font-size: 8px; padding-left: 3px;">DF1</td>
+									<td if={opts.mode=='schedule' && user.party==8} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="8" style="background-color: crimson; color: white; font-size: 8px; padding-left: 3px;">DF2</td>
+									<td if={opts.mode=='schedule' && user.party==7} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="7" style="background-color: firebrick; color: white; font-size: 8px; padding-left: 3px;">DF3</td>
 									<td if={opts.mode=='schedule' && user.party==0} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: gray; color: white; font-size: 8px;">無</td>
 									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
 									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
+									<td if={opts.mode=='schedule' && user.leader==1} class="scheduleuserleader bg-info" propaty="1" onclick="switchType(this, 'leader');">リダ</td>
+									<td if={opts.mode=='schedule' && user.leader==2} class="scheduleuserleader bg-success" propaty="2" onclick="switchType(this, 'leader');">サブ</td>
+									<td if={opts.mode=='schedule' && user.leader!=2 && user.leader!=1} class="scheduleuserleader" propaty="0" onclick="switchType(this, 'leader');" >&nbsp;</td>
+									<td if={opts.mode=='schedule' && user.voice==1} class="scheduleuservoice bg-info" propaty="1" onclick="switchType(this, 'voice');"><i class="fas fa-microphone"></i></td>
+									<td if={opts.mode=='schedule' && user.voice==2} class="scheduleuservoice bg-success" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
+									<td if={opts.mode=='schedule' && user.voice!=2 && user.voice!=1} class="scheduleuservoice bg-danger" propaty="0" onclick="switchType(this, 'voice');">&nbsp;<i class="fas">✕</i></td>
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername">{user.name}</td>
 									<td>{user.cp}</td>
 
@@ -1401,14 +1502,14 @@
 									<td if={'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;">{puser.job}</td>
 
 									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
-									<td if={user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
-									<td if={user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning">{user.meteo}</td>
+									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
+									<td if={opts.mode!='schedule' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning">{user.meteo}</td>
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');">{user.memo}</td>
-									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment">{user.comment}</td>
-									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success">アク</td>
-									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: 7px;">イン</td>
-									<td if={user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger">除名</td>
-									<td if={user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info">傭兵</td>
+									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment" style="font-size: 10px;">{user.comment}</td>
+									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success">アク</td>
+									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning">イン</td>
+									<td if={opts.mode!='schedule' && user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger">除名</td>
+									<td if={opts.mode!='schedule' && user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info">傭兵</td>
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');">{user.joind}</td>
 								</tr>
 							</tbody>
