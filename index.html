@@ -264,8 +264,9 @@
 					<div  class="row">
 						<div class="col-xs-4">
 							<div class="container-fluid" style="padding: 10px;">
-								<h2 style="margin-top: 10px;"><a href="{clanurl}">{clanname}</a></h2>
-								<h4>血盟員数: {usercnt}</h4>
+								<h2 style="margin-top: 5px;"><a href="{clanurl}">{clanname}</a></h2>
+								<h4>アクティブ血盟員数: {usercnt}</h4>
+								<h5>総アクティブCP: {totalcp.toLocaleString()}</h5>
 								<small>
 									<b style="font-size: x-small;">{url}</b>
 									<br/>
@@ -327,6 +328,7 @@
 					var clanname = '';
 					var clanurl = 'javascript: void(0); return false;';
 					var usercnt = 0;
+					var totalcp = 0;
 					var users = [];
 					var schedules = [];
 					var cpSort = false;
@@ -352,9 +354,11 @@
 								getUsers(clan.ID, false, function(users) {
 									this.users = users;
 									this.usercnt = usercnt;
+									this.totalcp = totalcp;
 									for (var uidx=0; uidx < users.length; uidx++) {
 										if (users[uidx].activity > 0) {
 											this.usercnt++;
+											this.totalcp += users[uidx].cp;
 											// 種別振り分けは一度すれば十分
 											if (jobbufs[users[uidx].job]=='攻撃') {
 												thisis.attckAssistans++;
@@ -376,6 +380,7 @@
 											}
 										}
 									}
+									//this.totalcp = this.totalcp
 									riot.update();
 									getSchedules(clan.ID, function(schedules) {
 										this.schedules = schedules;
