@@ -812,8 +812,8 @@
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr each="{puser, uindex in pusers}" style="border: none;" class="activity{puser.activity}">
-														<td if={puser.status==1} class="text-info" style="font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
-														<td if={puser.status==2} class="text-success" style="font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
+														<td if={puser.status==2} class="text-info" style="font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
+														<td if={puser.status==1} class="text-success" style="font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td if={puser.status==-1} class="text-danger" style="font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="color: orange; font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
@@ -1228,9 +1228,17 @@
 					};
 					switchType = function (target, propaty) {
 						var now = $(target).attr('propaty');
-						next = parseInt(now) + 1;
-						if (2 < next) {
-							next = -1;
+						if ('status' == propaty) {
+							next = parseInt(now) - 1;
+							if (-1 > next) {
+								next = 2;
+							}
+						}
+						else {
+							next = parseInt(now) + 1;
+							if (2 < next) {
+								next = -1;
+							}
 						}
 						var scheduleusername = $(target).parent().find('.scheduleusername').text();
 						var index = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
@@ -1265,13 +1273,13 @@
 								$(target).removeClass('text-info');
 								$(target).removeClass('text-success');
 								$(target).removeClass('text-danger');
-								if (1 == next) {
+								if (2 == next) {
 									$(target).addClass('bg-info');
 									$(target).addClass('text-info');
 									$(target).attr('propaty', next);
 									$(target).text('リダ');
 								}
-								else if (2 == next) {
+								else if (1 == next) {
 									$(target).addClass('bg-success');
 									$(target).addClass('text-success');
 									$(target).attr('propaty', next);
@@ -1503,8 +1511,8 @@
 									<td if={opts.mode=='schedule' && user.party==0} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: gray; color: white; font-size: 8px;">無</td>
 									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
 									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
-									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-info text-info" propaty="1" onclick="switchType(this, 'status');">リダ</td>
-									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-success text-success" propaty="2" onclick="switchType(this, 'status');">サブ</td>
+									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-info text-info" propaty="2" onclick="switchType(this, 'status');">リダ</td>
+									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-success text-success" propaty="1" onclick="switchType(this, 'status');">サブ</td>
 									<td if={opts.mode=='schedule' && user.status==-1} class="scheduleuserstatus bg-danger text-danger" propaty="-1" onclick="switchType(this, 'status');">急欠</td>
 									<td if={opts.mode=='schedule' && user.status!=-1 && user.status!=2 && user.status!=1} class="scheduleuserstatus" propaty="0" onclick="switchType(this, 'status');" >&nbsp;</td>
 									<td if={opts.mode=='schedule' && user.voice==1} class="scheduleuservoice bg-info" propaty="1" onclick="switchType(this, 'voice');"><i class="fas fa-microphone"></i></td>
