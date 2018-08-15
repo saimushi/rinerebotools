@@ -298,6 +298,7 @@
 									</tbody>
 								</table>
 							</div>
+							<br/>
 						</div>
 						<div class="col-xs-8">
 							<div class="container-fluid">
@@ -811,9 +812,11 @@
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr each="{puser, uindex in pusers}" style="border: none;" class="activity{puser.activity}">
-														<td if={puser.leader==1} class="info" style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
-														<td if={puser.leader==2} class="success" style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
-														<td if={puser.leader!=2 && puser.leader!=1} style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
+														<td if={puser.status==1} class="text-info" style="font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
+														<td if={puser.status==2} class="text-success" style="font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
+														<td if={puser.status==-1} class="text-danger" style="font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
+														<td if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="color: orange; font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
+														<td if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray;">{puser.cp}</td>
 														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
 														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
@@ -1067,8 +1070,8 @@
 												thisis.selectusers[uidx].outlabel = '';
 												thisis.selectusers[uidx].entry = thisis.scheduleusers[suidx].entry;
 												thisis.selectusers[uidx].party = thisis.scheduleusers[suidx].party;
-												if ('undefined' != typeof thisis.scheduleusers[suidx].leader) {
-													thisis.selectusers[uidx].leader = thisis.scheduleusers[suidx].leader;
+												if ('undefined' != typeof thisis.scheduleusers[suidx].status) {
+													thisis.selectusers[uidx].status = thisis.scheduleusers[suidx].status;
 												}
 												if ('undefined' != typeof thisis.scheduleusers[suidx].voice) {
 													thisis.selectusers[uidx].voice = thisis.scheduleusers[suidx].voice;
@@ -1227,7 +1230,7 @@
 						var now = $(target).attr('propaty');
 						next = parseInt(now) + 1;
 						if (2 < next) {
-							next = 0;
+							next = -1;
 						}
 						var scheduleusername = $(target).parent().find('.scheduleusername').text();
 						var index = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
@@ -1236,46 +1239,57 @@
 							alert('出欠登録を先にする必要があります。');
 							return;
 						}
-						if ('leader' == propaty) {
+						if ('status' == propaty) {
 							if (0 > parseInt(scheduleuser.entry)) {
-								alert('欠席予定の方をリーダーにする事は出来ません。');
+								alert('欠席予定の方のステータスを変更する事は出来ません。');
 								return;
 							}
 							if ('undefined' == typeof scheduleuser.party) {
-								alert('PTに入っていない方をリーダーにする事は出来ません。');
+								alert('PTに入っていない方のステータスを変更する事は出来ません。');
 								return;
 							}
 							if (0 >= parseInt(scheduleuser.party)) {
-								alert('PTに入っていない方をリーダーにする事は出来ません。');
+								alert('PTに入っていない方のステータスを変更する事は出来ません。');
 								return;
 							}
-							scheduleuser.leader = next;
+							scheduleuser.status = next;
 						}
 						scheduleuser[propaty] = next;
 						console.log(scheduleuser);
 						loading(true);
 						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
-							if ('leader' == propaty) {
+							if ('status' == propaty) {
+								$(target).removeClass('bg-info');
+								$(target).removeClass('bg-success');
+								$(target).removeClass('bg-danger');
+								$(target).removeClass('text-info');
+								$(target).removeClass('text-success');
+								$(target).removeClass('text-danger');
 								if (1 == next) {
-									$(target).removeClass('bg-success');
 									$(target).addClass('bg-info');
+									$(target).addClass('text-info');
 									$(target).attr('propaty', next);
 									$(target).text('リダ');
 								}
 								else if (2 == next) {
-									$(target).removeClass('bg-info');
 									$(target).addClass('bg-success');
+									$(target).addClass('text-success');
 									$(target).attr('propaty', next);
 									$(target).text('サブ');
 								}
+								else if (-1 == next) {
+									$(target).addClass('bg-danger');
+									$(target).addClass('text-danger');
+									$(target).attr('propaty', next);
+									$(target).text('急欠');
+								}
 								else {
-									$(target).removeClass('bg-success');
-									$(target).removeClass('bg-info');
 									$(target).attr('propaty', next);
 									$(target).text('');
 								}
 							}
 							else if ('voice' == propaty) {
+								$(target).removeClass('bg-success');
 								if (1 == next) {
 									$(target).addClass('bg-info');
 									$(target).removeClass('bg-success');
@@ -1292,13 +1306,21 @@
 									$(target).find('i.fas').removeClass('fa-microphone');
 									$(target).find('i.fas').text('');
 								}
-								else {
+								else if (-1 == next) {
 									$(target).removeClass('bg-success');
 									$(target).removeClass('bg-info');
 									$(target).attr('propaty', next);
 									$(target).find('i.fas').removeClass('fa-microphone');
 									$(target).find('i.fas').removeClass('fa-microphone-slash');
 									$(target).find('i.fas').text('✕');
+								}
+								else {
+									$(target).removeClass('bg-info');
+									$(target).removeClass('bg-success');
+									$(target).attr('propaty', next);
+									$(target).find('i.fas').removeClass('fa-microphone-slash');
+									$(target).find('i.fas').removeClass('fa-microphone');
+									$(target).find('i.fas').text('');
 								}
 							}
 							thisis.selectusers_[index] = scheduleuser;
@@ -1448,7 +1470,7 @@
 								<tr class="info">
 									<th if={opts.mode=='schedule'} style="width: 28px; font-size: 5px;"></th>
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 32px;">PT</th>
-									<th if={opts.mode=='schedule'} style="width: 40px; font-size: 10px;">リダ</th>
+									<th if={opts.mode=='schedule'} style="width: 40px; font-size: 10px;">status</th>
 									<th if={opts.mode=='schedule'} style="width: 28px;">VC</th>
 									<th style="width: 100px;">キャラ</th>
 									<th onclick="{sortCP}" style="width: 50px;">戦闘力</th>
@@ -1481,12 +1503,14 @@
 									<td if={opts.mode=='schedule' && user.party==0} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: gray; color: white; font-size: 8px;">無</td>
 									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
 									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="background-color: black; color: white; font-size: 8px;">無</td>
-									<td if={opts.mode=='schedule' && user.leader==1} class="scheduleuserleader bg-info" propaty="1" onclick="switchType(this, 'leader');">リダ</td>
-									<td if={opts.mode=='schedule' && user.leader==2} class="scheduleuserleader bg-success" propaty="2" onclick="switchType(this, 'leader');">サブ</td>
-									<td if={opts.mode=='schedule' && user.leader!=2 && user.leader!=1} class="scheduleuserleader" propaty="0" onclick="switchType(this, 'leader');" >&nbsp;</td>
+									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-info text-info" propaty="1" onclick="switchType(this, 'status');">リダ</td>
+									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-success text-success" propaty="2" onclick="switchType(this, 'status');">サブ</td>
+									<td if={opts.mode=='schedule' && user.status==-1} class="scheduleuserstatus bg-danger text-danger" propaty="-1" onclick="switchType(this, 'status');">急欠</td>
+									<td if={opts.mode=='schedule' && user.status!=-1 && user.status!=2 && user.status!=1} class="scheduleuserstatus" propaty="0" onclick="switchType(this, 'status');" >&nbsp;</td>
 									<td if={opts.mode=='schedule' && user.voice==1} class="scheduleuservoice bg-info" propaty="1" onclick="switchType(this, 'voice');"><i class="fas fa-microphone"></i></td>
 									<td if={opts.mode=='schedule' && user.voice==2} class="scheduleuservoice bg-success" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
-									<td if={opts.mode=='schedule' && user.voice!=2 && user.voice!=1} class="scheduleuservoice" propaty="0" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
+									<td if={opts.mode=='schedule' && user.voice==-1} class="scheduleuservoice bg-success" propaty="-1" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
+									<td if={opts.mode=='schedule' && user.voice!=-1 && user.voice!=2 && user.voice!=1} class="scheduleuservoice" propaty="0" onclick="switchType(this, 'voice');"><i class="fas"></i></td>
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername">{user.name}</td>
 									<td>{user.cp}</td>
 
@@ -1671,7 +1695,7 @@
 			<script type="riot/tag">
 				<howto>
 					<div  class="row">
-						<div class="col-xs-3">
+						<div class="col-xs-4">
 							<div class="container-fluid">
 								<div style="padding-left: 10px; padding-right: 10px;">
 									<h3>ヘルプ</h3>
@@ -1690,7 +1714,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xs-9">
+						<div class="col-xs-8">
 							<div class="container-fluid">
 								<div id="helpContents" class="helpimage-container" style="padding-left: 10px; padding-right: 10px;">
 									<div class="bg-info helppanel">
@@ -1727,7 +1751,7 @@
 											<br/>
 											<br/>
 											<a class="helpimage" href="./images/help/help002-001-02.png"><img src="./images/help/help002-001-02.png" width="50%"/></a>
-											<br/>
+											<h6 class="text-danger">※ スマホアプリ版のDiscorddatalist上ではWebhookの管理が行なえません。PC版かブラウザ版のDiscord上で操作して下さい。</h6>
 											<br/>
 											<h5>2. 血盟管理ツールの「設定」に「WEBHOOK URL」の情報を入力して登録しましょう。</h5>
 											<a class="helpimage" href="./images/help/help002-002.png"><img src="./images/help/help002-002.png" width="50%"/></a>
@@ -1915,18 +1939,18 @@
 						if(orientation == 0){
 							$("body").addClass("portrait");
 							$("body").removeClass("landscape");
-							$('.col-xs-4').addClass('col-sm-4').removeClass('col-xs-4');
-							$('.col-xs-8').addClass('col-sm-8').removeClass('col-xs-8');
-							$('.col-xs-3').addClass('col-sm-3').removeClass('col-xs-3');
-							$('.col-xs-9').addClass('col-sm-9').removeClass('col-xs-9');
+							$('.riotcontes .col-xs-4').addClass('col-sm-4').removeClass('col-xs-4');
+							$('.riotcontes .col-xs-8').addClass('col-sm-8').removeClass('col-xs-8');
+							$('.riotcontes .col-xs-3').addClass('col-sm-3').removeClass('col-xs-3');
+							$('.riotcontes .col-xs-9').addClass('col-sm-9').removeClass('col-xs-9');
 						}
 						else{
 							$("body").addClass("landscape");
 							$("body").removeClass("portrait");
-							$('.col-sm-4').addClass('col-xs-4').removeClass('col-sm-4');
-							$('.col-sm-8').addClass('col-xs-8').removeClass('col-sm-8');
-							$('.col-sm-3').addClass('col-xs-3').removeClass('col-sm-3');
-							$('.col-sm-9').addClass('col-xs-9').removeClass('col-sm-9');
+							$('.riotcontes .col-sm-4').addClass('col-xs-4').removeClass('col-sm-4');
+							$('.riotcontes .col-sm-8').addClass('col-xs-8').removeClass('col-sm-8');
+							$('.riotcontes .col-sm-3').addClass('col-xs-3').removeClass('col-sm-3');
+							$('.riotcontes .col-sm-9').addClass('col-xs-9').removeClass('col-sm-9');
 						}
 					}
 				}
