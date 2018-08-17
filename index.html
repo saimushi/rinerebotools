@@ -339,6 +339,7 @@
 					var viewON = '';
 					var thisis;
 					this.on('mount', function() {
+						$("html,body").animate({scrollTop: 0, }, "100");
 						thisis = this;
 						thisis.attckAssistans = attckAssistans;
 						thisis.criticalAssistants = criticalAssistants;
@@ -1540,7 +1541,7 @@
 							<br/>
 						</div>
 						<div class="col-xs-8">
-							<div class="container-fluid" style="margin-top: 15px;">
+							<div class="container-fluid" style="margin-top: -25px;">
 								<users data='{users}' mode='contribution' contributiondata='{contributionUsers}'/>
 							</div>
 							<div if={'on'!=getParams['view']} class="container-fluid">
@@ -1572,6 +1573,7 @@
 					var contributions = {};
 					var thisis;
 					this.on('mount', function() {
+						$("html,body").animate({scrollTop: 0, }, "100");
 						thisis = this;
 						thisis.targetDate = targetDate;
 						sortContribution = function () {
@@ -2012,6 +2014,7 @@
 						$("html,body").animate({scrollTop: $('#helpContents #help' + helpID).offset().top -75 }, "100");
 					};
 					this.on('mount', function() {
+						$("html,body").animate({scrollTop: 0, }, "100");
 						dispatchPortlateLayout();
 						$('.helpimage-container').magnificPopup({
   						delegate: 'a.helpimage',
@@ -2580,7 +2583,7 @@
 							if(snapshot.exists) {
 								var data = snapshot.data();
 								data.ID = snapshot.id;
-								if ('undefined' != typeof data.joind) {
+								if ('undefined' != typeof data.joind && 'string' != typeof data.joind) {
 									data.joind = data.joind.toDate();
 									data.joind = data.joind.toLocaleString();
 									data.joind = data.joind.split(' ')[0];
@@ -2719,7 +2722,7 @@
 							if(snapshot.exists) {
 								var data = snapshot.data();
 								data.ID = snapshot.id;
-								if ('undefined' != typeof data.joind) {
+								if ('undefined' != typeof data.joind && 'string' != typeof data.joind) {
 									data.joind = data.joind.toDate();
 									data.joind = data.joind.toLocaleString();
 									data.joind = data.joind.split(' ')[0];
@@ -2789,9 +2792,10 @@
 							if(snapshot.exists) {
 								var data = snapshot.data();
 								data.ID = snapshot.id;
-								if ('undefined' != typeof data.joind) {
+								if ('undefined' != typeof data.joind && 'string' != typeof data.joind) {
 									data.joind = data.joind.toDate();
 									data.joind = data.joind.toLocaleString();
+									data.joind = data.joind.split(' ')[0];
 								}
 								datas.push(data);
 							}
@@ -2820,9 +2824,10 @@
   					if(snapshot.exists) {
 							var data = snapshot.data();
 							data.ID = snapshot.id;
-							if ('undefined' != typeof data.joind) {
+							if ('undefined' != typeof data.joind && 'string' != typeof data.joind) {
 								data.joind = data.joind.toDate();
 								data.joind = data.joind.toLocaleString();
+								data.joind = data.joind.split(' ')[0];
 							}
 							if ('undefined' != typeof data.name && 0 < data.name.length) {
 								if (callback) {
