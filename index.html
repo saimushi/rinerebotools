@@ -2525,7 +2525,7 @@
 						return;
 					}
 					loading(true);
-					var targettime = Math.round((new Date()).getTime() - (60 * 60 * 24 * 1000));
+					var targettime = Math.round((new Date()).getTime() - (60 * 60 * 12 * 1000));
 					firebase.firestore().collection("schedules").where("clanid", "==", clanID).orderBy("date", "asc").startAt(targettime).get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
