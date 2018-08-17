@@ -668,7 +668,6 @@
 							if ('#modifyuser' == location.hash && 'undefined' != typeof getParams['userid'] && 0 < getParams['userid'].length) {
 								// modifyモード
 								getUser(getParams['userid'], function(user) {
-									console.log(user);
 									this.user = user;
 									$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00", defaultDate: user.joind, });
 									riot.update();
@@ -729,7 +728,6 @@
 							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
 								// modifyモード
 								getSchedule(getParams['scheduleid'], function(schedule) {
-									console.log(schedule);
 									this.schedule = schedule;
 									$('#scheduledate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, defaultDate: schedule.date, });
 									riot.update();
@@ -1124,16 +1122,13 @@
 									if (0 < outuser.length) {
 										thisis.outusers = outuser;
 										thisis.selectusers = inuser;
-										console.log(inuser);
 										var length = outuser.length;
 										for (var oIdx=0; oIdx < length; oIdx++) {
-											console.log(outuser[oIdx]);
 											thisis.selectusers.unshift(outuser[oIdx]);
 										}
 										// XXX バグ対応の暫定処理
 										selectusers_ = thisis.selectusers;
 										thisis.selectusers_ = selectusers_;
-										console.log(thisis.selectusers_);
 									}
 									else {
 										thisis.selectusers_ = thisis.selectusers;
@@ -1273,7 +1268,6 @@
 							scheduleuser.status = next;
 						}
 						scheduleuser[propaty] = next;
-						console.log(scheduleuser);
 						loading(true);
 						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
 							if ('status' == propaty) {
@@ -1583,7 +1577,6 @@
 									var aContribution = 0;
 									var bContribution = 0;
 									if ('undefined' != typeof thisis.contributionUsers[a.ID]) {
-										console.log(thisis.contributionUsers[a.ID]);
 										aContribution = parseInt(thisis.contributionUsers[a.ID].contribution) - (50 * thisis.contributionUsers[a.ID].weekquestcnt);
 									}
 									if ('undefined' != typeof thisis.contributionUsers[b.ID]) {
@@ -1600,7 +1593,6 @@
 									var aContribution = 0;
 									var bContribution = 0;
 									if ('undefined' != typeof thisis.contributionUsers[a.ID]) {
-										console.log(thisis.contributionUsers[a.ID]);
 										aContribution = parseInt(thisis.contributionUsers[a.ID].contribution) - (50 * thisis.contributionUsers[a.ID].weekquestcnt);
 									}
 									if ('undefined' != typeof thisis.contributionUsers[b.ID]) {
@@ -1673,7 +1665,6 @@
 									getUsers(clan.ID, 0, function(users) {
 										thisis.users = users;
 										var contributionLabel = nowStr.replace(/\//g, '') + '-'  + clan.ID;
-										console.log(thisis.contributions);
 										if ('undefined' != typeof thisis.contributions[contributionLabel]) {
 											getContributionUsers(clan.ID, nowStr, function(contributionUsers) {
 												thisis.contributionUsers = contributionUsers;
@@ -1698,13 +1689,14 @@
 						<table class="table table-bordered table-hover table-striped">
 							<thead>
 								<tr class="info">
+									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 28px;">No</th>
 									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 60px;">実貢献度</th>
 									<th if={opts.mode=='schedule'} style="width: 28px; font-size: 5px;"></th>
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 32px;">PT</th>
 									<th if={opts.mode=='schedule'} style="width: 40px; font-size: 10px;">status</th>
 									<th if={opts.mode=='schedule'} style="width: 28px;">VC</th>
 									<th style="width: 100px;">キャラ</th>
-									<th onclick="{sortCP}" style="width: 50px;">戦闘力</th>
+									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 50px;">戦闘力</th>
 									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 30px; font-size: 5px;">Job</th>
 									<th onclick="{sortLevel}" style="width: 34px; font-size: 5px;">Lv</th>
 									<th if={opts.mode!='schedule'} style="width: 28px; font-size: 5px;">メ</th>
@@ -1716,6 +1708,7 @@
 							</thead>
 							<tbody>
 								<tr each="{user, index in opts.data}" class="activity{user.activity}">
+									<td if={opts.mode=='contribution'} onclick="onclickModify(this, '{user.ID}');">{index+1}</td>
 									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');"><b>{(opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)).toLocaleString()}</b></td>
 									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="contribution" contribution="0" onclick="onclickModify(this, '{user.ID}');">未入力</td>
 									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success">◯</td>
@@ -1745,7 +1738,7 @@
 									<td if={opts.mode=='schedule' && user.voice==-1} class="scheduleuservoice bg-success" propaty="-1" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
 									<td if={opts.mode=='schedule' && user.voice!=-1 && user.voice!=2 && user.voice!=1} class="scheduleuservoice" propaty="0" onclick="switchType(this, 'voice');"><i class="fas"></i></td>
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername">{user.name}</td>
-									<td>{user.cp}</td>
+									<td if={opts.mode!='contribution'}>{user.cp}</td>
 
 									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" style="background-color: firebrick;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
 									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" style="background-color: orange;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
@@ -2272,7 +2265,6 @@
 				var registerClan = function (updateID, data, callback) {
 					loading(true);
 					if (updateID != null && 0 < updateID.length) {
-						console.log(data);
 						firebase.firestore().collection("clans").doc(updateID).set(data).then(function(snapshot) {
 							if (callback) {
 								callback(updateID);
@@ -2941,8 +2933,6 @@
 							}
 							if (true == duplicate) {
 								getScheduleByTag(clan.ID, scheduletag, function(datas){
-									console.log(datas);
-									console.log(datas.length);
 									if (1 < datas.length) {
 										var baseSchedule = {incount:0};
 										if ('undefined' != typeof datas[2] && baseSchedule.incount < datas[2].incount) {
