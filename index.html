@@ -87,7 +87,7 @@
 				padding-left: 0;
 				padding-right: 0;
 			}
-			dashboard div.row div.col-xs-8 {
+			dashboard div.row div.col-xs-8, contribution div.row div.col-xs-8 {
 				padding-top: 50px;
 			}
 			div.row div.col-sm-4 {
@@ -172,6 +172,9 @@
 				</route>
 				<route path="addnews">
 					<addnews class="riotcontes"/>
+				</route>
+				<route path="contribution">
+					<contribution class="riotcontes"/>
 				</route>
 				<route path="modifyuser">
 					<adduser class="riotcontes"/>
@@ -280,6 +283,7 @@
 									<a class="btn btn-success" href="#addschedule" style="margin-bottom: 10px;">予定追加</a>
 									<a class="btn btn-info" href="#adduser" style="margin-bottom: 10px;">血盟員追加</a>
 									<a class="btn btn-warning" href="#addnews" style="margin-bottom: 10px;">お知らせ管理</a>
+									<a class="btn btn-primary" href="#contribution" style="margin-bottom: 10px;">週間貢献度集計</a>
 								</div>
 								<table class="table table-bordered table-hover table-striped">
 									<thead>
@@ -991,7 +995,7 @@
 									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: deeppink;">&nbsp;回復&nbsp;{healAssistans}</span>
 									<br style="clear: both;"/>
 								</div>
-								<users data='{scheduleusers}' mode='schedule' criticalAssistants={criticalAssistants} defenseAssistans={defenseAssistans} moveAssistants={moveAssistants} hitAssistants={hitAssistants} healAssistans={healAssistans} />
+								<users data='{scheduleusers}' mode='schedule'/>
 							</div>
 							<div if={schedule.type!=1 && 'on'!=getParams['view']} class="container-fluid">
 								<div style="padding-left: 10px; padding-right: 10px;">
@@ -1476,18 +1480,230 @@
 			</script>
 
 			<script type="riot/tag">
+				<contribution>
+					<div  class="row">
+						<div class="col-xs-4">
+							<div class="container-fluid" style="padding: 10px;">
+								<h3>週間貢献度集計 {targetDate}</h3>
+								<div>
+									<form id="entrycontributionform">
+										<div class="form-group">
+											<select class="form-control" name="contributionuser">
+												<option value="-1">集計対象キャラ</option>
+												<option each="{user, index in users}" value={index} data={user.name}>{user.name}</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<div class="btn-group">
+												<input type="number" name="contribution" class="form-control" placeholder="貢献度数"/>
+												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+											</div>
+										</div>
+										<div class="form-group">
+											<select class="form-control" name="weekquestcnt">
+												<option value="1">週クエ消化数:1</option>
+												<option value="2">週クエ消化数:2</option>
+												<option value="3">週クエ消化数:3</option>
+												<option value="4">週クエ消化数:4</option>
+												<option value="5">週クエ消化数:5</option>
+												<option value="6">週クエ消化数:6</option>
+												<option value="7">週クエ消化数:7</option>
+												<option value="8">週クエ消化数:8</option>
+												<option value="9">週クエ消化数:9</option>
+												<option value="10">週クエ消化数:10</option>
+											</select>
+										</div>
+										<div class="form-group bg-info">
+											<h5>集計日</h5>
+											<div class='input-group date' id='contributiondate'/>
+										</div>
+										<div class="form-group">
+											<botton class="btn btn-success" onclick="{onclickRegisterContribution}">登録</botton>
+										</div>
+									</form>
+								</div>
+								<table class="table table-bordered table-hover table-striped">
+									<thead>
+										<tr class="info">
+											<th>集計日</th>
+											<th style="width: 70px;">&nbsp;</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr each="{contribution, index in contributions}">
+											<td><a href="?clanid={clan.ID}&contributiondate={contribution.date.replace(/\//g, '-')}#contribution">{contribution.date}</a></td>
+											<td><a class="btn btn-danger" href="javascript:void(0)" onclick="onclickUnregisterContribution('{contribution.ID}')">削除</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<br/>
+						</div>
+						<div class="col-xs-8">
+							<div class="container-fluid" style="margin-top: 15px;">
+								<users data='{users}' mode='contribution' contributiondata='{contributionUsers}'/>
+							</div>
+							<div if={'on'!=getParams['view']} class="container-fluid">
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h4>同一タグお知らせ一覧</h4>
+									<table class="table table-bordered table-hover table-striped">
+										<thead>
+											<tr class="info">
+												<th style="width:70px;">アクション</th>
+												<th>お知らせテキスト</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr each="{news, index in newses}">
+												<td class="action"><botton class="btn btn-danger" onclick="onclickInfomation(this);">通知</botton></td>
+												<td class="newstext" style="width: 34px; font-size: 5px;"><pre>{news.text}</pre></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					var contributiondesc = false;
+					var targetDate;
+					var users = [];
+					var newses = [];
+					var contributionUsers = {};
+					var contributions = {};
+					var thisis;
+					this.on('mount', function() {
+						thisis = this;
+						thisis.targetDate = targetDate;
+						sortContribution = function () {
+							if (contributiondesc) {
+								contributiondesc = false;
+								thisis.users.sort(function(a, b){
+									var aContribution = 0;
+									var bContribution = 0;
+									if ('undefined' != typeof thisis.contributionUsers[a.ID]) {
+										console.log(thisis.contributionUsers[a.ID]);
+										aContribution = parseInt(thisis.contributionUsers[a.ID].contribution) - (50 * thisis.contributionUsers[a.ID].weekquestcnt);
+									}
+									if ('undefined' != typeof thisis.contributionUsers[b.ID]) {
+										bContribution = parseInt(thisis.contributionUsers[b.ID].contribution) - (50 * thisis.contributionUsers[b.ID].weekquestcnt);
+									}
+									if( aContribution < bContribution ) return -1;
+									if( aContribution > bContribution ) return 1;
+									return 0;
+								});
+							}
+							else {
+								contributiondesc = true;
+								thisis.users.sort(function(a, b){
+									var aContribution = 0;
+									var bContribution = 0;
+									if ('undefined' != typeof thisis.contributionUsers[a.ID]) {
+										console.log(thisis.contributionUsers[a.ID]);
+										aContribution = parseInt(thisis.contributionUsers[a.ID].contribution) - (50 * thisis.contributionUsers[a.ID].weekquestcnt);
+									}
+									if ('undefined' != typeof thisis.contributionUsers[b.ID]) {
+										bContribution = parseInt(thisis.contributionUsers[b.ID].contribution) - (50 * thisis.contributionUsers[b.ID].weekquestcnt);
+									}
+									if( aContribution > bContribution ) return -1;
+									if( aContribution < bContribution ) return 1;
+									return 0;
+								});
+							}
+						};
+						onclickUnregisterContribution = function (targetID) {
+							unregisterContribution(clan.ID, targetID, function (){
+								alert('削除しました。');
+								location.reload();
+								return;
+							});
+							return;
+						};
+						onclickRegisterContribution = function (target) {
+							var index = $('#entrycontributionform').find('select[name=contributionuser] option:selected').val();
+							if (0 > parseInt(index)) {
+								alert('集計対象キャラを選択して下さい。');
+								return;
+							}
+							var contribution = $('#entrycontributionform').find('input[name=contribution]').val();
+							if (0 >= contribution.length) {
+								alert('貢献度を入力して下さい。');
+								return;
+							}
+							contribution = parseInt(contribution);
+							var weekquestcnt = parseInt($('#entrycontributionform').find('select[name=weekquestcnt] option:selected').val());
+							var contributionUser = this.users[index];
+							var contributiondate = $('#entrycontributionform').find('#contributiondate').data().date;
+							contributionUser.contribution = contribution;
+							contributionUser.weekquestcnt = weekquestcnt;
+							contributionUser.contributiondate = new Date(contributiondate);
+							registerContribution(clan.ID, contributiondate, contributionUser, function (){
+								alert('登録しました。');
+								location.reload();
+								return;
+							});
+							return;
+						};
+						var now = new Date();
+						nowStr = now.toLocaleString();
+						if ('undefined' != typeof getParams['contributiondate'] && 0 < getParams['contributiondate'].length) {
+							contributiondate = getParams['contributiondate'];
+							nowStr = contributiondate.replace(/-/g, '/') + ' 00:00:00';
+							var now = new Date(nowStr);
+						}
+						var month = '' + (now.getMonth() + 1);
+						var day = '' + now.getDate();
+						if (1 === month.length) {
+							nowStr = nowStr.replace('/' + month + '/', '/0' + month + '/');
+						}
+						if (1 === day.length) {
+							nowStr = nowStr.replace('/' + day + ' ', '/0' + day + ' ');
+						}
+						nowStr = nowStr.split(' ')[0];
+						thisis.targetDate = nowStr;
+						// 認証
+						auth(false, function (clan) {
+							getContributions(clan.ID, function(contributions) {
+								thisis.contributions = contributions;
+								thisis.contributionUsers = contributionUsers;
+								$('#contributiondate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00", defaultDate: nowStr + ' 00:00:00'});
+								getNews(clan.ID, '週間貢献度集計', function (newses) {
+									thisis.newses = newses;
+									getUsers(clan.ID, 0, function(users) {
+										thisis.users = users;
+										var contributionLabel = nowStr.replace(/\//g, '') + '-'  + clan.ID;
+										console.log(thisis.contributions);
+										if ('undefined' != typeof thisis.contributions[contributionLabel]) {
+											getContributionUsers(clan.ID, nowStr, function(contributionUsers) {
+												thisis.contributionUsers = contributionUsers;
+												sortContribution();
+												riot.update();
+											});
+											return;
+										}
+										riot.update();
+									});
+								});
+							});
+						});
+						dispatchPortlateLayout();
+					});
+				</contribution>
+			</script>
+
+			<script type="riot/tag">
 				<users>
 					<div style="padding-left: 10px; padding-right: 10px;">
 						<table class="table table-bordered table-hover table-striped">
 							<thead>
 								<tr class="info">
+									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 60px;">実貢献度</th>
 									<th if={opts.mode=='schedule'} style="width: 28px; font-size: 5px;"></th>
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 32px;">PT</th>
 									<th if={opts.mode=='schedule'} style="width: 40px; font-size: 10px;">status</th>
 									<th if={opts.mode=='schedule'} style="width: 28px;">VC</th>
 									<th style="width: 100px;">キャラ</th>
 									<th onclick="{sortCP}" style="width: 50px;">戦闘力</th>
-									<th onclick="{sortJob}" style="width: 30px; font-size: 5px;">Job</th>
+									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 30px; font-size: 5px;">Job</th>
 									<th onclick="{sortLevel}" style="width: 34px; font-size: 5px;">Lv</th>
 									<th if={opts.mode!='schedule'} style="width: 28px; font-size: 5px;">メ</th>
 									<th if={opts.mode!='schedule'}>メモ</th>
@@ -1498,6 +1714,8 @@
 							</thead>
 							<tbody>
 								<tr each="{user, index in opts.data}" class="activity{user.activity}">
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');"><b>{(opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)).toLocaleString()}</b></td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="contribution" contribution="0" onclick="onclickModify(this, '{user.ID}');">未入力</td>
 									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger">✕</td>
@@ -1524,16 +1742,16 @@
 									<td if={opts.mode=='schedule' && user.voice==2} class="scheduleuservoice bg-success" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
 									<td if={opts.mode=='schedule' && user.voice==-1} class="scheduleuservoice bg-success" propaty="-1" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
 									<td if={opts.mode=='schedule' && user.voice!=-1 && user.voice!=2 && user.voice!=1} class="scheduleuservoice" propaty="0" onclick="switchType(this, 'voice');"><i class="fas"></i></td>
-									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername">{user.name}</td>
+									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername">{user.name}</td>
 									<td>{user.cp}</td>
 
-									<td if={jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" style="background-color: firebrick;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" style="background-color: orange;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" style="background-color: blue;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" style="background-color: green;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" style="background-color: dodgerblue;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" style="background-color: deeppink;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;">{puser.job}</td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" style="background-color: firebrick;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" style="background-color: orange;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" style="background-color: blue;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" style="background-color: green;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" style="background-color: dodgerblue;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" style="background-color: deeppink;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;">{puser.job}</td>
 
 									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
 									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
@@ -1855,10 +2073,12 @@
 					timestampsInSnapshots: true,
 				};
 				firebase.initializeApp(config);
+				firebase.firestore().settings({timestampsInSnapshots: true,});
 			</script>
 
 			<!-- this app -->
 			<script>
+				var totalcp = 0;
 				var publicURL = 'line2revo.fun';
 				var getParams = {};
 				var loadingCount = 0;
@@ -2078,6 +2298,78 @@
 						});
 					}
 				};
+				var unregisterContribution = function (clanID, targetID, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					firebase.firestore().collection("contributions").doc(targetID).delete().then(function() {
+						if (callback) {
+							callback();
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('貢献度集計削除エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				}
+				var registerContribution = function (clanID, date, data, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					var dateLabel = date;
+					if (-1 < dateLabel.indexOf('/')) {
+						dateLabel = dateLabel.replace(/\//g, '');
+					}
+					if (-1 < dateLabel.indexOf(' ')) {
+						dateLabel = dateLabel.split(' ')[0];
+					}
+					dateLabel = dateLabel + '-' + clanID;
+					data.contributionID = dateLabel;
+					data.clanid = clanID;
+					loading(true);
+					var registerContributionUser = function (_dateLabel, _data, _callback) {
+						firebase.firestore().collection("contributions").doc(_dateLabel).collection("users").doc(_data.ID).set(_data).then(function(snapshot) {
+							if (_callback) {
+								callback();
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('貢献登録エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					};
+					firebase.firestore().collection("contributions").doc(dateLabel).get().then(function(snapshot){
+  					if(snapshot.exists) {
+							// データがもうある場合
+							registerContributionUser(dateLabel, data, callback);
+							return;
+						}
+						else {
+							// データがまだない場合
+							firebase.firestore().collection("contributions").doc(dateLabel).set({ID:dateLabel, clanid:clanID, date: new Date(date), }).then(function(snapshot) {
+								registerContributionUser(dateLabel, data, callback);
+								return;
+							}).catch(function(error) {
+								alert('貢献度集計日登録エラーが発生した為、処理を中断します。');
+								console.error("Error writing document: ", error);
+								// ログイン出来ていないのでログイン画面へ戻す
+								loading(false);
+							});
+						}
+					}).catch(function(error) {
+						alert('貢献度集計日参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
 				var registerNews = function (clanID, data, callback) {
 					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
 						return;
@@ -2238,10 +2530,10 @@
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
-								console.log(snapshot);
 								var data = snapshot.data();
 								data.ID = snapshot.id;
 								if ('undefined' != typeof data.date) {
+									data.date = data.date.toDate();
 									if (targettime > data.date.getTime()){
 										return;
 									}
@@ -2270,9 +2562,14 @@
 					}
 					loading(true);
 					var collection = firebase.firestore().collection("users").where("clanid", "==", clanID);
-					if (selectable) {
+					if (false !== selectable) {
 						// XXX >,>=,<,=<とorderはどうも一緒には出来ない模様・・・
-						collection = collection.where("activity", ">", -9);
+						if (true === selectable) {
+							collection = collection.where("activity", ">", -9);
+						}
+						else {
+							collection = collection.where("activity", ">=", parseInt(selectable)).orderBy("activity", "desc");
+						}
 					}
 					else {
 						collection = collection.orderBy("activity", "desc").orderBy("joind", "asc");
@@ -2281,14 +2578,87 @@
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
-								console.log(snapshot);
 								var data = snapshot.data();
 								data.ID = snapshot.id;
 								if ('undefined' != typeof data.joind) {
+									data.joind = data.joind.toDate();
 									data.joind = data.joind.toLocaleString();
 									data.joind = data.joind.split(' ')[0];
 								}
 								datas.push(data);
+							}
+						});
+						if ('undefined' != typeof datas) {
+							if (callback) {
+								callback(datas);
+							}
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('一覧参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
+				var getContributions = function (clanID, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					var targettime = Math.round((new Date()).getTime() - (60 * 60 * 24 * 8 * 1000));
+					firebase.firestore().collection("contributions").where("clanid", "==", clanID).orderBy("date", "desc").get().then(function(querySnapshot) {
+						var datas = {};
+						querySnapshot.forEach(function(snapshot) {
+							if(snapshot.exists) {
+								var data = snapshot.data();
+								data.ID = snapshot.id;
+								if ('undefined' != typeof data.date) {
+									data.date = data.date.toDate();
+									if (targettime > data.date.getTime()){
+										return;
+									}
+									data.date = data.date.toLocaleString();
+									data.date = data.date.split(' ')[0];
+								}
+								datas[data.ID] = data;
+							}
+						});
+						if ('undefined' != typeof datas) {
+							if (callback) {
+								callback(datas);
+							}
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('一覧参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
+				var getContributionUsers = function (clanID, date, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					var dateLabel = date;
+					if (-1 < dateLabel.indexOf('/')) {
+						dateLabel = dateLabel.replace(/\//g, '');
+					}
+					if (-1 < dateLabel.indexOf(' ')) {
+						dateLabel = dateLabel.split(' ')[0];
+					}
+					dateLabel = dateLabel + '-' + clanID;
+					loading(true);
+					var collection = firebase.firestore().collection("contributions").doc(dateLabel).collection("users").get().then(function(querySnapshot) {
+						var datas = {};
+						querySnapshot.forEach(function(snapshot) {
+							if(snapshot.exists) {
+								var data = snapshot.data();
+								data.ID = snapshot.id;
+								datas[data.ID] = data;
 							}
 						});
 						if ('undefined' != typeof datas) {
@@ -2318,7 +2688,6 @@
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
-								console.log(snapshot);
 								var data = snapshot.data();
 								data.ID = snapshot.id;
 								datas.push(data);
@@ -2348,10 +2717,10 @@
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
-								console.log(snapshot);
 								var data = snapshot.data();
 								data.ID = snapshot.id;
 								if ('undefined' != typeof data.joind) {
+									data.joind = data.joind.toDate();
 									data.joind = data.joind.toLocaleString();
 									data.joind = data.joind.split(' ')[0];
 								}
@@ -2383,6 +2752,7 @@
 							var data = snapshot.data();
 							data.ID = snapshot.id;
 							if ('undefined' != typeof data.date) {
+								data.date = data.date.toDate();
 								data.date = data.date.toLocaleString();
 							}
 							if ('undefined' != typeof data.name && 0 < data.name.length) {
@@ -2419,6 +2789,10 @@
 							if(snapshot.exists) {
 								var data = snapshot.data();
 								data.ID = snapshot.id;
+								if ('undefined' != typeof data.joind) {
+									data.joind = data.joind.toDate();
+									data.joind = data.joind.toLocaleString();
+								}
 								datas.push(data);
 							}
 						});
@@ -2447,6 +2821,7 @@
 							var data = snapshot.data();
 							data.ID = snapshot.id;
 							if ('undefined' != typeof data.joind) {
+								data.joind = data.joind.toDate();
 								data.joind = data.joind.toLocaleString();
 							}
 							if ('undefined' != typeof data.name && 0 < data.name.length) {
@@ -2665,6 +3040,15 @@
 						$("html,body").animate({scrollTop: 0}, "100");
 						return;
 					}
+					else if ('#contribution' == location.hash) {
+						var contributionusername = $(target).parent().find('.contributionusername').text();
+						var contribution = $(target).parent().find('.contribution').attr('contribution');
+						var contributionuserindex = $('#entrycontributionform').find('select[name=contributionuser] option[data="' + contributionusername + '"]').val();
+						$('#entrycontributionform').find('select[name=contributionuser]').val(contributionuserindex);
+						$('#entrycontributionform').find('input[name=contribution]').val(contribution);
+						$("html,body").animate({scrollTop: 0}, "100");
+						return;
+					}
 					else if ('#detailschedule' == location.hash) {
 						var scheduleusername = $(target).parent().find('.scheduleusername').text();
 						var schedulecomment = $(target).parent().find('.schedulecomment').text();
@@ -2688,6 +3072,12 @@
 				};
 				var onclickInfomation = function (target) {
 					var message = $(target).parent().parent().find('.newstext').text();
+					if (-1 < message.indexOf('***date***')) {
+						var targetDate = $(target).parent().parent().parent().parent().parent().parent().parent().parent().find('form .input-group.date').data().date;
+						if ('undefined' != typeof targetDate) {
+							message = message.replace('***date***', targetDate);
+						}
+					}
 					if (-1 < message.indexOf('***url***')) {
 						message = message.replace('***url***', location.href);
 					}
