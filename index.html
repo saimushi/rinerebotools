@@ -269,6 +269,7 @@
 							<div class="container-fluid" style="padding: 10px;">
 								<h2 style="margin-top: 5px;"><a href="{clanurl}">{clanname}</a></h2>
 								<h4>アクティブ血盟員数: {usercnt}</h4>
+								<h5>LRT選考基準CP: {prelrtcp.toLocaleString()}</h5>
 								<h5>総アクティブCP: {totalcp.toLocaleString()}</h5>
 								<small>
 									<b style="font-size: x-small;">{url}</b>
@@ -333,6 +334,7 @@
 					var clanurl = 'javascript: void(0); return false;';
 					var usercnt = 0;
 					var totalcp = 0;
+					var prelrtcp = 0;
 					var users = [];
 					var schedules = [];
 					var cpSort = false;
@@ -360,10 +362,14 @@
 									this.users = users;
 									this.usercnt = usercnt;
 									this.totalcp = totalcp;
+									this.prelrtcp = prelrtcp;
 									for (var uidx=0; uidx < users.length; uidx++) {
 										if (users[uidx].activity > 0) {
-											this.usercnt++;
 											this.totalcp += users[uidx].cp;
+											if (30 > this.usercnt) {
+												this.prelrtcp += users[uidx].cp;
+											}
+											this.usercnt++;
 											// 種別振り分けは一度すれば十分
 											if (jobbufs[users[uidx].job]=='攻撃') {
 												thisis.attckAssistans++;
@@ -385,7 +391,6 @@
 											}
 										}
 									}
-									//this.totalcp = this.totalcp
 									riot.update();
 									getSchedules(clan.ID, function(schedules) {
 										this.schedules = schedules;
@@ -1480,7 +1485,7 @@
 						<div class="col-xs-4">
 							<div class="container-fluid" style="padding: 10px;">
 								<h3>週間貢献度集計 {targetDate}</h3>
-								<div>
+								<div if={'on'!= getParams['view']}>
 									<form id="entrycontributionform">
 										<div class="form-group">
 											<select class="form-control" name="contributionuser">
@@ -1522,13 +1527,14 @@
 									<thead>
 										<tr class="info">
 											<th>集計日</th>
-											<th style="width: 70px;">&nbsp;</th>
+											<th if={'on'!= getParams['view']} style="width: 70px;">&nbsp;</th>
 										</tr>
 									</thead>
 									<tbody>
 										<tr each="{contribution, index in contributions}">
-											<td><a href="?clanid={clan.ID}&contributiondate={contribution.date.replace(/\//g, '-')}#contribution">{contribution.date}</a></td>
-											<td><a class="btn btn-danger" href="javascript:void(0)" onclick="onclickUnregisterContribution('{contribution.ID}')">削除</a></td>
+											<td if={'on'== getParams['view']}><a href="?clanid={clan.ID}&contributiondate={contribution.date.replace(/\//g, '-')}&view=on#contribution">{contribution.date}</a></td>
+											<td if={'on'!= getParams['view']}><a href="?clanid={clan.ID}&contributiondate={contribution.date.replace(/\//g, '-')}#contribution">{contribution.date}</a></td>
+											<td if={'on'!= getParams['view']}><a class="btn btn-danger" href="javascript:void(0)" onclick="onclickUnregisterContribution('{contribution.ID}')">削除</a></td>
 										</tr>
 									</tbody>
 								</table>
@@ -2076,6 +2082,7 @@
 			<!-- this app -->
 			<script>
 				var totalcp = 0;
+				var prelrtcp = 0;
 				var publicURL = 'line2revo.fun';
 				var getParams = {};
 				var loadingCount = 0;
@@ -2568,7 +2575,7 @@
 						}
 					}
 					else {
-						collection = collection.orderBy("activity", "desc").orderBy("joind", "asc");
+						collection = collection.orderBy("activity", "desc").orderBy("cp", "desc").orderBy("joind", "asc");
 					}
 					collection.get().then(function(querySnapshot) {
 						var datas = [];
@@ -3075,10 +3082,26 @@
 						}
 					}
 					if (-1 < message.indexOf('***url***')) {
-						message = message.replace('***url***', location.href);
+						if ('#contribution' == location.hash && false === ('undefined' != typeof getParams['contributiondate'] && 0 < getParams['contributiondate'].length)) {
+							var targetDate = $(target).parent().parent().parent().parent().parent().parent().parent().parent().find('form .input-group.date').data().date;
+							targetDate = targetDate.replace(/\//g, '-');
+							targetDate = targetDate.split(' ')[0];
+							message = message.replace('***url***', location.href.replace('#contribution', '&contributiondate=' + targetDate + '#contribution'));
+						}
+						else {
+							message = message.replace('***url***', location.href);
+						}
 					}
 					if (-1 < message.indexOf('***urlview***')) {
-						message = message.replace('***urlview***', location.href.replace('#detailschedule', '&view=on#detailschedule'));
+						if ('#contribution' == location.hash && false === ('undefined' != typeof getParams['contributiondate'] && 0 < getParams['contributiondate'].length)) {
+							var targetDate = $(target).parent().parent().parent().parent().parent().parent().parent().parent().find('form .input-group.date').data().date;
+							targetDate = targetDate.replace(/\//g, '-');
+							targetDate = targetDate.split(' ')[0];
+							message = message.replace('***urlview***', location.href.replace('#contribution', '&contributiondate=' + targetDate + '&view=on#contribution'));
+						}
+						else {
+							message = message.replace('***urlview***', location.href.replace('#detailschedule', '&view=on#detailschedule'));
+						}
 					}
 					if (-1 < message.indexOf('***pt***')) {
 						message = message.replace('***pt***', location.href.replace('#detailschedule', '#party'));
