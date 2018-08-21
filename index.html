@@ -236,14 +236,15 @@
 									<span class="icon-bar"></span>
 									<span class="icon-bar"></span>
 								</button>
-								<a class="navbar-brand" href="#" style="padding: 0;"><img src="./images/titlelogo.png" border="0" height="50" alt="L2R Tool"/></a>
+								<a if={null == getParams['clanid']} class="navbar-brand" href="./" style="padding: 0;"><img src="./images/titlelogo.png" border="0" height="60" alt="L2R Tool"/></a>
+								<a if={null != getParams['clanid']} class="navbar-brand" href="?clanid={clan.ID}" style="padding: 0;"><img src="./images/titlelogo.png" border="0" height="60" alt="L2R Tool"/></a>
 							</div>
 							<div class="collapse navbar-collapse">
 								<ul class="nav navbar-nav">
-									<li if={'#login' != location.hash}><a href="#dashboard">血盟ページ</a></li>
-									<li if={'#login' != location.hash}><a href="{clan.url}">血盟コミュ</a></li>
-									<li if={'#login' != location.hash && 'on'!=getParams['view']}><a href="#setting">設定</a></li>
-									<li if={'#login' != location.hash && 'on'!=getParams['view']}><a href="./">ログアウト</a></li>
+									<li if={'#login' != location.hash && '' != location.hash}><a href="#dashboard">血盟ページ</a></li>
+									<li if={'#login' != location.hash && '' != location.hash}><a href="{clan.url}">血盟コミュ</a></li>
+									<li if={'#login' != location.hash && '' != location.hash && 'on'!=getParams['view']}><a href="#setting">設定</a></li>
+									<li if={'#login' != location.hash && '' != location.hash && 'on'!=getParams['view']}><a href="./">ログアウト</a></li>
 									<li><a href="#howto">ヘルプ</a></li>
 									<li><a href="#inquiry">お問い合わせ</a></li>
 								</ul>
@@ -621,6 +622,187 @@
 								</div>
 							</div>
 							<div class="form-group">
+								<select class="form-control" name="useracce1">
+									<option>装飾品</option>
+									<optgroup label="エルヴン">
+										<option if={user.acce1==79} value="79" selected="selected">エルヴン 平均特性10</option>
+										<option if={user.acce1==78} value="78" selected="selected">エルヴン 平均特性9</option>
+										<option if={user.acce1==77} value="77" selected="selected">エルヴン 平均特性8</option>
+										<option if={user.acce1==76} value="76" selected="selected">エルヴン 平均特性7</option>
+										<option if={user.acce1==75} value="75" selected="selected">エルヴン 平均特性6</option>
+										<option if={user.acce1==74} value="74" selected="selected">エルヴン 平均特性5</option>
+										<option if={user.acce1==73} value="73" selected="selected">エルヴン 平均特性4</option>
+										<option if={user.acce1==72} value="72" selected="selected">エルヴン 平均特性3</option>
+										<option if={user.acce1==71} value="71" selected="selected">エルヴン 平均特性2</option>
+										<option if={user.acce1==70} value="70" selected="selected">エルヴン 平均特性1</option>
+										<option if={user.acce1!=79} value="79">エルヴン 平均特性10</option>
+										<option if={user.acce1!=78} value="78">エルヴン 平均特性9</option>
+										<option if={user.acce1!=77} value="77">エルヴン 平均特性8</option>
+										<option if={user.acce1!=76} value="76">エルヴン 平均特性7</option>
+										<option if={user.acce1!=75} value="75">エルヴン 平均特性6</option>
+										<option if={user.acce1!=74} value="74">エルヴン 平均特性5</option>
+										<option if={user.acce1!=73} value="73">エルヴン 平均特性4</option>
+										<option if={user.acce1!=72} value="72">エルヴン 平均特性3</option>
+										<option if={user.acce1!=71} value="71">エルヴン 平均特性2</option>
+										<option if={user.acce1!=70} value="70">エルヴン 平均特性1</option>
+									</optgroup>
+									<optgroup label="ナッセン">
+										<option if={user.acce1==59} value="59" selected="selected">ナッセン 平均特性10</option>
+										<option if={user.acce1==58} value="58" selected="selected">ナッセン 平均特性9</option>
+										<option if={user.acce1==57} value="57" selected="selected">ナッセン 平均特性8</option>
+										<option if={user.acce1==56} value="56" selected="selected">ナッセン 平均特性7</option>
+										<option if={user.acce1==55} value="55" selected="selected">ナッセン 平均特性6</option>
+										<option if={user.acce1==54} value="54" selected="selected">ナッセン 平均特性5</option>
+										<option if={user.acce1==53} value="53" selected="selected">ナッセン 平均特性4</option>
+										<option if={user.acce1==52} value="52" selected="selected">ナッセン 平均特性3</option>
+										<option if={user.acce1==51} value="51" selected="selected">ナッセン 平均特性2</option>
+										<option if={user.acce1==50} value="50" selected="selected">ナッセン 平均特性1</option>
+										<option if={user.acce1!=59} value="59">ナッセン 平均特性10</option>
+										<option if={user.acce1!=58} value="58">ナッセン 平均特性9</option>
+										<option if={user.acce1!=57} value="57">ナッセン 平均特性8</option>
+										<option if={user.acce1!=56} value="56">ナッセン 平均特性7</option>
+										<option if={user.acce1!=55} value="55">ナッセン 平均特性6</option>
+										<option if={user.acce1!=54} value="54">ナッセン 平均特性5</option>
+										<option if={user.acce1!=53} value="53">ナッセン 平均特性4</option>
+										<option if={user.acce1!=52} value="52">ナッセン 平均特性3</option>
+										<option if={user.acce1!=51} value="51">ナッセン 平均特性2</option>
+										<option if={user.acce1!=50} value="50">ナッセン 平均特性1</option>
+									</optgroup>
+									<optgroup label="カラ">
+										<option if={user.acce1==69} value="69" selected="selected">カラ 平均特性10</option>
+										<option if={user.acce1==68} value="68" selected="selected">カラ 平均特性9</option>
+										<option if={user.acce1==67} value="67" selected="selected">カラ 平均特性8</option>
+										<option if={user.acce1==66} value="66" selected="selected">カラ 平均特性7</option>
+										<option if={user.acce1==65} value="65" selected="selected">カラ 平均特性6</option>
+										<option if={user.acce1==64} value="64" selected="selected">カラ 平均特性5</option>
+										<option if={user.acce1==63} value="63" selected="selected">カラ 平均特性4</option>
+										<option if={user.acce1==62} value="62" selected="selected">カラ 平均特性3</option>
+										<option if={user.acce1==61} value="61" selected="selected">カラ 平均特性2</option>
+										<option if={user.acce1==60} value="69" selected="selected">カラ 平均特性1</option>
+										<option if={user.acce1!=69} value="69">カラ 平均特性10</option>
+										<option if={user.acce1!=68} value="68">カラ 平均特性9</option>
+										<option if={user.acce1!=67} value="67">カラ 平均特性8</option>
+										<option if={user.acce1!=66} value="66">カラ 平均特性7</option>
+										<option if={user.acce1!=65} value="65">カラ 平均特性6</option>
+										<option if={user.acce1!=64} value="64">カラ 平均特性5</option>
+										<option if={user.acce1!=63} value="63">カラ 平均特性4</option>
+										<option if={user.acce1!=62} value="62">カラ 平均特性3</option>
+										<option if={user.acce1!=61} value="61">カラ 平均特性2</option>
+										<option if={user.acce1!=60} value="60">カラ 平均特性1</option>
+									</optgroup>
+									<optgroup label="ブラックオール">
+										<option if={user.acce1==39} value="39" selected="selected">ブラックオール 平均特性10</option>
+										<option if={user.acce1==38} value="38" selected="selected">ブラックオール 平均特性9</option>
+										<option if={user.acce1==37} value="37" selected="selected">ブラックオール 平均特性8</option>
+										<option if={user.acce1==36} value="36" selected="selected">ブラックオール 平均特性7</option>
+										<option if={user.acce1==35} value="35" selected="selected">ブラックオール 平均特性6</option>
+										<option if={user.acce1==34} value="34" selected="selected">ブラックオール 平均特性5</option>
+										<option if={user.acce1==33} value="33" selected="selected">ブラックオール 平均特性4</option>
+										<option if={user.acce1==32} value="32" selected="selected">ブラックオール 平均特性3</option>
+										<option if={user.acce1==31} value="31" selected="selected">ブラックオール 平均特性2</option>
+										<option if={user.acce1==30} value="30" selected="selected">ブラックオール 平均特性1</option>
+										<option if={user.acce1!=39} value="39">ブラックオール 平均特性10</option>
+										<option if={user.acce1!=38} value="38">ブラックオール 平均特性9</option>
+										<option if={user.acce1!=37} value="37">ブラックオール 平均特性8</option>
+										<option if={user.acce1!=36} value="36">ブラックオール 平均特性7</option>
+										<option if={user.acce1!=35} value="35">ブラックオール 平均特性6</option>
+										<option if={user.acce1!=34} value="34">ブラックオール 平均特性5</option>
+										<option if={user.acce1!=33} value="33">ブラックオール 平均特性4</option>
+										<option if={user.acce1!=32} value="32">ブラックオール 平均特性3</option>
+										<option if={user.acce1!=31} value="31">ブラックオール 平均特性2</option>
+										<option if={user.acce1!=30} value="30">ブラックオール 平均特性1</option>
+									</optgroup>
+									<optgroup label="魔女">
+										<option if={user.acce1==89} value="89" selected="selected">魔女 平均特性10</option>
+										<option if={user.acce1==88} value="88" selected="selected">魔女 平均特性9</option>
+										<option if={user.acce1==87} value="87" selected="selected">魔女 平均特性8</option>
+										<option if={user.acce1==86} value="86" selected="selected">魔女 平均特性7</option>
+										<option if={user.acce1==85} value="85" selected="selected">魔女 平均特性6</option>
+										<option if={user.acce1==84} value="84" selected="selected">魔女 平均特性5</option>
+										<option if={user.acce1==83} value="83" selected="selected">魔女 平均特性4</option>
+										<option if={user.acce1==82} value="82" selected="selected">魔女 平均特性3</option>
+										<option if={user.acce1==81} value="81" selected="selected">魔女 平均特性2</option>
+										<option if={user.acce1==80} value="80" selected="selected">魔女 平均特性1</option>
+										<option if={user.acce1!=89} value="89">魔女 平均特性10</option>
+										<option if={user.acce1!=88} value="88">魔女 平均特性9</option>
+										<option if={user.acce1!=87} value="87">魔女 平均特性8</option>
+										<option if={user.acce1!=86} value="86">魔女 平均特性7</option>
+										<option if={user.acce1!=85} value="85">魔女 平均特性6</option>
+										<option if={user.acce1!=84} value="84">魔女 平均特性5</option>
+										<option if={user.acce1!=83} value="83">魔女 平均特性4</option>
+										<option if={user.acce1!=82} value="82">魔女 平均特性3</option>
+										<option if={user.acce1!=81} value="81">魔女 平均特性2</option>
+										<option if={user.acce1!=80} value="80">魔女 平均特性1</option>
+									</optgroup>
+									<optgroup label="アルボール">
+										<option if={user.acce1==29} value="29" selected="selected">アルボール 平均特性10</option>
+										<option if={user.acce1==28} value="28" selected="selected">アルボール 平均特性9</option>
+										<option if={user.acce1==27} value="27" selected="selected">アルボール 平均特性8</option>
+										<option if={user.acce1==26} value="26" selected="selected">アルボール 平均特性7</option>
+										<option if={user.acce1==25} value="25" selected="selected">アルボール 平均特性6</option>
+										<option if={user.acce1==24} value="24" selected="selected">アルボール 平均特性5</option>
+										<option if={user.acce1==23} value="23" selected="selected">アルボール 平均特性4</option>
+										<option if={user.acce1==22} value="22" selected="selected">アルボール 平均特性3</option>
+										<option if={user.acce1==21} value="21" selected="selected">アルボール 平均特性2</option>
+										<option if={user.acce1==20} value="20" selected="selected">アルボール 平均特性1</option>
+										<option if={user.acce1!=29} value="29">アルボール 平均特性10</option>
+										<option if={user.acce1!=28} value="28">アルボール 平均特性9</option>
+										<option if={user.acce1!=27} value="27">アルボール 平均特性8</option>
+										<option if={user.acce1!=26} value="26">アルボール 平均特性7</option>
+										<option if={user.acce1!=25} value="25">アルボール 平均特性6</option>
+										<option if={user.acce1!=24} value="24">アルボール 平均特性5</option>
+										<option if={user.acce1!=23} value="23">アルボール 平均特性4</option>
+										<option if={user.acce1!=22} value="22">アルボール 平均特性3</option>
+										<option if={user.acce1!=21} value="21">アルボール 平均特性2</option>
+										<option if={user.acce1!=20} value="20">アルボール 平均特性1</option>
+									</optgroup>
+									<optgroup label="フェニックス">
+										<option if={user.acce1==19} value="19" selected="selected">フェニックス 平均特性10</option>
+										<option if={user.acce1==18} value="18" selected="selected">フェニックス 平均特性9</option>
+										<option if={user.acce1==17} value="17" selected="selected">フェニックス 平均特性8</option>
+										<option if={user.acce1==16} value="16" selected="selected">フェニックス 平均特性7</option>
+										<option if={user.acce1==15} value="15" selected="selected">フェニックス 平均特性6</option>
+										<option if={user.acce1==14} value="14" selected="selected">フェニックス 平均特性5</option>
+										<option if={user.acce1==13} value="13" selected="selected">フェニックス 平均特性4</option>
+										<option if={user.acce1==12} value="12" selected="selected">フェニックス 平均特性3</option>
+										<option if={user.acce1==11} value="11" selected="selected">フェニックス 平均特性2</option>
+										<option if={user.acce1==10} value="10" selected="selected">フェニックス 平均特性1</option>
+										<option if={user.acce1!=19} value="19">フェニックス 平均特性10</option>
+										<option if={user.acce1!=18} value="18">フェニックス 平均特性9</option>
+										<option if={user.acce1!=17} value="17">フェニックス 平均特性8</option>
+										<option if={user.acce1!=16} value="16">フェニックス 平均特性7</option>
+										<option if={user.acce1!=15} value="15">フェニックス 平均特性6</option>
+										<option if={user.acce1!=14} value="14">フェニックス 平均特性5</option>
+										<option if={user.acce1!=13} value="13">フェニックス 平均特性4</option>
+										<option if={user.acce1!=12} value="12">フェニックス 平均特性3</option>
+										<option if={user.acce1!=11} value="11">フェニックス 平均特性2</option>
+										<option if={user.acce1!=10} value="10">フェニックス 平均特性1</option>
+									</optgroup>
+									<optgroup label="ムーンストーン">
+										<option if={user.acce1==49} value="49" selected="selected">ムーンストーン 平均特性10</option>
+										<option if={user.acce1==48} value="48" selected="selected">ムーンストーン 平均特性9</option>
+										<option if={user.acce1==47} value="47" selected="selected">ムーンストーン 平均特性8</option>
+										<option if={user.acce1==46} value="46" selected="selected">ムーンストーン 平均特性7</option>
+										<option if={user.acce1==45} value="45" selected="selected">ムーンストーン 平均特性6</option>
+										<option if={user.acce1==44} value="44" selected="selected">ムーンストーン 平均特性5</option>
+										<option if={user.acce1==43} value="43" selected="selected">ムーンストーン 平均特性4</option>
+										<option if={user.acce1==42} value="42" selected="selected">ムーンストーン 平均特性3</option>
+										<option if={user.acce1==41} value="41" selected="selected">ムーンストーン 平均特性2</option>
+										<option if={user.acce1==40} value="40" selected="selected">ムーンストーン 平均特性1</option>
+										<option if={user.acce1!=49} value="49">ムーンストーン 平均特性10</option>
+										<option if={user.acce1!=48} value="48">ムーンストーン 平均特性9</option>
+										<option if={user.acce1!=47} value="47">ムーンストーン 平均特性8</option>
+										<option if={user.acce1!=46} value="46">ムーンストーン 平均特性7</option>
+										<option if={user.acce1!=45} value="45">ムーンストーン 平均特性6</option>
+										<option if={user.acce1!=44} value="44">ムーンストーン 平均特性5</option>
+										<option if={user.acce1!=43} value="43">ムーンストーン 平均特性4</option>
+										<option if={user.acce1!=42} value="42">ムーンストーン 平均特性3</option>
+										<option if={user.acce1!=41} value="41">ムーンストーン 平均特性2</option>
+										<option if={user.acce1!=40} value="40">ムーンストーン 平均特性1</option>
+									</optgroup>
+								</select>
+							</div>
+							<div class="form-group">
 								<select class="form-control" name="usermeteo">
 									<option>メテオ</option>
 									<option if={user.meteo==10} selected="selected">10</option>
@@ -666,7 +848,7 @@
 							<botton if={user.ID!='' && 'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
-					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, memo: '', activity: 9, joind: '',};
+					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, acce1: 0, memo: '', activity: 9, joind: '',};
 					this.on('mount', function() {
 						//$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00",});
 						auth(false, function (clan) {
@@ -1711,15 +1893,16 @@
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 32px;">PT</th>
 									<th if={opts.mode=='schedule'} style="width: 40px; font-size: 10px;">status</th>
 									<th if={opts.mode=='schedule'} style="width: 28px;">VC</th>
-									<th style="width: 100px;">キャラ</th>
+									<th style="width: 95px;">キャラ</th>
 									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 50px;">戦闘力</th>
 									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 30px; font-size: 5px;">Job</th>
+									<th if={opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 30px;">飾</th>
 									<th onclick="{sortLevel}" style="width: 34px; font-size: 5px;">Lv</th>
 									<th if={opts.mode!='schedule'} style="width: 28px; font-size: 5px;">メ</th>
 									<th if={opts.mode!='schedule'}>メモ</th>
 									<th if={opts.mode=='schedule'}>コメント</th>
-									<th if={opts.mode!='schedule'} style="width: 40px;">区分</th>
-									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 70px;">入隊日</th>
+									<th if={opts.mode!='schedule'} style="width: 35px; font-size: xx-small;">区分</th>
+									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 55px;">入隊日</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -1762,18 +1945,28 @@
 									<td if={opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" style="background-color: green;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
 									<td if={opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" style="background-color: dodgerblue;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
 									<td if={opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" style="background-color: deeppink;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;">{puser.job}</td>
+									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;">{user.job}</td>
+
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 80 <= user.acce1 && 90 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/811006.png?v=20180330)  no-repeat center center; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 70 <= user.acce1 && 80 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31000.png?v=20180330)  no-repeat center center; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 60 <= user.acce1 && 70 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/koryaku/midori_haikei/cara2.jpg)  no-repeat left center; background-size: auto 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 50 <= user.acce1 && 60 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31004.png?v=20180330)  no-repeat center center; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 40 <= user.acce1 && 50 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31001.png?v=20180330)  no-repeat center center; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 30 <= user.acce1 && 40 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31002.png?v=20180330)  no-repeat center center; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 20 <= user.acce1 && 30 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31005.png?v=20180330)  no-repeat center center; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 10 <= user.acce1 && 20 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31003.png?v=20180330)  no-repeat center center; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && false === ('undefined' != typeof user.acce1 && 10 <= user.acce1)} onclick="onclickModify(this, '{user.ID}');">&nbsp;</td>
 
 									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
 									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
 									<td if={opts.mode!='schedule' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning">{user.meteo}</td>
-									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');">{user.memo}</td>
-									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment" style="font-size: 10px;">{user.comment}</td>
-									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success">アク</td>
-									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning">イン</td>
-									<td if={opts.mode!='schedule' && user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger">除名</td>
-									<td if={opts.mode!='schedule' && user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info">傭兵</td>
-									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');">{user.joind}</td>
+									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small;">{user.memo}</td>
+									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment" style="font-size: xx-small;">{user.comment}</td>
+									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small;">アク</td>
+									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small;">イン</td>
+									<td if={opts.mode!='schedule' && user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small;">除名</td>
+									<td if={opts.mode!='schedule' && user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info" style="font-size: xx-small;">傭兵</td>
+									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small;">{user.joind}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -1788,6 +1981,7 @@
 					var joinddesc = true;
 					var jobdesc = true;
 					var partydesc = true;
+					var acce1desc = false;
 					sortCP = function () {
 						if (cpdesc) {
 							cpdesc = false;
@@ -1795,6 +1989,7 @@
 							joinddesc = false;
 							jobdesc = false;
 							partydesc = false;
+							acce1desc = false;
 							opts.data.sort(function(a, b){
 								if( a.activity < 0 ) return 1;
 								if( a.cp < b.cp ) return -1;
@@ -1808,6 +2003,7 @@
 							joinddesc = true;
 							jobdesc = true;
 							partydesc = true;
+							acce1desc = true;
 							opts.data.sort(function(a, b){
 								if( a.activity < 0 ) return 1;
 								if( a.cp > b.cp ) return -1;
@@ -1823,6 +2019,7 @@
 							joinddesc = false;
 							jobdesc = false;
 							partydesc = false;
+							acce1desc = false;
 							opts.data.sort(function(a, b){
 								if( a.activity < 0 ) return 1;
 								if( a.level < b.level ) return -1;
@@ -1836,6 +2033,7 @@
 							joinddesc = true;
 							jobdesc = true;
 							partydesc = true;
+							acce1desc = true;
 							opts.data.sort(function(a, b){
 								if( a.activity < 0 ) return 1;
 								if( a.level > b.level ) return -1;
@@ -1851,6 +2049,7 @@
 							joinddesc = false;
 							jobdesc = false;
 							partydesc = false;
+							acce1desc = false;
 							opts.data.sort(function(a, b){
 								if( a.party < b.party ) return -1;
 								if( a.party > b.party ) return 1;
@@ -1863,6 +2062,7 @@
 							joinddesc = true;
 							jobdesc = true;
 							partydesc = true;
+							acce1desc = true;
 							opts.data.sort(function(a, b){
 								if( a.party > b.party ) return -1;
 								if( a.party < b.party ) return 1;
@@ -1877,6 +2077,7 @@
 							joinddesc = false;
 							jobdesc = false;
 							partydesc = false;
+							acce1desc = false;
 							opts.data.sort(function(a, b){
 								if( a.activity < 0 ) return 1;
 								if( a.job < b.job ) return -1;
@@ -1890,10 +2091,45 @@
 							joinddesc = true;
 							jobdesc = true;
 							partydesc = true;
+							acce1desc = true;
 							opts.data.sort(function(a, b){
 								if( a.activity < 0 ) return 1;
 								if( a.job > b.job ) return -1;
 								if( a.job < b.job ) return 1;
+								return 0;
+							});
+						}
+					};
+					sortAcce1 = function () {
+						if (acce1desc) {
+							cpdesc = false;
+							leveldesc = false;
+							joinddesc = false;
+							jobdesc = false;
+							partydesc = false;
+							acce1desc = false;
+							opts.data.sort(function(a, b){
+								if( a.activity < -1) return 1;
+								if ('undefined' == typeof a.acce1) return -1;
+								if ('undefined' == typeof b.acce1) return 1;
+								if( a.acce1 < b.acce1 || 'undefined' == typeof b.acce1) return -1;
+								if( a.acce1 > b.acce1 ) return 1;
+								return 0;
+							});
+						}
+						else {
+							cpdesc = true;
+							leveldesc = true;
+							joinddesc = true;
+							jobdesc = true;
+							partydesc = true;
+							acce1desc = true;
+							opts.data.sort(function(a, b){
+								if( a.activity < -1) return 1;
+								if ('undefined' == typeof a.acce1) return 1;
+								if ('undefined' == typeof b.acce1) return -1;
+								if( a.acce1 > b.acce1 ) return -1;
+								if( a.acce1 < b.acce1 ) return 1;
 								return 0;
 							});
 						}
@@ -1905,6 +2141,7 @@
 							joinddesc = false;
 							jobdesc = false;
 							partydesc = false;
+							acce1desc = false;
 							opts.data.sort(function(a, b){
 								if( a.activity < 0 ) return 1;
 								if ('' == a.joind || 'undefined' == typeof a.joind) return -1;
@@ -1921,6 +2158,7 @@
 							joinddesc = true;
 							jobdesc = true;
 							partydesc = true;
+							acce1desc = true;
 							opts.data.sort(function(a, b){
 								if( a.activity < 0 ) return 1;
 								if ('' == a.joind || 'undefined' == typeof a.joind) return 1;
@@ -2096,7 +2334,7 @@
 				var getParams = {};
 				var loadingCount = 0;
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
-				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, memo: '', activity: 9, joind: '', discord: '', };
+				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, acce1: 0, memo: '', activity: 9, joind: '', discord: '', };
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, };
 				var partySchedule = {name:'', date: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', };
@@ -3009,10 +3247,11 @@
 					var usermemo = $('#registerform').find('input[name=memo]').val();
 					var userdiscord = $('#registerform').find('input[name=discord]').val();
 					var usermeteo = $('#registerform').find('select[name=usermeteo] option:selected').val();
+					var useracce1 = $('#registerform').find('select[name=useracce1] option:selected').val();
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
-					if ('職業' != userjob && 'メテオ' != usermeteo && '状態' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
-						var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), activity: parseInt(useractivity), discord: userdiscord, };
+					if ('職業' != userjob && 'メテオ' != usermeteo && '装飾品' != useracce1 && '状態' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
+						var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), acce1: parseInt(useracce1), activity: parseInt(useractivity), discord: userdiscord, };
 						if (0 < userjoind.length) {
 							data.joind = new Date(userjoind);
 						}
