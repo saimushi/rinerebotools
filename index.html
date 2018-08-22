@@ -3257,7 +3257,7 @@
 					var useracce1 = $('#registerform').find('select[name=useracce1] option:selected').val();
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
-					if ('職業' != userjob && 'メテオ' != usermeteo && '装飾品' != useracce1 && '状態' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
+					if ('職業' != userjob && 'メテオ' != usermeteo && '装飾品' != useracce1 && '区分' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
 						var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), acce1: parseInt(useracce1), activity: parseInt(useractivity), discord: userdiscord, };
 						if (0 < userjoind.length) {
 							data.joind = new Date(userjoind);
@@ -3267,6 +3267,15 @@
 							location.href='#dashboard';
 						});
 						return;
+					}
+					if ('職業' == useracce1) {
+						alert('職業を選択して下さい。');
+					}
+					if ('装飾品' == useracce1) {
+						alert('装飾品を選択して下さい。');
+					}
+					if ('区分' == useractivity) {
+						alert('区分を選択して下さい。');
 					}
 					alert('入力が正しくない項目があった為、処理を中断します。');
 				};
