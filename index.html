@@ -2034,7 +2034,7 @@
 									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 20 <= user.acce1 && 30 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31005.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
 									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 10 <= user.acce1 && 20 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31003.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
 									<td if={opts.mode!='contribution' && false === ('undefined' != typeof user.acce1 && 10 <= user.acce1)} onclick="onclickModify(this, '{user.ID}');">&nbsp;</td>
-									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 2px;">{user.manto}0</td>
+									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 2px;">{user.manto}</td>
 
 									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
 									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
