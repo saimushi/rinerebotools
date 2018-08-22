@@ -813,6 +813,55 @@
 								</select>
 							</div>
 							<div class="form-group">
+								<select class="form-control" name="userbukicos">
+									<option value="">武器コス</option>
+									<optgroup label="海賊王">
+										<option if={user.bukicos=='海賊10'} value="海賊10" selected="selected">特性Lv10</option>
+										<option if={user.bukicos=='海賊9'} value="海賊9" selected="selected">特性Lv9</option>
+										<option if={user.bukicos=='海賊8'} value="海賊8" selected="selected">特性Lv8</option>
+										<option if={user.bukicos=='海賊7'} value="海賊7" selected="selected">特性Lv7</option>
+										<option if={user.bukicos=='海賊6'} value="海賊6" selected="selected">特性Lv6</option>
+										<option if={user.bukicos=='海賊5'} value="海賊5" selected="selected">特性Lv5</option>
+										<option if={user.bukicos=='海賊4'} value="海賊4" selected="selected">特性Lv4</option>
+										<option if={user.bukicos=='海賊3'} value="海賊3" selected="selected">特性Lv3</option>
+										<option if={user.bukicos=='海賊2'} value="海賊2" selected="selected">特性Lv2</option>
+										<option if={user.bukicos=='海賊1'} value="海賊1" selected="selected">特性Lv1</option>
+										<option if={user.bukicos!='海賊10'} value="海賊10">特性Lv10</option>
+										<option if={user.bukicos!='海賊9'} value="海賊9">特性Lv9</option>
+										<option if={user.bukicos!='海賊8'} value="海賊8">特性Lv8</option>
+										<option if={user.bukicos!='海賊7'} value="海賊7">特性Lv7</option>
+										<option if={user.bukicos!='海賊6'} value="海賊6">特性Lv6</option>
+										<option if={user.bukicos!='海賊5'} value="海賊5">特性Lv5</option>
+										<option if={user.bukicos!='海賊4'} value="海賊4">特性Lv4</option>
+										<option if={user.bukicos!='海賊3'} value="海賊3">特性Lv3</option>
+										<option if={user.bukicos!='海賊2'} value="海賊2">特性Lv2</option>
+										<option if={user.bukicos!='海賊1'} value="海賊1">特性Lv1</option>
+									</optgroup>
+									<optgroup label="百鬼夜行">
+										<option if={user.bukicos=='海賊10'} value="百鬼10" selected="selected">特性Lv10</option>
+										<option if={user.bukicos=='百鬼9'} value="百鬼9" selected="selected">特性Lv9</option>
+										<option if={user.bukicos=='百鬼8'} value="百鬼8" selected="selected">特性Lv8</option>
+										<option if={user.bukicos=='百鬼7'} value="百鬼7" selected="selected">特性Lv7</option>
+										<option if={user.bukicos=='百鬼6'} value="百鬼6" selected="selected">特性Lv6</option>
+										<option if={user.bukicos=='百鬼5'} value="百鬼5" selected="selected">特性Lv5</option>
+										<option if={user.bukicos=='百鬼4'} value="百鬼4" selected="selected">特性Lv4</option>
+										<option if={user.bukicos=='百鬼3'} value="百鬼3" selected="selected">特性Lv3</option>
+										<option if={user.bukicos=='百鬼2'} value="百鬼2" selected="selected">特性Lv2</option>
+										<option if={user.bukicos=='百鬼1'} value="百鬼1" selected="selected">特性Lv1</option>
+										<option if={user.bukicos!='百鬼10'} value="百鬼10">特性Lv10</option>
+										<option if={user.bukicos!='百鬼9'} value="百鬼9">特性Lv9</option>
+										<option if={user.bukicos!='百鬼8'} value="百鬼8">特性Lv8</option>
+										<option if={user.bukicos!='百鬼7'} value="百鬼7">特性Lv7</option>
+										<option if={user.bukicos!='百鬼6'} value="百鬼6">特性Lv6</option>
+										<option if={user.bukicos!='百鬼5'} value="百鬼5">特性Lv5</option>
+										<option if={user.bukicos!='百鬼4'} value="百鬼4">特性Lv4</option>
+										<option if={user.bukicos!='百鬼3'} value="百鬼3">特性Lv3</option>
+										<option if={user.bukicos!='百鬼2'} value="百鬼2">特性Lv2</option>
+										<option if={user.bukicos!='百鬼1'} value="百鬼1">特性Lv1</option>
+									</optgroup>
+								</select>
+							</div>
+							<div class="form-group">
 								<select class="form-control" name="usermanto">
 									<option value="">マント</option>
 									<optgroup label="高潔なる血のマント">
@@ -925,7 +974,7 @@
 							<botton if={user.ID!='' && 'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
-					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, acce1: 0, manto: '', memo: '', activity: 9, joind: '',};
+					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, acce1: 0, bukicos: '', manto: '', memo: '', activity: 9, joind: '',};
 					this.on('mount', function() {
 						//$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00",});
 						auth(false, function (clan) {
@@ -1970,17 +2019,18 @@
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 32px;">PT</th>
 									<th if={opts.mode=='schedule'} style="width: 40px; font-size: 10px;">status</th>
 									<th if={opts.mode=='schedule'} style="width: 28px;">VC</th>
-									<th style="width: 95px;">キャラ</th>
+									<th style="width: 90px;">キャラ</th>
 									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 45px; padding-left: 5px;">戦闘力</th>
-									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 30px; font-size: 5px;">Job</th>
+									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 30px; padding-left: 5px;">Job</th>
 									<th if={opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 30px;">飾</th>
-									<th if={opts.mode!='contribution'} style="width: 28px; font-size: 5px; padding-left: 5px; padding-right: 5px;">マント</th>
-									<th onclick="{sortLevel}" style="width: 28px; font-size: 5px;">Lv</th>
-									<th if={opts.mode!='schedule'} style="width: 20px; font-size: 5px;">メ</th>
+									<th if={opts.mode!='contribution'} style="width: 28px;">武</th>
+									<th if={opts.mode!='contribution'} style="width: 28px;">マ</th>
+									<th onclick="{sortLevel}" style="width: 28px;">Lv</th>
+									<th if={opts.mode!='schedule'} style="width: 20px; padding-left: 5px;">メ</th>
 									<th if={opts.mode!='schedule'}>メモ</th>
 									<th if={opts.mode=='schedule'}>コメント</th>
-									<th if={opts.mode!='schedule'} style="width: 35px; font-size: xx-small;">区分</th>
-									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 55px;">入隊日</th>
+									<th if={opts.mode!='schedule'} style="width: 28px;">区</th>
+									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 45px; padding-left: 5px;">入隊日</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -2014,8 +2064,8 @@
 									<td if={opts.mode=='schedule' && user.voice==2} class="scheduleuservoice bg-success" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
 									<td if={opts.mode=='schedule' && user.voice==-1} class="scheduleuservoice bg-success" propaty="-1" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
 									<td if={opts.mode=='schedule' && user.voice!=-1 && user.voice!=2 && user.voice!=1} class="scheduleuservoice" propaty="0" onclick="switchType(this, 'voice');"><i class="fas"></i></td>
-									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername" style="font-size: xx-small;">{user.name}</td>
-									<td if={opts.mode!='contribution'} style="font-size: xx-small;">{user.cp}</td>
+									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername" style="font-size: xx-small; padding-left: 3px; padding-right: 3px;">{user.name}</td>
+									<td if={opts.mode!='contribution'} style="font-size: xx-small; padding-left: 3px;">{user.cp}</td>
 
 									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" style="background-color: firebrick;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
 									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" style="background-color: orange;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
@@ -2034,18 +2084,19 @@
 									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 20 <= user.acce1 && 30 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31005.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
 									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 10 <= user.acce1 && 20 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31003.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
 									<td if={opts.mode!='contribution' && false === ('undefined' != typeof user.acce1 && 10 <= user.acce1)} onclick="onclickModify(this, '{user.ID}');">&nbsp;</td>
+									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding: 3px;">{user.bukicos}</td>
 									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding: 3px;">{user.manto}</td>
 
 									<td onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 5px;">{user.level}</td>
-									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 5px;">{user.meteo}</td>
-									<td if={opts.mode!='schedule' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 5px;">{user.meteo}</td>
+									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 3px;">{user.meteo}</td>
+									<td if={opts.mode!='schedule' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 3px;">{user.meteo}</td>
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 5px;">{user.memo}</td>
 									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment" style="font-size: xx-small; padding-left: 5px;">{user.comment}</td>
-									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small;">アク</td>
-									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small;">イン</td>
-									<td if={opts.mode!='schedule' && user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small;">除名</td>
-									<td if={opts.mode!='schedule' && user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info" style="font-size: xx-small;">傭兵</td>
-									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small;">{user.joind}</td>
+									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 3px; padding-right: 0;">アク</td>
+									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 3px; padding-right: 0;">イン</td>
+									<td if={opts.mode!='schedule' && user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small; padding-left: 3px; padding-right: 0;">除名</td>
+									<td if={opts.mode!='schedule' && user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info" style="font-size: xx-small; padding-left: 3px; padding-right: 0;">傭兵</td>
+									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 3px; text-align: right;">{user.joind.replace('/', '年\n')}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -2461,7 +2512,7 @@
 				var getParams = {};
 				var loadingCount = 0;
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
-				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, acce1: 0, manto: '', memo: '', activity: 9, joind: '', discord: '', };
+				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, acce1: 0, bukicos: '', manto: '', memo: '', activity: 9, joind: '', discord: '', };
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, };
 				var partySchedule = {name:'', date: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', };
@@ -3400,11 +3451,12 @@
 					var userdiscord = $('#registerform').find('input[name=discord]').val();
 					var usermeteo = $('#registerform').find('select[name=usermeteo] option:selected').val();
 					var useracce1 = $('#registerform').find('select[name=useracce1] option:selected').val();
+					var userbukicos = $('#registerform').find('select[name=userbukicos] option:selected').val();
 					var usermanto = $('#registerform').find('select[name=usermanto] option:selected').val();
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
 					if ('職業' != userjob && 'メテオ' != usermeteo && '装飾品' != useracce1 && '区分' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
-						var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), acce1: parseInt(useracce1), manto: usermanto, activity: parseInt(useractivity), discord: userdiscord, };
+						var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), acce1: parseInt(useracce1), bukicos: userbukicos, manto: usermanto, activity: parseInt(useractivity), discord: userdiscord, };
 						if (0 < userjoind.length) {
 							data.joind = new Date(userjoind);
 						}
