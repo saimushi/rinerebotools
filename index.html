@@ -1957,6 +1957,7 @@
 					});
 				</contribution>
 			</script>
+血盟管理ツール[https://line2revo.fun]緊急更新！ マントに対人に有利になる特性が増えているため、急遽マント情報を登録出来るように修正しました！ デモはコチラ！=> [https://line2revo.fun/?clanid=z77eo2eYNkFEW9emP3bn] #リネレボ
 
 			<script type="riot/tag">
 				<users>
@@ -1975,8 +1976,8 @@
 									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 30px; font-size: 5px;">Job</th>
 									<th if={opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 30px;">飾</th>
 									<th if={opts.mode!='contribution'} style="width: 28px; font-size: 5px; padding-left: 5px; padding-right: 5px;">マント</th>
-									<th onclick="{sortLevel}" style="width: 34px; font-size: 5px;">Lv</th>
-									<th if={opts.mode!='schedule'} style="width: 28px; font-size: 5px;">メ</th>
+									<th onclick="{sortLevel}" style="width: 28px; font-size: 5px;">Lv</th>
+									<th if={opts.mode!='schedule'} style="width: 20px; font-size: 5px;">メ</th>
 									<th if={opts.mode!='schedule'}>メモ</th>
 									<th if={opts.mode=='schedule'}>コメント</th>
 									<th if={opts.mode!='schedule'} style="width: 35px; font-size: xx-small;">区分</th>
@@ -2036,11 +2037,11 @@
 									<td if={opts.mode!='contribution' && false === ('undefined' != typeof user.acce1 && 10 <= user.acce1)} onclick="onclickModify(this, '{user.ID}');">&nbsp;</td>
 									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding: 3px;">{user.manto}</td>
 
-									<td onclick="onclickModify(this, '{user.ID}');">{user.level}</td>
-									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');">{user.meteo}</td>
-									<td if={opts.mode!='schedule' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning">{user.meteo}</td>
-									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small;">{user.memo}</td>
-									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment" style="font-size: xx-small;">{user.comment}</td>
+									<td onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 5px;">{user.level}</td>
+									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 5px;">{user.meteo}</td>
+									<td if={opts.mode!='schedule' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 5px;">{user.meteo}</td>
+									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 5px;">{user.memo}</td>
+									<td if={opts.mode=='schedule'} onclick="onclickModify(this, '{user.ID}');" class="schedulecomment" style="font-size: xx-small; padding-left: 5px;">{user.comment}</td>
 									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small;">アク</td>
 									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small;">イン</td>
 									<td if={opts.mode!='schedule' && user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small;">除名</td>
