@@ -1816,6 +1816,7 @@
 										</div>
 										<div class="form-group">
 											<select class="form-control" name="weekquestcnt">
+												<option value="0">週クエ消化数:0</option>
 												<option value="1">週クエ消化数:1</option>
 												<option value="2">週クエ消化数:2</option>
 												<option value="3">週クエ消化数:3</option>
@@ -1826,7 +1827,6 @@
 												<option value="8">週クエ消化数:8</option>
 												<option value="9">週クエ消化数:9</option>
 												<option value="10">週クエ消化数:10</option>
-												<option value="0">週クエ消化数:0</option>
 											</select>
 										</div>
 										<div class="form-group bg-info">
@@ -2011,8 +2011,10 @@
 						<table class="table table-bordered table-hover table-striped">
 							<thead>
 								<tr class="info">
-									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 28px;">No</th>
-									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 60px;">実貢献度</th>
+									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 20px; padding-left: 3px; padding-right: 0;">No</th>
+									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 45px; padding-left: 1px; padding-right: 0;">実貢献度</th>
+									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 35px; padding-left: 1px; padding-right: 0;">貢献度</th>
+									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 35px; padding-left: 1px; padding-right: 0;">週クエ</th>
 									<th if={opts.mode=='schedule'} style="width: 20px;"></th>
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 20px; padding-left: 3px;">PT</th>
 									<th if={opts.mode=='schedule'} style="width: 28px; padding-left: 0px;">status</th>
@@ -2033,9 +2035,13 @@
 							</thead>
 							<tbody>
 								<tr each="{user, index in opts.data}" class="activity{user.activity}">
-									<td if={opts.mode=='contribution'} onclick="onclickModify(this, '{user.ID}');">{index+1}</td>
-									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');"><b>{(opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)).toLocaleString()}</b></td>
+									<td if={opts.mode=='contribution'} onclick="onclickModify(this, '{user.ID}');" style="padding-left: 3px; padding-right: 3px; text-align: right;">{index+1}</td>
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');"><b>{opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)}</b></td>
 									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="contribution" contribution="0" onclick="onclickModify(this, '{user.ID}');">未入力</td>
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="orgcontribution" onclick="onclickModify(this, '{user.ID}');">{opts.contributiondata[user.ID].contribution}</td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="orgcontribution" onclick="onclickModify(this, '{user.ID}');">未</td>
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="weekquestcnt" weekquestcnt="{opts.contributiondata[user.ID].weekquestcnt}" onclick="onclickModify(this, '{user.ID}');">{opts.contributiondata[user.ID].weekquestcnt}</td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="weekquestcnt" weekquestcnt="0" onclick="onclickModify(this, '{user.ID}');">未</td>
 									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">✕</td>
@@ -3512,8 +3518,11 @@
 					else if ('#contribution' == location.hash) {
 						var contributionusername = $(target).parent().find('.contributionusername').text();
 						var contribution = $(target).parent().find('.contribution').attr('contribution');
+						var weekquestcnt = $(target).parent().find('.weekquestcnt').attr('weekquestcnt');
 						var contributionuserindex = $('#entrycontributionform').find('select[name=contributionuser] option[data="' + contributionusername + '"]').val();
+						var weekquestcntindex = $('#entrycontributionform').find('select[name=weekquestcnt] option[value="' + weekquestcnt + '"]').val();
 						$('#entrycontributionform').find('select[name=contributionuser]').val(contributionuserindex);
+						$('#entrycontributionform').find('select[name=weekquestcnt]').val(weekquestcntindex);
 						$('#entrycontributionform').find('input[name=contribution]').val(contribution);
 						$("html,body").animate({scrollTop: 0}, "100");
 						return;
