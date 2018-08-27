@@ -2036,12 +2036,12 @@
 							<tbody>
 								<tr each="{user, index in opts.data}" class="activity{user.activity}">
 									<td if={opts.mode=='contribution'} onclick="onclickModify(this, '{user.ID}');" style="padding-left: 3px; padding-right: 3px; text-align: right;">{index+1}</td>
-									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');"><b>{opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)}</b></td>
-									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="contribution" contribution="0" onclick="onclickModify(this, '{user.ID}');">未入力</td>
-									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="orgcontribution" onclick="onclickModify(this, '{user.ID}');">{opts.contributiondata[user.ID].contribution}</td>
-									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="orgcontribution" onclick="onclickModify(this, '{user.ID}');">未</td>
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0; text-align: right;"><b>{opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)}</b></td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="contribution" contribution="0" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0;">未入力</td>
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="orgcontribution" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0; text-align: right;">{opts.contributiondata[user.ID].contribution}</td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="orgcontribution" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 2px; padding-right: 0;">未入力</td>
 									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="weekquestcnt" weekquestcnt="{opts.contributiondata[user.ID].weekquestcnt}" onclick="onclickModify(this, '{user.ID}');">{opts.contributiondata[user.ID].weekquestcnt}</td>
-									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="weekquestcnt" weekquestcnt="0" onclick="onclickModify(this, '{user.ID}');">未</td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="weekquestcnt" weekquestcnt="0" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 2px; padding-right: 0;">未入力</td>
 									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">✕</td>
@@ -2063,7 +2063,7 @@
 									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-info text-info" propaty="2" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">リダ</td>
 									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-success text-success" propaty="1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">サブ</td>
 									<td if={opts.mode=='schedule' && user.status==-1} class="scheduleuserstatus bg-danger text-danger" propaty="-1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">急欠</td>
-									<td if={opts.mode=='schedule' && user.status!=-1 && user.status!=2 && user.status!=1} class="scheduleuserstatus" propaty="0" onclick="switchType(this, 'status');" >&nbsp;</td>
+									<td if={opts.mode=='schedule' && user.status!=-1 && user.status!=2 && user.status!=1} class="scheduleuserstatus" propaty="0" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">&nbsp;</td>
 									<td if={opts.mode=='schedule' && user.voice==1} class="scheduleuservoice bg-info" propaty="1" onclick="switchType(this, 'voice');"><i class="fas fa-microphone"></i></td>
 									<td if={opts.mode=='schedule' && user.voice==2} class="scheduleuservoice bg-success" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
 									<td if={opts.mode=='schedule' && user.voice==-1} class="scheduleuservoice bg-success" propaty="-1" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
