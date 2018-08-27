@@ -2385,6 +2385,8 @@
 											<h6>&nbsp;■「***ptview***」=> 参加者用のPT編成URLに自動変換されます。</h6>
 											<h6>&nbsp;■「***url***」 => お知らせ通知をしたページのURLに自動変換されます。</h6>
 											<h6>&nbsp;■「***pt***」 => お知らせ通知をしたページの(参加者用では無い)PT編成URLに自動変換されます。</h6>
+											<h6>&nbsp;■「***date***」 => お知らせ通知をしたページの予定日時に自動変換されます。</h6>
+											<h6>&nbsp;■「***title***」 => お知らせ通知をしたページの予定名に自動変換されます</h6>
 										</div>
 									</div>
 								</div>
@@ -3170,7 +3172,7 @@
 					}
 					loading(true);
 					// firbase問い合わせ
-					firebase.firestore().collection("schedules").where("clanid", "==", clanID).where("tag", "==", tag).orderBy('incount', 'desc').limit(3).get().then(function(querySnapshot) {
+					firebase.firestore().collection("schedules").where("clanid", "==", clanID).where("tag", "==", tag).orderBy('date', 'desc').orderBy('incount', 'desc').limit(3).get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
@@ -3559,7 +3561,7 @@
 						}
 					}
 					if (-1 < message.indexOf('***title***')) {
-						var targetTitle = $(target).parent().parent().parent().parent().parent().parent().parent().parent().find('form .form-control.schedulename').val();
+						var targetTitle = $(target).parent().parent().parent().parent().parent().parent().parent().parent().find('form input.form-control[name=schedulename]').val();
 						message = message.replace('***title***', targetTitle);
 					}
 					if (-1 < message.indexOf('***urlview***')) {
