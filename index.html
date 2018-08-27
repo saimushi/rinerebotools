@@ -3397,14 +3397,16 @@
 								getScheduleByTag(clan.ID, scheduletag, function(datas){
 									if (1 < datas.length) {
 										var baseSchedule = {incount:0};
-										if ('undefined' != typeof datas[2] && baseSchedule.incount < datas[2].incount) {
-											baseSchedule = datas[2];
-										}
-										if ('undefined' != typeof datas[1] && baseSchedule.incount < datas[1].incount) {
-											baseSchedule = datas[1];
-										}
-										if ('undefined' != typeof datas[0] && baseSchedule.incount < datas[0].incount) {
+										if ('undefined' != typeof datas[0] && 0 < datas[0].incount) {
 											baseSchedule = datas[0];
+										}
+										else {
+											if ('undefined' != typeof datas[2] && baseSchedule.incount < datas[2].incount) {
+												baseSchedule = datas[2];
+											}
+											if ('undefined' != typeof datas[1] && baseSchedule.incount < datas[1].incount) {
+												baseSchedule = datas[1];
+											}
 										}
 										if (1 > baseSchedule.incount){
 											alert('登録しました。');
@@ -3556,16 +3558,9 @@
 							message = message.replace('***date***', targetDate);
 						}
 					}
-					if (-1 < message.indexOf('***url***')) {
-						if ('#contribution' == location.hash && false === ('undefined' != typeof getParams['contributiondate'] && 0 < getParams['contributiondate'].length)) {
-							var targetDate = $(target).parent().parent().parent().parent().parent().parent().parent().parent().find('form .input-group.date').data().date;
-							targetDate = targetDate.replace(/\//g, '-');
-							targetDate = targetDate.split(' ')[0];
-							message = message.replace('***url***', location.href.replace('#contribution', '&contributiondate=' + targetDate + '#contribution'));
-						}
-						else {
-							message = message.replace('***url***', location.href);
-						}
+					if (-1 < message.indexOf('***title***')) {
+						var targetTitle = $(target).parent().parent().parent().parent().parent().parent().parent().parent().find('form .form-control.schedulename').val();
+						message = message.replace('***title***', targetTitle);
 					}
 					if (-1 < message.indexOf('***urlview***')) {
 						if ('#contribution' == location.hash && false === ('undefined' != typeof getParams['contributiondate'] && 0 < getParams['contributiondate'].length)) {
