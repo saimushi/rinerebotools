@@ -18,6 +18,53 @@
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"/>
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
+		<!-- ブラウザチェック -->
+		<script type="text/javascript">
+			var browserEnabled = true;
+			var result = null;
+	 	  var agent = window.navigator.userAgent.toLowerCase();
+	  	var version = window.navigator.appVersion.toLowerCase();
+		  if(agent.indexOf("msie") > -1){
+		    if (version.indexOf("msie 6.") > -1){
+		      result = 'IE6';
+		    }else if (version.indexOf("msie 7.") > -1){
+		      result = 'IE7';
+		    }else if (version.indexOf("msie 8.") > -1){
+		      result = 'IE8';
+		    }else if (version.indexOf("msie 9.") > -1){
+		      result = 'IE9';
+		    }else if (version.indexOf("msie 10.") > -1){
+		      result = 'IE10';
+		    }else{
+		      result = 'IE(バージョン不明)';
+		    }
+				browserEnabled = false;
+		  }
+			else if(agent.indexOf("trident/7") > -1){
+		    result = 'IE11';
+				browserEnabled = false;
+		  }
+			else if(agent.indexOf("edge") > -1){
+		    result = 'Edge';
+				browserEnabled = false;
+		  }
+			else if (agent.indexOf("chrome") > -1){
+		    result = 'Chrome';
+		  }
+			else if (agent.indexOf("safari") > -1){
+		    result = 'Safari';
+		  }
+			else if (agent.indexOf("opera") > -1){
+		    result = 'Opera';
+		  }
+			else if (agent.indexOf("firefox") > -1){
+		    result = 'Firefox';
+		  }
+			if (true !== browserEnabled) {
+				alert('申し訳御座いません、お使いのブラウザには現在対応していせん。\nPCでご利用の場合はGoogle Chromeを推奨します。');
+			}
+		</script>
+
 		<!-- this app -->
 		<style>
 			html, body {
