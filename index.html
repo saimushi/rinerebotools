@@ -1415,7 +1415,12 @@
 										</thead>
 										<tbody>
 											<tr each="{news, index in newses}">
-												<td class="action"><botton class="btn btn-danger" onclick="onclickInfomation(this);">通知</botton></td>
+												<td class="action">
+													<botton class="btn btn-danger" onclick="onclickInfomation(this);">通知</botton>
+													<br/>
+													<br/>
+													<botton class="btn btn-success" onclick="onclickModify(this, '{news.ID}');">修正</botton>
+												</td>
 												<td class="newstext" style="width: 34px; font-size: 5px;"><pre>{news.text}</pre></td>
 											</tr>
 										</tbody>
@@ -3483,13 +3488,11 @@
 										if ('undefined' != typeof datas[0] && 0 < datas[0].incount) {
 											baseSchedule = datas[0];
 										}
-										else {
-											if ('undefined' != typeof datas[2] && baseSchedule.incount < datas[2].incount) {
-												baseSchedule = datas[2];
-											}
-											if ('undefined' != typeof datas[1] && baseSchedule.incount < datas[1].incount) {
-												baseSchedule = datas[1];
-											}
+										else if ('undefined' != typeof datas[1] && baseSchedule.incount < datas[1].incount) {
+											baseSchedule = datas[1];
+										}
+										else if ('undefined' != typeof datas[2] && baseSchedule.incount < datas[2].incount) {
+											baseSchedule = datas[2];
 										}
 										if (1 > baseSchedule.incount){
 											alert('登録しました。');
@@ -3613,16 +3616,43 @@
 						return;
 					}
 					else if ('#detailschedule' == location.hash) {
-						var scheduleusername = $(target).parent().find('.scheduleusername').text();
-						var schedulecomment = $(target).parent().find('.schedulecomment').text();
-						var scheduleparty = $(target).parent().find('.scheduleparty').data();
-						var scheduleuserindex = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
-						$('#entryscheduleform').find('select[name=scheduleuser]').val(scheduleuserindex);
-						$('#entryscheduleform').find('input[name=schedulecomment]').val(schedulecomment);
-						if ('undefined' != typeof scheduleparty && 'undefined' != typeof scheduleparty.party) {
-							$('#entryscheduleform').find('input[name=scheduleparty]').val(scheduleparty.party);
+						if ($(target).text() === '修正') {
+							var newstextDom = $(target).parent().parent().find('.newstext');
+							var newstext = newstextDom.find('pre');
+							var newstextHigth = newstext.height();
+							//newstext.
+							newstextDom.html('<textarea class="form-control" name="newstext">'+newstext.text()+'</textarea>');
+							newstextDom.find('textarea').height(newstextHigth);
+							$(target).text('保存');
 						}
-						$("html,body").animate({scrollTop: 0}, "100");
+						else if ($(target).text() === '保存') {
+							var newstext = $(target).parent().parent().find('textarea[name=newstext]').val();
+							var newsID = rowID;
+							var newstag = $('#addscheduleform').find('input[name=scheduletag]').val();
+							if ('undefined' != typeof newstext && 0 < newstext.length) {
+								var data = { ID: newsID, text: newstext, tag: newstag, };
+								registerNews(clan.ID, data, function (){
+									alert('更新しました。');
+									$(target).text('修正');
+									var newstextDom = $(target).parent().parent().find('.newstext');
+									newstextDom.html('<pre>'+newstext+'</pre>');
+									return;
+								});
+								return;
+							}
+						}
+						else {
+							var scheduleusername = $(target).parent().find('.scheduleusername').text();
+							var schedulecomment = $(target).parent().find('.schedulecomment').text();
+							var scheduleparty = $(target).parent().find('.scheduleparty').data();
+							var scheduleuserindex = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
+							$('#entryscheduleform').find('select[name=scheduleuser]').val(scheduleuserindex);
+							$('#entryscheduleform').find('input[name=schedulecomment]').val(schedulecomment);
+							if ('undefined' != typeof scheduleparty && 'undefined' != typeof scheduleparty.party) {
+								$('#entryscheduleform').find('input[name=scheduleparty]').val(scheduleparty.party);
+							}
+							$("html,body").animate({scrollTop: 0}, "100");
+						}
 						return;
 					}
 					getParams['clanid'] = clan.ID;
