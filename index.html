@@ -1958,7 +1958,12 @@
 										</thead>
 										<tbody>
 											<tr each="{news, index in newses}">
-												<td class="action"><botton class="btn btn-danger" onclick="onclickInfomation(this);">通知</botton></td>
+												<td class="action">
+													<botton class="btn btn-danger" onclick="onclickInfomation(this);">通知</botton>
+													<br/>
+													<br/>
+													<botton class="btn btn-success" onclick="onclickModify(this, '{news.ID}');">修正</botton>
+												</td>
 												<td class="newstext" style="width: 34px; font-size: 5px;"><pre>{news.text}</pre></td>
 											</tr>
 										</tbody>
@@ -2073,15 +2078,15 @@
 									getUsers(clan.ID, 0, function(users) {
 										thisis.users = users;
 										var contributionLabel = nowStr.replace(/\//g, '') + '-'  + clan.ID;
-										if ('undefined' != typeof thisis.contributions[contributionLabel]) {
+										//if ('undefined' != typeof thisis.contributions[contributionLabel]) {
 											getContributionUsers(clan.ID, nowStr, function(contributionUsers) {
 												thisis.contributionUsers = contributionUsers;
 												sortContribution();
 												riot.update();
 											});
 											return;
-										}
-										riot.update();
+										//}
+										//riot.update();
 									});
 								});
 							});
@@ -3604,15 +3609,42 @@
 						return;
 					}
 					else if ('#contribution' == location.hash) {
-						var contributionusername = $(target).parent().find('.contributionusername').text();
-						var contribution = $(target).parent().find('.contribution').attr('contribution');
-						var weekquestcnt = $(target).parent().find('.weekquestcnt').attr('weekquestcnt');
-						var contributionuserindex = $('#entrycontributionform').find('select[name=contributionuser] option[data="' + contributionusername + '"]').val();
-						var weekquestcntindex = $('#entrycontributionform').find('select[name=weekquestcnt] option[value="' + weekquestcnt + '"]').val();
-						$('#entrycontributionform').find('select[name=contributionuser]').val(contributionuserindex);
-						$('#entrycontributionform').find('select[name=weekquestcnt]').val(weekquestcntindex);
-						$('#entrycontributionform').find('input[name=contribution]').val(contribution);
-						$("html,body").animate({scrollTop: 0}, "100");
+						if ($(target).text() === '修正') {
+							var newstextDom = $(target).parent().parent().find('.newstext');
+							var newstext = newstextDom.find('pre');
+							var newstextHigth = newstext.height();
+							//newstext.
+							newstextDom.html('<textarea class="form-control" name="newstext">'+newstext.text()+'</textarea>');
+							newstextDom.find('textarea').height(newstextHigth);
+							$(target).text('保存');
+						}
+						else if ($(target).text() === '保存') {
+							var newstext = $(target).parent().parent().find('textarea[name=newstext]').val();
+							var newsID = rowID;
+							var newstag = '週間貢献度集計';
+							if ('undefined' != typeof newstext && 0 < newstext.length) {
+								var data = { ID: newsID, text: newstext, tag: newstag, };
+								registerNews(clan.ID, data, function (){
+									alert('更新しました。');
+									$(target).text('修正');
+									var newstextDom = $(target).parent().parent().find('.newstext');
+									newstextDom.html('<pre>'+newstext+'</pre>');
+									return;
+								});
+								return;
+							}
+						}
+						else {
+							var contributionusername = $(target).parent().find('.contributionusername').text();
+							var contribution = $(target).parent().find('.contribution').attr('contribution');
+							var weekquestcnt = $(target).parent().find('.weekquestcnt').attr('weekquestcnt');
+							var contributionuserindex = $('#entrycontributionform').find('select[name=contributionuser] option[data="' + contributionusername + '"]').val();
+							var weekquestcntindex = $('#entrycontributionform').find('select[name=weekquestcnt] option[value="' + weekquestcnt + '"]').val();
+							$('#entrycontributionform').find('select[name=contributionuser]').val(contributionuserindex);
+							$('#entrycontributionform').find('select[name=weekquestcnt]').val(weekquestcntindex);
+							$('#entrycontributionform').find('input[name=contribution]').val(contribution);
+							$("html,body").animate({scrollTop: 0}, "100");
+						}
 						return;
 					}
 					else if ('#detailschedule' == location.hash) {
