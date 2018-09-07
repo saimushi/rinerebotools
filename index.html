@@ -1209,6 +1209,23 @@
 					var partyCPs = [];
 					this.on('mount', function() {
 						var viewGrid = function (schedule, data) {
+							data.sort(function(a, b){
+								if( 'undefined' == typeof a.status  ) {
+									a.status = 0;
+								}
+								if( 'undefined' == typeof b.status  ) {
+									b.status = 0;
+								}
+								if( a.party >= b.party ) {
+									if( a.status > b.status ) {
+										return -1;
+									}
+									if( a.status <= b.status ) {
+										return 1;
+									}
+								}
+								return 0;
+							});
 							this.scheduleURL = '?clanid=' + clan.ID + '&scheduleid=' + schedule.ID + '#detailschedule';
 							if ('on' == getParams['view']) {
 									this.scheduleURL = this.scheduleURL.replace('#detailschedule', '&view=on#detailschedule')
@@ -1435,6 +1452,23 @@
 									var inuser = [];
 									var outuser = [];
 									thisis.outusers = [];
+									scheduleusers.sort(function(a, b){
+										if( 'undefined' == typeof a.status  ) {
+											a.status = 0;
+										}
+										if( 'undefined' == typeof b.status  ) {
+											b.status = 0;
+										}
+										if( a.party >= b.party ) {
+											if( a.status > b.status ) {
+												return -1;
+											}
+											if( a.status <= b.status ) {
+												return 1;
+											}
+										}
+										return 0;
+									});
 									thisis.scheduleusers = scheduleusers;
 									var inLoop = 0;
 									for (var uidx=0; uidx < thisis.selectusers.length; uidx++) {
