@@ -240,7 +240,7 @@
 					url: 'https://l2rtool-donation.glitch.me',
 					type: 'POST',
 					dataType: 'text',
-					data: 'token='+ev.token.id+'&applepay=true',
+					data: 'stripeToken='+ev.token.id+'&applepay=true',
 				})
 				.done((data) => {
 					//成功した場合の処理
