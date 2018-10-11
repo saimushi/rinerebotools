@@ -579,8 +579,14 @@ bot.on('messageCreate', (msg) => {
                           console.log(snapshot.exists);
                     			if(snapshot.exists) {
                             var targetScheduleUser = snapshot.data();
-                            targetUser.status = targetScheduleUser.status;
-                            targetUser.party = targetScheduleUser.party;
+                            targetUser.status = 0;
+                            targetUser.party = 0;
+                            if ('undefined' != typeof targetScheduleUser.status) {
+                              targetUser.status = targetScheduleUser.status;
+                            }
+                            if ('undefined' != typeof targetScheduleUser.party) {
+                              targetUser.party = targetScheduleUser.party;
+                            }
                             console.log(targetScheduleUser);
                             if (-1 === subcmd && 0 < targetScheduleUser.entry && 0 < incount) {
                               // 不参加に変更
