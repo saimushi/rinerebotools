@@ -237,10 +237,12 @@
 			});
 			paymentRequest.on('token', function(ev) {
 			  // Send the token to your server to charge it!
+				const params = new URLSearchParams();
+				params.set('token', ev.token.id);
+				params.set('applepay', true);
 			  fetch('https://l2rtool-donation.glitch.me', {
 			    method: 'POST',
-			    body: {token: ev.token.id, applepay: true},
-			    headers: {'content-type': 'application/json'},
+			    body: params,
 			  })
 			  .then(function(response) {
 			    if (response.ok) {
