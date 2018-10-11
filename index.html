@@ -201,6 +201,23 @@
 	<body>
 		<div id="loader" class="orverlay loading"></div>
 		<div id="popup" class="orverlay"></div>
+		<script src="https://js.stripe.com/v3/"></script>
+		<div id="payment-request-button">
+		  <!-- A Stripe Element will be inserted here. -->
+		</div>
+		<script type="text/javascript">
+			var stripe = Stripe('pk_test_uHBhnSndDmN5a1Zu4Amr3lUS');
+			var paymentRequest = stripe.paymentRequest({
+			  country: 'JP',
+			  currency: 'jpy',
+			  total: {
+			    label: '寄付',
+			    amount: 1000,
+			  },
+			  requestPayerName: true,
+			  requestPayerEmail: true,
+			});
+		</script>
 		<form action="https://l2rtool-donation.glitch.me" class="donation-form" method="POST">
 			<script
 				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
