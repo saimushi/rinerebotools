@@ -235,7 +235,28 @@
 			    document.getElementById('payment-request-button').style.display = 'none';
 			  }
 			});
-		</script>
+			paymentRequest.on('token', function(ev) {
+			  // Send the token to your server to charge it!
+			  fetch('https://l2rtool-donation.glitch.me', {
+			    method: 'POST',
+			    body: JSON.stringify({token: ev.token.id, applepay: true}),
+			    headers: {'content-type': 'application/json'},
+			  })
+			  .then(function(response) {
+			    if (response.ok) {
+			      // Report to the browser that the payment was successful, prompting
+			      // it to close the browser payment interface.
+			      ev.complete('success');
+						swal({ text: '寄付に感謝致します！！', icon: 'success',});
+			    } else {
+			      // Report to the browser that the payment failed, prompting it to
+			      // re-show the payment interface, or show an error message and close
+			      // the payment interface.
+			      ev.complete('fail');
+						swal({ text: 'すみません、決済に失敗しました・・・', icon: 'error',});
+			    }
+			  });
+			});		</script>
 		<form action="https://l2rtool-donation.glitch.me" class="donation-form" method="POST">
 			<script
 				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
