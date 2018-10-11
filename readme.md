@@ -49,18 +49,6 @@ https://discordapp.com/developers/applications/496203597198131201/bots
 
 
 
-メタマスクにログインしていない状態で購入ボタンクリック
-
-
-
-
-
-
-
-
-
-
-
 
 
 
