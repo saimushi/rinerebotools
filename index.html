@@ -212,7 +212,7 @@
 		  <!-- A Stripe Element will be inserted here. -->
 		</div>
 		<script type="text/javascript">
-			var stripe = Stripe('pk_test_uHBhnSndDmN5a1Zu4Amr3lUS');
+			var stripe = Stripe('pk_live_JlhrlmDnSu9qzPjvJ5eqjSro');
 			var paymentRequest = stripe.paymentRequest({
 			  country: 'JP',
 			  currency: 'jpy',
@@ -256,11 +256,12 @@
 						swal({ text: 'すみません、決済に失敗しました・・・', icon: 'error',});
 			    }
 			  });
-			});		</script>
+			});
+		</script>
 		<form action="https://l2rtool-donation.glitch.me" class="donation-form" method="POST">
 			<script
 				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-				data-key="pk_test_uHBhnSndDmN5a1Zu4Amr3lUS"
+				data-key="pk_live_JlhrlmDnSu9qzPjvJ5eqjSro"
 				data-email="saimushi@gmial.com"
 				data-name="L2R Tool"
 				data-description="寄付を・・・お願いしますm(_ _)m"
