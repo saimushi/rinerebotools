@@ -187,12 +187,36 @@
 				padding: 0;
 				background-color: lightgray;
 			}
+			.donation-form {
+				position: fixed;
+				width: 100%;
+				z-index: 1500;
+				padding: 12px;
+				padding-right: 70px;
+				text-align: right;
+			}
 		</style>
 	</head>
 
 	<body>
 		<div id="loader" class="orverlay loading"></div>
 		<div id="popup" class="orverlay"></div>
+		<form action="https://l2rtool-donation.glitch.me" class="donation-form" method="POST">
+			<script
+				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+				data-key="pk_test_uHBhnSndDmN5a1Zu4Amr3lUS"
+				data-email="saimushi@gmial.com"
+				data-name="L2R Tool"
+				data-description="寄付を・・・お願いしますm(_ _)m"
+				data-image="./images/titlelogo.png"
+				data-label="寄付する"
+				data-amount="1000"
+				data-locale="auto"
+				data-allow-remember-me="false"
+				data-panel-label="{{amount}}寄付する"
+				data-currency="jpy">
+			</script>
+		</form>
 		<app class="container">
 			<navigationbar></navigationbar>
 			<router class="row">
