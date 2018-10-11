@@ -240,20 +240,23 @@
 					url: 'https://l2rtool-donation.glitch.me',
 					type: 'POST',
 					dataType: 'text',
-					data: { token: ev.token.id, applepay: true },
+					data: 'token='+ev.token.id+'&applepay=true',
 				})
 				.done((data) => {
 					//成功した場合の処理
 					console.log(data);
+					ev.complete('success');
 					swal({ text: '寄付に感謝致します！！', icon: 'success',});
 				})
 				.fail((data) => {
 					//失敗した場合の処理
 					console.log(data);
+					ev.complete('fail');
 					swal({ text: 'すみません、決済に失敗しました・・・', icon: 'error',});
 				});
 				// Send the token to your server to charge it!
 				/*const params = new URLSearchParams();
+				{ token: ev.token.id, applepay: true },
 				params.set('token', ev.token.id);
 				params.set('applepay', true);
 			  fetch('https://l2rtool-donation.glitch.me', {
