@@ -124,10 +124,7 @@
 				margin-right: 0;
 			}
 			route>.riotcontes>div:first-child {
-				min-height: calc(100% - 300px);
-			}
-			route>party.riotcontes>div:first-child {
-				min-height: calc(100% - 250px);
+				height: calc(100% - 300px);
 			}
 			div.row {
 				padding-left: 0;
@@ -200,6 +197,7 @@
 				z-index: 1500;
 				top: 13px;
 				right: 180px;
+				height: 0;
 			}
 		</style>
 	</head>
@@ -207,97 +205,9 @@
 	<body>
 		<div id="loader" class="orverlay loading"></div>
 		<div id="popup" class="orverlay"></div>
-		<script src="https://js.stripe.com/v3/"></script>
-		<div id="payment-request-button">
-		  <!-- A Stripe Element will be inserted here. -->
-		</div>
-		<script type="text/javascript">
-			var stripe = Stripe('pk_live_JlhrlmDnSu9qzPjvJ5eqjSro');
-			var paymentRequest = stripe.paymentRequest({
-			  country: 'JP',
-			  currency: 'jpy',
-			  total: {
-			    label: '寄付',
-			    amount: 1000,
-			  },
-			  requestPayerName: true,
-			  requestPayerEmail: true,
-			});
-			var elements = stripe.elements();
-			var prButton = elements.create('paymentRequestButton', {
-			  paymentRequest: paymentRequest,
-			});
-			// Check the availability of the Payment Request API first.
-			paymentRequest.canMakePayment().then(function(result) {
-			  if (result) {
-			    prButton.mount('#payment-request-button');
-			  } else {
-			    document.getElementById('payment-request-button').style.display = 'none';
-			  }
-			});
-			paymentRequest.on('token', function(ev) {
-				$.ajax({
-					url: 'https://l2rtool-donation.glitch.me',
-					type: 'POST',
-					dataType: 'text',
-					data: 'stripeToken='+ev.token.id+'&applepay=true',
-				})
-				.done((data) => {
-					//成功した場合の処理
-					console.log(data);
-					ev.complete('success');
-					swal({ text: '寄付に感謝致します！！', icon: 'success',});
-				})
-				.fail((data) => {
-					//失敗した場合の処理
-					console.log(data);
-					ev.complete('fail');
-					swal({ text: 'すみません、決済に失敗しました・・・', icon: 'error',});
-				});
-				// Send the token to your server to charge it!
-				/*const params = new URLSearchParams();
-				{ token: ev.token.id, applepay: true },
-				params.set('token', ev.token.id);
-				params.set('applepay', true);
-			  fetch('https://l2rtool-donation.glitch.me', {
-			    method: 'POST',
-			    body: 'token='+ev.token.id+'&applepay=true',
-			    headers: {'content-type': 'application/x-www-form-urlencoded'},
-			  })
-			  .then(function(response) {
-			    if (response.ok) {
-			      // Report to the browser that the payment was successful, prompting
-			      // it to close the browser payment interface.
-			      ev.complete('success');
-						swal({ text: '寄付に感謝致します！！', icon: 'success',});
-			    } else {
-			      // Report to the browser that the payment failed, prompting it to
-			      // re-show the payment interface, or show an error message and close
-			      // the payment interface.
-			      ev.complete('fail');
-						swal({ text: 'すみません、決済に失敗しました・・・', icon: 'error',});
-			    }
-			  });*/
-			});
-		</script>
-		<form action="https://l2rtool-donation.glitch.me" class="donation-form" method="POST">
-			<script
-				src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-				data-key="pk_live_JlhrlmDnSu9qzPjvJ5eqjSro"
-				data-email="saimushi@gmial.com"
-				data-name="L2R Tool"
-				data-description="寄付を・・・お願いしますm(_ _)m"
-				data-image="./images/titlelogo.png"
-				data-label="寄付する"
-				data-amount="1000"
-				data-locale="auto"
-				data-allow-remember-me="false"
-				data-panel-label="{{amount}}寄付する"
-				data-currency="jpy">
-			</script>
-		</form>
+		<donation></donation>
+		<navigationbar></navigationbar>
 		<app class="container">
-			<navigationbar></navigationbar>
 			<router class="row">
 				<route path="/">
 					<top class="riotcontes"/>
@@ -346,36 +256,44 @@
 				</route>
 			</router>
 		</app>
-		<footer class="footer">
-			<p class="text-muted" style="margin: 5px; color: white;">広告から外部サイトに出られます！</p>
-			<div  class="row">
-				<!-- rakuten -->
-				<div class="col-sm-2">
-					&nbsp;
-				</div>
-				<div class="col-sm-3">
-					<table cellpadding="0" cellspacing="0" border="0" style="background-color: white; border:1px solid #ccc; width:350px;"><tr style="border-style:none;"><td style="vertical-align:top; border-style:none; padding:10px; width:75px;"><a href="https://rpx.a8.net/svt/ejp?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2Fg00qxb34.2bo1139a.g00qxb34.2bo12cfd%2Fa18080696711_2ZNAZL_FOEY9E_2HOM_BWGDT%3Fpc%3Dhttp%253A%252F%252Fitem.rakuten.co.jp%252Fkaen-web%252Fitunes10000%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252Fkaen-web%252Fi%252F10014129%252F" target="_blank" rel="nofollow"><img border="0" alt="" src="http://thumbnail.image.rakuten.co.jp/@0_mall/kaen-web/cabinet/itunes10000.jpg?_ex=64x64" /></a></td><td style="font-size:12px; vertical-align:middle; border-style:none; padding:10px;"><p style="padding:0; margin:0;"><a href="https://rpx.a8.net/svt/ejp?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2Fg00qxb34.2bo1139a.g00qxb34.2bo12cfd%2Fa18080696711_2ZNAZL_FOEY9E_2HOM_BWGDT%3Fpc%3Dhttp%253A%252F%252Fitem.rakuten.co.jp%252Fkaen-web%252Fitunes10000%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252Fkaen-web%252Fi%252F10014129%252F" target="_blank" rel="nofollow">APPLE アップル iTunesCard　アイチューンズカード10000円</a></p><p style="color:#666; margin-top:5px line-height:1.5;">価格:<span style="font-size:14px; color:#C00; font-weight:bold;">9,922円</span><br/><span style="font-size:10px; font-weight:normal;">(2018/8/6 13:08時点)</span><br/><span style="font-weight:bold;">感想(0件)</span></p></td></tr></table>
-					<img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT" alt="">
-				</div>
-				<!-- ドコモオンラインモール -->
-				<div class="col-sm-3">
-					<a href="https://px.a8.net/svt/ejp?a8mat=2ZNAZL+FPLTGY+37HI+60H7L" target="_blank" rel="nofollow">
-						<img border="0" width="350" alt="" src="https://www29.a8.net/svt/bgt?aid=180806241950&wid=001&eno=01&mid=s00000014967001010000&mc=1">
-					</a>
-					<img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=2ZNAZL+FPLTGY+37HI+60H7L" alt="">
-				</div>
-				<!-- お名前.com -->
-				<div class="col-sm-3">
-					<a href="https://px.a8.net/svt/ejp?a8mat=2ZNAZL+FP0DV6+50+2HMLEP" target="_blank" rel="nofollow">
-						<img border="0" width="140" height="140" alt="" src="https://www26.a8.net/svt/bgt?aid=180806241949&wid=001&eno=01&mid=s00000000018015054000&mc=1">
-					</a>
-					<img border="0" width="1" height="1" src="https://www14.a8.net/0.gif?a8mat=2ZNAZL+FP0DV6+50+2HMLEP" alt="">
-				</div>
-			</div>
-		</footer>
+		<footerbar></footerbar>
+
+		<script type="riot/tag">
+			<footerbar>
+				<footer if={'#party' != location.hash} class="footer">
+					<p class="text-muted" style="margin: 5px; color: white;">広告から外部サイトに出られます！</p>
+					<div  class="row">
+						<!-- rakuten -->
+						<div class="col-sm-2">
+							&nbsp;
+						</div>
+						<div class="col-sm-3">
+							<table cellpadding="0" cellspacing="0" border="0" style="background-color: white; border:1px solid #ccc; width:350px;"><tr style="border-style:none;"><td style="vertical-align:top; border-style:none; padding:10px; width:75px;"><a href="https://rpx.a8.net/svt/ejp?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2Fg00qxb34.2bo1139a.g00qxb34.2bo12cfd%2Fa18080696711_2ZNAZL_FOEY9E_2HOM_BWGDT%3Fpc%3Dhttp%253A%252F%252Fitem.rakuten.co.jp%252Fkaen-web%252Fitunes10000%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252Fkaen-web%252Fi%252F10014129%252F" target="_blank" rel="nofollow"><img border="0" alt="" src="http://thumbnail.image.rakuten.co.jp/@0_mall/kaen-web/cabinet/itunes10000.jpg?_ex=64x64" /></a></td><td style="font-size:12px; vertical-align:middle; border-style:none; padding:10px;"><p style="padding:0; margin:0;"><a href="https://rpx.a8.net/svt/ejp?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2Fg00qxb34.2bo1139a.g00qxb34.2bo12cfd%2Fa18080696711_2ZNAZL_FOEY9E_2HOM_BWGDT%3Fpc%3Dhttp%253A%252F%252Fitem.rakuten.co.jp%252Fkaen-web%252Fitunes10000%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252Fkaen-web%252Fi%252F10014129%252F" target="_blank" rel="nofollow">APPLE アップル iTunesCard　アイチューンズカード10000円</a></p><p style="color:#666; margin-top:5px line-height:1.5;">価格:<span style="font-size:14px; color:#C00; font-weight:bold;">9,922円</span><br/><span style="font-size:10px; font-weight:normal;">(2018/8/6 13:08時点)</span><br/><span style="font-weight:bold;">感想(0件)</span></p></td></tr></table>
+							<img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT" alt="">
+						</div>
+						<!-- ドコモオンラインモール -->
+						<div class="col-sm-3">
+							<a href="https://px.a8.net/svt/ejp?a8mat=2ZNAZL+FPLTGY+37HI+60H7L" target="_blank" rel="nofollow">
+								<img border="0" width="350" alt="" src="https://www29.a8.net/svt/bgt?aid=180806241950&wid=001&eno=01&mid=s00000014967001010000&mc=1">
+							</a>
+							<img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=2ZNAZL+FPLTGY+37HI+60H7L" alt="">
+						</div>
+						<!-- お名前.com -->
+						<div class="col-sm-3">
+							<a href="https://px.a8.net/svt/ejp?a8mat=2ZNAZL+FP0DV6+50+2HMLEP" target="_blank" rel="nofollow">
+								<img border="0" width="140" height="140" alt="" src="https://www26.a8.net/svt/bgt?aid=180806241949&wid=001&eno=01&mid=s00000000018015054000&mc=1">
+							</a>
+							<img border="0" width="1" height="1" src="https://www14.a8.net/0.gif?a8mat=2ZNAZL+FP0DV6+50+2HMLEP" alt="">
+						</div>
+					</div>
+				</footer>
+			</footerbar>
+		</script>
 
 		<!-- Riot tags -->
 		<section id="riot-tags">
+
+			<script type="riot/tag" src="./customtags/donation.tag"></script>
 
 			<script type="riot/tag">
 				<navigationbar>
@@ -1207,7 +1125,7 @@
 
 			<script type="riot/tag">
 				<party>
-					<div style="margin-top: -55px;">
+					<div style="position: fixed; top: 5px;">
 						<h5 style="margin-top: 0; margin-bottom: 5px; padding-left: 5px;"><a href="{scheduleURL}">PT編成 {partySchedule.date} {partySchedule.name} 参加予定:{partySchedule.incount}人</a>&nbsp;&nbsp;&nbsp;<a href="{clan.url}">[ 血盟コミュに戻る ]</a></h5>
 						<div class="row">
 							<table class="table border">
@@ -1310,7 +1228,11 @@
 					var partySchedule = {name:'', date: '', incount: 0, };
 					var parties = [];
 					var partyCPs = [];
+					this.on('unmount', function() {
+						$('donation').show();
+					});
 					this.on('mount', function() {
+						$('donation').hide();
 						var viewGrid = function (schedule, data) {
 							data.sort(function(a, b){
 								if( 'undefined' == typeof a.status  ) {
@@ -2688,7 +2610,6 @@
 			<!-- Discord -->
 			<script src="//greasyfork.org/scripts/29088-discord-js-for-browser/code/Discordjs%20for%20Browser.js?version=208579"></script>
 
-
 			<script>
 				// Initialize Firebase
 				var config = {
@@ -2706,6 +2627,7 @@
 
 			<!-- this app -->
 			<script>
+				var firstView = false;
 				var totalcp = 0;
 				var prelrtcp = 0;
 				var publicURL = 'line2revo.fun';
@@ -3609,6 +3531,7 @@
 										}
 										getScheduleUsers(baseSchedule.ID, null, function (entryUsers){
 											if (0 < entryUsers.length) {
+												duplicateEntryCnt = 0;
 												duplicateEntryUserCnt = 0;
 												duplicateEntrySchedule(baseSchedule, data, entryUsers);
 												return;
@@ -3855,6 +3778,8 @@
 					getParams = getUrlVars();
 					$(window).load(function() {
 						riot.mount('navigationbar');
+						riot.mount('footerbar');
+						riot.mount('donation');
 						riot.mount('router');
 						loading(false);
 					});
