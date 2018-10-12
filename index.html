@@ -3461,11 +3461,31 @@
 							duplicateEntrySchedule(baseSchedule, newSchedule, duplicateEntryUsers);
 							return;
 						}
-						duplicateEntryUsers[duplicateEntryUserCnt].entry = 0;
-						registerScheduleuser(newSchedule.ID, duplicateEntryUsers[duplicateEntryUserCnt], function (){
-							duplicateEntryCnt++;
-							duplicateEntryUserCnt++;
-							duplicateEntrySchedule(baseSchedule, newSchedule, duplicateEntryUsers);
+						getUser(duplicateEntryUsers[duplicateEntryUserCnt].ID, function (targetUser) {
+							if (targetUser.activity < 0) {
+								duplicateEntryUserCnt++;
+								duplicateEntrySchedule(baseSchedule, newSchedule, duplicateEntryUsers);
+								return;
+							}
+							targetUser.entry = 0;
+							targetUser.status = 0;
+							targetUser.party = 0;
+							targetUser.voice = 0;
+							if ('undefined' != typeof duplicateEntryUsers[duplicateEntryUserCnt].status) {
+								targetUser.status = duplicateEntryUsers[duplicateEntryUserCnt].status;
+							}
+							if ('undefined' != typeof duplicateEntryUsers[duplicateEntryUserCnt].party) {
+								targetUser.party = duplicateEntryUsers[duplicateEntryUserCnt].party;
+							}
+							if ('undefined' != typeof duplicateEntryUsers[duplicateEntryUserCnt].voice) {
+								targetUser.voice = duplicateEntryUsers[duplicateEntryUserCnt].voice;
+							}
+							duplicateEntryUsers[duplicateEntryUserCnt].entry = 0;
+							registerScheduleuser(newSchedule.ID, targetUser, function (){
+								duplicateEntryCnt++;
+								duplicateEntryUserCnt++;
+								duplicateEntrySchedule(baseSchedule, newSchedule, duplicateEntryUsers);
+							});
 						});
 						return;
 					}

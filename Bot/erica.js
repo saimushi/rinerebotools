@@ -166,6 +166,7 @@ bot.on('ready', () => {
 
 bot.on('messageCreate', (msg) => {
   console.log(msg.content);
+  console.log(msg.author.username + '#' + msg.author.discriminator);
   var cmd = 0;
   var subcmd = 0;
   var newcp = 0;
@@ -180,9 +181,19 @@ bot.on('messageCreate', (msg) => {
       cmd = 0;
     }
   }
-  else if (0 === msg.content.indexOf('参加 ') || msg.content == '参加') {
-    msg.channel.createMessage('予定に参加するのね！ありがとう！！\n');
-    var entry = msg.content.replace('不参加', '').trim();
+  else if (0 === msg.content.indexOf('参加 ') || msg.content == '参加' || msg.content == 'ハアハア') {
+    if (msg.content == 'ハァハァ') {
+      if ('ナレノハテ明美#6358' == msg.author.username + '#' + msg.author.discriminator) {
+        msg.channel.createMessage('アナタ・・・出るのね・・・ハァハァ\n');
+      }
+      else {
+        return;
+      }
+    }
+    else {
+      msg.channel.createMessage('予定に参加するのね！ありがとう！！\n');
+    }
+    var entry = msg.content.replace('参加', '').trim();
     cmd = 4;
     subcmd = 1;
     if (-1 < entry.indexOf('聞き専')) {
@@ -200,7 +211,6 @@ bot.on('messageCreate', (msg) => {
   }
   else if (msg.content == '不参加') {
     msg.channel.createMessage('予定へ不参加で登録するのね、仕方ないわ・・・次は来てね★\n');
-    var entry = msg.content.replace('参加', '').trim();
     cmd = 4;
     subcmd = -1;
   }
@@ -502,6 +512,7 @@ bot.on('messageCreate', (msg) => {
                       }
                       console.log('targetSchedule=');
                       console.log(targetSchedule);
+                      incount = targetSchedule.incount;
                       msg.channel.createMessage('該当する予定が見つかったわ！\n**' + dateLabel + 'に予定さている「' + targetSchedule.name + '」**ね！\n');
                       if (5 == cmd) {
                         console.log('targetUsers=');
@@ -524,7 +535,7 @@ bot.on('messageCreate', (msg) => {
                           var mybeUsers = '';
                           var outUsers = '';
                           for (var suidx=0; suidx < targetUsers.length; suidx++) {
-                            if (true === targetUsers[suidx].out) {
+                            if (true === targetUsers[suidx].out && targetUsers[suidx].activity > -1) {
                               outUsers = outUsers + targetUsers[suidx].name;
                               var botUser = bot.users.find(function(element) {
                                 if ('string' == typeof targetUsers[suidx].discord && 0 < targetUsers[suidx].discord.length && targetUsers[suidx].discord == element.username + '#' + element.discriminator) {
@@ -540,7 +551,7 @@ bot.on('messageCreate', (msg) => {
                               }
                               outUsers = outUsers + '\n';
                             }
-                            else if (2 == subcmd && 0 === targetUsers[suidx].entry) {
+                            else if (2 == subcmd && 0 === targetUsers[suidx].entry && targetUsers[suidx].activity > -1) {
                               mybeUsers = mybeUsers + targetUsers[suidx].name;
                               var botUser = bot.users.find(function(element) {
                                 if ('string' == typeof targetUsers[suidx].discord && 0 < targetUsers[suidx].discord.length && targetUsers[suidx].discord == element.username + '#' + element.discriminator) {
@@ -560,12 +571,23 @@ bot.on('messageCreate', (msg) => {
                           if (2 == subcmd) {
                             console.log('mybeUsers=');
                             console.log(mybeUsers);
-                            msg.channel.createMessage('**以下の方達がまだ未確定のままだったわ・・・**\n\n' + mybeUsers + '\n\n');
+                            if (0 < mybeUsers.length) {
+                              msg.channel.createMessage('**以下の方達がまだ未確定のままだったわ・・・**\n\n' + mybeUsers + '\n\n');
+                            }
+                            else {
+                              msg.channel.createMessage('**未確定の人は居なかったわ！**\n\n');
+                            }
                           }
                           console.log('outUsers=');
                           console.log(outUsers);
-                          msg.channel.createMessage('**以下の方達がまだ未表明のままだったわ・・・**\n\n' + outUsers + '\n予定への登録は「 https://line2revo.fun/?clanid=' + clanID + '&scheduleid=' + scheduleID + '&view=on#detailschedule 」から出来るわ！\n'
-                          + 'もしくは私に「参加」「不参加」かを教えて！');
+                          if (0 < outUsers.length) {
+                            msg.channel.createMessage('**以下の方達がまだ未表明のままだったわ・・・**\n\n' + outUsers + '\n予定への登録は「 https://line2revo.fun/?clanid=' + clanID + '&scheduleid=' + scheduleID + '&view=on#detailschedule 」から出来るわ！\n'
+                            + 'もしくは私に「参加」「不参加」かを教えて！');
+                          }
+                          else {
+                            msg.channel.createMessage('**未表明の方は居なかったわ！**\n\n予定への登録は「 https://line2revo.fun/?clanid=' + clanID + '&scheduleid=' + scheduleID + '&view=on#detailschedule 」から出来るわ！\n'
+                            + 'もしくは私に「参加」「不参加」かを教えて！');
+                          }
                           return;
                         }).catch(function(error) {
                           console.error("Error read schedule users: ", error);
@@ -591,9 +613,11 @@ bot.on('messageCreate', (msg) => {
                             if (-1 === subcmd && 0 < targetScheduleUser.entry && 0 < incount) {
                               // 不参加に変更
                               incount--;
+                              console.log('dec1');
                             }
                             else if (-1 < subcmd && 0 > targetScheduleUser.entry){
                               incount++;
+                              console.log('inc1');
                             }
                           }
                           else {
@@ -601,6 +625,7 @@ bot.on('messageCreate', (msg) => {
                             targetUser.party = 0;
                             if (-1 < subcmd) {
                               incount++;
+                              console.log('inc2');
                             }
                           }
                           // 予定に追加
