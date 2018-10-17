@@ -181,8 +181,8 @@ bot.on('messageCreate', (msg) => {
       cmd = 0;
     }
   }
-  else if (0 === msg.content.indexOf('参加 ') || msg.content == '参加' || msg.content == 'ハアハア') {
-    if (msg.content == 'ハァハァ') {
+  else if (0 === msg.content.indexOf('参加 ') || msg.content == '参加' || msg.content == 'ハァハァ' || msg.content == 'ハアハア') {
+    if (msg.content == 'ハァハァ' || msg.content == 'ハアハア') {
       if ('ナレノハテ明美#6358' == msg.author.username + '#' + msg.author.discriminator) {
         msg.channel.createMessage('アナタ・・・出るのね・・・ハァハァ\n');
       }
@@ -409,6 +409,50 @@ bot.on('messageCreate', (msg) => {
   else if (msg.content === 'お知らせ通知解除') {
     msg.channel.createMessage('お知らせ自動通知を解除して欲しいのね、私に任せて！\n');
     cmd = 3;
+  }
+  else if (0 === msg.content.indexOf('ギロチン ') || 0 === msg.content.indexOf('ザケン ')) {
+    cmd = 6;
+    var boss = '';
+    var bosses = msg.content.split(' ');
+    console.log(bosses);
+    newSelection = parseInt(bosses[1]);
+    if (!isFinite(newSelection) || 0 > newSelection) {
+      // ありえない数値なので無視
+      return;
+    }
+    subcmd = msg.author.username;
+    if ('string' == typeof bosses[2] && 0 < bosses[2].length) {
+      // 誰が持ってるか
+      subcmd = bosses[2].trim();
+    }
+    if ('ギロチン' == bosses[0]) {
+      boss = 'ギロチン';
+      msg.channel.createMessage('**' + subcmd + ' の持ってるギロチンの欠片を ' + newSelection + ' に更新** するのね、私に任せて！\n');
+    }
+    else if ('ザケン' == bosses[0]) {
+      boss = 'ザケン';
+      msg.channel.createMessage('**' + subcmd + ' の持ってるザケンの欠片を ' + newSelection + ' に更新** するのね、私に任せて！\n');
+    }
+    else {
+      // 存在しないボスなので無視
+      return;
+    }
+  }
+  else if (msg.content === 'ボス石教えて' || msg.content === 'ボス石確認' || msg.content === 'ボス石教えてにゃ') {
+    cmd = 7;
+    if (msg.content === 'ボス石教えてにゃ') {
+      if ('ねーこ#5826' == (msg.author.username + '#' + msg.author.discriminator)) {
+        msg.channel.createMessage('ねーこちゃんの依頼か・・・少し面倒だけどしょうがないからやるわね・・・\n登録されているボス石の数を確認したいのね・・・\n');
+      }
+      else {
+        msg.channel.createMessage('ねーこちゃんの真似をするのは良くないと思うわ・・・聞かなかった事にするわね・・・\n');
+        cmd = 0;
+        return;
+      }
+    }
+    else {
+      msg.channel.createMessage('登録されているボス石の数を確認したいのね、私に任せて！\n');
+    }
   }
   if (0 == cmd) {
     return;
@@ -704,6 +748,72 @@ bot.on('messageCreate', (msg) => {
               clan.useInfoJob = false;
               firestore.collection("clans").doc(clanID).set(clan).then(function(snapshot) {
                 msg.channel.createMessage('**お知らせ自動通知を解除したわ！**\nこれで毎晩グッスリ眠れるハズよ！\n・・・少し・・・うるさかったかしらね・・・\nもう一度設定する時は「お知らせ通知」って言ってちょうだい★\n');
+                return;
+              }).catch(function(error) {
+                console.error("Error modify clan: ", error);
+                msg.channel.createMessage('**このエラーは想定外！**\n作者に問い合わせのが懸命よ。きっとバグね・・・\nhttps://line2revo.fun/#inquiry\n');
+              });
+              return;
+            }
+            else if (6 == cmd) {
+              firestore.collection("clans").doc(clanID).collection("worldbossholders").doc(subcmd).get().then(function(snapshot){
+                console.log('snapshot=');
+                console.log(snapshot.exists);
+                var targetHolder = { username: subcmd, guillotine: 0, zaken: 0, };
+                if (snapshot.exists) {
+                  targetHolder = snapshot.data();
+                }
+                console.log(targetHolder);
+                if (boss == 'ギロチン') {
+                  targetHolder.guillotine = newSelection;
+                }
+                else if (boss == 'ザケン') {
+                  targetHolder.zaken = newSelection;
+                }
+                firestore.collection("clans").doc(clanID).collection("worldbossholders").doc(subcmd).set(targetHolder).then(function() {
+                  msg.channel.createMessage('**データを更新したわ！**\n現在の状況を確認したい場合は「ボス石教えて」って言ってちょうだい★\n');
+                  return;
+                }).catch(function(error) {
+                  console.error("Error modify worldboss holders: ", error);
+                  msg.channel.createMessage('**このエラーは想定外！**\n作者に問い合わせのが懸命よ。きっとバグね・・・\nhttps://line2revo.fun/#inquiry\n');
+                });
+                return;
+              }).catch(function(error) {
+                console.error("Error read worldboss: ", error);
+                msg.channel.createMessage('**このエラーは想定外！**\n作者に問い合わせのが懸命よ。きっとバグね・・・\nhttps://line2revo.fun/#inquiry\n');
+              });
+              return;
+            }
+            else if (7 == cmd) {
+              firestore.collection("clans").doc(clanID).collection("worldbossholders").get().then(function(querySnapshot){
+                var message = '';
+                var totalGuillotine = 0;
+                var totalZaken = 0;
+                querySnapshot.forEach(function(snapshot) {
+                  if(snapshot.exists) {
+                    var targetHolder = snapshot.data();
+                    if (targetHolder.guillotine > 0 || targetHolder.zaken > 0) {
+                      message = message + targetHolder.username + ' ';
+                      if (targetHolder.guillotine > 0) {
+                        message = message + '【ギロチン】' + Math.floor(targetHolder.guillotine / 100) + '個(+' + (targetHolder.guillotine % 100) + '欠片)';
+                        totalGuillotine += Math.floor(targetHolder.guillotine / 100);
+                      }
+                      if (targetHolder.zaken > 0) {
+                        message = message + '【ザケン】' + Math.floor(targetHolder.zaken / 100) + '個(+' + (targetHolder.zaken % 100) + '欠片)';
+                        totalZaken += Math.floor(targetHolder.zaken / 100);
+                      }
+                      message = message + '\n';
+                    }
+                  }
+                });
+                if (0 < message.length) {
+                  message = message + '\n総ギロチン ' + totalGuillotine + '個\n総ザケン ' + totalZaken + '個\n';
+                  msg.channel.createMessage('現在の状況は\n\n **' + message + '** \nって登録されてるわよ！\n');
+                }
+                else {
+                  msg.channel.createMessage('\n**現在はボス石は何も登録されていなかったわ。** \n\n登録する場合は「ギロチン 150 サンフレ」みたいに所持中のボスの名前と欠片換算で所持中の欠片の数と持ってる人の名前の順序で繋げて言ってくれれば私が代わりに登録してあげるわよ★'
+                  + '\n持ってる人の名前は省略してもいいわ。その場合はアナタの名前で登録するわ！');
+                }
                 return;
               }).catch(function(error) {
                 console.error("Error modify clan: ", error);

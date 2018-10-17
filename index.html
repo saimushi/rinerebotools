@@ -609,6 +609,14 @@
 							<div class="form-group">
 								<select class="form-control" name="userjob">
 									<option>職業</option>
+									<optgroup label="オーク">
+										<option if={user.job=='オークレイダー'} value="オークレイダー" selected="selected">オークレイダー</option>
+										<option if={user.job=='オークモンク'} value="オークモンク" selected="selected">オークモンク</option>
+										<option if={user.job=='オークシャーマン'} value="オークシャーマン" selected="selected">オークシャーマン</option>
+										<option if={user.job!='オークレイダー'} value="オークレイダー">オークレイダー</option>
+										<option if={user.job!='オークモンク'} value="オークモンク">オークモンク</option>
+										<option if={user.job!='オークシャーマン'} value="オークシャーマン">オークシャーマン</option>
+									</optgroup>
 									<optgroup label="ヒューマン">
 										<option if={user.job=='パラディン'} value="パラディン" selected="selected">パラディン</option>
 										<option if={user.job=='ウォーロード'} value="ウォーロード" selected="selected">ウォーロード</option>
@@ -925,66 +933,128 @@
 								<select class="form-control" name="usermanto">
 									<option value="">マント</option>
 									<optgroup label="高潔なる血のマント">
-										<option if={user.manto=='高潔30'} value="高潔30" selected="selected">特性Lv30</option>
-										<option if={user.manto=='高潔29'} value="高潔29" selected="selected">特性Lv29</option>
-										<option if={user.manto=='高潔28'} value="高潔28" selected="selected">特性Lv28</option>
-										<option if={user.manto=='高潔27'} value="高潔27" selected="selected">特性Lv27</option>
-										<option if={user.manto=='高潔26'} value="高潔26" selected="selected">特性Lv26</option>
-										<option if={user.manto=='高潔25'} value="高潔25" selected="selected">特性Lv25</option>
-										<option if={user.manto=='高潔24'} value="高潔24" selected="selected">特性Lv24</option>
-										<option if={user.manto=='高潔23'} value="高潔23" selected="selected">特性Lv23</option>
-										<option if={user.manto=='高潔22'} value="高潔22" selected="selected">特性Lv22</option>
-										<option if={user.manto=='高潔21'} value="高潔21" selected="selected">特性Lv21</option>
-										<option if={user.manto=='高潔20'} value="高潔20" selected="selected">特性Lv20</option>
-										<option if={user.manto=='高潔19'} value="高潔19" selected="selected">特性Lv19</option>
-										<option if={user.manto=='高潔18'} value="高潔18" selected="selected">特性Lv18</option>
-										<option if={user.manto=='高潔17'} value="高潔17" selected="selected">特性Lv17</option>
-										<option if={user.manto=='高潔16'} value="高潔16" selected="selected">特性Lv16</option>
-										<option if={user.manto=='高潔15'} value="高潔15" selected="selected">特性Lv15</option>
-										<option if={user.manto=='高潔14'} value="高潔14" selected="selected">特性Lv14</option>
-										<option if={user.manto=='高潔13'} value="高潔13" selected="selected">特性Lv13</option>
-										<option if={user.manto=='高潔12'} value="高潔12" selected="selected">特性Lv12</option>
-										<option if={user.manto=='高潔11'} value="高潔11" selected="selected">特性Lv11</option>
-										<option if={user.manto=='高潔10'} value="高潔10" selected="selected">特性Lv10</option>
-										<option if={user.manto=='高潔9'} value="高潔9" selected="selected">特性Lv9</option>
-										<option if={user.manto=='高潔8'} value="高潔8" selected="selected">特性Lv8</option>
-										<option if={user.manto=='高潔7'} value="高潔7" selected="selected">特性Lv7</option>
-										<option if={user.manto=='高潔6'} value="高潔6" selected="selected">特性Lv6</option>
-										<option if={user.manto=='高潔5'} value="高潔5" selected="selected">特性Lv5</option>
-										<option if={user.manto=='高潔4'} value="高潔4" selected="selected">特性Lv4</option>
-										<option if={user.manto=='高潔3'} value="高潔3" selected="selected">特性Lv3</option>
-										<option if={user.manto=='高潔2'} value="高潔2" selected="selected">特性Lv2</option>
-										<option if={user.manto=='高潔1'} value="高潔1" selected="selected">特性Lv1</option>
-										<option if={user.manto!='高潔30'} value="高潔30">特性Lv30</option>
-										<option if={user.manto!='高潔29'} value="高潔29">特性Lv29</option>
-										<option if={user.manto!='高潔28'} value="高潔28">特性Lv28</option>
-										<option if={user.manto!='高潔27'} value="高潔27">特性Lv27</option>
-										<option if={user.manto!='高潔26'} value="高潔26">特性Lv26</option>
-										<option if={user.manto!='高潔25'} value="高潔25">特性Lv25</option>
-										<option if={user.manto!='高潔24'} value="高潔24">特性Lv24</option>
-										<option if={user.manto!='高潔23'} value="高潔23">特性Lv23</option>
-										<option if={user.manto!='高潔22'} value="高潔22">特性Lv22</option>
-										<option if={user.manto!='高潔21'} value="高潔21">特性Lv21</option>
-										<option if={user.manto!='高潔20'} value="高潔20">特性Lv20</option>
-										<option if={user.manto!='高潔19'} value="高潔19">特性Lv19</option>
-										<option if={user.manto!='高潔18'} value="高潔18">特性Lv18</option>
-										<option if={user.manto!='高潔17'} value="高潔17">特性Lv17</option>
-										<option if={user.manto!='高潔16'} value="高潔16">特性Lv16</option>
-										<option if={user.manto!='高潔15'} value="高潔15">特性Lv15</option>
-										<option if={user.manto!='高潔14'} value="高潔14">特性Lv14</option>
-										<option if={user.manto!='高潔13'} value="高潔13">特性Lv13</option>
-										<option if={user.manto!='高潔12'} value="高潔12">特性Lv12</option>
-										<option if={user.manto!='高潔11'} value="高潔11">特性Lv11</option>
-										<option if={user.manto!='高潔10'} value="高潔10">特性Lv10</option>
-										<option if={user.manto!='高潔9'} value="高潔9">特性Lv9</option>
-										<option if={user.manto!='高潔8'} value="高潔8">特性Lv8</option>
-										<option if={user.manto!='高潔7'} value="高潔7">特性Lv7</option>
-										<option if={user.manto!='高潔6'} value="高潔6">特性Lv6</option>
-										<option if={user.manto!='高潔5'} value="高潔5">特性Lv5</option>
-										<option if={user.manto!='高潔4'} value="高潔4">特性Lv4</option>
-										<option if={user.manto!='高潔3'} value="高潔3">特性Lv3</option>
-										<option if={user.manto!='高潔2'} value="高潔2">特性Lv2</option>
-										<option if={user.manto!='高潔1'} value="高潔1">特性Lv1</option>
+										<option if={user.manto=='高潔30'} value="高潔30" selected="selected">高潔Lv30</option>
+										<option if={user.manto=='高潔29'} value="高潔29" selected="selected">高潔Lv29</option>
+										<option if={user.manto=='高潔28'} value="高潔28" selected="selected">高潔Lv28</option>
+										<option if={user.manto=='高潔27'} value="高潔27" selected="selected">高潔Lv27</option>
+										<option if={user.manto=='高潔26'} value="高潔26" selected="selected">高潔Lv26</option>
+										<option if={user.manto=='高潔25'} value="高潔25" selected="selected">高潔Lv25</option>
+										<option if={user.manto=='高潔24'} value="高潔24" selected="selected">高潔Lv24</option>
+										<option if={user.manto=='高潔23'} value="高潔23" selected="selected">高潔Lv23</option>
+										<option if={user.manto=='高潔22'} value="高潔22" selected="selected">高潔Lv22</option>
+										<option if={user.manto=='高潔21'} value="高潔21" selected="selected">高潔Lv21</option>
+										<option if={user.manto=='高潔20'} value="高潔20" selected="selected">高潔Lv20</option>
+										<option if={user.manto=='高潔19'} value="高潔19" selected="selected">高潔Lv19</option>
+										<option if={user.manto=='高潔18'} value="高潔18" selected="selected">高潔Lv18</option>
+										<option if={user.manto=='高潔17'} value="高潔17" selected="selected">高潔Lv17</option>
+										<option if={user.manto=='高潔16'} value="高潔16" selected="selected">高潔Lv16</option>
+										<option if={user.manto=='高潔15'} value="高潔15" selected="selected">高潔Lv15</option>
+										<option if={user.manto=='高潔14'} value="高潔14" selected="selected">高潔Lv14</option>
+										<option if={user.manto=='高潔13'} value="高潔13" selected="selected">高潔Lv13</option>
+										<option if={user.manto=='高潔12'} value="高潔12" selected="selected">高潔Lv12</option>
+										<option if={user.manto=='高潔11'} value="高潔11" selected="selected">高潔Lv11</option>
+										<option if={user.manto=='高潔10'} value="高潔10" selected="selected">高潔Lv10</option>
+										<option if={user.manto=='高潔9'} value="高潔9" selected="selected">高潔Lv9</option>
+										<option if={user.manto=='高潔8'} value="高潔8" selected="selected">高潔Lv8</option>
+										<option if={user.manto=='高潔7'} value="高潔7" selected="selected">高潔Lv7</option>
+										<option if={user.manto=='高潔6'} value="高潔6" selected="selected">高潔Lv6</option>
+										<option if={user.manto=='高潔5'} value="高潔5" selected="selected">高潔Lv5</option>
+										<option if={user.manto=='高潔4'} value="高潔4" selected="selected">高潔Lv4</option>
+										<option if={user.manto=='高潔3'} value="高潔3" selected="selected">高潔Lv3</option>
+										<option if={user.manto=='高潔2'} value="高潔2" selected="selected">高潔Lv2</option>
+										<option if={user.manto=='高潔1'} value="高潔1" selected="selected">高潔Lv1</option>
+										<option if={user.manto!='高潔30'} value="高潔30">高潔Lv30</option>
+										<option if={user.manto!='高潔29'} value="高潔29">高潔Lv29</option>
+										<option if={user.manto!='高潔28'} value="高潔28">高潔Lv28</option>
+										<option if={user.manto!='高潔27'} value="高潔27">高潔Lv27</option>
+										<option if={user.manto!='高潔26'} value="高潔26">高潔Lv26</option>
+										<option if={user.manto!='高潔25'} value="高潔25">高潔Lv25</option>
+										<option if={user.manto!='高潔24'} value="高潔24">高潔Lv24</option>
+										<option if={user.manto!='高潔23'} value="高潔23">高潔Lv23</option>
+										<option if={user.manto!='高潔22'} value="高潔22">高潔Lv22</option>
+										<option if={user.manto!='高潔21'} value="高潔21">高潔Lv21</option>
+										<option if={user.manto!='高潔20'} value="高潔20">高潔Lv20</option>
+										<option if={user.manto!='高潔19'} value="高潔19">高潔Lv19</option>
+										<option if={user.manto!='高潔18'} value="高潔18">高潔Lv18</option>
+										<option if={user.manto!='高潔17'} value="高潔17">高潔Lv17</option>
+										<option if={user.manto!='高潔16'} value="高潔16">高潔Lv16</option>
+										<option if={user.manto!='高潔15'} value="高潔15">高潔Lv15</option>
+										<option if={user.manto!='高潔14'} value="高潔14">高潔Lv14</option>
+										<option if={user.manto!='高潔13'} value="高潔13">高潔Lv13</option>
+										<option if={user.manto!='高潔12'} value="高潔12">高潔Lv12</option>
+										<option if={user.manto!='高潔11'} value="高潔11">高潔Lv11</option>
+										<option if={user.manto!='高潔10'} value="高潔10">高潔Lv10</option>
+										<option if={user.manto!='高潔9'} value="高潔9">高潔Lv9</option>
+										<option if={user.manto!='高潔8'} value="高潔8">高潔Lv8</option>
+										<option if={user.manto!='高潔7'} value="高潔7">高潔Lv7</option>
+										<option if={user.manto!='高潔6'} value="高潔6">高潔Lv6</option>
+										<option if={user.manto!='高潔5'} value="高潔5">高潔Lv5</option>
+										<option if={user.manto!='高潔4'} value="高潔4">高潔Lv4</option>
+										<option if={user.manto!='高潔3'} value="高潔3">高潔Lv3</option>
+										<option if={user.manto!='高潔2'} value="高潔2">高潔Lv2</option>
+										<option if={user.manto!='高潔1'} value="高潔1">高潔Lv1</option>
+									</optgroup>
+									<optgroup label="ハギオスのマント">
+										<option if={user.manto=='ハギ30'} value="ハギ30" selected="selected">ハギオスLv30</option>
+										<option if={user.manto=='ハギ29'} value="ハギ29" selected="selected">ハギオスLv29</option>
+										<option if={user.manto=='ハギ28'} value="ハギ28" selected="selected">ハギオスLv28</option>
+										<option if={user.manto=='ハギ27'} value="ハギ27" selected="selected">ハギオスLv27</option>
+										<option if={user.manto=='ハギ26'} value="ハギ26" selected="selected">ハギオスLv26</option>
+										<option if={user.manto=='ハギ25'} value="ハギ25" selected="selected">ハギオスLv25</option>
+										<option if={user.manto=='ハギ24'} value="ハギ24" selected="selected">ハギオスLv24</option>
+										<option if={user.manto=='ハギ23'} value="ハギ23" selected="selected">ハギオスLv23</option>
+										<option if={user.manto=='ハギ22'} value="ハギ22" selected="selected">ハギオスLv22</option>
+										<option if={user.manto=='ハギ21'} value="ハギ21" selected="selected">ハギオスLv21</option>
+										<option if={user.manto=='ハギ20'} value="ハギ20" selected="selected">ハギオスLv20</option>
+										<option if={user.manto=='ハギ19'} value="ハギ19" selected="selected">ハギオスLv19</option>
+										<option if={user.manto=='ハギ18'} value="ハギ18" selected="selected">ハギオスLv18</option>
+										<option if={user.manto=='ハギ17'} value="ハギ17" selected="selected">ハギオスLv17</option>
+										<option if={user.manto=='ハギ16'} value="ハギ16" selected="selected">ハギオスLv16</option>
+										<option if={user.manto=='ハギ15'} value="ハギ15" selected="selected">ハギオスLv15</option>
+										<option if={user.manto=='ハギ14'} value="ハギ14" selected="selected">ハギオスLv14</option>
+										<option if={user.manto=='ハギ13'} value="ハギ13" selected="selected">ハギオスLv13</option>
+										<option if={user.manto=='ハギ12'} value="ハギ12" selected="selected">ハギオスLv12</option>
+										<option if={user.manto=='ハギ11'} value="ハギ11" selected="selected">ハギオスLv11</option>
+										<option if={user.manto=='ハギ10'} value="ハギ10" selected="selected">ハギオスLv10</option>
+										<option if={user.manto=='ハギ9'} value="ハギ9" selected="selected">ハギオスLv9</option>
+										<option if={user.manto=='ハギ8'} value="ハギ8" selected="selected">ハギオスLv8</option>
+										<option if={user.manto=='ハギ7'} value="ハギ7" selected="selected">ハギオスLv7</option>
+										<option if={user.manto=='ハギ6'} value="ハギ6" selected="selected">ハギオスLv6</option>
+										<option if={user.manto=='ハギ5'} value="ハギ5" selected="selected">ハギオスLv5</option>
+										<option if={user.manto=='ハギ4'} value="ハギ4" selected="selected">ハギオスLv4</option>
+										<option if={user.manto=='ハギ3'} value="ハギ3" selected="selected">ハギオスLv3</option>
+										<option if={user.manto=='ハギ2'} value="ハギ2" selected="selected">ハギオスLv2</option>
+										<option if={user.manto=='ハギ1'} value="ハギ1" selected="selected">ハギオスLv1</option>
+										<option if={user.manto!='ハギ30'} value="ハギ30">ハギオスLv30</option>
+										<option if={user.manto!='ハギ29'} value="ハギ29">ハギオスLv29</option>
+										<option if={user.manto!='ハギ28'} value="ハギ28">ハギオスLv28</option>
+										<option if={user.manto!='ハギ27'} value="ハギ27">ハギオスLv27</option>
+										<option if={user.manto!='ハギ26'} value="ハギ26">ハギオスLv26</option>
+										<option if={user.manto!='ハギ25'} value="ハギ25">ハギオスLv25</option>
+										<option if={user.manto!='ハギ24'} value="ハギ24">ハギオスLv24</option>
+										<option if={user.manto!='ハギ23'} value="ハギ23">ハギオスLv23</option>
+										<option if={user.manto!='ハギ22'} value="ハギ22">ハギオスLv22</option>
+										<option if={user.manto!='ハギ21'} value="ハギ21">ハギオスLv21</option>
+										<option if={user.manto!='ハギ20'} value="ハギ20">ハギオスLv20</option>
+										<option if={user.manto!='ハギ19'} value="ハギ19">ハギオスLv19</option>
+										<option if={user.manto!='ハギ18'} value="ハギ18">ハギオスLv18</option>
+										<option if={user.manto!='ハギ17'} value="ハギ17">ハギオスLv17</option>
+										<option if={user.manto!='ハギ16'} value="ハギ16">ハギオスLv16</option>
+										<option if={user.manto!='ハギ15'} value="ハギ15">ハギオスLv15</option>
+										<option if={user.manto!='ハギ14'} value="ハギ14">ハギオスLv14</option>
+										<option if={user.manto!='ハギ13'} value="ハギ13">ハギオスLv13</option>
+										<option if={user.manto!='ハギ12'} value="ハギ12">ハギオスLv12</option>
+										<option if={user.manto!='ハギ11'} value="ハギ11">ハギオスLv11</option>
+										<option if={user.manto!='ハギ10'} value="ハギ10">ハギオスLv10</option>
+										<option if={user.manto!='ハギ9'} value="ハギ9">ハギオスLv9</option>
+										<option if={user.manto!='ハギ8'} value="ハギ8">ハギオスLv8</option>
+										<option if={user.manto!='ハギ7'} value="ハギ7">ハギオスLv7</option>
+										<option if={user.manto!='ハギ6'} value="ハギ6">ハギオスLv6</option>
+										<option if={user.manto!='ハギ5'} value="ハギ5">ハギオスLv5</option>
+										<option if={user.manto!='ハギ4'} value="ハギ4">ハギオスLv4</option>
+										<option if={user.manto!='ハギ3'} value="ハギ3">ハギオスLv3</option>
+										<option if={user.manto!='ハギ2'} value="ハギ2">ハギオスLv2</option>
+										<option if={user.manto!='ハギ1'} value="ハギ1">ハギオスLv1</option>
 									</optgroup>
 								</select>
 							</div>
@@ -1199,12 +1269,12 @@
 														<td if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="color: orange; font-weight: bolder; border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="border: none; padding: 5px; border-left: 1px solid gray; height: 26px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray; text-align: right;">{puser.cp}</td>
-														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='防御'} style="border: none; padding: 5px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='移動'} style="border: none; padding: 5px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='命中'} style="border: none; padding: 5px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
-														<td if={jobbufs[puser.job]=='HP'} style="border: none; padding: 5px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="15"/></td>
+														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
+														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
+														<td if={jobbufs[puser.job]=='防御'} style="border: none; padding: 5px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
+														<td if={jobbufs[puser.job]=='移動'} style="border: none; padding: 5px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
+														<td if={jobbufs[puser.job]=='命中'} style="border: none; padding: 5px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
+														<td if={jobbufs[puser.job]=='HP'} style="border: none; padding: 5px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
 														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: gray;">&nbsp;</td>
 													</tr>
 													<tr if={'on'!=getParams['view']} style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
@@ -2183,12 +2253,12 @@
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername" style="font-size: xx-small; padding-left: 2px; padding-right: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.name}</td>
 									<td if={opts.mode!='contribution'} style="font-size: xx-small; padding-left: 1px; padding-right: 1px; text-align: right;">{user.cp}</td>
 
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" style="background-color: firebrick;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" style="background-color: orange;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" style="background-color: blue;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" style="background-color: green;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" style="background-color: dodgerblue;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" style="background-color: deeppink;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="15"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" style="background-color: firebrick; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" style="background-color: orange; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" style="background-color: blue; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" style="background-color: green; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" style="background-color: dodgerblue; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" style="background-color: deeppink; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
 									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;">{user.job}</td>
 
 									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 80 <= user.acce1 && 90 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/811006.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
@@ -2662,6 +2732,10 @@
 				jobimages['クォーラルウィザード'] = 'https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-35.png';
 				jobimages['セイジ'] = 'https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-36.png';
 
+				jobimages['オークレイダー'] = 'http://l2.netmarble.jp/event/orc/images/com/content1_tab1_ic01.jpg';
+				jobimages['オークモンク'] = 'https://l2.netmarble.jp/event/orc/images/com/content1_tab2_ic01.jpg';
+				jobimages['オークシャーマン'] = 'https://l2.netmarble.jp/event/orc/images/com/content1_tab3_ic01.jpg';
+
 				// jobimages['パラディン'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/pa_icon.png';
 				// jobimages['ウォーロード'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/waro_icon.png';
 				// jobimages['トレジャーハンター'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/tr_icon.png';
@@ -2712,6 +2786,9 @@
 				jobbufs['ウォーレンジャー'] = '命中';
 				jobbufs['クォーラルウィザード'] = 'クリ';
 				jobbufs['セイジ'] = 'HP';
+				jobbufs['オークレイダー'] = '攻撃';
+				jobbufs['オークモンク'] = '命中';
+				jobbufs['オークシャーマン'] = 'HP';
 
 				var dispatchPortlateLayout = function(){
 					if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
