@@ -171,12 +171,20 @@ bot.on('messageCreate', (msg) => {
   var subcmd = 0;
   var newcp = 0;
   var newSelection = 0;
+  if ('エリカ様の血盟管理お手伝い' ==  msg.author.username) {
+    console.log('自分の発言は無視');
+    return;
+  }
+  if (-1 < msg.content.indexOf('\n')) {
+    console.log('改行は無視');
+    return;
+  }
   if (isFinite(msg.content) && 0 < parseInt(msg.content)) {
     newcp = parseInt(msg.content);
     msg.channel.createMessage('戦闘力を更新するのね、私に任せて！\n');
     cmd = 1;
     var randnum = 1 + Math.floor( Math.random() * 100 );
-    if (randnum === 50) {
+    if (randnum > 50 && randnum < 55) {
       msg.channel.createMessage('ごめんなさい・・・やっぱり疲れたから少し休ませて・・・(T-T)\n');
       cmd = 0;
     }
@@ -185,6 +193,7 @@ bot.on('messageCreate', (msg) => {
     if (msg.content == 'ハァハァ' || msg.content == 'ハアハア') {
       if ('ナレノハテ明美#6358' == msg.author.username + '#' + msg.author.discriminator) {
         msg.channel.createMessage('アナタ・・・出るのね・・・ハァハァ\n');
+        newSelection = 1;
       }
       else {
         return;
@@ -207,6 +216,19 @@ bot.on('messageCreate', (msg) => {
     }
     if (0 === newSelection) {
       msg.channel.createMessage('VCの設定は同時にしなくて良かったかしら？もし必要なら「聞き専」「可能」「不可」のどれかを教えてちょうだいね★\n');
+    }
+  }
+  else if (0 === msg.content.indexOf('参加△ ') || msg.content == '参加△') {
+    msg.channel.createMessage('予定は未定よね・・・分かったわ！予定には **たぶん参加** で登録するわ！出れるかハッキリ分かったらまた改めて教えて頂戴ね★\n');
+    var entry = msg.content.replace('参加△', '').trim();
+    cmd = 4;
+    subcmd = 0;
+    newSelection = 0;
+    if ('string' == typeof entry && 0 < entry.length) {
+      newSelection = entry;
+    }
+    if (0 === newSelection) {
+      msg.channel.createMessage('メモの設定は同時にしなくて良かったかしら？もし必要なら「参加△ 何かメモしたいコメント」の形で教えてちょうだいね★\n');
     }
   }
   else if (msg.content == '不参加') {
@@ -394,6 +416,20 @@ bot.on('messageCreate', (msg) => {
         msg.channel.createMessage('該当のマントが見つかったわ！\n **高潔なる血のマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
       }
     }
+    if (-1 < manto.indexOf('ハギ')) {
+      var toLv = parseInt(manto.replace('ハギ', '').trim());
+      if (0 < toLv && 30 >= toLv) {
+        newSelection = 'ハギ' + toLv;
+        msg.channel.createMessage('該当のマントが見つかったわ！\n **ハギオスのマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
+      }
+    }
+    if (-1 < manto.indexOf('ハギオス')) {
+      var toLv = parseInt(manto.replace('ハギオス', '').trim());
+      if (0 < toLv && 30 >= toLv) {
+        newSelection = 'ハギ' + toLv;
+        msg.channel.createMessage('該当のマントが見つかったわ！\n **ハギオスのマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
+      }
+    }
     console.log('マントID=' + newSelection);
     if (true != ('string' == typeof newSelection && 0 < newSelection.length)) {
       msg.channel.createMessage('該当のマントが見つからなかったわ・・・\n「マント 高潔20」みたいな指定をしてみて！20の部分はマントレベルを入れるのよ！\nあと、 **冒険家のマントは戦闘力に関連しないのでツールで管理出来ない** ようにされてるみたい・・・\n');
@@ -438,9 +474,9 @@ bot.on('messageCreate', (msg) => {
       return;
     }
   }
-  else if (msg.content === 'ボス石教えて' || msg.content === 'ボス石確認' || msg.content === 'ボス石教えてにゃ') {
+  else if (-1 < msg.content.indexOf('ボス石教え') || -1 < msg.content.indexOf('ボス石確認') || -1 < msg.content.indexOf('ボス石教えてにゃ')) {
     cmd = 7;
-    if (msg.content === 'ボス石教えてにゃ') {
+    if (-1 < msg.content.indexOf('ボス石教えてにゃ')) {
       if ('ねーこ#5826' == (msg.author.username + '#' + msg.author.discriminator)) {
         msg.channel.createMessage('ねーこちゃんの依頼か・・・少し面倒だけどしょうがないからやるわね・・・\n登録されているボス石の数を確認したいのね・・・\n');
       }
@@ -453,6 +489,39 @@ bot.on('messageCreate', (msg) => {
     else {
       msg.channel.createMessage('登録されているボス石の数を確認したいのね、私に任せて！\n');
     }
+  }
+  else if (-1 < msg.content.indexOf('エリカ様今日悲しいことあった')) {
+    var randnum = 1 + Math.floor( Math.random() * 100 );
+    if (randnum > 40 && randnum < 50) {
+      msg.channel.createMessage(msg.author.username + 'ちゃん、諦めないで頑張ろ！！');
+      return;
+    }
+    if (randnum > 30 && randnum < 40) {
+      msg.channel.createMessage(msg.author.username + 'ちゃんの泣き言なんて聞きたくないっ！！');
+      return;
+    }
+    msg.channel.createMessage(msg.author.username + 'ちゃん、よしよし');
+    cmd = 0;
+    return;
+  }
+  else if (-1 < msg.content.indexOf('エリカ様だいすき') || -1 < msg.content.indexOf('エリカ様大好き')) {
+    var randnum = 1 + Math.floor( Math.random() * 100 );
+    if (randnum > 40 && randnum < 50) {
+      msg.channel.createMessage(msg.author.username + 'ちゃん・・・ちょっとキモいわ・・・');
+      return;
+    }
+    if (randnum > 30 && randnum < 40) {
+      msg.channel.createMessage(msg.author.username + 'ちゃん♥エリカスゴくウレシイ♥♥');
+      return;
+    }
+    msg.channel.createMessage(msg.author.username + 'ちゃん私もっ♥');
+    cmd = 0;
+    return;
+  }
+  else if ('ねーこ#5826' == (msg.author.username + '#' + msg.author.discriminator) && 0 > msg.content.indexOf('にゃ')) {
+    msg.channel.createMessage('にゃ！');
+    cmd = 0;
+    return;
   }
   if (0 == cmd) {
     return;
@@ -569,6 +638,9 @@ bot.on('messageCreate', (msg) => {
           											if (targetUsers[suidx].name == data.name){
           												targetUsers[suidx].out = false;
                                   targetUsers[suidx].entry = data.entry;
+                                  if ('string' == typeof data.comment) {
+                                    targetUsers[suidx].comment = data.comment;
+                                  }
                                   if (-1 < data.entry) {
                                     incount++;
                                   }
@@ -595,7 +667,7 @@ bot.on('messageCreate', (msg) => {
                               }
                               outUsers = outUsers + '\n';
                             }
-                            else if (2 == subcmd && 0 === targetUsers[suidx].entry && targetUsers[suidx].activity > -1) {
+                            else if (2 == subcmd && 0 === targetUsers[suidx].entry && targetUsers[suidx].activity > -1 && targetUsers[suidx].comment == '同一タグの前回のPT編成をコピー') {
                               mybeUsers = mybeUsers + targetUsers[suidx].name;
                               var botUser = bot.users.find(function(element) {
                                 if ('string' == typeof targetUsers[suidx].discord && 0 < targetUsers[suidx].discord.length && targetUsers[suidx].discord == element.username + '#' + element.discriminator) {
@@ -654,7 +726,7 @@ bot.on('messageCreate', (msg) => {
                               targetUser.party = targetScheduleUser.party;
                             }
                             console.log(targetScheduleUser);
-                            if (-1 === subcmd && 0 < targetScheduleUser.entry && 0 < incount) {
+                            if (-1 === subcmd && -1 < targetScheduleUser.entry && 0 < incount) {
                               // 不参加に変更
                               incount--;
                               console.log('dec1');
@@ -677,11 +749,22 @@ bot.on('messageCreate', (msg) => {
                           targetUser.entry = subcmd;
                           targetUser.voice = newSelection;
                           var subMSg = '参加';
-                          if (-1 === subcmd) {
-                            subMSg = '不参加';
+                          if (1 > subcmd) {
+                            if (-1 === subcmd) {
+                              subMSg = '不参加';
+                            }
+                            else {
+                              subMSg = 'たぶん参加';
+                              if (0 !== newSelection) {
+                                targetUser.comment = newSelection;
+                              }
+                            }
                             targetUser.status = 0;
                             targetUser.party = 0;
                             targetUser.voice = 0;
+                          }
+                          if ('string' typeof targetUser.comment && targetUser.comment == '同一タグの前回のPT編成をコピー') {
+                            targetUser.comment = '';
                           }
                           firestore.collection("schedules").doc(scheduleID).collection("users").doc(targetUser.ID).set(targetUser).then(function() {
                             targetSchedule.incount = incount;
@@ -786,29 +869,50 @@ bot.on('messageCreate', (msg) => {
             }
             else if (7 == cmd) {
               firestore.collection("clans").doc(clanID).collection("worldbossholders").get().then(function(querySnapshot){
-                var message = '';
+                var messageGuillotine = '';
+                var messageZaken = '';
                 var totalGuillotine = 0;
                 var totalZaken = 0;
                 querySnapshot.forEach(function(snapshot) {
                   if(snapshot.exists) {
                     var targetHolder = snapshot.data();
                     if (targetHolder.guillotine > 0 || targetHolder.zaken > 0) {
-                      message = message + targetHolder.username + ' ';
                       if (targetHolder.guillotine > 0) {
-                        message = message + '【ギロチン】' + Math.floor(targetHolder.guillotine / 100) + '個(+' + (targetHolder.guillotine % 100) + '欠片)';
-                        totalGuillotine += Math.floor(targetHolder.guillotine / 100);
+                        var guillotineNum = Math.floor(targetHolder.guillotine / 100);
+                        if (0 < guillotineNum) {
+                          messageGuillotine = messageGuillotine + '**';
+                        }
+                        messageGuillotine = messageGuillotine + targetHolder.username + ' 【ギロチン】' + guillotineNum + '個(+' + (targetHolder.guillotine % 100) + '欠片)';
+                        if (0 < guillotineNum) {
+                          messageGuillotine = messageGuillotine + '**';
+                        }
+                        messageGuillotine = messageGuillotine + '\n';
+                        totalGuillotine += guillotineNum;
                       }
                       if (targetHolder.zaken > 0) {
-                        message = message + '【ザケン】' + Math.floor(targetHolder.zaken / 100) + '個(+' + (targetHolder.zaken % 100) + '欠片)';
-                        totalZaken += Math.floor(targetHolder.zaken / 100);
+                        var zakenNum = Math.floor(targetHolder.zaken / 100);
+                        if (0 < zakenNum) {
+                          messageZaken = messageZaken + '**';
+                        }
+                        messageZaken = messageZaken + targetHolder.username + ' 【ザケン】' + zakenNum + '個(+' + (targetHolder.zaken % 100) + '欠片)';
+                        if (0 < zakenNum) {
+                          messageZaken = messageZaken + '**';
+                        }
+                        messageZaken = messageZaken + '\n';
+                        totalZaken += zakenNum;
                       }
-                      message = message + '\n';
                     }
                   }
                 });
-                if (0 < message.length) {
-                  message = message + '\n総ギロチン ' + totalGuillotine + '個\n総ザケン ' + totalZaken + '個\n';
-                  msg.channel.createMessage('現在の状況は\n\n **' + message + '** \nって登録されてるわよ！\n');
+                if (0 < messageGuillotine.length || 0 < messageZaken.length) {
+                  var message = '';
+                  if (0 < messageGuillotine.length) {
+                    message = message + '\n' + messageGuillotine + '\n**総ギロチン ' + totalGuillotine + '個**\n';
+                  }
+                  if (0 < messageZaken.length) {
+                    message = message + '\n' + messageZaken + '\n**総ザケン ' + totalZaken + '個**\n';
+                  }
+                  msg.channel.createMessage('現在の状況は\n' + message + '\nって登録されてるわよ！\n');
                 }
                 else {
                   msg.channel.createMessage('\n**現在はボス石は何も登録されていなかったわ。** \n\n登録する場合は「ギロチン 150 サンフレ」みたいに所持中のボスの名前と欠片換算で所持中の欠片の数と持ってる人の名前の順序で繋げて言ってくれれば私が代わりに登録してあげるわよ★'

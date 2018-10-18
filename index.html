@@ -1668,7 +1668,7 @@
 						}
 						scheduleuser.comment = '';
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
-						if (0 < comment.length) {
+						if (0 < comment.length && comment != '同一タグの前回のPT編成をコピー') {
 							scheduleuser.comment = comment;
 						}
 						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
@@ -1692,7 +1692,7 @@
 						}
 						scheduleuser.comment = '';
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
-						if (0 < comment.length) {
+						if (0 < comment.length && comment != '同一タグの前回のPT編成をコピー') {
 							scheduleuser.comment = comment;
 						}
 						else if (!confirm('条件付きで参加可の場合コメントにその条件を明記して\n予定の管理者にその旨を伝えましょう！\n無視して登録を続ける場合はOKを押して下さい。')){
@@ -1714,10 +1714,12 @@
 						}
 						var scheduleuser = thisis.selectusers_[index];
 						scheduleuser.entry = -1;
+						scheduleuser.status = 0;
 						scheduleuser.party = 0;
+						scheduleuser.voice = 0;
 						scheduleuser.comment = '';
 						var comment = $('#entryscheduleform').find('input[name=schedulecomment]').val();
-						if (0 < comment.length) {
+						if (0 < comment.length && comment != '同一タグの前回のPT編成をコピー') {
 							scheduleuser.comment = comment;
 						}
 						registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
@@ -3557,6 +3559,7 @@
 							if ('undefined' != typeof duplicateEntryUsers[duplicateEntryUserCnt].voice) {
 								targetUser.voice = duplicateEntryUsers[duplicateEntryUserCnt].voice;
 							}
+							targetUser.comment = '同一タグの前回のPT編成をコピー';
 							duplicateEntryUsers[duplicateEntryUserCnt].entry = 0;
 							registerScheduleuser(newSchedule.ID, targetUser, function (){
 								duplicateEntryCnt++;
