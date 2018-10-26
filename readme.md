@@ -5,7 +5,7 @@
 
 - 先ずはNodeプロジェクトをRemixしてBotサーバとBot用のソースを用意する！
   + https://glitch.com/edit/#!/remix/cheerful-treatment
-- 上にアクセスするだけでBot用のホスティングが開始する。死ぬほど簡単
+- 上にアクセスしてRemixを押すだけでBot用のホスティングが開始する。死ぬほど簡単
   + このままだとRemixしたソースとBotサーバは5日で消滅してしまうので、glitchに会員登録してプロジェクトを永続化しておきましょう！
 - 次にDiscord上でBotユーザーを作成する
   + コチラの参考に => https://discordpy.readthedocs.io/ja/latest/discord.html

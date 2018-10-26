@@ -172,7 +172,6 @@ bot.on('messageCreate', (msg) => {
   var newcp = 0;
   var newSelection = 0;
   if ('エリカ様の血盟管理お手伝い' ==  msg.author.username) {
-    console.log('自分の発言は無視');
     return;
   }
   if (-1 < msg.content.indexOf('\n')) {
@@ -504,7 +503,7 @@ bot.on('messageCreate', (msg) => {
     cmd = 0;
     return;
   }
-  else if (-1 < msg.content.indexOf('エリカ様だいすき') || -1 < msg.content.indexOf('エリカ様大好き')) {
+  else if (-1 < msg.content.indexOf('エリカ様だいすき') || -1 < msg.content.indexOf('エリカ様大好き') || -1 < msg.content.indexOf('エリカ様好き') || -1 < msg.content.indexOf('エリカ様すき')) {
     var randnum = 1 + Math.floor( Math.random() * 100 );
     if (randnum > 40 && randnum < 50) {
       msg.channel.createMessage(msg.author.username + 'ちゃん・・・ちょっとキモいわ・・・');
@@ -517,6 +516,40 @@ bot.on('messageCreate', (msg) => {
     msg.channel.createMessage(msg.author.username + 'ちゃん私もっ♥');
     cmd = 0;
     return;
+  }
+  else if (-1 < msg.content.indexOf('エリカ') && true == (-1 < msg.content.indexOf('ヘルプ') || -1 < msg.content.indexOf('パンツ') || -1 < msg.content.indexOf('助け') || -1 < msg.content.indexOf('おしえ') || -1 < msg.content.indexOf('たすけ') || -1 < msg.content.indexOf('教え'))) {
+    msg.channel.createMessage('呼んだかしら？？\n'
+    + '私が出来るお手伝いは\n\n'
+    + '戦闘力の更新 **[1012543]**\n'
+    + '予定への参加登録 **[参加] [参加 聞き専(or 可能・不可)] [参加△ コメント] [不参加]**\n'
+    + 'アクセの登録 **[アクセ カラ 1〜10]**\n'
+    + '武器コスの登録 **[武器コス 海賊 1〜10]**\n'
+    + 'マントの登録 **[マント 高潔 1〜30]**\n'
+    + 'ボス石の欠片所持数の登録 **[ギロチン 120] [ザケン 120] [ギロチン 60 他の誰かの名前] [ザケン 0 使用した人の名前]**\n'
+    + 'ボス石の欠片所持数の確認 **[ボス石確認]**\n'
+    + 'お知らせの自動通知 **[お知らせ通知]**\n'
+    + 'お知らせ自動通知の解除 **[お知らせ通知解除]**\n'
+    + '\nよ！\n'
+    + '**[]**の中がコマンドになってるから\n'
+    + '\nボス石確認\n'
+    + '\nとかって言う風に書き込んでくれれば、あとは私がやっておくわ！！\n'
+    + '覚えてね★');
+    if ('ジン#2696' == (msg.author.username + '#' + msg.author.discriminator)) {
+      msg.channel.createMessage('ゴメンナサイ・・・植毛は絶望的だわ・・・\n');
+    }
+    cmd = 0;
+    return;
+  }
+  else if ('ジン#2696' == (msg.author.username + '#' + msg.author.discriminator)) {
+    var randnum = 1 + Math.floor( Math.random() * 100 );
+    if (randnum > 40 && randnum < 50) {
+      msg.channel.createMessage('ハゲマスって・・・コレじゃただの冷やかしよね・・・\n');
+      return;
+    }
+    if (randnum > 30 && randnum < 40) {
+      msg.channel.createMessage('また抜け毛が落ちてたわ・・・\n');
+      return;
+    }
   }
   else if ('ねーこ#5826' == (msg.author.username + '#' + msg.author.discriminator) && 0 > msg.content.indexOf('にゃ')) {
     msg.channel.createMessage('にゃ！');
@@ -636,7 +669,9 @@ bot.on('messageCreate', (msg) => {
                               var data = snapshot.data();
                               for (var suidx=0; suidx < targetUsers.length; suidx++) {
           											if (targetUsers[suidx].name == data.name){
-          												targetUsers[suidx].out = false;
+                                  if (true != (data.comment == '同一タグの前回のPT編成をコピー' && 0 == data.entry)) {
+            												targetUsers[suidx].out = false;
+                                  }
                                   targetUsers[suidx].entry = data.entry;
                                   if ('string' == typeof data.comment) {
                                     targetUsers[suidx].comment = data.comment;
@@ -667,7 +702,7 @@ bot.on('messageCreate', (msg) => {
                               }
                               outUsers = outUsers + '\n';
                             }
-                            else if (2 == subcmd && 0 === targetUsers[suidx].entry && targetUsers[suidx].activity > -1 && targetUsers[suidx].comment == '同一タグの前回のPT編成をコピー') {
+                            else if (2 == subcmd && 0 === targetUsers[suidx].entry && targetUsers[suidx].activity > -1 && targetUsers[suidx].comment != '同一タグの前回のPT編成をコピー') {
                               mybeUsers = mybeUsers + targetUsers[suidx].name;
                               var botUser = bot.users.find(function(element) {
                                 if ('string' == typeof targetUsers[suidx].discord && 0 < targetUsers[suidx].discord.length && targetUsers[suidx].discord == element.username + '#' + element.discriminator) {
@@ -763,7 +798,7 @@ bot.on('messageCreate', (msg) => {
                             targetUser.party = 0;
                             targetUser.voice = 0;
                           }
-                          if ('string' typeof targetUser.comment && targetUser.comment == '同一タグの前回のPT編成をコピー') {
+                          if ('string' == typeof targetUser.comment && targetUser.comment == '同一タグの前回のPT編成をコピー') {
                             targetUser.comment = '';
                           }
                           firestore.collection("schedules").doc(scheduleID).collection("users").doc(targetUser.ID).set(targetUser).then(function() {
