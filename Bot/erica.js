@@ -165,8 +165,6 @@ bot.on('ready', () => {
 });
 
 bot.on('messageCreate', (msg) => {
-  console.log(msg.content);
-  console.log(msg.author.username + '#' + msg.author.discriminator);
   var cmd = 0;
   var subcmd = 0;
   var newcp = 0;
@@ -178,6 +176,9 @@ bot.on('messageCreate', (msg) => {
     console.log('改行は無視');
     return;
   }
+  msg.content = msg.content.replace(/　/g, " ");
+  console.log(msg.content);
+  console.log(msg.author.username + '#' + msg.author.discriminator);
   if (isFinite(msg.content) && 0 < parseInt(msg.content)) {
     newcp = parseInt(msg.content);
     msg.channel.createMessage('戦闘力を更新するのね、私に任せて！\n');
@@ -245,6 +246,9 @@ bot.on('messageCreate', (msg) => {
     subcmd = 2;
   }
   else if (0 === msg.content.indexOf('アクセ ')) {
+    msg.content = msg.content.replace(/[０-９]/g, function(s){
+        return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+    });
     msg.channel.createMessage('装飾品を更新するのね、私に任せて！\n');
     var acce = msg.content.replace('アクセ ', '');
     console.log(acce);
@@ -356,6 +360,9 @@ bot.on('messageCreate', (msg) => {
     subcmd = 1;
   }
   else if (0 === msg.content.indexOf('武器コス ')) {
+    msg.content = msg.content.replace(/[０-９]/g, function(s){
+        return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+    });
     msg.channel.createMessage('武器コスを更新するのね、私に任せて！\n');
     var buki = msg.content.replace('武器コス ', '');
     console.log(buki);
@@ -388,6 +395,34 @@ bot.on('messageCreate', (msg) => {
         msg.channel.createMessage('該当の武器コスが見つかったわ！\n **海賊王シリーズの特性Lv' + toLv + '** で登録するわね。\n');
       }
     }
+    if (-1 < buki.indexOf('ハロウィン')) {
+      var toLv = parseInt(buki.replace('ハロウィン', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'カボ' + toLv;
+        msg.channel.createMessage('該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('カボチャ')) {
+      var toLv = parseInt(buki.replace('カボチャ', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'カボ' + toLv;
+        msg.channel.createMessage('該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('カボチ')) {
+      var toLv = parseInt(buki.replace('カボチ', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'カボ' + toLv;
+        msg.channel.createMessage('該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('カボ')) {
+      var toLv = parseInt(buki.replace('カボ', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'カボ' + toLv;
+        msg.channel.createMessage('該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
     console.log('武器コスID=' + newSelection);
     if (true != ('string' == typeof newSelection && 0 < newSelection.length)) {
       msg.channel.createMessage('該当の武器コスが見つからなかったわ・・・\n「武器コス 海賊5」みたいな指定をしてみて！5の部分は特性レベルを入れるのよ！\n');
@@ -397,6 +432,9 @@ bot.on('messageCreate', (msg) => {
     subcmd = 2;
   }
   else if (0 === msg.content.indexOf('マント ')) {
+    msg.content = msg.content.replace(/[０-９]/g, function(s){
+        return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+    });
     msg.channel.createMessage('マントを更新するのね、私に任せて！\n');
     var manto = msg.content.replace('マント ', '');
     console.log(manto);
@@ -446,6 +484,9 @@ bot.on('messageCreate', (msg) => {
     cmd = 3;
   }
   else if (0 === msg.content.indexOf('ギロチン ') || 0 === msg.content.indexOf('ザケン ')) {
+    msg.content = msg.content.replace(/[０-９]/g, function(s){
+        return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+    });
     cmd = 6;
     var boss = '';
     var bosses = msg.content.split(' ');
@@ -473,7 +514,7 @@ bot.on('messageCreate', (msg) => {
       return;
     }
   }
-  else if (-1 < msg.content.indexOf('ボス石教え') || -1 < msg.content.indexOf('ボス石確認') || -1 < msg.content.indexOf('ボス石教えてにゃ')) {
+  else if (-1 < msg.content.indexOf('ボス石教え') || -1 < msg.content.indexOf('ボス石おしえ') || -1 < msg.content.indexOf('ボス石確認') || -1 < msg.content.indexOf('ボス石教えてにゃ')) {
     cmd = 7;
     if (-1 < msg.content.indexOf('ボス石教えてにゃ')) {
       if ('ねーこ#5826' == (msg.author.username + '#' + msg.author.discriminator)) {
@@ -593,6 +634,8 @@ bot.on('messageCreate', (msg) => {
                 var targetUser = false;
                 var targetUsers = [];
                 var incount = 0;
+                var currentcp = 0;
+                var cpmargin = 0;
                 querySnapshot.forEach(function(snapshot) {
                   if(snapshot.exists && false === targetUser) {
                     var user = snapshot.data();
@@ -609,6 +652,8 @@ bot.on('messageCreate', (msg) => {
                       targetUserID = snapshot.id;
                       if (1 == cmd) {
                         if (0 < newcp) {
+                          currentcp = targetUser.cp;
+                          cpmargin = newcp - targetUser.cp;
                           targetUser.cp = newcp;
                         }
                         if (1 == subcmd && 0 < newSelection) {
@@ -632,6 +677,90 @@ bot.on('messageCreate', (msg) => {
                 if (1 == cmd) {
                   firestore.collection("users").doc(targetUserID).set(targetUser).then(function(snapshot) {
                     msg.channel.createMessage('**あなたの戦闘力データを更新したわ！**\nあなたの最新データはココにあるわよ★\n' + targetUser.name + ': https://line2revo.fun/?clanid=' + clanID + '&userid=' + targetUserID + '&view=on#modifyuser\n');
+                    if (0 < cpmargin) {
+                      var marginTxt = '';
+                      if (100000 <= cpmargin) {
+                        marginTxt = '***頑張り過ぎじゃない！？ホントに大丈夫なの！！？***\n';
+                      }
+                      else if (50000 <= cpmargin) {
+                        marginTxt = '**とてつもない成長よ！**\n';
+                      }
+                      else if (20000 <= cpmargin) {
+                        marginTxt = '**凄い成長してるわ！**\n';
+                      }
+                      else if (5000 <= cpmargin) {
+                        marginTxt = '**順調に成長してて偉いわね！**\n';
+                      }
+                      var randnum = 1 + Math.floor( Math.random() * 100 );
+                      if (3000000 < newcp) {
+                        if (3000000 > currentcp) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + 'ついに異次元の強さだわ・・・\n本当におめでとう。もうエリカから教えられる事は何も無いわ！貴方が正しいと思う道を行くのが正解よ！エリカはずっと応援してるわ★\n');
+                        }
+                      }
+                      else if (2500000 < newcp) {
+                        if (randnum > 0 && randnum <= 25) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + '凄いわ・・・ここまで来てしまうなんて！！\nいよいよLRソウルストーンが必要な時よ！先ずは攻撃のLRソウルストーン、その後は防御のLRが簡単よ！\n全身LRソウルストーンになるころにはきっとまたスゴく強くなってるハズよ！頑張って！！\n');
+                        }
+                        else if (randnum > 25 && randnum <= 50) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + '凄いわ・・・ここまで来てしまうなんて！！\n兎に角装備実績を積みましょう。25万は欲しいところね・・・全ての武器と1種類のアクセサリーオールコンプリートでそのくらいよ！\n先は長いけどここまで来たなら頑張りましょう！！\n');
+                        }
+                        else if (randnum > 50 && randnum <= 75) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + '250万オーバー！？分かってる、異世界のアデナを使ったのね。凄いわ・・・\n兎に角装備実績を積みましょう。\n武器の装備実績を終わらせる頃にはきっとまたスゴく強くなってるハズよ！頑張って！！\n');
+                        }
+                        else if (randnum > 75 && randnum <= 100) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + '250万オーバー！？分かってる、異世界のアデナを使ったのね。凄いわ・・・\nココからはMAXセットを目指しましょう！全身が終わったら次は赤防具か2種目の装飾品がいいんじゃないかしら。\nでも正直もうエリカには分からない世界だわ・・・\n');
+                        }
+                        return;
+                      }
+                      else if (2000000 < newcp) {
+                        if (randnum > 0 && randnum <= 25) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + 'いよいよ200万オーバーなのね！凄い頑張ってるわ！\nこれからは装備実績も積み上げて行かないと行けないわね。\nイベントショップでアデナで買える選択祝福はオススメよ！毎週買って貯めるといいわよ！\n');
+                        }
+                        else if (randnum > 25 && randnum <= 50) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + 'いよいよ200万オーバーなのね！凄い頑張ってるわ！\nココからは強化セットも狙っていかないと中々上がらないわ・・・\nでも慎重に！**くれぐれもマーブル無しでなんてやらないでね！エリカからのお願いよ・・・！**\n');
+                        }
+                        else if (randnum > 50 && randnum <= 75) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + 'もうココまで来てるのね、凄いわ！\nとにかくエリクサーがまだなら終わらせましょう！\n要塞ショップは欠かさず買うのよ！！エリクサーエッセンス選択ボックスももちろん毎日買うのよ！！\n');
+                        }
+                        else if (randnum > 75 && randnum <= 100) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + 'もうココまで来てるのね、凄いわ！\n200万から先は修羅の道よ・・・防御クリスタルが足りない時はHRの分解も視野に入れてみて。\nどーしても直ぐに欲しい時は・・・悔しいけどネトマの力に頼るしか無いわね・・・\n');
+                        }
+                        return;
+                      }
+                      else if (1500000 < newcp) {
+                        if (randnum > 0 && randnum <= 25) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + '順調に強くなっているわ！\nてっとり速くMAX装備が欲しくなるけど慎重にね・・・\n**マーブル無しで打つのだけはダメ、絶対！エリカと約束！！**\n');
+                        }
+                        else if (randnum > 25 && randnum <= 50) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + '順調に強くなっているわ！\nLR装備を揃え始める時期だわ。先ずはエリート武器、その次に青武器が私のオススメよ！\nペニーワイズの言うことを信じちゃダメよ！\nサン★フレアは信じちゃったみたいだけど・・・\n');
+                        }
+                        else if (randnum > 50 && randnum <= 75) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + 'いい感じに成長してるわね！\nレベル250でURエリクサーが開放されるわ！\nURエリクサーはトータル1200万アデナも使うけど、戦闘力が10万以上上がるから絶対に見逃さないでね★\n');
+                        }
+                        else if (randnum > 75 && randnum <= 100) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + 'いい感じに成長してるわね！\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
+                        }
+                        return;
+                      }
+                      else {
+                        if (randnum > 0 && randnum <= 25) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + 'まだ駆け出しの段階ね！\n今は装備を揃えることとモンスターコアをコンプする事が重要よ！\n頑張ってね★\n');
+                        }
+                        else if (randnum > 25 && randnum <= 50) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + 'まだ駆け出しの段階ね！\n決闘は面倒でも欠かさずやっておいた方がいい日課よ。\n名誉ランクで上がる戦闘力は馬鹿にならないのよ★\n');
+                        }
+                        else if (randnum > 50 && randnum <= 75) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + '順調に成長してるわね。\nレベル上げと同時にルーンのレベルも上げていくといいわ！\nルーンはアデナを大量に使うから、しっかりアデナを貯めて置くことも大事よ★\n');
+                        }
+                        else if (randnum > 75 && randnum <= 100) {
+                          msg.channel.createMessage('.\n\n' + marginTxt + '順調に成長してるわね。\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
+                        }
+                        return;
+                      }
+                    }
+                    else if (0 > cpmargin) {
+                      msg.channel.createMessage('.\n\n貴方戦闘力下がってるけど・・・エリカとの約束ちゃんと守ってる？マーブル無しで強化したら怒るわよ・・・？\n');
+                    }
                     return;
                   }).catch(function(error) {
                     console.error("Error modify user: ", error);
