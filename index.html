@@ -1757,71 +1757,75 @@
 										thisis.selectusers_ = thisis.selectusers;
 									}
 									$('#addscheduleform input[name=scheduletag]').ready(function (){
-										Sortable.create( document.getElementById('partylist'),
-											{
-												tag: 'tr',
-											  onUpdate: function(e) {
-													console.log(e);
-													console.log(e.newIndex);
-													var to = $($('#partylist tr')[e.newIndex-1]).find('.scheduleparty');
-													var from  = $($('#partylist tr')[e.newIndex]).find('.scheduleparty');
-													var next = $($('#partylist tr')[e.newIndex+1]).find('.scheduleparty');
-													var dataindex = parseInt($($('#partylist tr')[e.newIndex]).attr('index'));
-													console.log(dataindex);
-													console.log(to);
-													console.log(from);
-													console.log(next);
-													if (!to.text()) {
-														to = next;
-													}
-													var scheduleusername = from.parent().find('.scheduleusername').text();
-													var schedulecomment = from.parent().find('.schedulecomment').text();
-													var scheduleparty = to.data();
-													var scheduleuserindex = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
-													if (scheduleparty.party == thisis.selectusers_[scheduleuserindex].party) {
-														// PT変わってないので無視
-														return;
-													}
-													console.log(scheduleuserindex);
-													var scheduleuser = thisis.selectusers_[scheduleuserindex];
-													scheduleuser.party = scheduleparty.party;
-													thisis.scheduleusers[dataindex].party = parseInt(scheduleparty.party);
-													console.log(thisis.selectusers_);
-													var entryCnt = 0;
-													for (var eIdx=0; eIdx < thisis.scheduleusers.length; eIdx++) {
-														if ('undefined' != typeof thisis.scheduleusers[eIdx].party && scheduleuser.party == thisis.scheduleusers[eIdx].party && 0 < parseInt(scheduleuser.party)) {
-															entryCnt++;
-															if (5 < entryCnt) {
-																alert('このPTは既に5人編成済みですが処理そのまま保存されますのでご注意下さい！');
-																break;
+										if ('iOS' != platform.os.family && 'Android' != platform.os.family && 'Windows Phone' != platform.os.family) {
+											// XXX PCのみドラッグアンドドロップソートを有効にする
+											Sortable.create( document.getElementById('partylist'),
+												{
+													tag: 'tr',
+													/*handle: '. draggable',*/
+												  onUpdate: function(e) {
+														console.log(e);
+														console.log(e.newIndex);
+														var to = $($('#partylist tr')[e.newIndex-1]).find('.scheduleparty');
+														var from  = $($('#partylist tr')[e.newIndex]).find('.scheduleparty');
+														var next = $($('#partylist tr')[e.newIndex+1]).find('.scheduleparty');
+														var dataindex = parseInt($($('#partylist tr')[e.newIndex]).attr('index'));
+														console.log(dataindex);
+														console.log(to);
+														console.log(from);
+														console.log(next);
+														if (!to.text()) {
+															to = next;
+														}
+														var scheduleusername = from.parent().find('.scheduleusername').text();
+														var schedulecomment = from.parent().find('.schedulecomment').text();
+														var scheduleparty = to.data();
+														var scheduleuserindex = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
+														if (scheduleparty.party == thisis.selectusers_[scheduleuserindex].party) {
+															// PT変わってないので無視
+															return;
+														}
+														console.log(scheduleuserindex);
+														var scheduleuser = thisis.selectusers_[scheduleuserindex];
+														scheduleuser.party = scheduleparty.party;
+														thisis.scheduleusers[dataindex].party = parseInt(scheduleparty.party);
+														console.log(thisis.selectusers_);
+														var entryCnt = 0;
+														for (var eIdx=0; eIdx < thisis.scheduleusers.length; eIdx++) {
+															if ('undefined' != typeof thisis.scheduleusers[eIdx].party && scheduleuser.party == thisis.scheduleusers[eIdx].party && 0 < parseInt(scheduleuser.party)) {
+																entryCnt++;
+																if (5 < entryCnt) {
+																	alert('このPTは既に5人編成済みですが処理そのまま保存されますのでご注意下さい！');
+																	break;
+																}
 															}
 														}
+														from.data(to.data());
+														from.text(to.text());
+														from.attr('data-party', scheduleparty.party);
+														if (1 > thisis.scheduleusers[dataindex].party) {
+															var target = from.parent().find('.scheduleuserstatus');
+															console.log('target=');
+															console.log(target);
+															$(target).removeClass('bg-info');
+															$(target).removeClass('bg-success');
+															$(target).removeClass('bg-danger');
+															$(target).removeClass('text-info');
+															$(target).removeClass('text-success');
+															$(target).removeClass('text-danger');
+															$(target).attr('propaty', 0);
+															$(target).text('');
+															thisis.scheduleusers[dataindex].status = 0;
+														}
+														loading(true);
+														registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
+															loading(false);
+														});
+														return false;
 													}
-													from.data(to.data());
-													from.text(to.text());
-													from.attr('data-party', scheduleparty.party);
-													if (1 > thisis.scheduleusers[dataindex].party) {
-														var target = from.parent().find('.scheduleuserstatus');
-														console.log('target=');
-														console.log(target);
-														$(target).removeClass('bg-info');
-														$(target).removeClass('bg-success');
-														$(target).removeClass('bg-danger');
-														$(target).removeClass('text-info');
-														$(target).removeClass('text-success');
-														$(target).removeClass('text-danger');
-														$(target).attr('propaty', 0);
-														$(target).text('');
-														thisis.scheduleusers[dataindex].status = 0;
-													}
-													loading(true);
-													registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
-														loading(false);
-													});
-													return false;
 												}
-											}
-										);
+											);
+										}
 										var tag = $('#addscheduleform input[name=scheduletag]').val();
 										if ('undefined' != typeof tag && 0 < tag.length) {
 											getNews(clan.ID, tag, function (newses) {
@@ -2422,60 +2426,60 @@
 							<tbody id="partylist">
 								<tr each="{user, index in opts.data}" class="activity{user.activity}" id="party_{index+1}" index="{index}">
 									<td if={opts.mode=='contribution'} onclick="onclickModify(this, '{user.ID}');" style="padding-left: 3px; padding-right: 3px; text-align: right;">{index+1}</td>
-									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0; text-align: right;"><b>{opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)}</b></td>
-									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="contribution" contribution="0" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0;">未入力</td>
-									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="orgcontribution" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0; text-align: right;">{opts.contributiondata[user.ID].contribution}</td>
-									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="orgcontribution" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 2px; padding-right: 0;">未入力</td>
-									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="weekquestcnt" weekquestcnt="{opts.contributiondata[user.ID].weekquestcnt}" onclick="onclickModify(this, '{user.ID}');">{opts.contributiondata[user.ID].weekquestcnt}</td>
-									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="weekquestcnt" weekquestcnt="0" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 2px; padding-right: 0;">未入力</td>
-									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">◯</td>
-									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">△</td>
-									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">✕</td>
-									<td if={opts.mode=='schedule' && user.party==39} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="39" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">聖刻</td>
-									<td if={opts.mode=='schedule' && user.party==38} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="38" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">偵察</td>
-									<td if={opts.mode=='schedule' && user.party==37} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="37" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">封殺</td>
-									<td if={opts.mode=='schedule' && user.party==29} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="29" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW1</td>
-									<td if={opts.mode=='schedule' && user.party==28} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="28" style="green; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW2</td>
-									<td if={opts.mode=='schedule' && user.party==27} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="27" style="darkgreen; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW3</td>
-									<td if={opts.mode=='schedule' && user.party==19} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="19" style="gold; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF1</td>
-									<td if={opts.mode=='schedule' && user.party==18} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="18" style="orange; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF2</td>
-									<td if={opts.mode=='schedule' && user.party==17} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="17" style="darkorange; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF3</td>
-									<td if={opts.mode=='schedule' && user.party==9} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="9" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF1</td>
-									<td if={opts.mode=='schedule' && user.party==8} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="8" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF2</td>
-									<td if={opts.mode=='schedule' && user.party==7} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="7" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF3</td>
-									<td if={opts.mode=='schedule' && user.party==0} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
-									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution draggable" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0; text-align: right;"><b>{opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)}</b></td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="contribution draggable" contribution="0" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0;">未入力</td>
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="orgcontribution draggable" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0; text-align: right;">{opts.contributiondata[user.ID].contribution}</td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="orgcontribution draggable" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 2px; padding-right: 0;">未入力</td>
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="weekquestcnt draggable" weekquestcnt="{opts.contributiondata[user.ID].weekquestcnt}" onclick="onclickModify(this, '{user.ID}');">{opts.contributiondata[user.ID].weekquestcnt}</td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="weekquestcnt draggable" weekquestcnt="0" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 2px; padding-right: 0;">未入力</td>
+									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success draggable" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">◯</td>
+									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning draggable" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">△</td>
+									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger draggable" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">✕</td>
+									<td if={opts.mode=='schedule' && user.party==39} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="39" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">聖刻</td>
+									<td if={opts.mode=='schedule' && user.party==38} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="38" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">偵察</td>
+									<td if={opts.mode=='schedule' && user.party==37} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="37" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">封殺</td>
+									<td if={opts.mode=='schedule' && user.party==29} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="29" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW1</td>
+									<td if={opts.mode=='schedule' && user.party==28} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="28" style="green; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW2</td>
+									<td if={opts.mode=='schedule' && user.party==27} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="27" style="darkgreen; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW3</td>
+									<td if={opts.mode=='schedule' && user.party==19} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="19" style="gold; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF1</td>
+									<td if={opts.mode=='schedule' && user.party==18} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="18" style="orange; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF2</td>
+									<td if={opts.mode=='schedule' && user.party==17} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="17" style="darkorange; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF3</td>
+									<td if={opts.mode=='schedule' && user.party==9} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="9" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF1</td>
+									<td if={opts.mode=='schedule' && user.party==8} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="8" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF2</td>
+									<td if={opts.mode=='schedule' && user.party==7} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="7" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF3</td>
+									<td if={opts.mode=='schedule' && user.party==0} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
+									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
 									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
-									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-info text-info" propaty="2" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">リダ</td>
-									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-success text-success" propaty="1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">サブ</td>
-									<td if={opts.mode=='schedule' && user.status==-1} class="scheduleuserstatus bg-danger text-danger" propaty="-1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">急欠</td>
-									<td if={opts.mode=='schedule' && user.status!=-1 && user.status!=2 && user.status!=1} class="scheduleuserstatus" propaty="0" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">&nbsp;</td>
-									<td if={opts.mode=='schedule' && user.voice==1} class="scheduleuservoice bg-info" propaty="1" onclick="switchType(this, 'voice');"><i class="fas fa-microphone"></i></td>
-									<td if={opts.mode=='schedule' && user.voice==2} class="scheduleuservoice bg-success" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
-									<td if={opts.mode=='schedule' && user.voice==-1} class="scheduleuservoice bg-success" propaty="-1" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
-									<td if={opts.mode=='schedule' && user.voice!=-1 && user.voice!=2 && user.voice!=1} class="scheduleuservoice" propaty="0" onclick="switchType(this, 'voice');"><i class="fas"></i></td>
-									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername" style="font-size: xx-small; padding-left: 2px; padding-right: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.name}</td>
+									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-info text-info draggable" propaty="2" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">リダ</td>
+									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-success text-success draggable" propaty="1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">サブ</td>
+									<td if={opts.mode=='schedule' && user.status==-1} class="scheduleuserstatus bg-danger text-danger draggable" propaty="-1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">急欠</td>
+									<td if={opts.mode=='schedule' && user.status!=-1 && user.status!=2 && user.status!=1} class="scheduleuserstatus draggable" propaty="0" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">&nbsp;</td>
+									<td if={opts.mode=='schedule' && user.voice==1} class="scheduleuservoice bg-info draggable" propaty="1" onclick="switchType(this, 'voice');"><i class="fas fa-microphone"></i></td>
+									<td if={opts.mode=='schedule' && user.voice==2} class="scheduleuservoice bg-success draggable" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
+									<td if={opts.mode=='schedule' && user.voice==-1} class="scheduleuservoice bg-success draggable" propaty="-1" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
+									<td if={opts.mode=='schedule' && user.voice!=-1 && user.voice!=2 && user.voice!=1} class="scheduleuservoice draggable" propaty="0" onclick="switchType(this, 'voice');"><i class="fas"></i></td>
+									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername draggable" style="font-size: xx-small; padding-left: 2px; padding-right: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.name}</td>
 									<td if={opts.mode!='contribution'} style="font-size: xx-small; padding-left: 1px; padding-right: 1px; text-align: right;">{user.cp}</td>
 
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" style="background-color: firebrick; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" style="background-color: orange; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" style="background-color: blue; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" style="background-color: green; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" style="background-color: dodgerblue; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" style="background-color: deeppink; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" style="font-size: 5px;">{user.job}</td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: firebrick; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: orange; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: blue; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: green; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: dodgerblue; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: deeppink; padding: 5px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: 5px;">{user.job}</td>
 
-									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 80 <= user.acce1 && 90 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/811006.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 70 <= user.acce1 && 80 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31000.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 60 <= user.acce1 && 70 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/koryaku/midori_haikei/cara2.jpg)  no-repeat left top; background-size: auto 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 50 <= user.acce1 && 60 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31004.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 40 <= user.acce1 && 50 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31001.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 30 <= user.acce1 && 40 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31002.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 20 <= user.acce1 && 30 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31005.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 10 <= user.acce1 && 20 > user.acce1} onclick="onclickModify(this, '{user.ID}');" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31003.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={opts.mode!='contribution' && false === ('undefined' != typeof user.acce1 && 10 <= user.acce1)} onclick="onclickModify(this, '{user.ID}');">&nbsp;</td>
-									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 1px; text-align: right;">{user.bukicos}</td>
-									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 1px; text-align: right;">{user.manto}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 80 <= user.acce1 && 90 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/811006.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 70 <= user.acce1 && 80 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31000.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 60 <= user.acce1 && 70 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/koryaku/midori_haikei/cara2.jpg)  no-repeat left top; background-size: auto 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 50 <= user.acce1 && 60 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31004.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 40 <= user.acce1 && 50 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31001.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 30 <= user.acce1 && 40 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31002.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 20 <= user.acce1 && 30 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31005.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 10 <= user.acce1 && 20 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31003.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={opts.mode!='contribution' && false === ('undefined' != typeof user.acce1 && 10 <= user.acce1)} onclick="onclickModify(this, '{user.ID}');" class="draggable">&nbsp;</td>
+									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 1px; text-align: right;">{user.bukicos}</td>
+									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 1px; text-align: right;">{user.manto}</td>
 
 									<td onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 2px;">{user.level}</td>
 									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 5px;">{user.meteo}</td>
@@ -2855,6 +2859,9 @@
 		</section>
 
 		<section id="scripts">
+			<!-- platform js -->
+			<script src="//cdnjs.cloudflare.com/ajax/libs/platform/1.3.5/platform.min.js"></script>
+
 			<!-- bootstrap -->
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 			<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
