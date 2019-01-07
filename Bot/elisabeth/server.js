@@ -802,7 +802,7 @@ bot.on('messageCreate', (msg) => {
                       console.log('targetSchedule=');
                       console.log(targetSchedule);
                       incount = targetSchedule.incount;
-                      msg.channel.createMessage('該当する予定が見つかったわ！\n**' + dateLabel + 'に予定さている「' + targetSchedule.name + '」**ね！\n\n**現在の参加予定は ' + incount + '人よ！**\n');
+                      msg.channel.createMessage('該当する予定が見つかったわ！\n**' + dateLabel + 'に予定さている「' + targetSchedule.name + '」**ね！\n');
                       if (5 == cmd) {
                         console.log('targetUsers=');
                         console.log(targetUsers);
