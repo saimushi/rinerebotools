@@ -2494,6 +2494,8 @@
 								</tr>
 							</tbody>
 						</table>
+						<botton class="btn btn-danger" onclick="onclickCSVExport(this);">CSVエクスポート</botton>
+						<a style="display:none;" id="downloader" href="#"></a>
 					</div>
 					var thisis;
 					this.on('mount', function() {
@@ -2950,30 +2952,34 @@
 				jobimages['オークモンク'] = 'https://l2.netmarble.jp/event/orc/images/com/content1_tab2_ic01.jpg';
 				jobimages['オークシャーマン'] = 'https://l2.netmarble.jp/event/orc/images/com/content1_tab3_ic01.jpg';
 
-				// jobimages['パラディン'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/pa_icon.png';
-				// jobimages['ウォーロード'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/waro_icon.png';
-				// jobimages['トレジャーハンター'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/tr_icon.png';
-				// jobimages['ホークアイ'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/ho_icon.png';
-				// jobimages['ソーサラー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/so_icon.png';
-				// jobimages['ビショップ'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/bs_icon.png';
-				// jobimages['テンプルナイト'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/te_icon.png';
-				// jobimages['ソードシンガー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sws_icon.png';
-				// jobimages['プレインズウォーカー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/pw_icon.png';
-				// jobimages['シルバーレンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sr_icon.png';
-				// jobimages['スペルシンガー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sps_icon.png';
-				// jobimages['エルダー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/el_icon.png';
-				// jobimages['シリエンナイト'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sn_icon.png';
-				// jobimages['ブレードダンサー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/bd_icon.png';
-				// jobimages['アビスウォーカー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/aw_icon.png';
-				// jobimages['ファントムレンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/fr_icon.png';
-				// jobimages['スペルハウラー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sh_icon.png';
-				// jobimages['シリエンエルダー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/se_icon.png';
-				// jobimages['ガーディアン'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/gd_icon.png';
-				// jobimages['スレイヤー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sl_icon.png';
-				// jobimages['スカベンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sb_icon.png';
-				// jobimages['ウォーレンジャー'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/wl_icon.png';
-				// jobimages['クォーラルウィザード'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/qw_icon.png';
-				// jobimages['セイジ'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/sj_icon.png';
+				var jobnamesForURL = [];
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/human/job/icon-2.png'] = 'パラディン';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/human/job/icon-3.png'] = 'ウォーロード';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/human/job/icon-5.png'] = 'トレジャーハンター';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/human/job/icon-6.png'] = 'ホークアイ';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/human/job/icon-8.png'] = 'ソーサラー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/human/job/icon-9.png'] = 'ビショップ';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/elf/job/icon-11.png'] = 'テンプルナイト';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/elf/job/icon-12.png'] = 'ソードシンガー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/elf/job/icon-14.png'] = 'プレインズウォーカー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/elf/job/icon-15.png'] = 'シルバーレンジャー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/elf/job/icon-17.png'] = 'スペルシンガー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/elf/job/icon-18.png'] = 'エルダー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/darkelf/job/icon-20.png'] = 'シリエンナイト';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/darkelf/job/icon-21.png'] = 'ブレードダンサー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/darkelf/job/icon-23.png'] = 'アビスウォーカー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/darkelf/job/icon-24.png'] = 'ファントムレンジャー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/darkelf/job/icon-26.png'] = 'スペルハウラー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/darkelf/job/icon-27.png'] = 'シリエンエルダー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-29.png'] = 'ガーディアン';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-30.png'] = 'スレイヤー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-32.png'] = 'スカベンジャー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-33.png'] = 'ウォーレンジャー';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-35.png'] = 'クォーラルウィザード';
+				jobnamesForURL['https://l2r-prod.s3.amazonaws.com/img/pc/class/dwarf/job/icon-36.png'] = 'セイジ';
+				jobnamesForURL['http://l2.netmarble.jp/event/orc/images/com/content1_tab1_ic01.jpg'] = 'オークレイダー';
+				jobnamesForURL['https://l2.netmarble.jp/event/orc/images/com/content1_tab2_ic01.jpg'] = 'オークモンク';
+				jobnamesForURL['https://l2.netmarble.jp/event/orc/images/com/content1_tab3_ic01.jpg'] = 'オークシャーマン';
 
 				var jobbufs = [];
 				jobbufs['パラディン'] = '防御';
@@ -4080,6 +4086,111 @@
 					discordHook.send(message);
 					alert('ディスコに催促通知しました!');
 					return;
+				};
+				var onclickCSVExport = function (target) {
+					// 配列 の用意
+					var fields = $(target).parent().find('thead tr');
+					var users = $(target).parent().find('#partylist tr');
+					//var array_data = [['りんご',1,200],['メロン',2,4000],['バナナ',4,500]];
+					var array_data = [];
+					for (var uidx=0; uidx < fields.length; uidx++) {
+						var cols = $(fields[uidx]).find('th');
+						var dataArr = [];
+						for (var didx=0; didx < cols.length; didx++) {
+							var label = $(cols[didx]).text();
+							if (label == 'キャラ') {
+								label = 'キャラ名';
+							}
+							else if (label == 'status') {
+								label = 'PTリーダー';
+							}
+							else if (label == '飾') {
+								label = '装飾品';
+							}
+							else if (label == '武') {
+								label = '武器コス';
+							}
+							else if (label == 'マ') {
+								label = 'マント';
+							}
+							else if (label == 'メ') {
+								label = 'メテオLv';
+							}
+							else if (label == '区') {
+								label = '区分';
+							}
+							else if (label == '') {
+								label = '参加可否';
+							}
+							dataArr.push('"' + label + '"');
+						}
+						array_data.push(dataArr);
+					}
+					for (var uidx=0; uidx < users.length; uidx++) {
+						var userDatas = $(users[uidx]).find('td');
+						var dataArr = [];
+						for (var didx=0; didx < userDatas.length; didx++) {
+							var value = $(userDatas[didx]).html();
+							value = value.replace(/&nbsp;/g, ' ');
+							value = value.replace(/[\r\n]/g, ' ');
+							value = value.trim();
+							console.log(value);
+							if (value == '<i class="fas fa-microphone"></i>') {
+								value = 'VC可';
+							}
+							else if (value == '<i class="fas fa-microphone-slash"></i>') {
+								value = '聞き専';
+							}
+							else if (value == '<i class="fas">✕</i>') {
+								value = 'VC不可';
+							}
+							else if (value == '<i class="fas"></i>') {
+								value = '';
+							}
+							else if (value == '<i class="fas"></i>') {
+								value = '';
+							}
+							else if (-1 < value.indexOf('<img ')) {
+								var imgURL = $(value).attr('src');
+								value = jobnamesForURL[imgURL];
+							}
+							else if (value == 'リダ') {
+								value = 'PTリーダー';
+							}
+							else if (value == 'サブ') {
+								value = 'PTサブリーダー';
+							}
+							else if (value == 'AC') {
+								value = 'アクティブ';
+							}
+							else if (value == 'IAC') {
+								value = 'インアクティブ';
+							}
+							else if (value == '傭') {
+								value = '傭兵';
+							}
+							else if (value == '除') {
+								value = '除名';
+							}
+							dataArr.push('"' + value + '"');
+						}
+						array_data.push(dataArr);
+					}
+					console.log(array_data);
+			    // BOM の用意（文字化け対策）
+			    var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+			    // CSV データの用意
+			    var csv_data = array_data.map(function(l){return l.join(',')}).join('\r\n');
+			    var blob = new Blob([bom, csv_data], { type: 'text/csv' });
+			    var url = (window.URL || window.webkitURL).createObjectURL(blob);
+			    var a = document.getElementById('downloader');
+			    a.download = 'members.csv';
+					if ('#detailschedule' == location.hash) {
+						a.download = 'schedule-members.csv';
+					}
+			    a.href = url;
+					$('#downloader')[0].click();
+					return false;
 				};
 				$(function() {
 					loading(true);
