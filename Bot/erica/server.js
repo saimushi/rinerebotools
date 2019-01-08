@@ -423,6 +423,34 @@ bot.on('messageCreate', (msg) => {
         msg.channel.createMessage('該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
       }
     }
+    if (-1 < buki.indexOf('アイスエッジ')) {
+      var toLv = parseInt(buki.replace('アイスエッジ', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '氷刃' + toLv;
+        msg.channel.createMessage('該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('アイスエッヂ')) {
+      var toLv = parseInt(buki.replace('アイスエッヂ', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '氷刃' + toLv;
+        msg.channel.createMessage('該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('アイス')) {
+      var toLv = parseInt(buki.replace('アイス', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '氷刃' + toLv;
+        msg.channel.createMessage('該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('氷')) {
+      var toLv = parseInt(buki.replace('氷', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '氷刃' + toLv;
+        msg.channel.createMessage('該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
     console.log('武器コスID=' + newSelection);
     if (true != ('string' == typeof newSelection && 0 < newSelection.length)) {
       msg.channel.createMessage('該当の武器コスが見つからなかったわ・・・\n「武器コス 海賊5」みたいな指定をしてみて！5の部分は特性レベルを入れるのよ！\n');
@@ -749,7 +777,7 @@ bot.on('messageCreate', (msg) => {
                           msg.channel.createMessage('.\n\n' + marginTxt + '順調に強くなっているわ！\nLR装備を揃え始める時期だわ。先ずはエリート武器、その次に青武器が私のオススメよ！\nペニーワイズの言うことを信じちゃダメよ！\nサン★フレアは信じちゃったみたいだけど・・・\n');
                         }
                         else if (randnum > 50 && randnum <= 75) {
-                          msg.channel.createMessage('.\n\n' + marginTxt + 'いい感じに成長してるわね！\nレベル250でURエリクサーが開放されるわ！\nURエリクサーはトータル1200万アデナも使うけど、戦闘力が10万以上上がるから絶対に見逃さないでね★\n');
+                          msg.channel.createMessage('.\n\n' + marginTxt + 'いい感じに成長してるわね！\nレベル250でURエリクサーが開放されるわ！\nURエリクサーはトータル1200万アデナも使うけど、戦闘力が8万近く上がるから絶対に見逃さないでね★\n');
                         }
                         else if (randnum > 75 && randnum <= 100) {
                           msg.channel.createMessage('.\n\n' + marginTxt + 'いい感じに成長してるわね！\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
