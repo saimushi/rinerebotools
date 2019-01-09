@@ -517,6 +517,46 @@ bot.on('messageCreate', (msg) => {
     }
     subcmd = 3;
   }
+  else if (0 === msg.content.indexOf('特性 ') || 0 === msg.content.indexOf('武器特性 ')) {
+    msg.content = msg.content.replace(/[０-９]/g, function(s){
+        return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+    });
+    msg.channel.createMessage('武器の特性を更新するのね、私に任せて！\n');
+    var tokusei = msg.content.replace('特性', '');
+    tokusei = tokusei.replace('武器', '');
+    tokusei = tokusei.trim();
+    console.log(tokusei);
+    cmd = 1;
+    if (-1 < tokusei.indexOf('ボス特')) {
+      var toLv = parseInt(tokusei.replace('ボス特', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('該当の武器が見つかったわ！\n **ボス特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 4;
+      }
+    }
+    if (-1 < tokusei.indexOf('ボス')) {
+      var toLv = parseInt(tokusei.replace('ボス', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('該当の武器が見つかったわ！\n **ボス特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 4;
+      }
+    }
+    if (-1 < tokusei.indexOf('魔物')) {
+      var toLv = parseInt(tokusei.replace('魔物', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 5;
+      }
+    }
+    if (true != ('number' == typeof newSelection && 0 < newSelection)) {
+      msg.channel.createMessage('該当の武器が見つからなかったわ・・・\n「特性 魔物10」みたいな指定をしてみて！10の部分はその武器の特性レベルを入れるのよ！\n');
+      cmd = 0;
+      return;
+    }
+  }
   else if (msg.content === 'お知らせ通知') {
     msg.channel.createMessage('お知らせを毎日自動通知して欲しいのね、私に任せて！\n');
     cmd = 2;
@@ -706,6 +746,12 @@ bot.on('messageCreate', (msg) => {
                         }
                         if (3 == subcmd && 'string' == typeof newSelection && 0 < newSelection.length) {
                           targetUser.manto = newSelection;
+                        }
+                        if (4 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                          targetUser.boss = newSelection;
+                        }
+                        if (5 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                          targetUser.mamono = newSelection;
                         }
                       }
                       return;
