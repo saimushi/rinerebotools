@@ -4148,6 +4148,17 @@
 							message = message.replace('***urlview***', location.href.replace('#detailschedule', '&view=on#detailschedule'));
 						}
 					}
+					if (-1 < message.indexOf('***url***')) {
+						if ('#contribution' == location.hash && false === ('undefined' != typeof getParams['contributiondate'] && 0 < getParams['contributiondate'].length)) {
+							var targetDate = $(target).parent().parent().parent().parent().parent().parent().parent().parent().find('form .input-group.date').data().date;
+							targetDate = targetDate.replace(/\//g, '-');
+							targetDate = targetDate.split(' ')[0];
+							message = message.replace('***url***', location.href.replace('#contribution', '&contributiondate=' + targetDate + '#contribution'));
+						}
+						else {
+							message = message.replace('***url***', location.href);
+						}
+					}
 					if (-1 < message.indexOf('***pt***')) {
 						message = message.replace('***pt***', location.href.replace('#detailschedule', '#party'));
 					}
