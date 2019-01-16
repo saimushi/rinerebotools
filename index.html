@@ -214,6 +214,16 @@
 			td.scheduleparty[data-party=""] {
 				background-color: gray;
 			}
+			td.jobimage p {
+				position: absolute;
+				display: block;
+				width: 20px;
+				height: 20px;
+				font-size: 15px;
+				color: white;
+				margin-left: 2px;
+				margin-top: -20px;
+			}
 			#loader {
 				z-index: 99999;
 			}
@@ -653,66 +663,66 @@
 									<option>職業</option>
 									<optgroup label="オーク">
 										<option if={user.job=='オークレイダー'} value="オークレイダー" selected="selected">オークレイダー</option>
-										<option if={user.job=='オークモンク'} value="オークモンク" selected="selected">オークモンク</option>
-										<option if={user.job=='オークシャーマン'} value="オークシャーマン" selected="selected">オークシャーマン</option>
 										<option if={user.job!='オークレイダー'} value="オークレイダー">オークレイダー</option>
+										<option if={user.job=='オークモンク'} value="オークモンク" selected="selected">オークモンク</option>
 										<option if={user.job!='オークモンク'} value="オークモンク">オークモンク</option>
+										<option if={user.job=='オークシャーマン'} value="オークシャーマン" selected="selected">オークシャーマン</option>
 										<option if={user.job!='オークシャーマン'} value="オークシャーマン">オークシャーマン</option>
 									</optgroup>
 									<optgroup label="ヒューマン">
 										<option if={user.job=='パラディン'} value="パラディン" selected="selected">パラディン</option>
-										<option if={user.job=='ウォーロード'} value="ウォーロード" selected="selected">ウォーロード</option>
-										<option if={user.job=='トレジャーハンター'} value="トレジャーハンター" selected="selected">トレジャーハンター</option>
-										<option if={user.job=='ホークアイ'} value="ホークアイ" selected="selected">ホークアイ</option>
-										<option if={user.job=='ソーサラー'} value="ソーサラー" selected="selected">ソーサラー</option>
-										<option if={user.job=='ビショップ'} value="ビショップ" selected="selected">ビショップ</option>
 										<option if={user.job!='パラディン'} value="パラディン">パラディン</option>
+										<option if={user.job=='ウォーロード'} value="ウォーロード" selected="selected">ウォーロード</option>
 										<option if={user.job!='ウォーロード'} value="ウォーロード">ウォーロード</option>
+										<option if={user.job=='トレジャーハンター'} value="トレジャーハンター" selected="selected">トレジャーハンター</option>
 										<option if={user.job!='トレジャーハンター'} value="トレジャーハンター">トレジャーハンター</option>
+										<option if={user.job=='ホークアイ'} value="ホークアイ" selected="selected">ホークアイ</option>
 										<option if={user.job!='ホークアイ'} value="ホークアイ">ホークアイ</option>
+										<option if={user.job=='ソーサラー'} value="ソーサラー" selected="selected">ソーサラー</option>
 										<option if={user.job!='ソーサラー'} value="ソーサラー">ソーサラー</option>
+										<option if={user.job=='ビショップ'} value="ビショップ" selected="selected">ビショップ</option>
 										<option if={user.job!='ビショップ'} value="ビショップ">ビショップ</option>
 									</optgroup>
 									<optgroup label="エルフ">
 										<option if={user.job=='テンプルナイト'} value="テンプルナイト" selected="selected">テンプルナイト	</option>
-										<option if={user.job=='ソードシンガー'} value="ソードシンガー" selected="selected">ソードシンガー	</option>
-										<option if={user.job=='プレインズウォーカー'} value="プレインズウォーカー" selected="selected">プレインズウォーカー</option>
-										<option if={user.job=='シルバーレンジャー'} value="シルバーレンジャー" selected="selected">シルバーレンジャー</option>
-										<option if={user.job=='スペルシンガー'} value="スペルシンガー" selected="selected">スペルシンガー</option>
-										<option if={user.job=='エルダー'} value="エルダー" selected="selected">エルダー</option>
 										<option if={user.job!='テンプルナイト'} value="テンプルナイト">テンプルナイト	</option>
+										<option if={user.job=='ソードシンガー'} value="ソードシンガー" selected="selected">ソードシンガー	</option>
 										<option if={user.job!='ソードシンガー'} value="ソードシンガー">ソードシンガー	</option>
+										<option if={user.job=='プレインズウォーカー'} value="プレインズウォーカー" selected="selected">プレインズウォーカー</option>
 										<option if={user.job!='プレインズウォーカー'} value="プレインズウォーカー">プレインズウォーカー</option>
+										<option if={user.job=='シルバーレンジャー'} value="シルバーレンジャー" selected="selected">シルバーレンジャー</option>
 										<option if={user.job!='シルバーレンジャー'} value="シルバーレンジャー">シルバーレンジャー</option>
+										<option if={user.job=='スペルシンガー'} value="スペルシンガー" selected="selected">スペルシンガー</option>
 										<option if={user.job!='スペルシンガー'} value="スペルシンガー">スペルシンガー</option>
+										<option if={user.job=='エルダー'} value="エルダー" selected="selected">エルダー</option>
 										<option if={user.job!='エルダー'} value="エルダー">エルダー</option>
 									</optgroup>
 									<optgroup label="ダークエルフ">
 										<option if={user.job=='シリエンナイト'} value="シリエンナイト" selected="selected">シリエンナイト</option>
-										<option if={user.job=='ブレードダンサー'} value="ブレードダンサー" selected="selected">ブレードダンサー</option>
-										<option if={user.job=='アビスウォーカー'} value="アビスウォーカー" selected="selected">アビスウォーカー</option>
-										<option if={user.job=='ファントムレンジャー'} value="ファントムレンジャー" selected="selected">ファントムレンジャー</option>
-										<option if={user.job=='スペルハウラー'} value="スペルハウラー" selected="selected">スペルハウラー</option>
-										<option if={user.job=='シリエンエルダー'} value="シリエンエルダー" selected="selected">シリエンエルダー</option>
 										<option if={user.job!='シリエンナイト'} value="シリエンナイト">シリエンナイト</option>
+										<option if={user.job=='ブレードダンサー'} value="ブレードダンサー" selected="selected">ブレードダンサー</option>
 										<option if={user.job!='ブレードダンサー'} value="ブレードダンサー">ブレードダンサー</option>
+										<option if={user.job=='アビスウォーカー'} value="アビスウォーカー" selected="selected">アビスウォーカー</option>
 										<option if={user.job!='アビスウォーカー'} value="アビスウォーカー">アビスウォーカー</option>
+										<option if={user.job=='ファントムレンジャー'} value="ファントムレンジャー" selected="selected">ファントムレンジャー</option>
 										<option if={user.job!='ファントムレンジャー'} value="ファントムレンジャー">ファントムレンジャー</option>
+										<option if={user.job=='スペルハウラー'} value="スペルハウラー" selected="selected">スペルハウラー</option>
 										<option if={user.job!='スペルハウラー'} value="スペルハウラー">スペルハウラー</option>
+										<option if={user.job=='シリエンエルダー'} value="シリエンエルダー" selected="selected">シリエンエルダー</option>
 										<option if={user.job!='シリエンエルダー'} value="シリエンエルダー">シリエンエルダー</option>
 									</optgroup>
 									<optgroup label="ドワーフ">
 										<option if={user.job=='ガーディアン'} value="ガーディアン" selected="selected">ガーディアン</option>
-										<option if={user.job=='スレイヤー'} value="スレイヤー" selected="selected">スレイヤー</option>
-										<option if={user.job=='スカベンジャー'} value="スカベンジャー" selected="selected">スカベンジャー</option>
-										<option if={user.job=='ウォーレンジャー'} value="ウォーレンジャー" selected="selected">ウォーレンジャー</option>
-										<option if={user.job=='クォーラルウィザード'} value="クォーラルウィザード" selected="selected">クォーラルウィザード</option>
-										<option if={user.job=='セイジ'} value="セイジ" selected="selected">セイジ</option>
 										<option if={user.job!='ガーディアン'} value="ガーディアン">ガーディアン</option>
+										<option if={user.job=='スレイヤー'} value="スレイヤー" selected="selected">スレイヤー</option>
 										<option if={user.job!='スレイヤー'} value="スレイヤー">スレイヤー</option>
+										<option if={user.job=='スカベンジャー'} value="スカベンジャー" selected="selected">スカベンジャー</option>
 										<option if={user.job!='スカベンジャー'} value="スカベンジャー">スカベンジャー</option>
+										<option if={user.job=='ウォーレンジャー'} value="ウォーレンジャー" selected="selected">ウォーレンジャー</option>
 										<option if={user.job!='ウォーレンジャー'} value="ウォーレンジャー">ウォーレンジャー</option>
+										<option if={user.job=='クォーラルウィザード'} value="クォーラルウィザード" selected="selected">クォーラルウィザード</option>
 										<option if={user.job!='クォーラルウィザード'} value="クォーラルウィザード">クォーラルウィザード</option>
+										<option if={user.job=='セイジ'} value="セイジ" selected="selected">セイジ</option>
 										<option if={user.job!='セイジ'} value="セイジ">セイジ</option>
 									</optgroup>
 								</select>
@@ -1467,12 +1477,12 @@
 														<td if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="color: orange; font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray; text-align: right;">{puser.cp}</td>
-														<td if={jobbufs[puser.job]=='攻撃'} style="border: none; padding: 5px; padding-left: 3px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
-														<td if={jobbufs[puser.job]=='クリ'} style="border: none; padding: 5px; padding-left: 3px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
-														<td if={jobbufs[puser.job]=='防御'} style="border: none; padding: 5px; padding-left: 3px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
-														<td if={jobbufs[puser.job]=='移動'} style="border: none; padding: 5px; padding-left: 3px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
-														<td if={jobbufs[puser.job]=='命中'} style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
-														<td if={jobbufs[puser.job]=='HP'} style="border: none; padding: 5px; padding-left: 3px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/></td>
+														<td if={jobbufs[puser.job]=='攻撃'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
+														<td if={jobbufs[puser.job]=='クリ'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
+														<td if={jobbufs[puser.job]=='防御'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
+														<td if={jobbufs[puser.job]=='移動'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
+														<td if={jobbufs[puser.job]=='命中'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
+														<td if={jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
 														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: gray;">&nbsp;</td>
 													</tr>
 													<tr if={'on'!=getParams['view']} style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
@@ -2535,13 +2545,13 @@
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername draggable" style="font-size: xx-small; padding-left: 2px; padding-right: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.name}</td>
 									<td if={opts.mode!='contribution'} style="font-size: xx-small; padding-left: 1px; padding-right: 1px; text-align: right;">{user.cp}</td>
 
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: firebrick; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: orange; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: blue; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: green; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: dodgerblue; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: deeppink; padding: 5px; padding-left: 0;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: 5px;">{user.job}</td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: orange; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: blue; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink; padding: 5px; padding-left: 0;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
+									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="font-size: 5px;">{user.job}</td>
 
 									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 80 <= user.acce1 && 90 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/811006.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
 									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 70 <= user.acce1 && 80 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/31000.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
@@ -3084,7 +3094,7 @@
 				jobbufs['セイジ'] = 'HP';
 				jobbufs['オークレイダー'] = '攻撃';
 				jobbufs['オークモンク'] = '命中';
-				jobbufs['オークシャーマン'] = 'HP';
+				jobbufs['オークシャーマン'] = 'クリ';
 
 				var dispatchPortlateLayout = function(){
 					if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
