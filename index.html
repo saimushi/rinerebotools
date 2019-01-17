@@ -1345,7 +1345,7 @@
 								<h5>入団日(選択して下さい)</h5>
 								<div class='input-group date' id='joinddate'/>
 							</div>
-							<botton class="btn btn-success" onclick="onclickRegister(this, '{user.ID}')">登録</botton>
+							<botton class="btn btn-success" onclick="onclickRegister(this, '{user.ID}', '{user.name}')">登録</botton>
 							<botton if={user.ID!='' && 'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
@@ -4002,8 +4002,12 @@
 					}
 					alert('入力が正しくない項目があった為、処理を中断します。');
 				};
-				var onclickRegister = function (target, userID) {
+				var onclickRegister = function (target, userID, beforeUserName) {
 					var username = $('#registerform').find('input[name=username]').val();
+					if ('on'!= getParams['view'] && beforeUserName != username) {
+						// Viewモードで名前が変わっていたら違う人
+						userID = '';
+					}
 					var userjob = $('#registerform').find('select[name=userjob] option:selected').val();
 					var userlevel = $('#registerform').find('input[name=userlevel]').val();
 					var usercp = $('#registerform').find('input[name=usercp]').val();
