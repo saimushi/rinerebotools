@@ -642,7 +642,7 @@
     else if (-1 < msg.content.indexOf('AF') || -1 < msg.content.indexOf('アーティファクト')) {
       if (-1 < msg.content.indexOf('計算') || -1 < msg.content.indexOf('最適') || -1 < msg.content.indexOf('教えて') || -1 < msg.content.indexOf('知りたい')) {
         msg.channel.createMessage('フレヤサーバーの @KK1116 さん、 @Lsama さんが **アーティファクト計算ツール** を作って公開してくれているわ！\n'
-        + 'それを活用するのがベストよ！\nhttps://t.co/dmyCtivQFE\n\n'
+        + 'それを活用するのがベストよ！\nhttps://t.co/yHzFtk4rXo\n\n'
         + '**【使い方(PC)】**\nリンクを開いた後に「ファイル」 => 「コピーを作成」とやって自分専用のシートにコピーして使うのよ！\n決して作者さんに権限追加依頼を出さないように注意してね。\n\nhttps://twitter.com/KK11161/status/1083645715081904129 \n\n'
         + '**【使い方(スマホ)】**\nスマホの場合は「Googleスプレッドシート」アプリ( https://www.google.com/intl/ja_jp/sheets/about/ )\nをインストールしてからリンクを開くとアプリが起動するわ。\nメニューから「共有とエクスポート」 => 「コピーの作成」ってやるとPCと同じ事が出来るわ！\n\n'
         + '**【スマホ版シートの開き方説明動画】**\nhttps://youtu.be/xKo-PGzjALI\n*※提供のねーこちゃんありがとう♥*'
@@ -676,6 +676,12 @@
         return;
       }
       msg.channel.createMessage(msg.author.username + 'ちゃん私もっ♥');
+      msg.channel.createMessage('もし良かったら・・・作者に寄付して上げて★\n寄付はここから出来るわ♥\nhttps://line2revo.fun/#donation');
+      cmd = 0;
+      return;
+    }
+    else if (-1 < msg.content.indexOf('エリカ様お疲れ') || -1 < msg.content.indexOf('エリカ様おつかれ') || -1 < msg.content.indexOf('エリカさまお疲れ') || -1 < msg.content.indexOf('エリカさまおつかれ')) {
+      msg.channel.createMessage('あら！ありがとうーー♪嬉しいわー！\n私へのお給料の振込はここから出来るわ♥\nhttps://line2revo.fun/#donation');
       cmd = 0;
       return;
     }
@@ -683,6 +689,7 @@
       msg.channel.createMessage('呼んだかしら？？\n'
       + '私が出来るお手伝いは\n\n'
       + '戦闘力の更新 **[1012543]**\n'
+      + 'レベルの更新 **[レベル 1〜320]**\n'
       + '予定への参加登録 **[参加] [参加 聞き専(or 可能・不可)] [参加△ コメント] [不参加]**\n'
       + '予定参加者の確認 **[確認] [確認△]**\n'
       + 'アクセの登録 **[アクセ カラ 1〜10]**\n'

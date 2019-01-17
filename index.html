@@ -398,24 +398,26 @@
 					this.on('mount', function() {
 						this.interval = interval;
 						thisis = this;
+						var stripe = Stripe('pk_live_JlhrlmDnSu9qzPjvJ5eqjSro');
+			      var paymentRequest = stripe.paymentRequest({
+			        country: 'JP',
+			        currency: 'jpy',
+			        total: {
+			          label: '寄付',
+			          amount: 1000,
+			        },
+			        requestPayerName: true,
+			        requestPayerEmail: true,
+			      });
 						thisis.interval = setInterval(function() {
 							if ($('.stripe-button-el')[0] && thisis.interval) {
 								clearInterval(thisis.interval);
 								thisis.interval = null;
-								try {
-									paymentRequest.canMakePayment().then(function(result) {
-										if (result) {
-											$('#payment-request-button')[0].click();
-										}
-										else {
-											$('.stripe-button-el')[0].click();
-										}
-									});
-								}
-					      catch (error) {
-									console.log(error);
+								if ($('#payment-request-button')[0]) {
+									$('#payment-request-button')[0].click();
+								else {
 									$('.stripe-button-el')[0].click();
-					      }
+								}
 							}
 						}, 1000);
 					});

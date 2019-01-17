@@ -37,6 +37,7 @@
             prButton.mount('#payment-request-button');
           } else {
             document.getElementById('payment-request-button').style.display = 'none';
+            $('#payment-request-button').remove();
           }
         });
       }
