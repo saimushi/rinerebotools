@@ -551,8 +551,35 @@
           subcmd = 5;
         }
       }
+      if (-1 < tokusei.indexOf('赤武器')) {
+        var toLv = parseInt(tokusei.replace('赤武器', '').trim());
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 5;
+        }
+      }
       if (true != ('number' == typeof newSelection && 0 < newSelection)) {
         msg.channel.createMessage('該当の武器が見つからなかったわ・・・\n「特性 魔物10」みたいな指定をしてみて！10の部分はその武器の特性レベルを入れるのよ！\n');
+        cmd = 0;
+        return;
+      }
+    }
+    else if (0 === msg.content.indexOf('レベル ')) {
+      msg.content = msg.content.replace(/[０-９]/g, function(s){
+          return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+      });
+      var level = msg.content.replace('レベル', '');
+      level = level.trim();
+      console.log(level);
+      cmd = 1;
+      var toLv = parseInt(level);
+      if (0 < toLv && 320 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('レベルを更新するのね、私に任せて！\n **Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 10;
+      }
+      if (true != ('number' == typeof newSelection && 0 < newSelection)) {
         cmd = 0;
         return;
       }
@@ -768,6 +795,9 @@
                           }
                           if (5 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                             targetUser.mamono = newSelection;
+                          }
+                          if (10 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                            targetUser.level = newSelection;
                           }
                         }
                         return;

@@ -306,6 +306,9 @@
 				<route path="manage">
 					<manage class="riotcontes"/>
 				</route>
+				<route path="donation">
+					<donat class="riotcontes"/>
+				</route>
 			</router>
 		</app>
 		<footer class="footer">
@@ -383,6 +386,40 @@
 						auth();
 					});
 				</top>
+			</script>
+
+			<script type="riot/tag">
+				<donat>
+					<div style="padding: 10px;">
+						<h2>寄付に興味を持って頂き有難うございます！</h2>
+					</div>
+					interval = null;
+					thisis = null;
+					this.on('mount', function() {
+						this.interval = interval;
+						thisis = this;
+						thisis.interval = setInterval(function() {
+							if ($('.stripe-button-el')[0] && thisis.interval) {
+								clearInterval(thisis.interval);
+								thisis.interval = null;
+								try {
+									paymentRequest.canMakePayment().then(function(result) {
+										if (result) {
+											$('#payment-request-button')[0].click();
+										}
+										else {
+											$('.stripe-button-el')[0].click();
+										}
+									});
+								}
+					      catch (error) {
+									console.log(error);
+									$('.stripe-button-el')[0].click();
+					      }
+							}
+						}, 1000);
+					});
+				</donat>
 			</script>
 
 			<script type="riot/tag">
