@@ -27,15 +27,20 @@
 		  if(agent.indexOf("msie") > -1){
 		    if (version.indexOf("msie 6.") > -1){
 		      result = 'IE6';
-		    }else if (version.indexOf("msie 7.") > -1){
+		    }
+				else if (version.indexOf("msie 7.") > -1){
 		      result = 'IE7';
-		    }else if (version.indexOf("msie 8.") > -1){
+		    }
+				else if (version.indexOf("msie 8.") > -1){
 		      result = 'IE8';
-		    }else if (version.indexOf("msie 9.") > -1){
+		    }
+				else if (version.indexOf("msie 9.") > -1){
 		      result = 'IE9';
-		    }else if (version.indexOf("msie 10.") > -1){
+		    }
+				else if (version.indexOf("msie 10.") > -1){
 		      result = 'IE10';
-		    }else{
+		    }
+				else{
 		      result = 'IE(バージョン不明)';
 		    }
 				browserEnabled = false;
@@ -415,6 +420,7 @@
 								thisis.interval = null;
 								if ($('#payment-request-button')[0]) {
 									$('#payment-request-button')[0].click();
+								}
 								else {
 									$('.stripe-button-el')[0].click();
 								}
@@ -764,6 +770,13 @@
 										<option if={user.job=='セイジ'} value="セイジ" selected="selected">セイジ</option>
 										<option if={user.job!='セイジ'} value="セイジ">セイジ</option>
 									</optgroup>
+								</select>
+							</div>
+							<div class="form-group">
+								<select class="form-control" name="userjob3d">
+									<option value="0">3次職未転職</option>
+									<option if={user.job3d=='1'} value="1" selected="selected">3次職転職済</option>
+									<option if={user.job3d!='1'} value="1">3次職転職済</option>
 								</select>
 							</div>
 							<div class="form-group">
@@ -1351,7 +1364,7 @@
 							<botton if={user.ID!='' && 'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
-					var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, boss: 0, mamono: 0, acce1: 0, bukicos: '', manto: '', memo: '', activity: 9, joind: '',};
+					var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, boss: 0, mamono: 0, acce1: 0, bukicos: '', manto: '', memo: '', activity: 9, joind: '',};
 					this.on('mount', function() {
 						//$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00",});
 						auth(false, function (clan) {
@@ -1516,12 +1529,12 @@
 														<td if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="color: orange; font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray; text-align: right;">{puser.cp}</td>
-														<td if={jobbufs[puser.job]=='攻撃'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
-														<td if={jobbufs[puser.job]=='クリ'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
-														<td if={jobbufs[puser.job]=='防御'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
-														<td if={jobbufs[puser.job]=='移動'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
-														<td if={jobbufs[puser.job]=='命中'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
-														<td if={jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={260 < puser.level}>3d</p></td>
+														<td if={jobbufs[puser.job]=='攻撃'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={1 == puser.job3d}>3d</p></td>
+														<td if={jobbufs[puser.job]=='クリ'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={1 == puser.job3d}>3d</p></td>
+														<td if={jobbufs[puser.job]=='防御'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={1 == puser.job3d}>3d</p></td>
+														<td if={jobbufs[puser.job]=='移動'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={1 == puser.job3d}>3d</p></td>
+														<td if={jobbufs[puser.job]=='命中'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={1 == puser.job3d}>3d</p></td>
+														<td if={jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={1 == puser.job3d}>3d</p></td>
 														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: gray;">&nbsp;</td>
 													</tr>
 													<tr if={'on'!=getParams['view']} style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
@@ -2584,12 +2597,12 @@
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername draggable" style="font-size: xx-small; padding-left: 2px; padding-right: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.name}</td>
 									<td if={opts.mode!='contribution'} style="font-size: xx-small; padding-left: 1px; padding-right: 1px; text-align: right;">{user.cp}</td>
 
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: orange; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: blue; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
-									<td if={opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink; padding: 5px; padding-left: 0;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={260 < user.level}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: orange; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: blue; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 2px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink; padding: 5px; padding-left: 0;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
 									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="font-size: 5px;">{user.job}</td>
 
 									<td if={opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 80 <= user.acce1 && 90 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; padding-left: 5px; color: white; background: url(https://l2r-prod.s3.amazonaws.com/img/common/equipment/811006.png?v=20180330)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
@@ -3041,7 +3054,7 @@
 				var getParams = {};
 				var loadingCount = 0;
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
-				var user = { ID: '', name: '', job: '', cp: '', level: '', meteo: 0, acce1: 0, bukicos: '', manto: '', memo: '', activity: 9, joind: '', discord: '', };
+				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, acce1: 0, bukicos: '', manto: '', memo: '', activity: 9, joind: '', discord: '', };
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, };
 				var partySchedule = {name:'', date: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', };
@@ -4011,6 +4024,7 @@
 						userID = '';
 					}
 					var userjob = $('#registerform').find('select[name=userjob] option:selected').val();
+					var userjob3d = $('#registerform').find('select[name=userjob3d] option:selected').val();
 					var userlevel = $('#registerform').find('input[name=userlevel]').val();
 					var usercp = $('#registerform').find('input[name=usercp]').val();
 					var usermemo = $('#registerform').find('input[name=memo]').val();
@@ -4036,7 +4050,7 @@
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
 					if ('職業' != userjob && 'メテオ' != usermeteo && '装飾品' != useracce1 && '区分' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
-						var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), boss: userboss, mamono: usermamono, acce1: parseInt(useracce1), bukicos: userbukicos, manto: usermanto, activity: parseInt(useractivity), discord: userdiscord, };
+						var data = { ID: userID, name: username, job: userjob, job3d: parseInt(userjob3d), level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), boss: userboss, mamono: usermamono, acce1: parseInt(useracce1), bukicos: userbukicos, manto: usermanto, activity: parseInt(useractivity), discord: userdiscord, };
 						if (0 < userjoind.length) {
 							data.joind = new Date(userjoind);
 						}

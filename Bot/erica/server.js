@@ -584,6 +584,15 @@
         return;
       }
     }
+    else if (0 === msg.content.indexOf('転職 完了') || 0 === msg.content.indexOf('転職完了')) {
+      msg.content = msg.content.replace(/[０-９]/g, function(s){
+          return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+      });
+      newSelection = 1;
+      msg.channel.createMessage('3次職転職がついに完了したのね！！おめでとう！！！\n **転職済み** にデータを更新するわ！\nコレであなたも巨人の力を手に入れた心滅者となったのね・・・今後の活躍が楽しみ★');
+      cmd = 1;
+      subcmd = 11;
+    }
     else if (msg.content === 'お知らせ通知') {
       msg.channel.createMessage('お知らせを毎日自動通知して欲しいのね、私に任せて！\n');
       cmd = 2;
@@ -805,6 +814,9 @@
                           }
                           if (10 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                             targetUser.level = newSelection;
+                          }
+                          if (11 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                            targetUser.job3d = newSelection;
                           }
                         }
                         return;
