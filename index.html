@@ -1891,7 +1891,7 @@
 										thisis.selectusers_ = thisis.selectusers;
 									}
 									$('#addscheduleform input[name=scheduletag]').ready(function (){
-										if ('iOS' != platform.os.family && 'Android' != platform.os.family && 'Windows Phone' != platform.os.family) {
+										if ($('#partylist') && 0 < $('#partylist').size() && 'iOS' != platform.os.family && 'Android' != platform.os.family && 'Windows Phone' != platform.os.family) {
 											// XXX PCのみドラッグアンドドロップソートを有効にする
 											Sortable.create( document.getElementById('partylist'),
 												{
