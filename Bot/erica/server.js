@@ -1273,7 +1273,7 @@
     var date = new Date();
     var time = date.toFormat("HH24MI");
     console.log(time + " Ping Received");
-    if (time === '0000') {
+    if (time === '0000' || time === '0001' || time === '0002') {
       // 0時0分なのでお知らせバッチ実行
       infojob(false);
     }

@@ -1,6 +1,5 @@
 <!-- Stripe Checkout -->
 <donation>
-  <div id="payment-request-button"></div>
   <form action="https://l2rtool-donation.glitch.me" class="donation-form" method="POST"></form>
   <script type="text/javascript">
     var initializedDonation = false;
@@ -34,10 +33,9 @@
         // Check the availability of the Payment Request API first.
         paymentRequest.canMakePayment().then(function(result) {
           if (result) {
-            prButton.mount('#payment-request-button');
-          } else {
-            document.getElementById('payment-request-button').style.display = 'none';
-            $('#payment-request-button').remove();
+            $('donation').prepend('<div id="payment-request-button"></div>').ready(function (){
+              prButton.mount('#payment-request-button');
+            });
           }
         });
       }

@@ -397,23 +397,13 @@
 				<donat>
 					<div style="padding: 10px;">
 						<h2>寄付に興味を持って頂き有難うございます！</h2>
+						<h3>寄付は右上の「寄付する」「Apple Pay(対応機種のみ)」ボタンより行なえます。</h3>
 					</div>
 					interval = null;
 					thisis = null;
 					this.on('mount', function() {
 						this.interval = interval;
 						thisis = this;
-						var stripe = Stripe('pk_live_JlhrlmDnSu9qzPjvJ5eqjSro');
-			      var paymentRequest = stripe.paymentRequest({
-			        country: 'JP',
-			        currency: 'jpy',
-			        total: {
-			          label: '寄付',
-			          amount: 1000,
-			        },
-			        requestPayerName: true,
-			        requestPayerEmail: true,
-			      });
 						thisis.interval = setInterval(function() {
 							if ($('.stripe-button-el')[0] && thisis.interval) {
 								clearInterval(thisis.interval);
@@ -425,7 +415,7 @@
 									$('.stripe-button-el')[0].click();
 								}
 							}
-						}, 1000);
+						}, 2000);
 					});
 				</donat>
 			</script>
