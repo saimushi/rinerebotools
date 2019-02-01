@@ -1447,63 +1447,87 @@
 									<td if={'undefined' != typeof pusers} each="{pusers, pindex in party}" style="padding: 0; border: none;">
 
 												<table class="table table-striped"style="overflow: hidden; margin-bottom: 0px;">
+													<tr if={pusers[0].party==49} style="color: black; font-size: 8px;">
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1A</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:25px;"></th>
+													</tr>
+													<tr if={pusers[0].party==48} style="color: black; font-size: 8px;">
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1B</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+														<th style="border: none;"></th>
+														<th style="border: none; width:25px;"></th>
+													</tr>
 													<tr if={pusers[0].party==39} style="background-color: dodgerblue; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">聖刻</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2A</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">聖刻</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==38} style="background-color: blue; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">偵察</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2B</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">偵察</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==37} style="background-color: navy; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">封殺</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">封殺</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==29} style="background-color: limegreen; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">FW1</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3A</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW1</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==28} style="border: none; background-color: green; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">FW2</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3B</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW2</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==27} style="border: none; background-color: darkgreen; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">FW3</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW3</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==19} style="border: none; background-color: gold; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">MF1</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4A</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF1</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==18} style="border: none; background-color: orange; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">MF2</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4B</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF2</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==17} style="border: none; background-color: darkorange; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">MF3</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF3</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==9} style="border: none; background-color: red; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">DF1</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5A</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF1</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==8} style="border: none; background-color: crimson; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">DF2</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5B</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF2</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==7} style="border: none; background-color: firebrick; color: white; font-size: 8px;">
-														<th style="border: none; width:100px; padding: 5px;">DF3</th>
+														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF3</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
@@ -1670,29 +1694,71 @@
 											</div>
 										</div>
 										<div if={'on'!=getParams['view']}>
-											<h4 >PT設定</h4>
-											<div class="form-group">
+											<h4 if={-1 < schedule.tag.indexOf('レイド')}>
+												レイドPT設定
+												<small style="font-size: xx-small;">
+													<br/>
+													※レイドボス一覧で上から1,2,3と勘定するのが理想です
+												</small>
+											</h4>
+											<div if={-1 < schedule.tag.indexOf('レイド')} class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-default" disabled="disabled"><b>ボス1</b></botton>
+													<botton class="btn btn-default" onclick="{onEntryPT}" data-party="49">1A</botton>
+													<botton class="btn btn-default" onclick="{onEntryPT}" data-party="48">1B</botton>
+												</div>
+											</div>
+											<div if={-1 < schedule.tag.indexOf('レイド')} class="form-group">
+												<div class="btn-group">
+												<botton class="btn btn-info" disabled="disabled"><b>ボス2</b></botton>
+													<botton class="btn btn-info" onclick="{onEntryPT}" data-party="39">2A</botton>
+													<botton class="btn btn-info" onclick="{onEntryPT}" data-party="38">2B</botton>
+												</div>
+											</div>
+											<div if={-1 < schedule.tag.indexOf('レイド')} class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-success" disabled="disabled"><b>ボス3</b></botton>
+													<botton class="btn btn-success" onclick="{onEntryPT}" data-party="29">3A</botton>
+													<botton class="btn btn-success" onclick="{onEntryPT}" data-party="28">3B</botton>
+												</div>
+											</div>
+											<div if={-1 < schedule.tag.indexOf('レイド')} class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-warning" disabled="disabled"><b>ボス4</b></botton>
+													<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="19">4A</botton>
+													<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="18">4B</botton>
+												</div>
+											</div>
+											<div if={-1 < schedule.tag.indexOf('レイド')} class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-danger" disabled="disabled"><b>ボス5</b></botton>
+													<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="9">5A</botton>
+													<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="8">5B</botton>
+												</div>
+											</div>
+											<h4 if={0 > schedule.tag.indexOf('レイド')}>PT設定</h4>
+											<div if={0 > schedule.tag.indexOf('レイド')} class="form-group">
 												<div class="btn-group">
 													<botton class="btn btn-info" onclick="{onEntryPT}" data-party="39">聖刻</botton>
 													<botton class="btn btn-info" onclick="{onEntryPT}" data-party="38">偵察</botton>
 													<botton class="btn btn-info" onclick="{onEntryPT}" data-party="37">封殺</botton>
 												</div>
 											</div>
-											<div class="form-group">
+											<div if={0 > schedule.tag.indexOf('レイド')} class="form-group">
 												<div class="btn-group">
 													<botton class="btn btn-success" onclick="{onEntryPT}" data-party="29">FW1</botton>
 													<botton class="btn btn-success" onclick="{onEntryPT}" data-party="28">FW2</botton>
 													<botton class="btn btn-success" onclick="{onEntryPT}" data-party="27">FW3</botton>
 												</div>
 											</div>
-											<div class="form-group">
+											<div if={0 > schedule.tag.indexOf('レイド')} class="form-group">
 												<div class="btn-group">
 													<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="19">MF1</botton>
 													<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="18">MF2</botton>
 													<botton class="btn btn-warning" onclick="{onEntryPT}" data-party="17">MF3</botton>
 												</div>
 											</div>
-											<div class="form-group">
+											<div if={0 > schedule.tag.indexOf('レイド')} class="form-group">
 												<div class="btn-group">
 													<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="9">DF1</botton>
 													<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="8">DF2</botton>
@@ -1719,7 +1785,8 @@
 									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: deeppink;">&nbsp;回復&nbsp;{healAssistans}</span>
 									<br style="clear: both;"/>
 								</div>
-								<users data='{scheduleusers}' mode='schedule'/>
+								<users if={-1 < schedule.tag.indexOf('レイド')} data='{scheduleusers}' mode='schedule' submode='bossraid'/>
+								<users if={0 > schedule.tag.indexOf('レイド')} data='{scheduleusers}' mode='schedule'/>
 							</div>
 							<div if={schedule.type!=1 && 'on'!=getParams['view']} class="container-fluid">
 								<div style="padding-left: 10px; padding-right: 10px;">
@@ -2541,8 +2608,8 @@
 									<th if={opts.mode!='contribution'} style="width: 22px; padding-left: 5px;">マ</th>
 									<th if={opts.mode!='schedule'} onclick="{sortLevel}" style="width: 20px; padding-left: 3px;">Lv</th>
 									<th if={opts.mode!='schedule'} style="width: 15px; padding-left: 1px;">メ</th>
-									<th if={opts.mode!='contribution'} style="width: 15px; padding-left: 1px;">ボ</th>
-									<th if={opts.mode!='contribution'} style="width: 15px; padding-left: 1px;">魔</th>
+									<th if={!opts.mode || opts.submode=='bossraid'} style="width: 15px; padding-left: 1px;">ボ</th>
+									<th if={!opts.mode || opts.submode=='bossraid'} style="width: 15px; padding-left: 1px;">魔</th>
 									<th if={opts.mode!='schedule'} style="width: 18px; padding-left: 5px;">区</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 32px; padding-left: 0; padding-right: 0;">入隊日</th>
 									<th if={opts.mode=='schedule'} style="font-size: 6px; padding-left: 1px; padding-right: 0;">コメ</th>
@@ -2561,21 +2628,39 @@
 									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success draggable" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">◯</td>
 									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning draggable" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger draggable" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">✕</td>
-									<td if={opts.mode=='schedule' && user.party==39} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="39" style="color: white; font-size: 8px; padding: 0; padding-left: 1px; padding-right: 0;">聖刻</td>
-									<td if={opts.mode=='schedule' && user.party==38} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="38" style="color: white; font-size: 8px; padding: 0; padding-left: 1px; padding-right: 0;">偵察</td>
-									<td if={opts.mode=='schedule' && user.party==37} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="37" style="color: white; font-size: 8px; padding: 0; padding-left: 1px; padding-right: 0;">封殺</td>
-									<td if={opts.mode=='schedule' && user.party==29} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="29" style="color: white; font-size: 8px; padding: 0; padding-left: 1px; padding-right: 0;">FW1</td>
-									<td if={opts.mode=='schedule' && user.party==28} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="28" style="green; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW2</td>
-									<td if={opts.mode=='schedule' && user.party==27} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="27" style="darkgreen; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW3</td>
-									<td if={opts.mode=='schedule' && user.party==19} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="19" style="gold; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF1</td>
-									<td if={opts.mode=='schedule' && user.party==18} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="18" style="orange; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF2</td>
-									<td if={opts.mode=='schedule' && user.party==17} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="17" style="darkorange; color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF3</td>
-									<td if={opts.mode=='schedule' && user.party==9} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="9" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF1</td>
-									<td if={opts.mode=='schedule' && user.party==8} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="8" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF2</td>
-									<td if={opts.mode=='schedule' && user.party==7} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="7" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF3</td>
+
+									<td if={opts.mode=='schedule' && user.party==49 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="49" style="color: black; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;1A</td>
+									<td if={opts.mode=='schedule' && user.party==48 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="48" style="color: black; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;1B</td>
+									<td if={opts.mode=='schedule' && user.party==39 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="39" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;2A</td>
+									<td if={opts.mode=='schedule' && user.party==38 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="38" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;2B</td>
+									<td if={opts.mode=='schedule' && user.party==37 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
+									<td if={opts.mode=='schedule' && user.party==29 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="29" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;3A</td>
+									<td if={opts.mode=='schedule' && user.party==28 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="28" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;3B</td>
+									<td if={opts.mode=='schedule' && user.party==27 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
+									<td if={opts.mode=='schedule' && user.party==19 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="19" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;4A</td>
+									<td if={opts.mode=='schedule' && user.party==18 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="18" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;4B</td>
+									<td if={opts.mode=='schedule' && user.party==17 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
+									<td if={opts.mode=='schedule' && user.party==9 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="9" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;5A</td>
+									<td if={opts.mode=='schedule' && user.party==8 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="8" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;5B</td>
+									<td if={opts.mode=='schedule' && user.party==7 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
+
+									<td if={opts.mode=='schedule' && user.party==39 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="39" style="color: white; font-size: 8px; padding: 0; padding-left: 1px; padding-right: 0;">聖刻</td>
+									<td if={opts.mode=='schedule' && user.party==38 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="38" style="color: white; font-size: 8px; padding: 0; padding-left: 1px; padding-right: 0;">偵察</td>
+									<td if={opts.mode=='schedule' && user.party==37 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="37" style="color: white; font-size: 8px; padding: 0; padding-left: 1px; padding-right: 0;">封殺</td>
+									<td if={opts.mode=='schedule' && user.party==29 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="29" style="color: white; font-size: 8px; padding: 0; padding-left: 1px; padding-right: 0;">FW1</td>
+									<td if={opts.mode=='schedule' && user.party==28 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="28" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW2</td>
+									<td if={opts.mode=='schedule' && user.party==27 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="27" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW3</td>
+									<td if={opts.mode=='schedule' && user.party==19 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="19" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF1</td>
+									<td if={opts.mode=='schedule' && user.party==18 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="18" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF2</td>
+									<td if={opts.mode=='schedule' && user.party==17 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="17" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF3</td>
+									<td if={opts.mode=='schedule' && user.party==9 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="9" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF1</td>
+									<td if={opts.mode=='schedule' && user.party==8 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="8" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF2</td>
+									<td if={opts.mode=='schedule' && user.party==7 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="7" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF3</td>
+
 									<td if={opts.mode=='schedule' && user.party==0} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
 									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
 									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
+
 									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-info text-info draggable" propaty="2" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">リダ</td>
 									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-success text-success draggable" propaty="1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">サブ</td>
 									<td if={opts.mode=='schedule' && user.status==-1} class="scheduleuserstatus bg-danger text-danger draggable" propaty="-1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">急欠</td>
@@ -2610,8 +2695,8 @@
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 2px;">{user.level}</td>
 									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
 									<td if={opts.mode!='schedule' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
-									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.boss}</td>
-									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.mamono}</td>
+									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.boss}</td>
+									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.mamono}</td>
 									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 3px; padding-right: 0;">AC</td>
 									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">IAC</td>
 									<td if={opts.mode!='schedule' && user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">除</td>

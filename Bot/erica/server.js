@@ -589,7 +589,7 @@
           return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
       });
       newSelection = 1;
-      msg.channel.createMessage('3次職転職がついに完了したのね！！おめでとう！！！\n **転職済み** にデータを更新するわ！\nコレであなたも巨人の力を手に入れた心滅者となったのね・・・今後の活躍が楽しみ★');
+      msg.channel.createMessage('3次職転職がついに完了したのね！！おめでとう！！！\n **転職済み** にデータを更新するわ！\nコレであなたも巨人の力を手に入れた必滅者となったのね・・・今後の活躍が楽しみ★');
       cmd = 1;
       subcmd = 11;
     }
