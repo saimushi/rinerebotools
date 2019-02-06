@@ -1334,6 +1334,31 @@
 								</select>
 							</div>
 							<div class="form-group">
+								<select class="form-control" name="usersweet">
+									<option>スイート特性</option>
+									<option if={user.sweet==10} value="10" selected="selected">スイート特性Lv10</option>
+									<option if={user.sweet==9} value="9" selected="selected">スイート特性Lv9</option>
+									<option if={user.sweet==8} value="8" selected="selected">スイート特性Lv8</option>
+									<option if={user.sweet==7} value="7" selected="selected">スイート特性Lv7</option>
+									<option if={user.sweet==6} value="6" selected="selected">スイート特性Lv6</option>
+									<option if={user.sweet==5} value="5" selected="selected">スイート特性Lv5</option>
+									<option if={user.sweet==4} value="4" selected="selected">スイート特性Lv4</option>
+									<option if={user.sweet==3} value="3" selected="selected">スイート特性Lv3</option>
+									<option if={user.sweet==2} value="2" selected="selected">スイート特性Lv2</option>
+									<option if={user.sweet==1} value="1" selected="selected">スイート特性Lv1</option>
+									<option if={user.sweet!=10} value="10">スイート特性Lv10</option>
+									<option if={user.sweet!=9} value="9">スイート特性Lv9</option>
+									<option if={user.sweet!=8} value="8">スイート特性Lv8</option>
+									<option if={user.sweet!=7} value="7">スイート特性Lv7</option>
+									<option if={user.sweet!=6} value="6">スイート特性Lv6</option>
+									<option if={user.sweet!=5} value="5">スイート特性Lv5</option>
+									<option if={user.sweet!=4} value="4">スイート特性Lv4</option>
+									<option if={user.sweet!=3} value="3">スイート特性Lv3</option>
+									<option if={user.sweet!=2} value="2">スイート特性Lv2</option>
+									<option if={user.sweet!=1} value="1">スイート特性Lv1</option>
+								</select>
+							</div>
+							<div class="form-group">
 								<select class="form-control" name="userboss">
 									<option>ボス特性</option>
 									<option if={user.boss==10} value="10" selected="selected">ボス特性Lv10</option>
@@ -1404,7 +1429,7 @@
 							<botton if={user.ID!='' && 'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
-					var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, boss: 0, mamono: 0, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, mamono: null, boss: null, memo: '', activity: 9, joind: '',};
+					var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, boss: 0, mamono: 0, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, boss: null, memo: '', activity: 9, joind: '',};
 					this.on('mount', function() {
 						//$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00",});
 						auth(false, function (clan) {
@@ -1948,6 +1973,7 @@
 												thisis.scheduleusers[suidx].manto = thisis.selectusers[uidx].manto;
 												thisis.scheduleusers[suidx].pvpat = thisis.selectusers[uidx].pvpat;
 												thisis.scheduleusers[suidx].pvpdf = thisis.selectusers[uidx].pvpdf;
+												thisis.scheduleusers[suidx].sweet = thisis.selectusers[uidx].sweet;
 												thisis.scheduleusers[suidx].mamono = thisis.selectusers[uidx].mamono;
 												thisis.scheduleusers[suidx].boss = thisis.selectusers[uidx].boss;
 												thisis.selectusers[uidx].outlabel = '';
@@ -2664,7 +2690,7 @@
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 20px; padding-left: 3px;">PT</th>
 									<th if={opts.mode=='schedule'} style="width: 28px; padding-left: 0px;">status</th>
 									<th if={opts.mode=='schedule'} style="width: 20px; padding-left: 3px; padding-right: 2px;">VC</th>
-									<th style="width: 70px;">キャラ</th>
+									<th style="width: 60px;">キャラ</th>
 									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 40px; padding-left: 5px; padding-right: 0;">戦闘力</th>
 									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 20px; padding-left: 2px;">Job</th>
 									<th if={opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 25px;">飾</th>
@@ -2674,6 +2700,7 @@
 									<th if={opts.mode!='schedule'} style="width: 15px; padding-left: 1px;">メ</th>
 									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: royalblue; color: white; width: 15px; padding-left: 2px;">攻</th>
 									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: royalblue; color: white; width: 15px; padding-left: 2px;">防</th>
+									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: yellow; width: 15px; padding-left: 2px;">甘</th>
 									<th if={!opts.mode || opts.submode=='bossraid'} style="background-color: crimson; color: white; width: 15px; padding-left: 2px;">魔</th>
 									<th if={!opts.mode || opts.submode=='bossraid'} style="width: 15px; padding-left: 1px;">ボ</th>
 									<th if={opts.mode!='schedule'} style="width: 15px; padding-left: 2px;">区</th>
@@ -2763,6 +2790,7 @@
 									<td if={opts.mode!='schedule' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.meteo}</td>
 									<td if={!opts.mode || opts.submode=='gvg'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpat}</td>
 									<td if={!opts.mode || opts.submode=='gvg'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpdf}</td>
+									<td if={!opts.mode || opts.submode=='gvg'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: yellow; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.sweet}</td>
 									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.mamono}</td>
 									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.boss}</td>
 									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">AC</td>
@@ -3197,7 +3225,7 @@
 				var getParams = {};
 				var loadingCount = 0;
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
-				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, mamono: null, boss: null, memo: '', activity: 9, joind: '', discord: '', };
+				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, boss: null, memo: '', activity: 9, joind: '', discord: '', };
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, };
 				var partySchedule = {name:'', date: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', };
@@ -4175,6 +4203,7 @@
 					var usermeteo = $('#registerform').find('select[name=usermeteo] option:selected').val();
 					var userpvpat = $('#registerform').find('select[name=userpvpat] option:selected').val();
 					var userpvpdf = $('#registerform').find('select[name=userpvpdf] option:selected').val();
+					var usersweet = $('#registerform').find('select[name=usersweet] option:selected').val();
 					var usermamono = $('#registerform').find('select[name=usermamono] option:selected').val();
 					var userboss = $('#registerform').find('select[name=userboss] option:selected').val();
 					if ('対人攻撃特性' === userpvpat) {
@@ -4188,6 +4217,12 @@
 					}
 					else {
 						userpvpdf = parseInt(userpvpdf);
+					}
+					if ('スイート特性' === usersweet) {
+						usersweet = null;
+					}
+					else {
+						usersweet = parseInt(usersweet);
 					}
 					if ('ボス特性' === userboss) {
 						userboss = null;
@@ -4207,7 +4242,7 @@
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
 					if ('職業' != userjob && 'メテオ' != usermeteo && '装飾品' != useracce1 && '区分' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
-						var data = { ID: userID, name: username, job: userjob, job3d: parseInt(userjob3d), level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), acce1: parseInt(useracce1), bukicos: userbukicos, manto: usermanto, pvpat: userpvpat, pvpdf: userpvpdf, mamono: usermamono, boss: userboss, activity: parseInt(useractivity), discord: userdiscord, };
+						var data = { ID: userID, name: username, job: userjob, job3d: parseInt(userjob3d), level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), acce1: parseInt(useracce1), bukicos: userbukicos, manto: usermanto, pvpat: userpvpat, pvpdf: userpvpdf, sweet: usersweet, mamono: usermamono, boss: userboss, activity: parseInt(useractivity), discord: userdiscord, };
 						if (0 < userjoind.length) {
 							data.joind = new Date(userjoind);
 						}
