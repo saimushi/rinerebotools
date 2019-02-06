@@ -4486,6 +4486,9 @@
 							else if (label == 'status') {
 								label = 'PTリーダー';
 							}
+							else if (label == 'Job') {
+								label = 'Job","3次職';
+							}
 							else if (label == '飾') {
 								label = '装飾品","特性';
 							}
@@ -4549,7 +4552,13 @@
 							}
 							else if (-1 < value.indexOf('<img ')) {
 								var imgURL = $(value).attr('src');
-								value = jobnamesForURL[imgURL];
+								if (0 < value.indexOf('3d')) {
+									value = jobnamesForURL[imgURL] + '","3次職';
+								}
+								else {
+									value = jobnamesForURL[imgURL] + '","';;
+								}
+								console.log('job value=' + value);
 							}
 							else if (value == 'リダ') {
 								value = 'PTリーダー';
