@@ -4162,7 +4162,7 @@
 				};
 				var onclickRegister = function (target, userID, beforeUserName) {
 					var username = $('#registerform').find('input[name=username]').val();
-					if ('on'!= getParams['view'] && beforeUserName != username) {
+					if ('on' == getParams['view'] && beforeUserName != username) {
 						// Viewモードで名前が変わっていたら違う人
 						userID = '';
 					}
