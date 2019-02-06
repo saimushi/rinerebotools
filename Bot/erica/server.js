@@ -521,7 +521,7 @@
       msg.content = msg.content.replace(/[０-９]/g, function(s){
           return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
       });
-      msg.channel.createMessage('武器の特性を更新するのね、私に任せて！\n');
+      msg.channel.createMessage('武器・防具の特性を更新するのね、私に任せて！\n');
       var tokusei = msg.content.replace('特性', '');
       tokusei = tokusei.replace('武器', '');
       tokusei = tokusei.trim();
@@ -529,6 +529,7 @@
       cmd = 1;
       if (-1 < tokusei.indexOf('ボス特')) {
         var toLv = parseInt(tokusei.replace('ボス特', '').trim());
+        tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
           msg.channel.createMessage('該当の武器が見つかったわ！\n **ボス特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
@@ -537,6 +538,7 @@
       }
       if (-1 < tokusei.indexOf('ボス')) {
         var toLv = parseInt(tokusei.replace('ボス', '').trim());
+        tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
           msg.channel.createMessage('該当の武器が見つかったわ！\n **ボス特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
@@ -545,6 +547,7 @@
       }
       if (-1 < tokusei.indexOf('魔物')) {
         var toLv = parseInt(tokusei.replace('魔物', '').trim());
+        tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
           msg.channel.createMessage('該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
@@ -553,10 +556,119 @@
       }
       if (-1 < tokusei.indexOf('赤武器')) {
         var toLv = parseInt(tokusei.replace('赤武器', '').trim());
+        tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
           msg.channel.createMessage('該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 5;
+        }
+      }
+      if (-1 < tokusei.indexOf('赤背景')) {
+        var toLv = parseInt(tokusei.replace('赤背景', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 5;
+        }
+      }
+      if (-1 < tokusei.indexOf('PVP防御')) {
+        var toLv = parseInt(tokusei.replace('PVP防御', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 6;
+        }
+      }
+      if (-1 < tokusei.indexOf('PVP防具')) {
+        var toLv = parseInt(tokusei.replace('PVP防具', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 6;
+        }
+      }
+      if (-1 < tokusei.indexOf('対人防御')) {
+        var toLv = parseInt(tokusei.replace('対人防御', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 6;
+        }
+      }
+      if (-1 < tokusei.indexOf('対人防具')) {
+        var toLv = parseInt(tokusei.replace('対人防具', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 6;
+        }
+      }
+      if (-1 < tokusei.indexOf('青防具')) {
+        var toLv = parseInt(tokusei.replace('青防具', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 6;
+        }
+      }
+      if (-1 < tokusei.indexOf('青背景防具')) {
+        var toLv = parseInt(tokusei.replace('青背景防具', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 6;
+        }
+      }
+      if (-1 < tokusei.indexOf('PVP')) {
+        var toLv = parseInt(tokusei.replace('PVP', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 7;
+        }
+      }
+      if (-1 < tokusei.indexOf('PVP攻撃')) {
+        var toLv = parseInt(tokusei.replace('PVP攻撃', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 7;
+        }
+      }
+      if (-1 < tokusei.indexOf('対人')) {
+        var toLv = parseInt(tokusei.replace('対人', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 7;
+        }
+      }
+      if (-1 < tokusei.indexOf('青武器')) {
+        var toLv = parseInt(tokusei.replace('青武器', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 7;
+        }
+      }
+      if (-1 < tokusei.indexOf('青背景')) {
+        var toLv = parseInt(tokusei.replace('青背景', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 7;
         }
       }
       if (true != ('number' == typeof newSelection && 0 < newSelection)) {
@@ -705,8 +817,10 @@
       + 'アクセの登録 **[アクセ カラ 1〜10]**\n'
       + '武器コスの登録 **[武器コス 海賊 1〜10]**\n'
       + 'マントの登録 **[マント 高潔 1〜30]**\n'
-      + 'ボス特性武器の登録 **[特性 ボス 1〜10]**\n'
+      + 'PVP特性武器の登録 **[特性 対人 1〜10]**\n'
+      + 'PVP特性防具の登録 **[特性 対人防具 1〜10]**\n'
       + '魔物特性武器の登録 **[特性 魔物 1〜10]**\n'
+      + 'ボス特性武器の登録 **[特性 ボス 1〜10]**\n'
       + 'ボス石の欠片所持数の登録 **[ギロチン 120] [ザケン 120] [ギロチン 60 他の誰かの名前] [ザケン 0 使用した人の名前]**\n'
       + 'ボス石の欠片所持数の確認 **[ボス石確認]**\n'
       + 'お知らせの自動通知 **[お知らせ通知]**\n'
@@ -812,6 +926,12 @@
                           }
                           if (5 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                             targetUser.mamono = newSelection;
+                          }
+                          if (6 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                            targetUser.pvpdf = newSelection;
+                          }
+                          if (7 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                            targetUser.pvpat = newSelection;
                           }
                           if (10 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                             targetUser.level = newSelection;
