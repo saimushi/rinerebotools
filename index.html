@@ -4487,7 +4487,7 @@
 								label = 'PTリーダー';
 							}
 							else if (label == '飾') {
-								label = '装飾品';
+								label = '装飾品","特性';
 							}
 							else if (label == '武') {
 								label = '武器コス';
@@ -4495,11 +4495,20 @@
 							else if (label == 'マ') {
 								label = 'マント';
 							}
-							else if (label == 'ボ') {
-								label = 'ボス特性';
+							else if (label == '攻') {
+								label = '対人攻撃特性';
+							}
+							else if (label == '防') {
+								label = '対人防御特性(平均)';
+							}
+							else if (label == '甘') {
+								label = 'スイート特性';
 							}
 							else if (label == '魔') {
 								label = '魔物特性';
+							}
+							else if (label == 'ボ') {
+								label = 'ボス特性';
 							}
 							else if (label == 'メ') {
 								label = 'メテオLv';
@@ -4559,6 +4568,35 @@
 							}
 							else if (value == '除') {
 								value = '除名';
+							}
+							var bgimage = $(userDatas[didx]).css('background-image');
+							if (-1 < bgimage.indexOf('gamewith') || -1 < bgimage.indexOf('kara')) {
+									var acce = '';
+									if (-1 < bgimage.indexOf('kara')) {
+										acce = 'カラ';
+									}
+									else if (0 < bgimage.indexOf('75801')) {
+										acce = '魔女';
+									}
+									else if (0 < bgimage.indexOf('66514')) {
+										acce = 'エルヴン';
+									}
+									else if (0 < bgimage.indexOf('66511')) {
+										acce = 'ナッセン';
+									}
+									else if (0 < bgimage.indexOf('66502')) {
+										acce = 'ムーンストーン';
+									}
+									else if (0 < bgimage.indexOf('66517')) {
+										acce = 'ブラックオール';
+									}
+									else if (0 < bgimage.indexOf('66505')) {
+										acce = 'アルボール';
+									}
+									else if (0 < bgimage.indexOf('66508')) {
+										acce = 'フェニックス';
+									}
+									value = acce + '","' + value;
 							}
 							dataArr.push('"' + value + '"');
 						}
