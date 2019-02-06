@@ -451,6 +451,41 @@
           msg.channel.createMessage('該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
+      if (-1 < buki.indexOf('フェアリーローズ')) {
+        var toLv = parseInt(buki.replace('フェアリーローズ', '').trim());
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = '薔薇' + toLv;
+          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+        }
+      }
+      if (-1 < buki.indexOf('フェアリー')) {
+        var toLv = parseInt(buki.replace('フェアリー', '').trim());
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = '薔薇' + toLv;
+          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+        }
+      }
+      if (-1 < buki.indexOf('ローズ')) {
+        var toLv = parseInt(buki.replace('ローズ', '').trim());
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = '薔薇' + toLv;
+          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+        }
+      }
+      if (-1 < buki.indexOf('薔薇')) {
+        var toLv = parseInt(buki.replace('薔薇', '').trim());
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = '薔薇' + toLv;
+          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+        }
+      }
+      if (-1 < buki.indexOf('バレンタイン')) {
+        var toLv = parseInt(buki.replace('バレンタイン', '').trim());
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = '薔薇' + toLv;
+          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+        }
+      }
       console.log('武器コスID=' + newSelection);
       if (true != ('string' == typeof newSelection && 0 < newSelection.length)) {
         msg.channel.createMessage('該当の武器コスが見つからなかったわ・・・\n「武器コス 海賊5」みたいな指定をしてみて！5の部分は特性レベルを入れるのよ！\n');
@@ -570,6 +605,42 @@
           newSelection = toLv;
           msg.channel.createMessage('該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 5;
+        }
+      }
+      if (-1 < tokusei.indexOf('スイート')) {
+        var toLv = parseInt(tokusei.replace('スイート', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 8;
+        }
+      }
+      if (-1 < tokusei.indexOf('バレンタイン')) {
+        var toLv = parseInt(tokusei.replace('バレンタイン', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 8;
+        }
+      }
+      if (-1 < tokusei.indexOf('ポッキー')) {
+        var toLv = parseInt(tokusei.replace('ポッキー', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 8;
+        }
+      }
+      if (-1 < tokusei.indexOf('黄色')) {
+        var toLv = parseInt(tokusei.replace('黄色', '').replace('背景', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 8;
         }
       }
       if (-1 < tokusei.indexOf('PVP防御')) {
@@ -819,6 +890,7 @@
       + 'マントの登録 **[マント 高潔 1〜30]**\n'
       + 'PVP特性武器の登録 **[特性 対人 1〜10]**\n'
       + 'PVP特性防具の登録 **[特性 対人防具 1〜10]**\n'
+      + 'スイート特性武器の登録 **[特性 スイート 1〜10]**\n'
       + '魔物特性武器の登録 **[特性 魔物 1〜10]**\n'
       + 'ボス特性武器の登録 **[特性 ボス 1〜10]**\n'
       + 'ボス石の欠片所持数の登録 **[ギロチン 120] [ザケン 120] [ギロチン 60 他の誰かの名前] [ザケン 0 使用した人の名前]**\n'
@@ -932,6 +1004,9 @@
                           }
                           if (7 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                             targetUser.pvpat = newSelection;
+                          }
+                          if (8 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                            targetUser.sweet = newSelection;
                           }
                           if (10 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                             targetUser.level = newSelection;
