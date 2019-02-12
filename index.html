@@ -4029,7 +4029,12 @@
 								if (callback) {
 									callback(data);
 								}
+								loading(false);
+								return;
 							}
+						}
+						if (callback) {
+							callback(null);
 						}
 						loading(false);
 						return;
@@ -4090,6 +4095,11 @@
 							return;
 						}
 						getUser(duplicateEntryUsers[duplicateEntryUserCnt].ID, function (targetUser) {
+							if (null === targetUser) {
+								duplicateEntryUserCnt++;
+								duplicateEntrySchedule(baseSchedule, newSchedule, duplicateEntryUsers);
+								return;
+							}
 							if (targetUser.activity < 0) {
 								duplicateEntryUserCnt++;
 								duplicateEntrySchedule(baseSchedule, newSchedule, duplicateEntryUsers);
