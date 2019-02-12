@@ -178,14 +178,15 @@
     }
     msg.content = msg.content.replace(/　/g, " ");
     console.log(msg.content);
+    console.log(msg.author.id);
     console.log(msg.author.username + '#' + msg.author.discriminator);
     if (isFinite(msg.content) && 0 < parseInt(msg.content)) {
       newcp = parseInt(msg.content);
-      msg.channel.createMessage('戦闘力を更新するのね、私に任せて！\n');
+      msg.channel.createMessage('<@' + msg.author.id + '> 戦闘力を更新するのね、私に任せて！\n');
       cmd = 1;
       var randnum = 1 + Math.floor( Math.random() * 100 );
       if (randnum > 50 && randnum < 55) {
-        msg.channel.createMessage('ごめんなさい・・・やっぱり疲れたから少し休ませて・・・(T-T)\n');
+        msg.channel.createMessage('<@' + msg.author.id + '> ごめんなさい・・・やっぱり疲れたから少し休ませて・・・(T-T)\n');
         cmd = 0;
       }
     }
@@ -249,7 +250,7 @@
       msg.content = msg.content.replace(/[０-９]/g, function(s){
           return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
       });
-      msg.channel.createMessage('装飾品を更新するのね、私に任せて！\n');
+      msg.channel.createMessage('<@' + msg.author.id + '> 装飾品を更新するのね、私に任せて！\n');
       var acce = msg.content.replace('アクセ ', '');
       console.log(acce);
       cmd = 1;
@@ -257,103 +258,103 @@
         var toLv = parseInt(acce.replace('魔女', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 79 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **スゴイわ！これ魔女シリーズじゃない！！？ 特性Lv' + toLv + '** で登録するわね★\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **スゴイわ！これ魔女シリーズじゃない！！？ 特性Lv' + toLv + '** で登録するわね★\n');
         }
       }
       if (-1 < acce.indexOf('エルヴン')) {
         var toLv = parseInt(acce.replace('エルヴン', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 69 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **エルヴンシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **エルヴンシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('エルブン')) {
         var toLv = parseInt(acce.replace('エルブン', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 69 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **エルヴンシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **エルヴンシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('カラ')) {
         var toLv = parseInt(acce.replace('カラ', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 59 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **スゴイわ！これカラシリーズだわっ！！？ 特性Lv' + toLv + '** で登録するわね★\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **スゴイわ！これカラシリーズだわっ！！？ 特性Lv' + toLv + '** で登録するわね★\n');
         }
       }
       else if (-1 < acce.indexOf('ナッセン')) {
         var toLv = parseInt(acce.replace('ナッセン', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 49 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **ナッセンシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **ナッセンシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('ムーンストーン')) {
         var toLv = parseInt(acce.replace('ムーンストーン', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 39 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **ムーンストーンシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **ムーンストーンシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('ムーン')) {
         var toLv = parseInt(acce.replace('ムーン', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 39 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **ムーンストーンシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **ムーンストーンシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('ブラックオール')) {
         var toLv = parseInt(acce.replace('ブラックオール', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 29 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **ブラックオールシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **ブラックオールシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('ブラック')) {
         var toLv = parseInt(acce.replace('ブラック', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 29 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **ブラックオールシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **ブラックオールシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('オール')) {
         var toLv = parseInt(acce.replace('オール', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 29 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **ブラックオールシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **ブラックオールシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('アルボール')) {
         var toLv = parseInt(acce.replace('アルボール', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 19 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **アルボールシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **アルボールシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('アルボ')) {
         var toLv = parseInt(acce.replace('アルボ', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 19 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **アルボールシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **アルボールシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('フェニックス')) {
         var toLv = parseInt(acce.replace('フェニックス', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 9 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **フェニックスシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **フェニックスシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       else if (-1 < acce.indexOf('フェニ')) {
         var toLv = parseInt(acce.replace('フェニ', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 9 + toLv;
-          msg.channel.createMessage('該当の装飾品が見つかったわ！\n **フェニックスシリーズの特性Lv' + toLv + '** で登録するのね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つかったわ！\n **フェニックスシリーズの特性Lv' + toLv + '** で登録するのね。\n');
         }
       }
       console.log('アクセID=' + newSelection);
       if (true != (isFinite(newSelection) && 0 < newSelection)) {
-        msg.channel.createMessage('該当の装飾品が見つからなかったわ・・・\n「アクセ エルヴン7」みたいな指定をしてみて！7の部分は平均の特性レベルを入れるのよ！\n');
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の装飾品が見つからなかったわ・・・\n「アクセ エルヴン7」みたいな指定をしてみて！7の部分は平均の特性レベルを入れるのよ！\n');
         cmd = 0;
         return;
       }
@@ -363,7 +364,7 @@
       msg.content = msg.content.replace(/[０-９]/g, function(s){
           return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
       });
-      msg.channel.createMessage('武器コスを更新するのね、私に任せて！\n');
+      msg.channel.createMessage('<@' + msg.author.id + '> 武器コスを更新するのね、私に任せて！\n');
       var buki = msg.content.replace('武器コス ', '');
       console.log(buki);
       cmd = 1;
@@ -371,124 +372,124 @@
         var toLv = parseInt(buki.replace('百鬼', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '百鬼' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **百鬼夜行シリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **百鬼夜行シリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('百鬼夜行')) {
         var toLv = parseInt(buki.replace('百鬼夜行', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '百鬼' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **百鬼夜行シリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **百鬼夜行シリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('海賊')) {
         var toLv = parseInt(buki.replace('海賊', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '海賊' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **海賊王シリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **海賊王シリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('海賊王')) {
         var toLv = parseInt(buki.replace('海賊王', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '海賊' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **海賊王シリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **海賊王シリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('ハロウィン')) {
         var toLv = parseInt(buki.replace('ハロウィン', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 'カボ' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('カボチャ')) {
         var toLv = parseInt(buki.replace('カボチャ', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 'カボ' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('カボチ')) {
         var toLv = parseInt(buki.replace('カボチ', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 'カボ' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('カボ')) {
         var toLv = parseInt(buki.replace('カボ', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = 'カボ' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **ハロウィンシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('アイスエッジ')) {
         var toLv = parseInt(buki.replace('アイスエッジ', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '氷刃' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('アイスエッヂ')) {
         var toLv = parseInt(buki.replace('アイスエッヂ', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '氷刃' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('アイス')) {
         var toLv = parseInt(buki.replace('アイス', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '氷刃' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('氷')) {
         var toLv = parseInt(buki.replace('氷', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '氷刃' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **アイスエッジシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('フェアリーローズ')) {
         var toLv = parseInt(buki.replace('フェアリーローズ', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '薔薇' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('フェアリー')) {
         var toLv = parseInt(buki.replace('フェアリー', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '薔薇' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('ローズ')) {
         var toLv = parseInt(buki.replace('ローズ', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '薔薇' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('薔薇')) {
         var toLv = parseInt(buki.replace('薔薇', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '薔薇' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       if (-1 < buki.indexOf('バレンタイン')) {
         var toLv = parseInt(buki.replace('バレンタイン', '').trim());
         if (0 < toLv && 10 >= toLv) {
           newSelection = '薔薇' + toLv;
-          msg.channel.createMessage('該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
         }
       }
       console.log('武器コスID=' + newSelection);
       if (true != ('string' == typeof newSelection && 0 < newSelection.length)) {
-        msg.channel.createMessage('該当の武器コスが見つからなかったわ・・・\n「武器コス 海賊5」みたいな指定をしてみて！5の部分は特性レベルを入れるのよ！\n');
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つからなかったわ・・・\n「武器コス 海賊5」みたいな指定をしてみて！5の部分は特性レベルを入れるのよ！\n');
         cmd = 0;
         return;
       }
@@ -498,7 +499,7 @@
       msg.content = msg.content.replace(/[０-９]/g, function(s){
           return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
       });
-      msg.channel.createMessage('マントを更新するのね、私に任せて！\n');
+      msg.channel.createMessage('<@' + msg.author.id + '> マントを更新するのね、私に任せて！\n');
       var manto = msg.content.replace('マント ', '');
       console.log(manto);
       cmd = 1;
@@ -506,47 +507,47 @@
         var toLv = parseInt(manto.replace('高潔', '').trim());
         if (0 < toLv && 30 >= toLv) {
           newSelection = '高潔' + toLv;
-          msg.channel.createMessage('該当のマントが見つかったわ！\n **高潔なる血のマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当のマントが見つかったわ！\n **高潔なる血のマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
         }
       }
       if (-1 < manto.indexOf('高潔なる血')) {
         var toLv = parseInt(manto.replace('高潔なる血', '').trim());
         if (0 < toLv && 30 >= toLv) {
           newSelection = '高潔' + toLv;
-          msg.channel.createMessage('該当のマントが見つかったわ！\n **高潔なる血のマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当のマントが見つかったわ！\n **高潔なる血のマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
         }
       }
       if (-1 < manto.indexOf('ハギ')) {
         var toLv = parseInt(manto.replace('ハギ', '').trim());
         if (0 < toLv && 30 >= toLv) {
           newSelection = 'ハギ' + toLv;
-          msg.channel.createMessage('該当のマントが見つかったわ！\n **ハギオスのマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当のマントが見つかったわ！\n **ハギオスのマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
         }
       }
       if (-1 < manto.indexOf('ハギオス')) {
         var toLv = parseInt(manto.replace('ハギオス', '').trim());
         if (0 < toLv && 30 >= toLv) {
           newSelection = 'ハギ' + toLv;
-          msg.channel.createMessage('該当のマントが見つかったわ！\n **ハギオスのマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当のマントが見つかったわ！\n **ハギオスのマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
         }
       }
       if (-1 < manto.indexOf('堅守なる氷結')) {
         var toLv = parseInt(manto.replace('堅守なる氷結の', '').trim());
         if (0 < toLv && 30 >= toLv) {
           newSelection = '氷結' + toLv;
-          msg.channel.createMessage('該当のマントが見つかったわ！\n **堅守なる氷結のマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当のマントが見つかったわ！\n **堅守なる氷結のマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
         }
       }
       if (-1 < manto.indexOf('氷結')) {
         var toLv = parseInt(manto.replace('氷結', '').trim());
         if (0 < toLv && 30 >= toLv) {
           newSelection = '氷結' + toLv;
-          msg.channel.createMessage('該当のマントが見つかったわ！\n **堅守なる氷結のマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当のマントが見つかったわ！\n **堅守なる氷結のマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
         }
       }
       console.log('マントID=' + newSelection);
       if (true != ('string' == typeof newSelection && 0 < newSelection.length)) {
-        msg.channel.createMessage('該当のマントが見つからなかったわ・・・\n「マント 高潔20」みたいな指定をしてみて！20の部分はマントレベルを入れるのよ！\nあと、 **冒険家のマントは戦闘力に関連しないのでツールで管理出来ない** ようにされてるみたい・・・\n');
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当のマントが見つからなかったわ・・・\n「マント 高潔20」みたいな指定をしてみて！20の部分はマントレベルを入れるのよ！\nあと、 **冒険家のマントは戦闘力に関連しないのでツールで管理出来ない** ようにされてるみたい・・・\n');
         cmd = 0;
         return;
       }
@@ -556,7 +557,7 @@
       msg.content = msg.content.replace(/[０-９]/g, function(s){
           return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
       });
-      msg.channel.createMessage('武器・防具の特性を更新するのね、私に任せて！\n');
+      msg.channel.createMessage('<@' + msg.author.id + '> 武器・防具の特性を更新するのね、私に任せて！\n');
       var tokusei = msg.content.replace('特性', '');
       tokusei = tokusei.replace('武器', '');
       tokusei = tokusei.trim();
@@ -567,7 +568,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **ボス特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **ボス特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 4;
         }
       }
@@ -576,7 +577,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **ボス特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **ボス特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 4;
         }
       }
@@ -585,7 +586,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 5;
         }
       }
@@ -594,7 +595,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 5;
         }
       }
@@ -603,7 +604,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **魔物特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 5;
         }
       }
@@ -612,7 +613,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 8;
         }
       }
@@ -621,7 +622,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 8;
         }
       }
@@ -630,7 +631,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 8;
         }
       }
@@ -639,7 +640,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **スイート特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 8;
         }
       }
@@ -648,7 +649,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 6;
         }
       }
@@ -657,7 +658,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 6;
         }
       }
@@ -666,7 +667,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 6;
         }
       }
@@ -675,7 +676,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 6;
         }
       }
@@ -684,7 +685,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 6;
         }
       }
@@ -693,7 +694,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の防具が見つかったわ！\n **PVP特性防具** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 6;
         }
       }
@@ -702,7 +703,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 7;
         }
       }
@@ -711,7 +712,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 7;
         }
       }
@@ -720,7 +721,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 7;
         }
       }
@@ -729,7 +730,7 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 7;
         }
       }
@@ -738,12 +739,12 @@
         tokusei = '';
         if (0 < toLv && 10 >= toLv) {
           newSelection = toLv;
-          msg.channel.createMessage('該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **PVP特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
           subcmd = 7;
         }
       }
       if (true != ('number' == typeof newSelection && 0 < newSelection)) {
-        msg.channel.createMessage('該当の武器が見つからなかったわ・・・\n「特性 魔物10」みたいな指定をしてみて！10の部分はその武器の特性レベルを入れるのよ！\n');
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つからなかったわ・・・\n「特性 魔物10」みたいな指定をしてみて！10の部分はその武器の特性レベルを入れるのよ！\n');
         cmd = 0;
         return;
       }
@@ -759,7 +760,7 @@
       var toLv = parseInt(level);
       if (0 < toLv && 320 >= toLv) {
         newSelection = toLv;
-        msg.channel.createMessage('レベルを更新するのね、私に任せて！\n **Lv' + toLv + '** で登録するわ！\n');
+        msg.channel.createMessage('<@' + msg.author.id + '> レベルを更新するのね、私に任せて！\n **Lv' + toLv + '** で登録するわ！\n');
         subcmd = 10;
       }
       if (true != ('number' == typeof newSelection && 0 < newSelection)) {
@@ -772,7 +773,7 @@
           return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
       });
       newSelection = 1;
-      msg.channel.createMessage('3次職転職がついに完了したのね！！おめでとう！！！\n **転職済み** にデータを更新するわ！\nコレであなたも巨人の力を手に入れた必滅者となったのね・・・今後の活躍が楽しみ★');
+      msg.channel.createMessage('<@' + msg.author.id + '> 3次職転職がついに完了したのね！！おめでとう！！！\n **転職済み** にデータを更新するわ！\nコレであなたも巨人の力を手に入れた必滅者となったのね・・・今後の活躍が楽しみ★');
       cmd = 1;
       subcmd = 11;
     }
@@ -954,7 +955,7 @@
   					// 血盟名が取れていればOK
   					if ('undefined' != typeof clan.name && 0 < clan.name.length) {
               console.log('clan exists!');
-              msg.channel.createMessage('このチャンネルに該当する血盟登録が見つかったわ！\n***' + clan.name + '*** ね！\n');
+              msg.channel.createMessage('<@' + msg.author.id + '> このチャンネルに該当する血盟登録が見つかったわ！\n***' + clan.name + '*** ね！\n');
               if (1 == cmd || 4 == cmd || 5 == cmd) {
                 // 血盟員の一覧を取得し、更新対象を特定する
                 firestore.collection("users").where('clanid', '==', clanID).where('activity', '>', -9).get().then(function(querySnapshot) {
@@ -974,7 +975,7 @@
                       }
                       else if (-1 < user.name.indexOf(who) || true === ('undefined' != typeof user.discord && -1 < user.discord.indexOf(who + '#'))) {
                         console.log('user exists!');
-                        msg.channel.createMessage('該当する血盟員が見つかったわ！\n***' + user.name + '*** ね！\n');
+                        msg.channel.createMessage('<@' + msg.author.id + '> 該当する血盟員が見つかったわ！\n***' + user.name + '*** ね！\n');
                         targetUser = user;
                         // CP更新
                         targetUserID = snapshot.id;
@@ -1020,12 +1021,12 @@
                     }
                   });
                   if (5 != cmd && false === targetUser) {
-                    msg.channel.createMessage('該当する血盟員が見当たらないわ・・・\n血盟管理ツール「 https://line2revo.fun/?clanid=' + clanID + ' 」に登録済みか確認してみて！\nディスコード上のユーザー名とキャラ名が違う場合はあなたのディスコードID「 ' + whoDiscord + ' 」をツールに登録すると確実よ！');
+                    msg.channel.createMessage('<@' + msg.author.id + '> 該当する血盟員が見当たらないわ・・・\n血盟管理ツール「 https://line2revo.fun/?clanid=' + clanID + ' 」に登録済みか確認してみて！\nディスコード上のユーザー名とキャラ名が違う場合はあなたのディスコードID「 ' + whoDiscord + ' 」をツールに登録すると確実よ！');
                     return;
                   }
                   if (1 == cmd) {
                     firestore.collection("users").doc(targetUserID).set(targetUser).then(function(snapshot) {
-                      msg.channel.createMessage('**あなたの戦闘力データを更新したわ！**\nあなたの最新データはココにあるわよ★\n' + targetUser.name + ': https://line2revo.fun/?clanid=' + clanID + '&userid=' + targetUserID + '&view=on#modifyuser\n');
+                      msg.channel.createMessage('<@' + msg.author.id + '> **あなたの戦闘力データを更新したわ！**\nあなたの最新データはココにあるわよ★\n' + targetUser.name + ': https://line2revo.fun/?clanid=' + clanID + '&userid=' + targetUserID + '&view=on#modifyuser\n');
                       if (0 < cpmargin) {
                         var marginTxt = '';
                         if (100000 <= cpmargin) {
@@ -1043,72 +1044,72 @@
                         var randnum = 1 + Math.floor( Math.random() * 100 );
                         if (3000000 < newcp) {
                           if (3000000 > currentcp) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + 'ついに異次元の強さだわ・・・\n本当におめでとう。もうエリカから教えられる事は何も無いわ！貴方が正しいと思う道を行くのが正解よ！エリカはずっと応援してるわ★\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'ついに異次元の強さだわ・・・\n本当におめでとう。もうエリカから教えられる事は何も無いわ！貴方が正しいと思う道を行くのが正解よ！エリカはずっと応援してるわ★\n');
                           }
                         }
                         else if (2500000 < newcp) {
                           if (randnum > 0 && randnum <= 25) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + '凄いわ・・・ここまで来てしまうなんて！！\nいよいよLRソウルストーンが必要な時よ！先ずは攻撃のLRソウルストーン、その後は防御のLRが簡単よ！\n全身LRソウルストーンになるころにはきっとまたスゴく強くなってるハズよ！頑張って！！\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '凄いわ・・・ここまで来てしまうなんて！！\nいよいよLRソウルストーンが必要な時よ！先ずは攻撃のLRソウルストーン、その後は防御のLRが簡単よ！\n全身LRソウルストーンになるころにはきっとまたスゴく強くなってるハズよ！頑張って！！\n');
                           }
                           else if (randnum > 25 && randnum <= 50) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + '凄いわ・・・ここまで来てしまうなんて！！\n兎に角装備実績を積みましょう。25万は欲しいところね・・・全ての武器と1種類のアクセサリーオールコンプリートでそのくらいよ！\n先は長いけどここまで来たなら頑張りましょう！！\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '凄いわ・・・ここまで来てしまうなんて！！\n兎に角装備実績を積みましょう。25万は欲しいところね・・・全ての武器と1種類のアクセサリーオールコンプリートでそのくらいよ！\n先は長いけどここまで来たなら頑張りましょう！！\n');
                           }
                           else if (randnum > 50 && randnum <= 75) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + '250万オーバー！？分かってる、異世界のアデナを使ったのね。凄いわ・・・\n兎に角装備実績を積みましょう。\n武器の装備実績を終わらせる頃にはきっとまたスゴく強くなってるハズよ！頑張って！！\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '250万オーバー！？分かってる、異世界のアデナを使ったのね。凄いわ・・・\n兎に角装備実績を積みましょう。\n武器の装備実績を終わらせる頃にはきっとまたスゴく強くなってるハズよ！頑張って！！\n');
                           }
                           else if (randnum > 75 && randnum <= 100) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + '250万オーバー！？分かってる、異世界のアデナを使ったのね。凄いわ・・・\nココからはMAXセットを目指しましょう！全身が終わったら次は赤防具か2種目の装飾品がいいんじゃないかしら。\nでも正直もうエリカには分からない世界だわ・・・\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '250万オーバー！？分かってる、異世界のアデナを使ったのね。凄いわ・・・\nココからはMAXセットを目指しましょう！全身が終わったら次は赤防具か2種目の装飾品がいいんじゃないかしら。\nでも正直もうエリカには分からない世界だわ・・・\n');
                           }
                           return;
                         }
                         else if (2000000 < newcp) {
                           if (randnum > 0 && randnum <= 25) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + 'いよいよ200万オーバーなのね！凄い頑張ってるわ！\nこれからは装備実績も積み上げて行かないと行けないわね。\nイベントショップでアデナで買える選択祝福はオススメよ！毎週買って貯めるといいわよ！\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いよいよ200万オーバーなのね！凄い頑張ってるわ！\nこれからは装備実績も積み上げて行かないと行けないわね。\nイベントショップでアデナで買える選択祝福はオススメよ！毎週買って貯めるといいわよ！\n');
                           }
                           else if (randnum > 25 && randnum <= 50) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + 'いよいよ200万オーバーなのね！凄い頑張ってるわ！\nココからは強化セットも狙っていかないと中々上がらないわ・・・\nでも慎重に！**くれぐれもマーブル無しでなんてやらないでね！エリカからのお願いよ・・・！**\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いよいよ200万オーバーなのね！凄い頑張ってるわ！\nココからは強化セットも狙っていかないと中々上がらないわ・・・\nでも慎重に！**くれぐれもマーブル無しでなんてやらないでね！エリカからのお願いよ・・・！**\n');
                           }
                           else if (randnum > 50 && randnum <= 75) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + 'もうココまで来てるのね、凄いわ！\nとにかくエリクサーがまだなら終わらせましょう！\n要塞ショップは欠かさず買うのよ！！エリクサーエッセンス選択ボックスももちろん毎日買うのよ！！\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'もうココまで来てるのね、凄いわ！\nとにかくエリクサーがまだなら終わらせましょう！\n要塞ショップは欠かさず買うのよ！！エリクサーエッセンス選択ボックスももちろん毎日買うのよ！！\n');
                           }
                           else if (randnum > 75 && randnum <= 100) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + 'もうココまで来てるのね、凄いわ！\n200万から先は修羅の道よ・・・防御クリスタルが足りない時はHRの分解も視野に入れてみて。\nどーしても直ぐに欲しい時は・・・悔しいけどネトマの力に頼るしか無いわね・・・\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'もうココまで来てるのね、凄いわ！\n200万から先は修羅の道よ・・・防御クリスタルが足りない時はHRの分解も視野に入れてみて。\nどーしても直ぐに欲しい時は・・・悔しいけどネトマの力に頼るしか無いわね・・・\n');
                           }
                           return;
                         }
                         else if (1500000 < newcp) {
                           if (randnum > 0 && randnum <= 25) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + '順調に強くなっているわ！\nてっとり速くMAX装備が欲しくなるけど慎重にね・・・\n**マーブル無しで打つのだけはダメ、絶対！エリカと約束！！**\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に強くなっているわ！\nてっとり速くMAX装備が欲しくなるけど慎重にね・・・\n**マーブル無しで打つのだけはダメ、絶対！エリカと約束！！**\n');
                           }
                           else if (randnum > 25 && randnum <= 50) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + '順調に強くなっているわ！\nLR装備を揃え始める時期だわ。先ずはエリート武器、その次に青武器が私のオススメよ！\nペニーワイズの言うことを信じちゃダメよ！\nサン★フレアは信じちゃったみたいだけど・・・\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に強くなっているわ！\nLR装備を揃え始める時期だわ。先ずはエリート武器、その次に青武器が私のオススメよ！\nペニーワイズの言うことを信じちゃダメよ！\nサン★フレアは信じちゃったみたいだけど・・・\n');
                           }
                           else if (randnum > 50 && randnum <= 75) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + 'いい感じに成長してるわね！\nレベル250でURエリクサーが開放されるわ！\nURエリクサーはトータル1200万アデナも使うけど、戦闘力が8万近く上がるから絶対に見逃さないでね★\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いい感じに成長してるわね！\nレベル250でURエリクサーが開放されるわ！\nURエリクサーはトータル1200万アデナも使うけど、戦闘力が8万近く上がるから絶対に見逃さないでね★\n');
                           }
                           else if (randnum > 75 && randnum <= 100) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + 'いい感じに成長してるわね！\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いい感じに成長してるわね！\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
                           }
                           return;
                         }
                         else {
                           if (randnum > 0 && randnum <= 25) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + 'まだ駆け出しの段階ね！\n今は装備を揃えることとモンスターコアをコンプする事が重要よ！\n頑張ってね★\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'まだ駆け出しの段階ね！\n今は装備を揃えることとモンスターコアをコンプする事が重要よ！\n頑張ってね★\n');
                           }
                           else if (randnum > 25 && randnum <= 50) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + 'まだ駆け出しの段階ね！\n決闘は面倒でも欠かさずやっておいた方がいい日課よ。\n名誉ランクで上がる戦闘力は馬鹿にならないのよ★\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'まだ駆け出しの段階ね！\n決闘は面倒でも欠かさずやっておいた方がいい日課よ。\n名誉ランクで上がる戦闘力は馬鹿にならないのよ★\n');
                           }
                           else if (randnum > 50 && randnum <= 75) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + '順調に成長してるわね。\nレベル上げと同時にルーンのレベルも上げていくといいわ！\nルーンはアデナを大量に使うから、しっかりアデナを貯めて置くことも大事よ★\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に成長してるわね。\nレベル上げと同時にルーンのレベルも上げていくといいわ！\nルーンはアデナを大量に使うから、しっかりアデナを貯めて置くことも大事よ★\n');
                           }
                           else if (randnum > 75 && randnum <= 100) {
-                            msg.channel.createMessage('.\n\n' + marginTxt + '順調に成長してるわね。\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に成長してるわね。\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
                           }
                           return;
                         }
                       }
                       else if (0 > cpmargin) {
-                        msg.channel.createMessage('.\n\n貴方戦闘力下がってるけど・・・エリカとの約束ちゃんと守ってる？マーブル無しで強化したら怒るわよ・・・？\n');
+                        msg.channel.createMessage('<@' + msg.author.id + '> 貴方戦闘力下がってるけど・・・エリカとの約束ちゃんと守ってる？マーブル無しで強化したら怒るわよ・・・？\n');
                       }
                       return;
                     }).catch(function(error) {
