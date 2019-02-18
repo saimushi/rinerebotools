@@ -177,6 +177,7 @@
       return;
     }
     msg.content = msg.content.replace(/　/g, " ");
+    msg.content = msg.content.replace(/,/g, "");
     console.log(msg.content);
     console.log(msg.author.id);
     console.log(msg.author.username + '#' + msg.author.discriminator);

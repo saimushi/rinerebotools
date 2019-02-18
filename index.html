@@ -2860,24 +2860,24 @@
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
 							}
-							if (0 > fields[0].indexOf('"キャラ名"')
-							 || 0 > fields[1].indexOf('"戦闘力"')
-							 || 0 > fields[2].indexOf('"Job"')
-							 || 0 > fields[3].indexOf('"3次職"')
-							 || 0 > fields[4].indexOf('"装飾品"')
-							 || 0 > fields[5].indexOf('"特性"')
-							 || 0 > fields[6].indexOf('"武器コス"')
-							 || 0 > fields[7].indexOf('"マント"')
-							 || 0 > fields[8].indexOf('"Lv"')
-							 || 0 > fields[9].indexOf('"メテオLv"')
-							 || 0 > fields[10].indexOf('"対人攻撃特性"')
-							 || 0 > fields[11].indexOf('"対人防御特性(平均)"')
-							 || 0 > fields[12].indexOf('"スイート特性"')
-							 || 0 > fields[13].indexOf('"魔物特性"')
-							 || 0 > fields[14].indexOf('"ボス特性"')
-							 || 0 > fields[15].indexOf('"区分"')
-							 || 0 > fields[16].indexOf('"入隊日"')
-							 || 0 > fields[17].indexOf('"メモ"')
+							if (0 > fields[0].indexOf('キャラ名')
+							 || 0 > fields[1].indexOf('戦闘力')
+							 || 0 > fields[2].indexOf('Job')
+							 || 0 > fields[3].indexOf('3次職')
+							 || 0 > fields[4].indexOf('装飾品')
+							 || 0 > fields[5].indexOf('特性')
+							 || 0 > fields[6].indexOf('武器コス')
+							 || 0 > fields[7].indexOf('マント')
+							 || 0 > fields[8].indexOf('Lv')
+							 || 0 > fields[9].indexOf('メテオLv')
+							 || 0 > fields[10].indexOf('対人攻撃特性')
+							 || 0 > fields[11].indexOf('対人防御特性(平均)')
+							 || 0 > fields[12].indexOf('スイート特性')
+							 || 0 > fields[13].indexOf('魔物特性')
+							 || 0 > fields[14].indexOf('ボス特性')
+							 || 0 > fields[15].indexOf('区分')
+							 || 0 > fields[16].indexOf('入隊日')
+							 || 0 > fields[17].indexOf('メモ')
 							) {
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
@@ -2962,20 +2962,25 @@
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
 							}
-							if (!confirm(_users.length + '件のユーザーをインポートします。\n(※上書きではなく必ず追加になる事にご注意下さい！)\n本当にインポートしてよろしいですか？')) {
+							if (!confirm(_users.length + '件のユーザーをインポートします。\n(※同じキャラ名以外のデータは必ず追加になる事にご注意下さい！)\n本当にインポートしてよろしいですか？')) {
 								return;
 							}
 							// register
 							var registerUsers = function (_argUIdx, _argUsers) {
 								if (_argUIdx < _argUsers.length) {
-									registerUser(clan.ID, _argUsers[_argUIdx], function (){
-										_argUIdx = _argUIdx + 1;
-										registerUsers(_argUIdx, _argUsers);
+									getUserFromName(_argUsers[_argUIdx].name, function (_user){
+										if (null != _user && 'undefined' != typeof _user.ID) {
+											_argUsers[_argUIdx].ID = _user.ID;
+										}
+										registerUser(clan.ID, _argUsers[_argUIdx], function (){
+											_argUIdx = _argUIdx + 1;
+											registerUsers(_argUIdx, _argUsers);
+										});
 									});
 								}
 								else {
 									alert('インポートしました。');
-									location.href='#dashboard';
+									location.reload();
 								}
 							};
 							registerUsers(0, _users);
@@ -4195,6 +4200,42 @@
 						}
 						if (callback) {
 							callback(null);
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('詳細参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
+				var getUserFromName = function (userName, callback) {
+					if (userName == null || 'undefined' == typeof userName || 1 > userName.length) {
+						return;
+					}
+					loading(true);
+					// firbase問い合わせ
+					firebase.firestore().collection("users").where('name', '==', userName).limit(1).get().then(function(querySnapshot) {
+						var user = null;
+						querySnapshot.forEach(function(snapshot) {
+	  					if(snapshot.exists) {
+								var data = snapshot.data();
+								data.ID = snapshot.id;
+								if ('undefined' != typeof data.joind && 'string' != typeof data.joind) {
+									data.joind = data.joind.toDate();
+									data.joind = data.joind.toLocaleString();
+									data.joind = data.joind.split(' ')[0];
+								}
+								if ('undefined' != typeof data.name && 0 < data.name.length) {
+									user = data;
+								}
+							}
+						});
+						if ('undefined' != typeof user) {
+							if (callback) {
+								callback(user);
+							}
 						}
 						loading(false);
 						return;
