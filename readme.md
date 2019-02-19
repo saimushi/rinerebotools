@@ -24,7 +24,10 @@
 
 以上
 
+## 闇の精霊さん
 
+https://discordapp.com/oauth2/authorize?client_id=547338194245386241&scope=bot&permissions=0
+https://glitch.com/edit/#!/spirit-of-darkness?path=server.js:862:83
 
 ## エリカ様
 
@@ -34,6 +37,7 @@ https://discordapp.com/oauth2/authorize?client_id=496203597198131201&scope=bot&p
 NDk2MjAzNTk3MTk4MTMxMjAx.DpNN6A.Fu9aH3x9siWDzTfBvUE9lIBJMvk
 
 https://discordapp.com/oauth2/authorize?client_id=496203597198131201&scope=bot&permissions=131072
+https://glitch.com/edit/#!/erikasama?path=server.js:862:83
 
 ## cron
 
