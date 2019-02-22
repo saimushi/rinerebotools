@@ -2729,7 +2729,7 @@
 									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: yellow; width: 12px; padding-left: 1px;">甘</th>
 									<th if={!opts.mode || opts.submode=='bossraid'} style="background-color: crimson; color: white; width: 12px; padding-left: 1px;">魔</th>
 									<th if={!opts.mode || opts.submode=='bossraid'} style="width: 12px; padding-left: 1px;">ボ</th>
-									<th if={opts.mode!='schedule'} style="width: 15px; padding-left: 2px;">区</th>
+									<th style="width: 15px; padding-left: 2px;">区</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 32px; padding-left: 0; padding-right: 0;">入隊日</th>
 									<th if={opts.mode=='schedule'} style="font-size: 6px; padding-left: 1px; padding-right: 0;">コメ</th>
 									<th if={opts.mode!='schedule'} style="font-size: 6px; padding-left: 1px; padding-right: 0;">メモ</th>
@@ -2819,10 +2819,10 @@
 									<td if={!opts.mode || opts.submode=='gvg'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: yellow; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.sweet}</td>
 									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.mamono}</td>
 									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.boss}</td>
-									<td if={opts.mode!='schedule' && user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">AC</td>
-									<td if={opts.mode!='schedule' && user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">IAC</td>
-									<td if={opts.mode!='schedule' && user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small; padding-left: 2px; padding-right: 0;">除</td>
-									<td if={opts.mode!='schedule' && user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info" style="font-size: xx-small; padding-left: 2px; padding-right: 0;">傭</td>
+									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">AC</td>
+									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">IAC</td>
+									<td if={user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small; padding-left: 2px; padding-right: 0;">除</td>
+									<td if={user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info" style="font-size: xx-small; padding-left: 2px; padding-right: 0;">傭</td>
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 3px; text-align: right;">{user.joind.replace('/', '\n')}</td>
 									<td if={opts.mode!='schedule'} onclick="onclickDetail(this, '{user.ID}');" style="font-size: 6px; padding-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{user.memo}</td>
 									<td if={opts.mode=='schedule'} onclick="onclickDetail(this, '{user.ID}');" class="schedulecomment" style="font-size: 6px; padding-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{user.comment}</td>
