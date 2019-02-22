@@ -1701,6 +1701,10 @@
 							var beforeParty = -1;
 							this.parties[rowCnt] = [];
 							this.partyCPs[partyCnt] = 0;
+							var colspmax = 5;
+							if (-1 < schedule.tag.indexOf('レイド')) {
+								colspmax = 4;
+							}
 							for (var pidx=0; pidx < data.length; pidx++) {
 								if (beforeParty != data[pidx].party) {
 									if (0 < partyCnt && 5 > this.parties[rowCnt][partyCnt-1].length) {
@@ -1999,6 +2003,7 @@
 												thisis.scheduleusers[suidx].sweet = thisis.selectusers[uidx].sweet;
 												thisis.scheduleusers[suidx].mamono = thisis.selectusers[uidx].mamono;
 												thisis.scheduleusers[suidx].boss = thisis.selectusers[uidx].boss;
+												thisis.scheduleusers[suidx].activity = thisis.selectusers[uidx].activity;
 												thisis.selectusers[uidx].outlabel = '';
 												if (thisis.selectusers[uidx].activity == -9) {
 													thisis.selectusers[uidx].outlabel = '除名:';
@@ -3508,6 +3513,7 @@
 				jobbufs['オークモンク'] = '命中';
 				jobbufs['オークシャーマン'] = 'クリ';
 
+				var portlate = false;
 				var dispatchPortlateLayout = function(){
 					if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
 						var orientation = window.orientation;
@@ -3518,6 +3524,7 @@
 							$('.riotcontes .col-xs-8').addClass('col-sm-8').removeClass('col-xs-8');
 							$('.riotcontes .col-xs-3').addClass('col-sm-3').removeClass('col-xs-3');
 							$('.riotcontes .col-xs-9').addClass('col-sm-9').removeClass('col-xs-9');
+							portlate = true;
 						}
 						else{
 							$("body").addClass("landscape");
