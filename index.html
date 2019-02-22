@@ -1952,7 +1952,7 @@
 						thisis = this;
 						// 認証
 						auth(false, function (clan) {
-							getUsers(clan.ID, true, function(users) {
+							getUsers(clan.ID, false, function(users) {
 								thisis.selectusers = users;
 								getScheduleUsers(getParams['scheduleid'], null, function(scheduleusers) {
 									thisis.attckAssistans = attckAssistans;
@@ -1987,7 +1987,7 @@
 										var entryed = false;
 										thisis.selectusers[uidx].outlabel = '未表明:';
 										for (var suidx=0; suidx < thisis.scheduleusers.length; suidx++) {
-											if (thisis.selectusers[uidx].name == thisis.scheduleusers[suidx].name){
+											if (thisis.selectusers[uidx].ID == thisis.scheduleusers[suidx].ID){
 												// 最新パラメータのコピー
 												thisis.scheduleusers[suidx].cp = parseInt(thisis.selectusers[uidx].cp);
 												thisis.scheduleusers[suidx].job3d = thisis.selectusers[uidx].job3d;
@@ -2000,6 +2000,9 @@
 												thisis.scheduleusers[suidx].mamono = thisis.selectusers[uidx].mamono;
 												thisis.scheduleusers[suidx].boss = thisis.selectusers[uidx].boss;
 												thisis.selectusers[uidx].outlabel = '';
+												if (thisis.selectusers[uidx].activity == -9) {
+													thisis.selectusers[uidx].outlabel = '除名:';
+												}
 												thisis.selectusers[uidx].entry = thisis.scheduleusers[suidx].entry;
 												thisis.selectusers[uidx].party = thisis.scheduleusers[suidx].party;
 												if ('undefined' != typeof thisis.scheduleusers[suidx].status) {
@@ -2713,19 +2716,19 @@
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 20px; padding-left: 3px;">PT</th>
 									<th if={opts.mode=='schedule'} style="width: 28px; padding-left: 0px;">status</th>
 									<th if={opts.mode=='schedule'} style="width: 20px; padding-left: 3px; padding-right: 2px;">VC</th>
-									<th style="width: 60px;">キャラ</th>
+									<th style="width: 70px;">キャラ</th>
 									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 40px; padding-left: 5px; padding-right: 0;">戦闘力</th>
 									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 20px; padding-left: 2px;">Job</th>
 									<th if={opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 25px;">飾</th>
 									<th if={opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">武</th>
 									<th if={opts.mode!='contribution'} style="width: 22px; padding-left: 5px;">マ</th>
 									<th if={opts.mode!='schedule'} onclick="{sortLevel}" style="width: 20px; padding-left: 3px;">Lv</th>
-									<th if={opts.mode!='schedule'} style="width: 15px; padding-left: 1px;">メ</th>
-									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: royalblue; color: white; width: 15px; padding-left: 2px;">攻</th>
-									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: royalblue; color: white; width: 15px; padding-left: 2px;">防</th>
-									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: yellow; width: 15px; padding-left: 2px;">甘</th>
-									<th if={!opts.mode || opts.submode=='bossraid'} style="background-color: crimson; color: white; width: 15px; padding-left: 2px;">魔</th>
-									<th if={!opts.mode || opts.submode=='bossraid'} style="width: 15px; padding-left: 1px;">ボ</th>
+									<th if={opts.mode!='schedule'} style="width: 12px; padding-left: 1px;">メ</th>
+									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: royalblue; color: white; width: 12px; padding-left: 1px;">攻</th>
+									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: royalblue; color: white; width: 12px; padding-left: 1px;">防</th>
+									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: yellow; width: 12px; padding-left: 1px;">甘</th>
+									<th if={!opts.mode || opts.submode=='bossraid'} style="background-color: crimson; color: white; width: 12px; padding-left: 1px;">魔</th>
+									<th if={!opts.mode || opts.submode=='bossraid'} style="width: 12px; padding-left: 1px;">ボ</th>
 									<th if={opts.mode!='schedule'} style="width: 15px; padding-left: 2px;">区</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 32px; padding-left: 0; padding-right: 0;">入隊日</th>
 									<th if={opts.mode=='schedule'} style="font-size: 6px; padding-left: 1px; padding-right: 0;">コメ</th>
