@@ -229,6 +229,14 @@
 				margin-left: 2px;
 				margin-top: -20px;
 			}
+			@media screen and (max-width: 480px) {
+				td.jobimage p {
+					display: none;
+				}
+				tr.partycp td {
+					padding-right: 35px !important;
+				}
+			}
 			#loader {
 				z-index: 99999;
 			}
@@ -1649,7 +1657,7 @@
 														<td if={jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20"/><p if={1 == puser.job3d}>3d</p></td>
 														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: gray;">&nbsp;</td>
 													</tr>
-													<tr if={'on'!=getParams['view']} style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
+													<tr if={'on'!=getParams['view']} class="partycp" style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
 														<td colspan="2" style="border: none; padding: 2px;"><b>{partyCPs[((index-1)*5)+pindex].toLocaleString()}</b></td><td style="padding: 0;">&nbsp;</td>
 													</tr>
 												</table>
