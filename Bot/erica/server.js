@@ -14,18 +14,20 @@
   var bot = new Eris(process.env.TOKEN);
 
   var _sendWebhookMessage = function(targetClan, targetSchedule, message) {
-    var baseURL = 'https://line2revo.fun/?clanid=' + targetClan.ID + '&scheduleid=' + targetSchedule.ID
-    message = message.replace('***date***', targetSchedule.date);
-    message = message.replace('***title***', targetSchedule.name);
-    message = message.replace('***pt***', baseURL + '#party');
-    message = message.replace('***ptview***', baseURL + '&view=on#party');
-    message = message.replace('***url***', baseURL + '#detailschedule');
-    message = message.replace('***urlview***', baseURL + '&view=on#detailschedule');
-    bot.executeWebhook(targetClan.discordhookid, targetClan.discordhooktoken, {
-      username: 'エリカ様の血盟管理お手伝い',
-      avatarURL: bot.user.dynamicAvatarURL('jpg', 256),
-      content: message + '\n\n'
-    });
+    if ('string' == typeof targetClan.discordhookid && 'string' == typeof targetClan.discordhooktoken && 0 < targetClan.discordhookid.length && 0 < targetClan.discordhooktoken.length) {
+      var baseURL = 'https://line2revo.fun/?clanid=' + targetClan.ID + '&scheduleid=' + targetSchedule.ID
+      message = message.replace('***date***', targetSchedule.date);
+      message = message.replace('***title***', targetSchedule.name);
+      message = message.replace('***pt***', baseURL + '#party');
+      message = message.replace('***ptview***', baseURL + '&view=on#party');
+      message = message.replace('***url***', baseURL + '#detailschedule');
+      message = message.replace('***urlview***', baseURL + '&view=on#detailschedule');
+      bot.executeWebhook(targetClan.discordhookid, targetClan.discordhooktoken, {
+        username: 'エリカ様の血盟管理お手伝い',
+        avatarURL: bot.user.dynamicAvatarURL('jpg', 256),
+        content: message + '\n\n'
+      });
+    }
   };
 
   var _infoNews = function(targetClan, targetSchedule) {
@@ -106,36 +108,57 @@
     }
   };
 
-  var _resetScheduleUser = function (targetSchedule, targetUsers, targetSchedules, targetClans, targetBigin, targetStart) {
-    if (0 < users.length) {
+  var _resetScheduleUser = function (targetSchedule, targetUsers, targetSchedules, targetClans, targetClan, targetBigin, targetStart) {
+    if (0 < targetUsers.length) {
       var targetUser = targetUsers[0];
       targetUsers.shift();
       firestore.collection("users").doc(targetUser.ID).get().then(function(snapshot){
         console.log('snapshot=');
         console.log(snapshot.exists);
+        var data = null;
         if(snapshot.exists) {
-          targetSchedule..incount++;
+          data = snapshot.data();
         }
-        firestore.collection("schedules").doc(targetSchedule.ID).collection("users").doc(targetUser.ID).update({entry:0, comment:'同一タグの前回のPT編成をコピー'}).then(function(_snapshot) {
-          if (callback) {
-            callback(updateID);
-          }
-          loading(false);
+        if (data && data.activity > -1) {
+          targetSchedule.incount++;
+          firestore.collection("schedules").doc(targetSchedule.ID).collection("users").doc(targetUser.ID).update({entry:0, comment:'同一タグの前回のPT編成をコピー'}).then(function(_snapshot) {
+            _resetScheduleUser(targetSchedule, targetUsers, targetSchedules, targetClans, targetClan, targetBigin, targetStart);
+          }).catch(function(error) {
+            console.error("Error update _resetScheduleUser User: ", error);
+          });
           return;
-        }).catch(function(error) {
-          alert('更新エラーが発生した為、処理を中断します。');
-          console.error("Error writing document: ", error);
-          // ログイン出来ていないのでログイン画面へ戻す
-          loading(false);
-        });
+        }
+        else {
+          firestore.collection("schedules").doc(targetSchedule.ID).collection("users").doc(targetUser.ID).delete().then(function() {
+            _resetScheduleUser(targetSchedule, targetUsers, targetSchedules, targetClans, targetClan, targetBigin, targetStart);
+          }).catch(function(error) {
+            console.error("Error delete _resetScheduleUser User: ", error);
+          });
+          return;
+        }
+        return;
       });
+      return;
     }
+    var newDate = new Date(Math.round(new Date(targetSchedule.date).getTime() + (60 * 60 * 1000 * 24 * 7)));
+    firestore.collection("schedules").doc(targetSchedule.ID).update({date: newDate, incount:targetSchedule.incount}).then(function() {
+      console.log('recursive _resetSchedule for _resetScheduleUser!');
+      var baseMessage = '**【自動お知らせ通知】** ' + targetSchedule.date + 'に開催した「' + targetSchedule.name + '」の予定を **' + newDate.toFormat("YYYY/MM/DD HH24:MI") + '** に開催予定に自動リセットしたわよ！確認してみて！\n https://line2revo.fun/?clanid=' + targetClan.ID + '&scheduleid=' + targetSchedule.ID + '&view=on#detailschedule \n';
+      console.log(targetClan);
+      console.log(targetSchedule);
+      console.log(baseMessage);
+      _sendWebhookMessage(targetClan, targetSchedule, baseMessage);
+      _resetSchedule(targetSchedules, targetClans, targetBigin, targetStart);
+    }).catch(function(error) {
+      console.error("Error update _resetScheduleUser Schedule: ", error);
+    });
+    return;
   };
 
-  var _resetSchedule = function (targetSchedules, targetClans, targetBigin, targetStart) {
+  var _resetSchedule = function (targetSchedules, targetClans, targetClan, targetBigin, targetStart) {
     if (0 < targetSchedules.length) {
       var targetSchedule = targetSchedules[0];
-      targetSchedule..incount = 0;
+      targetSchedule.incount = 0;
       targetSchedules.shift();
       firestore.collection("schedules").doc(targetSchedule.ID).collection("users").where("entry", ">=", 0).get().then(function(querySnapshot) {
         var users = [];
@@ -150,7 +173,7 @@
             users.push(data);
           }
         });
-        _resetScheduleUser(targetSchedule, users, targetSchedules, targetClans, targetBigin, targetStart);
+        _resetScheduleUser(targetSchedule, users, targetSchedules, targetClans, targetClan, targetBigin, targetStart);
         return;
       }).catch(function(error) {
         console.error("Error read reset target schedule users: ", error);
@@ -168,7 +191,7 @@
     if (0 < targetClans.length) {
       var targetClan = targetClans[0];
       targetClans.shift();
-      firestore.collection("schedules").where("clanid", "==", targetClan.ID).where("autoReset", "==", true).startAt(targetBigin).get().then(function(querySnapshot) {
+      firestore.collection("schedules").where("clanid", "==", targetClan.ID).where("autoReset", "==", true).orderBy("date", "asc").startAt(targetBigin).get().then(function(querySnapshot) {
         var schedules = [];
         querySnapshot.forEach(function(snapshot) {
           if(snapshot.exists) {
@@ -192,7 +215,7 @@
         console.log('clan=');
         console.log(targetClan);
         if (0 < schedules.length) {
-          _resetSchedule(schedules, targetClans, targetBigin, targetStart);
+          _resetSchedule(schedules, targetClans, targetClan, targetBigin, targetStart);
           return;
         }
         if (0 < targetClans.length) {
@@ -209,21 +232,27 @@
 
   var infojob = function (testClanID) {
     // firbase問い合わせ
-    firestore.collection("clans").where("useInfoJob", "==", true).get().then(function(querySnapshot) {
-      var datas = [];
+    /*firestore.collection("clans").where("useInfoJob", "==", true).get().then(function(querySnapshot) {*/
+    firestore.collection("clans").get().then(function(querySnapshot) {
+      var datas1 = [];
+      var datas2 = [];
       querySnapshot.forEach(function(snapshot) {
         if(snapshot.exists) {
           var data = snapshot.data();
           if (testClanID == snapshot.id || false === testClanID) {
+            data.ID = snapshot.id;
             if ('string' == typeof data.discordhookid && 'string' == typeof data.discordhooktoken && 0 < data.discordhookid.length && 0 < data.discordhooktoken.length) {
-              data.ID = snapshot.id;
-              datas.push(data);
+              if (true == data.useInfoJob) {
+                datas1.push(data);
+              }
             }
+            datas2.push(data);
           }
         }
       });
-      console.log(datas);
-      if (0 < datas.length) {
+      console.log(datas1);
+      console.log(datas2);
+      if (0 < datas1.length || 0 < datas2.length) {
         var dt = new Date();
         /*var dayLabel = dt.toFormat("DDD");
         var targetDayCnt = 7;
@@ -247,13 +276,17 @@
         }*/
         var targetDayCnt = 3;
         var targetStart = dt.getTime();
-        var targetEnd = Math.round(targetStart + (60 * 60 * 1000 * 24 * targetDayCnt));
-        console.log('targetDayCnt=' + targetDayCnt + ' & targetStart = ' + targetStart + ' & targetEnd=' + targetEnd);
-        _infoSchedules(datas, targetStart, targetEnd);
-        // 予定の自動コピー
-        var targetBigin = Math.round(targetStart - (60 * 60 * 1000 * 24 * 1));
-        console.log('targetDayCnt=' + 1 + ' & targetStart = ' + targetStart + ' & targetBigin=' + targetBigin);
-        _resetSchedules(datas, targetBigin, targetStart);
+        if (0 < datas1.length) {
+          var targetEnd = Math.round(targetStart + (60 * 60 * 1000 * 24 * targetDayCnt));
+          console.log('targetDayCnt=' + targetDayCnt + ' & targetStart = ' + targetStart + ' & targetEnd=' + targetEnd);
+          _infoSchedules(datas1, targetStart, targetEnd);
+        }
+        if (0 < datas2.length) {
+          // 予定の自動コピー
+          var targetBigin = Math.round(targetStart - (60 * 60 * 1000 * 24 * 1));
+          console.log('targetDayCnt=' + 1 + ' & targetStart = ' + targetStart + ' & targetBigin=' + targetBigin);
+          _resetSchedules(datas2, targetBigin, targetStart);
+        }
       }
       return;
     }).catch(function(error) {

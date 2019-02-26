@@ -1513,12 +1513,26 @@
 									<option if={schedule.type==1} value="1" selected="selected">出欠確認不要(予定のみ)</option>
 								</select>
 							</div>
+							<div class="form-check">
+								<input if={schedule.autoReset==true} type="checkbox" name="scheduleautoreset" value="1"  class="form-check-input" id="scheduleautoreset" checked="checked"/>
+								<input if={schedule.autoReset!=true} type="checkbox" name="scheduleautoreset" value="1"  class="form-check-input" id="scheduleautoreset"/>
+								<label class="form-check-label" for="scheduleautoreset">自動リセットを有効</label>
+								<br/>
+								<small>※毎週同じ予定を開催する場合に有効です。</small>
+								<br/>
+								<small>※この機能を利用する為には<a href="https://t.co/3CE3BIYqcV" target="_blank">"エリカ様Bot"</a>の導入が必要です！</small>
+								<br/>
+								<br/>
+							</div>
 							<input type="hidden" name="scheduleincount" value="{schedule.incount}" id='scheduleincount'/>
 							<botton class="btn btn-success" onclick="onclickRegisterSchedule(this, '{schedule.ID}')">登録</botton>
 							<botton if={'#detailschedule' != location.hash} class="btn btn-danger" onclick="onclickRegisterSchedule(this, '{schedule.ID}', true)">登録(同一タグの前回のPT編成をコピー)</botton>
 						</form>
+						<br/>
+						<br/>
+						<br/>
 					</div>
-					var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, };
+					var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, autoReset: null, };
 					this.on('mount', function() {
 						if ('on'==getParams['view']) {
 							$('#addscheduleform').hide();
@@ -1669,7 +1683,7 @@
 						</div>
 					</div>
 					var scheduleURL = '';
-					var partySchedule = {name:'', date: '', incount: 0, };
+					var partySchedule = {name:'', date: '', incount: 0, autoReset: null, };
 					var parties = [];
 					var partyCPs = [];
 					this.on('unmount', function() {
@@ -3442,7 +3456,7 @@
 				var loadingCount = 0;
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
 				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, boss: null, memo: '', activity: 9, joind: '', discord: '', };
-				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, };
+				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, autoReset: null, };
 				var partySchedule = {name:'', date: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', };
 				var partyUsers = null;
@@ -4379,6 +4393,10 @@
 					var scheduledate = $('#addscheduleform').find('#scheduledate').data().date;
 					var scheduleincount = $('#addscheduleform').find('input[name=scheduleincount]').val();
 					var scheduletype = $('#addscheduleform').find('select[name=scheduletype] option:selected').val();
+					var scheduleautoreset = false;
+					if ($('#addscheduleform').find('input[name=scheduleautoreset]').prop('checked')) {
+						scheduleautoreset = true;
+					}
 					if (1 > scheduleincount.length) {
 						scheduleincount = '0';
 					}
@@ -4389,7 +4407,7 @@
 						}
 					}
 					if (0 < schedulename.length && 0 < scheduledate.length && 0 < scheduleincount.length) {
-						var data = { ID: scheduleID, name: schedulename, date: new Date(scheduledate), tag: scheduletag, incount: parseInt(scheduleincount), type: parseInt(scheduletype), };
+						var data = { ID: scheduleID, name: schedulename, date: new Date(scheduledate), tag: scheduletag, incount: parseInt(scheduleincount), type: parseInt(scheduletype), autoReset: scheduleautoreset };
 						registerSchedule(clan.ID, data, function (newScheduleID){
 							data.ID = newScheduleID;
 							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {
