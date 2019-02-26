@@ -4080,7 +4080,10 @@
 					if (null != tag && 0 < tag.length) {
 						collection = collection.where("tag", "==", tag);
 					}
-					collection.orderBy('tag', 'desc').get().then(function(querySnapshot) {
+					else {
+						collection = collection.orderBy('tag', 'desc');
+					}
+					collection.get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
