@@ -106,6 +106,107 @@
     }
   };
 
+  var _resetScheduleUser = function (targetSchedule, targetUsers, targetSchedules, targetClans, targetBigin, targetStart) {
+    if (0 < users.length) {
+      var targetUser = targetUsers[0];
+      targetUsers.shift();
+      firestore.collection("users").doc(targetUser.ID).get().then(function(snapshot){
+        console.log('snapshot=');
+        console.log(snapshot.exists);
+        if(snapshot.exists) {
+          targetSchedule..incount++;
+        }
+        firestore.collection("schedules").doc(targetSchedule.ID).collection("users").doc(targetUser.ID).update({entry:0, comment:'同一タグの前回のPT編成をコピー'}).then(function(_snapshot) {
+          if (callback) {
+            callback(updateID);
+          }
+          loading(false);
+          return;
+        }).catch(function(error) {
+          alert('更新エラーが発生した為、処理を中断します。');
+          console.error("Error writing document: ", error);
+          // ログイン出来ていないのでログイン画面へ戻す
+          loading(false);
+        });
+      });
+    }
+  };
+
+  var _resetSchedule = function (targetSchedules, targetClans, targetBigin, targetStart) {
+    if (0 < targetSchedules.length) {
+      var targetSchedule = targetSchedules[0];
+      targetSchedule..incount = 0;
+      targetSchedules.shift();
+      firestore.collection("schedules").doc(targetSchedule.ID).collection("users").where("entry", ">=", 0).get().then(function(querySnapshot) {
+        var users = [];
+        querySnapshot.forEach(function(snapshot) {
+          if(snapshot.exists) {
+            var data = snapshot.data();
+            data.ID = snapshot.id;
+            if ('undefined' != typeof data.joind && 'string' != typeof data.joind) {
+              data.joind = data.joind.toDate();
+              data.joind = data.joind.toFormat("YYYY/MM/DD HH24:MI");
+            }
+            users.push(data);
+          }
+        });
+        _resetScheduleUser(targetSchedule, users, targetSchedules, targetClans, targetBigin, targetStart);
+        return;
+      }).catch(function(error) {
+        console.error("Error read reset target schedule users: ", error);
+      });
+      return;
+    }
+    if (0 < targetClans.length) {
+      console.log('recursive _resetSchedules for _resetSchedule!');
+      _resetSchedules(targetClans, targetBigin, targetStart);
+      return;
+    }
+  };
+
+  var _resetSchedules = function (targetClans, targetBigin, targetStart) {
+    if (0 < targetClans.length) {
+      var targetClan = targetClans[0];
+      targetClans.shift();
+      firestore.collection("schedules").where("clanid", "==", targetClan.ID).where("autoReset", "==", true).startAt(targetBigin).get().then(function(querySnapshot) {
+        var schedules = [];
+        querySnapshot.forEach(function(snapshot) {
+          if(snapshot.exists) {
+            var data = snapshot.data();
+            data.ID = snapshot.id;
+            if ('undefined' != typeof data.date) {
+              data.date = data.date.toDate();
+              if (targetBigin > data.date.getTime()){
+                return;
+              }
+              if (targetStart < data.date.getTime()){
+                return;
+              }
+              data.date = data.date.toFormat("YYYY/MM/DD HH24:MI");
+            }
+            schedules.push(data);
+          }
+        });
+        console.log('duplicate target schedules=');
+        console.log(schedules);
+        console.log('clan=');
+        console.log(targetClan);
+        if (0 < schedules.length) {
+          _resetSchedule(schedules, targetClans, targetBigin, targetStart);
+          return;
+        }
+        if (0 < targetClans.length) {
+          console.log('recursive _resetSchedules for _resetSchedules!');
+          _resetSchedules(targetClans, targetBigin, targetStart);
+          return;
+        }
+        return;
+      }).catch(function(error) {
+        console.error("Error read reset target schedules: ", error);
+      });
+    }
+  };
+
   var infojob = function (testClanID) {
     // firbase問い合わせ
     firestore.collection("clans").where("useInfoJob", "==", true).get().then(function(querySnapshot) {
@@ -149,6 +250,10 @@
         var targetEnd = Math.round(targetStart + (60 * 60 * 1000 * 24 * targetDayCnt));
         console.log('targetDayCnt=' + targetDayCnt + ' & targetStart = ' + targetStart + ' & targetEnd=' + targetEnd);
         _infoSchedules(datas, targetStart, targetEnd);
+        // 予定の自動コピー
+        var targetBigin = Math.round(targetStart - (60 * 60 * 1000 * 24 * 1));
+        console.log('targetDayCnt=' + 1 + ' & targetStart = ' + targetStart + ' & targetBigin=' + targetBigin);
+        _resetSchedules(datas, targetBigin, targetStart);
       }
       return;
     }).catch(function(error) {

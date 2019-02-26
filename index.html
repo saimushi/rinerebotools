@@ -3240,7 +3240,7 @@
 										<br/>
 										色々試してみたい場合にご利用下さいm(_ _)m
 										<br/>
-										<a href="https://line2revo.fun/?clanid=z77eo2eYNkFEW9emP3bn">デモ血盟管理 => https://line2revo.fun/?clanid=z77eo2eYNkFEW9emP3bn</a>
+										<a href="https://line2revo.fun/?clanid=56fhe8sie5UrrZUWVz9V">デモ血盟管理 => https://line2revo.fun/?clanid=56fhe8sie5UrrZUWVz9V</a>
 									</small>
 								</div>
 							</div>
@@ -4080,7 +4080,7 @@
 					if (null != tag && 0 < tag.length) {
 						collection = collection.where("tag", "==", tag);
 					}
-					collection.get().then(function(querySnapshot) {
+					collection.orderBy('tag', 'desc').get().then(function(querySnapshot) {
 						var datas = [];
 						querySnapshot.forEach(function(snapshot) {
 							if(snapshot.exists) {
