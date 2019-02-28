@@ -2058,6 +2058,8 @@
 												thisis.scheduleusers[suidx].job3d = thisis.selectusers[uidx].job3d;
 												thisis.scheduleusers[suidx].acce1 = parseInt(thisis.selectusers[uidx].acce1);
 												thisis.scheduleusers[suidx].bukicos = thisis.selectusers[uidx].bukicos;
+												thisis.scheduleusers[suidx].meteo = thisis.selectusers[uidx].meteo;
+												thisis.scheduleusers[suidx].dzone = thisis.selectusers[uidx].dzone;
 												thisis.scheduleusers[suidx].manto = thisis.selectusers[uidx].manto;
 												thisis.scheduleusers[suidx].pvpat = thisis.selectusers[uidx].pvpat;
 												thisis.scheduleusers[suidx].pvpdf = thisis.selectusers[uidx].pvpdf;
@@ -2785,12 +2787,12 @@
 									<th style="width: 70px;">キャラ</th>
 									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 40px; padding-left: 5px; padding-right: 0;">戦闘力</th>
 									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 20px; padding-left: 2px;">Job</th>
-									<th if={opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 20px;">飾</th>
+									<th if={opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 20px; padding-left: 5px;">飾</th>
 									<th if={opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">武</th>
 									<th if={opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">マ</th>
 									<th if={opts.mode!='schedule'} onclick="{sortLevel}" style="width: 20px; padding-left: 3px;">Lv</th>
 									<th if={opts.mode!='schedule'} style="width: 12px; padding-left: 1px;">メ</th>
-									<th style="width: 12px; padding-left: 0;">DZ</th>
+									<th style="width: 12px; padding-left: 0;">Dz</th>
 									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: royalblue; color: white; width: 12px; padding-left: 1px;">攻</th>
 									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: royalblue; color: white; width: 12px; padding-left: 1px;">防</th>
 									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: yellow; width: 12px; padding-left: 1px;">甘</th>

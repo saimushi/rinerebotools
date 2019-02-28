@@ -907,6 +907,25 @@
         return;
       }
     }
+    else if (0 === msg.content.indexOf('ディフェンスゾーン ')) {
+      msg.content = msg.content.replace(/[０-９]/g, function(s){
+          return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+      });
+      var level = msg.content.replace('ディフェンスゾーン', '');
+      level = level.trim();
+      console.log(level);
+      cmd = 1;
+      var toLv = parseInt(level);
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> ディフェンスゾーンのレベルを更新するのね、私に任せて！\n **Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 12;
+      }
+      if (true != ('number' == typeof newSelection && 0 < newSelection)) {
+        cmd = 0;
+        return;
+      }
+    }
     else if (0 === msg.content.indexOf('転職 完了') || 0 === msg.content.indexOf('転職完了')) {
       msg.content = msg.content.replace(/[０-９]/g, function(s){
           return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
@@ -1153,6 +1172,9 @@
                           }
                           if (11 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                             targetUser.job3d = newSelection;
+                          }
+                          if (12 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                            targetUser.dzone = newSelection;
                           }
                         }
                         return;
