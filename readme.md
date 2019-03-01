@@ -1,5 +1,10 @@
 
 
+血盟管理ツール「 https://line2revo.fun/ 」
+エリカ様Bot「 https://t.co/3CE3BIYqcV 」
+#リネレボ
+#リネレボツール
+
 
 ## 要塞戦タイムキーパーのインストール方法
 
