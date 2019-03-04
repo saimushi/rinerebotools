@@ -191,6 +191,10 @@
     if (0 < targetClans.length) {
       var targetClan = targetClans[0];
       targetClans.shift();
+      if ('undefined' == typeof targetBigin) {
+        targetStart = new Date().getTime();
+        targetBigin = Math.round(targetStart - (60 * 60 * 1000 * 24 * 3));
+      }
       firestore.collection("schedules").where("clanid", "==", targetClan.ID).where("autoReset", "==", true).orderBy("date", "asc").startAt(targetBigin).get().then(function(querySnapshot) {
         var schedules = [];
         querySnapshot.forEach(function(snapshot) {
@@ -283,7 +287,7 @@
         }
         if (0 < datas2.length) {
           // 予定の自動コピー
-          var targetBigin = Math.round(targetStart - (60 * 60 * 1000 * 24 * 1));
+          var targetBigin = Math.round(targetStart - (60 * 60 * 1000 * 24 * 3));
           console.log('targetDayCnt=' + 1 + ' & targetStart = ' + targetStart + ' & targetBigin=' + targetBigin);
           _resetSchedules(datas2, targetBigin, targetStart);
         }
@@ -926,6 +930,25 @@
         return;
       }
     }
+    else if (0 === msg.content.indexOf('メテオ ')) {
+      msg.content = msg.content.replace(/[０-９]/g, function(s){
+          return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+      });
+      var level = msg.content.replace('メテオ', '');
+      level = level.trim();
+      console.log(level);
+      cmd = 1;
+      var toLv = parseInt(level);
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> メテオのレベルを更新するのね、私に任せて！\n **Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 13;
+      }
+      if (true != ('number' == typeof newSelection && 0 < newSelection)) {
+        cmd = 0;
+        return;
+      }
+    }
     else if (0 === msg.content.indexOf('転職 完了') || 0 === msg.content.indexOf('転職完了')) {
       msg.content = msg.content.replace(/[０-９]/g, function(s){
           return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
@@ -1041,6 +1064,8 @@
       + '私が出来るお手伝いは\n\n'
       + '戦闘力の更新 **[1012543]**\n'
       + 'レベルの更新 **[レベル 1〜320]**\n'
+      + 'メテオレベルの更新 **[メテオ 1〜10]**\n'
+      + 'ディフェンスゾーンレベルの更新 **[ディフェンスゾーン 1〜10]**\n'
       + '3次職転職完了状態の更新 **[転職完了] [転職 完了]**\n'
       + '予定への参加登録 **[参加] [参加 聞き専(or 可能・不可)] [参加△ コメント] [不参加]**\n'
       + '予定参加者の確認 **[確認] [確認△]**\n'
@@ -1175,6 +1200,9 @@
                           }
                           if (12 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                             targetUser.dzone = newSelection;
+                          }
+                          if (13 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                            targetUser.meteo = newSelection;
                           }
                         }
                         return;
@@ -1602,8 +1630,11 @@
               }
               return;
             }
+            return;
           }
-  			}).catch(function(error) {
+          msg.channel.createMessage('このチャンネルに該当する血盟登録が見当たらないわ・・・\nチャンネルのトピックにclanIDが「clanid=z77eo2eYNkFEW9emP3bn(※自身の血盟のclanIDに置き換えて)」みたいにちゃんと設定されてるか確認してみて！\n');
+          return;
+			}).catch(function(error) {
   				console.error("Error read clan: ", error);
           msg.channel.createMessage('このチャンネルに該当する血盟登録が見当たらないわ・・・\nチャンネルのトピックにclanIDが「clanid=z77eo2eYNkFEW9emP3bn(※自身の血盟のclanIDに置き換えて)」みたいにちゃんと設定されてるか確認してみて！\n');
         });

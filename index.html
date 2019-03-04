@@ -1465,6 +1465,31 @@
 								</select>
 							</div>
 							<div class="form-group">
+								<select class="form-control" name="userdragon">
+									<option>竜特性</option>
+									<option if={user.dragon==10} value="10" selected="selected">竜特性Lv10</option>
+									<option if={user.dragon==9} value="9" selected="selected">竜特性Lv9</option>
+									<option if={user.dragon==8} value="8" selected="selected">竜特性Lv8</option>
+									<option if={user.dragon==7} value="7" selected="selected">竜特性Lv7</option>
+									<option if={user.dragon==6} value="6" selected="selected">竜特性Lv6</option>
+									<option if={user.dragon==5} value="5" selected="selected">竜特性Lv5</option>
+									<option if={user.dragon==4} value="4" selected="selected">竜特性Lv4</option>
+									<option if={user.dragon==3} value="3" selected="selected">竜特性Lv3</option>
+									<option if={user.dragon==2} value="2" selected="selected">竜特性Lv2</option>
+									<option if={user.dragon==1} value="1" selected="selected">竜特性Lv1</option>
+									<option if={user.dragon!=10} value="10">竜特性Lv10</option>
+									<option if={user.dragon!=9} value="9">竜特性Lv9</option>
+									<option if={user.dragon!=8} value="8">竜特性Lv8</option>
+									<option if={user.dragon!=7} value="7">竜特性Lv7</option>
+									<option if={user.dragon!=6} value="6">竜特性Lv6</option>
+									<option if={user.dragon!=5} value="5">竜特性Lv5</option>
+									<option if={user.dragon!=4} value="4">竜特性Lv4</option>
+									<option if={user.dragon!=3} value="3">竜特性Lv3</option>
+									<option if={user.dragon!=2} value="2">竜特性Lv2</option>
+									<option if={user.dragon!=1} value="1">竜特性Lv1</option>
+								</select>
+							</div>
+							<div class="form-group">
 								<select class="form-control" name="useractivity">
 									<option>区分</option>
 									<option if={user.activity==1} value="1" selected="selected">アクティブ</option>
@@ -1485,7 +1510,7 @@
 							<botton if={user.ID!='' && 'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
-					var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, dzone: null, boss: 0, mamono: 0, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, boss: null, memo: '', activity: 9, joind: '',};
+					var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, boss: null, memo: '', activity: 9, joind: '',};
 					this.on('mount', function() {
 						//$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00",});
 						auth(false, function (clan) {
@@ -2065,6 +2090,7 @@
 												thisis.scheduleusers[suidx].pvpdf = thisis.selectusers[uidx].pvpdf;
 												thisis.scheduleusers[suidx].sweet = thisis.selectusers[uidx].sweet;
 												thisis.scheduleusers[suidx].mamono = thisis.selectusers[uidx].mamono;
+												thisis.scheduleusers[suidx].dragon = thisis.selectusers[uidx].dragon;
 												thisis.scheduleusers[suidx].boss = thisis.selectusers[uidx].boss;
 												thisis.scheduleusers[suidx].activity = thisis.selectusers[uidx].activity;
 												thisis.selectusers[uidx].outlabel = '';
@@ -2784,19 +2810,20 @@
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 20px; padding-left: 3px;">PT</th>
 									<th if={opts.mode=='schedule'} style="width: 28px; padding-left: 0px;">status</th>
 									<th if={opts.mode=='schedule'} style="width: 20px; padding-left: 3px; padding-right: 2px;">VC</th>
-									<th style="width: 70px;">キャラ</th>
+									<th style="width: 65px;">キャラ</th>
 									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 40px; padding-left: 5px; padding-right: 0;">戦闘力</th>
 									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 20px; padding-left: 2px;">Job</th>
 									<th if={opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 20px; padding-left: 5px;">飾</th>
 									<th if={opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">武</th>
 									<th if={opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">マ</th>
 									<th if={opts.mode!='schedule'} onclick="{sortLevel}" style="width: 20px; padding-left: 3px;">Lv</th>
-									<th if={opts.mode!='schedule'} style="width: 12px; padding-left: 1px;">メ</th>
+									<th if={opts.mode=='contribution'} style="width: 12px; padding-left: 1px;">メ</th>
 									<th style="width: 12px; padding-left: 0;">Dz</th>
 									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: royalblue; color: white; width: 12px; padding-left: 1px;">攻</th>
 									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: royalblue; color: white; width: 12px; padding-left: 1px;">防</th>
 									<th if={!opts.mode || opts.submode=='gvg'} style="background-color: yellow; width: 12px; padding-left: 1px;">甘</th>
 									<th if={!opts.mode || opts.submode=='bossraid'} style="background-color: crimson; color: white; width: 12px; padding-left: 1px;">魔</th>
+									<th if={!opts.mode || opts.submode=='bossraid'} style="width: 12px; padding-left: 1px;">竜</th>
 									<th if={!opts.mode || opts.submode=='bossraid'} style="width: 12px; padding-left: 1px;">ボ</th>
 									<th style="width: 15px; padding-left: 2px;">区</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 31px; padding-left: 0; padding-right: 0;">入隊日</th>
@@ -2881,14 +2908,15 @@
 									<td if={opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 1px; text-align: right;">{user.manto}</td>
 
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 2px;">{user.level}</td>
-									<td if={opts.mode!='schedule' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
-									<td if={opts.mode!='schedule' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
+									<td if={opts.mode=='contribution' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
+									<td if={opts.mode=='contribution' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
 									<td if={user.dzone==10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dzone}</td>
 									<td if={user.dzone!=10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dzone}</td>
 									<td if={!opts.mode || opts.submode=='gvg'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpat}</td>
 									<td if={!opts.mode || opts.submode=='gvg'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpdf}</td>
 									<td if={!opts.mode || opts.submode=='gvg'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: yellow; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.sweet}</td>
 									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.mamono}</td>
+									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dragon}</td>
 									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.boss}</td>
 									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">AC</td>
 									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">IAC</td>
@@ -2930,7 +2958,7 @@
 							}
 							console.log(lines);
 							var fields = lines[0].replace(/[\r\n]/g, '').trim().split(',');
-							if (19 > fields.length){
+							if (20 > fields.length){
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
 							}
@@ -2949,10 +2977,11 @@
 							 || 0 > fields[12].indexOf('対人防御特性(平均)')
 							 || 0 > fields[13].indexOf('スイート特性')
 							 || 0 > fields[14].indexOf('魔物特性')
-							 || 0 > fields[15].indexOf('ボス特性')
-							 || 0 > fields[16].indexOf('区分')
-							 || 0 > fields[17].indexOf('入隊日')
-							 || 0 > fields[18].indexOf('メモ')
+							 || 0 > fields[15].indexOf('竜特性')
+							 || 0 > fields[16].indexOf('ボス特性')
+							 || 0 > fields[17].indexOf('区分')
+							 || 0 > fields[18].indexOf('入隊日')
+							 || 0 > fields[19].indexOf('メモ')
 							) {
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
@@ -2965,11 +2994,11 @@
 								}
 								var cols = line.split(',');
 								console.log(cols);
-								if (19 > cols.length){
+								if (20 > cols.length){
 									alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 									return;
 								}
-								var _user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: 0, meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, boss: null, memo: '', activity: 9, joind: '' };
+								var _user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: 0, meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, boss: null, memo: '', activity: 9, joind: '' };
 								_user.name = cols[0].trim();
 								_user.cp = parseInt(cols[1].trim());
 								_user.job = cols[2].trim();
@@ -3012,8 +3041,9 @@
 								_user.pvpdf = (cols[12].trim() == '')? null: parseInt(cols[12].trim());
 								_user.sweet = (cols[13].trim() == '')? null: parseInt(cols[13].trim());
 								_user.mamono = (cols[14].trim() == '')? null: parseInt(cols[14].trim());
-								_user.boss = (cols[15].trim() == '')? null: parseInt(cols[15].trim());
-								_user.activity = cols[16].trim();
+								_user.dragon = (cols[15].trim() == '')? null: parseInt(cols[15].trim());
+								_user.boss = (cols[16].trim() == '')? null: parseInt(cols[16].trim());
+								_user.activity = cols[17].trim();
 								if (_user.activity == 'アクティブ') {
 									_user.activity = 1;
 								}
@@ -3026,9 +3056,9 @@
 								else if (_user.activity == '除名') {
 									_user.activity = -9;
 								}
-								var _joind = cols[17].trim().replace(' ', '/').split('/');
+								var _joind = cols[18].trim().replace(' ', '/').split('/');
 								_user.joind = (('0000' + _joind[0]).slice(-4)) + '/' + (('00' + _joind[1]).slice(-2)) + '/' + (('00' + _joind[2]).slice(-2));
-								_user.memo = cols[18].trim();
+								_user.memo = cols[19].trim();
 								_users.push(_user);
 							}
 							console.log('usser=');
@@ -3487,7 +3517,7 @@
 				var getParams = {};
 				var loadingCount = 0;
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
-				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, boss: null, memo: '', activity: 9, joind: '', discord: '', };
+				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, boss: null, memo: '', activity: 9, joind: '', discord: '', };
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, autoReset: null, };
 				var partySchedule = {name:'', date: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', };
@@ -4524,6 +4554,7 @@
 					var userpvpdf = $('#registerform').find('select[name=userpvpdf] option:selected').val();
 					var usersweet = $('#registerform').find('select[name=usersweet] option:selected').val();
 					var usermamono = $('#registerform').find('select[name=usermamono] option:selected').val();
+					var userdragon = $('#registerform').find('select[name=userdragon] option:selected').val();
 					var userboss = $('#registerform').find('select[name=userboss] option:selected').val();
 					if ('対人攻撃特性' === userpvpat) {
 						userpvpat = null;
@@ -4555,6 +4586,12 @@
 					else {
 						usermamono = parseInt(usermamono);
 					}
+					if ('竜特性' === userdragon) {
+						userdragon = null;
+					}
+					else {
+						userdragon = parseInt(userdragon);
+					}
 					if ('' === userdzone) {
 						userdzone = null;
 					}
@@ -4567,7 +4604,7 @@
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
 					if ('職業' != userjob && 'メテオ' != usermeteo && '装飾品' != useracce1 && '区分' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < usermeteo.length && 0 < useractivity.length) {
-						var data = { ID: userID, name: username, job: userjob, job3d: parseInt(userjob3d), level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), dzone: userdzone, acce1: parseInt(useracce1), bukicos: userbukicos, manto: usermanto, pvpat: userpvpat, pvpdf: userpvpdf, sweet: usersweet, mamono: usermamono, boss: userboss, activity: parseInt(useractivity), discord: userdiscord, };
+						var data = { ID: userID, name: username, job: userjob, job3d: parseInt(userjob3d), level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, meteo: parseInt(usermeteo), dzone: userdzone, acce1: parseInt(useracce1), bukicos: userbukicos, manto: usermanto, pvpat: userpvpat, pvpdf: userpvpdf, sweet: usersweet, mamono: usermamono, dragon: userdragon, boss: userboss, activity: parseInt(useractivity), discord: userdiscord, };
 						if (0 < userjoind.length) {
 							data.joind = new Date(userjoind);
 						}
