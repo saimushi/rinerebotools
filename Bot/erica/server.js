@@ -15,13 +15,15 @@
 
   var _sendWebhookMessage = function(targetClan, targetSchedule, message) {
     if ('string' == typeof targetClan.discordhookid && 'string' == typeof targetClan.discordhooktoken && 0 < targetClan.discordhookid.length && 0 < targetClan.discordhooktoken.length) {
-      var baseURL = 'https://line2revo.fun/?clanid=' + targetClan.ID + '&scheduleid=' + targetSchedule.ID
-      message = message.replace('***date***', targetSchedule.date);
-      message = message.replace('***title***', targetSchedule.name);
-      message = message.replace('***pt***', baseURL + '#party');
-      message = message.replace('***ptview***', baseURL + '&view=on#party');
-      message = message.replace('***url***', baseURL + '#detailschedule');
-      message = message.replace('***urlview***', baseURL + '&view=on#detailschedule');
+      if (targetSchedule) {
+        var baseURL = 'https://line2revo.fun/?clanid=' + targetClan.ID + '&scheduleid=' + targetSchedule.ID
+        message = message.replace('***date***', targetSchedule.date);
+        message = message.replace('***title***', targetSchedule.name);
+        message = message.replace('***pt***', baseURL + '#party');
+        message = message.replace('***ptview***', baseURL + '&view=on#party');
+        message = message.replace('***url***', baseURL + '#detailschedule');
+        message = message.replace('***urlview***', baseURL + '&view=on#detailschedule');
+      }
       bot.executeWebhook(targetClan.discordhookid, targetClan.discordhooktoken, {
         username: 'エリカ様の血盟管理お手伝い',
         avatarURL: bot.user.dynamicAvatarURL('jpg', 256),
@@ -113,8 +115,8 @@
       var targetUser = targetUsers[0];
       targetUsers.shift();
       firestore.collection("users").doc(targetUser.ID).get().then(function(snapshot){
-        console.log('snapshot=');
-        console.log(snapshot.exists);
+        //console.log('snapshot=');
+        //console.log(snapshot.exists);
         var data = null;
         if(snapshot.exists) {
           data = snapshot.data();
@@ -143,12 +145,12 @@
     var newDate = new Date(Math.round(new Date(targetSchedule.date).getTime() + (60 * 60 * 1000 * 24 * 7)));
     firestore.collection("schedules").doc(targetSchedule.ID).update({date: newDate, incount:targetSchedule.incount}).then(function() {
       console.log('recursive _resetSchedule for _resetScheduleUser!');
-      var baseMessage = '**【自動お知らせ通知】** ' + targetSchedule.date + 'に開催した「' + targetSchedule.name + '」の予定を **' + newDate.toFormat("YYYY/MM/DD HH24:MI") + '** に開催予定に自動リセットしたわよ！確認してみて！\n https://line2revo.fun/?clanid=' + targetClan.ID + '&scheduleid=' + targetSchedule.ID + '&view=on#detailschedule \n';
       console.log(targetClan);
       console.log(targetSchedule);
+      var baseMessage = '**【自動お知らせ通知】** ' + targetSchedule.date + 'に開催した「' + targetSchedule.name + '」の予定を **' + newDate.toFormat("YYYY/MM/DD HH24:MI") + '** に開催予定に自動リセットしたわよ！確認してみて！\n https://line2revo.fun/?clanid=' + targetClan.ID + '&scheduleid=' + targetSchedule.ID + '&view=on#detailschedule \n';
       console.log(baseMessage);
       _sendWebhookMessage(targetClan, targetSchedule, baseMessage);
-      _resetSchedule(targetSchedules, targetClans, targetBigin, targetStart);
+      _resetSchedule(targetSchedules, targetClans, targetClan, targetBigin, targetStart);
     }).catch(function(error) {
       console.error("Error update _resetScheduleUser Schedule: ", error);
     });
@@ -191,7 +193,7 @@
     if (0 < targetClans.length) {
       var targetClan = targetClans[0];
       targetClans.shift();
-      if ('undefined' == typeof targetBigin) {
+      if ('undefined' == typeof targetBigin || 'undefined' == typeof targetStart) {
         targetStart = new Date().getTime();
         targetBigin = Math.round(targetStart - (60 * 60 * 1000 * 24 * 3));
       }
@@ -202,7 +204,13 @@
             var data = snapshot.data();
             data.ID = snapshot.id;
             if ('undefined' != typeof data.date) {
+              console.log('--date start--');
+              console.log(data.date);
               data.date = data.date.toDate();
+              console.log(targetBigin);
+              console.log(targetStart);
+              console.log(data.date);
+              console.log('--date end--');
               if (targetBigin > data.date.getTime()){
                 return;
               }
@@ -214,7 +222,7 @@
             schedules.push(data);
           }
         });
-        console.log('duplicate target schedules=');
+        console.log('reset target schedules=');
         console.log(schedules);
         console.log('clan=');
         console.log(targetClan);
@@ -234,12 +242,82 @@
     }
   };
 
+  var _notifyNews = function (targetClans, targetClan, targetStart, notifyMode, notifyTime, targetNews) {
+    if (0 < targetNews.length) {
+      var targetNew = targetNews[0];
+      targetNews.shift();
+      if (0 < targetNew.tag.length) {
+        firestore.collection("schedules").where("clanid", "==", targetClan.ID).where("tag", targetNew.tag).orderBy("date", "asc").startAt(targetStart).limit(1).get().then(function(querySnapshot) {
+          var targetEnd = Math.round(targetStart + (60 * 60 * 1000 * 24 * 6));
+          console.log('targetEnd=');
+          console.log(targetEnd);
+          var data = null;
+          querySnapshot.forEach(function(snapshot) {
+            if(snapshot.exists) {
+              if ('undefined' != typeof snapshot.data().date) {
+                data = snapshot.data();
+                data.ID = snapshot.id;
+                data.date = data.date.toDate();
+                console.log('_notifyNews schedules data.date=');
+                console.log(data.date);
+                if (targetStart > data.date.getTime()){
+                  return;
+                }
+                if (targetEnd < data.date.getTime()){
+                  return;
+                }
+                data.date = data.date.toFormat("YYYY/MM/DD HH24:MI");
+              }
+            }
+          });
+          _sendWebhookMessage(targetClan, data, targetNew.text);
+          // リカーシブル
+          _notifyNews(targetClans, targetClan, targetStart, notifyMode, notifyTime, targetNews);
+          return;
+        });
+      }
+      _sendWebhookMessage(targetClan, null, targetNew.text);
+      // リカーシブル
+      _notifyNews(targetClans, targetClan, targetStart, notifyMode, notifyTime, targetNews);
+      return;
+    }
+    _infojob(targetClans, targetStart, notifyMode, notifyTime);
+  };
+
+  var _infojob = function (targetClans, targetStart, notifyMode, notifyTime) {
+    if (0 < targetClans.length) {
+      var targetClan = targetClans[0];
+      targetClans.shift();
+      // 本日通知対象
+      firestore.collection("news").where("clanid", "==", targetClan.ID).where("notifymode", "==", notifyMode).where("notifytime", "==", notifyTime).get().then(function(querySnapshot) {
+        var targetNews = [];
+        querySnapshot.forEach(function(snapshot) {
+          if(snapshot.exists) {
+            var data = snapshot.data();
+            data.ID = snapshot.id;
+            targetNews.push(data);
+          }
+        });
+        console.log('targetNews=');
+        console.log(targetNews);
+        if (0 < targetNews.length) {
+          _notifyNews(targetClans, targetClan, targetStart, notifyMode, notifyTime, targetNews);
+        }
+        else {
+          _infojob(targetClans, targetStart, notifyMode, notifyTime);
+        }
+      });
+    }
+  };
+
   var infojob = function (testClanID) {
     // firbase問い合わせ
     /*firestore.collection("clans").where("useInfoJob", "==", true).get().then(function(querySnapshot) {*/
     firestore.collection("clans").get().then(function(querySnapshot) {
       var datas1 = [];
       var datas2 = [];
+      var datas3 = [];
+      var datas4 = [];
       querySnapshot.forEach(function(snapshot) {
         if(snapshot.exists) {
           var data = snapshot.data();
@@ -249,6 +327,8 @@
               if (true == data.useInfoJob) {
                 datas1.push(data);
               }
+              datas3.push(data);
+              datas4.push(data);
             }
             datas2.push(data);
           }
@@ -256,7 +336,8 @@
       });
       console.log(datas1);
       console.log(datas2);
-      if (0 < datas1.length || 0 < datas2.length) {
+      console.log(datas3);
+      if (0 < datas1.length || 0 < datas2.length || 0 < datas3.length || 0 < datas4.length) {
         var dt = new Date();
         /*var dayLabel = dt.toFormat("DDD");
         var targetDayCnt = 7;
@@ -280,16 +361,59 @@
         }*/
         var targetDayCnt = 3;
         var targetStart = dt.getTime();
-        if (0 < datas1.length) {
-          var targetEnd = Math.round(targetStart + (60 * 60 * 1000 * 24 * targetDayCnt));
-          console.log('targetDayCnt=' + targetDayCnt + ' & targetStart = ' + targetStart + ' & targetEnd=' + targetEnd);
-          _infoSchedules(datas1, targetStart, targetEnd);
+
+        var time = dt.toFormat("HH24MI");
+        console.log(time + " Ping Received");
+        if (time === '0000' || time === '0001' || time === '0002') {
+          if (0 < datas1.length) {
+            var targetEnd = Math.round(targetStart + (60 * 60 * 1000 * 24 * targetDayCnt));
+            console.log('targetDayCnt=' + targetDayCnt + ' & targetStart = ' + targetStart + ' & targetEnd=' + targetEnd);
+            _infoSchedules(datas1, targetStart, targetEnd);
+          }
+          if (0 < datas2.length) {
+            // 予定の自動コピー
+            var targetBigin = Math.round(targetStart - (60 * 60 * 1000 * 24 * 5));
+            console.log('targetDayCnt=' + 1 + ' & targetStart = ' + targetStart + ' & targetBigin=' + targetBigin);
+            _resetSchedules(datas2, targetBigin, targetStart);
+          }
         }
-        if (0 < datas2.length) {
-          // 予定の自動コピー
-          var targetBigin = Math.round(targetStart - (60 * 60 * 1000 * 24 * 3));
-          console.log('targetDayCnt=' + 1 + ' & targetStart = ' + targetStart + ' & targetBigin=' + targetBigin);
-          _resetSchedules(datas2, targetBigin, targetStart);
+        var min = dt.toFormat("MI");
+        console.log('min=');
+        console.log(min);
+        if (true == (min === '00' || min === '01' || min === '02') && 0 < datas3.length) {
+          // 定期お知らせ配信
+          var hour = parseInt(dt.toFormat("HH24"));
+          if (hour == 0) {
+            hour = 24;
+          }
+          var mode = 0;
+          var day = dt.toFormat("DDD");
+          if (day == 'Sun') {
+            mode = 11;
+          }
+          else if (day == 'Mon') {
+            mode = 12;
+          }
+          else if (day == 'Tue') {
+            mode = 13;
+          }
+          else if (day == 'Wed') {
+            mode = 14;
+          }
+          else if (day == 'Thu') {
+            mode = 15;
+          }
+          else if (day == 'Fri') {
+            mode = 16;
+          }
+          else if (day == 'Sat') {
+            mode = 17;
+          }
+          console.log(mode);
+          console.log(hour);
+          _infojob(datas3, targetStart, mode, hour);
+          // 毎日配信
+          _infojob(datas4, targetStart, 1, hour);
         }
       }
       return;
@@ -751,6 +875,60 @@
           subcmd = 5;
         }
       }
+      if (-1 < tokusei.indexOf('竜特性')) {
+        var toLv = parseInt(tokusei.replace('竜特性', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **竜特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 9;
+        }
+      }
+      if (-1 < tokusei.indexOf('竜')) {
+        var toLv = parseInt(tokusei.replace('竜', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **竜特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 9;
+        }
+      }
+      if (-1 < tokusei.indexOf('竜装備')) {
+        var toLv = parseInt(tokusei.replace('竜装備', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **竜特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 9;
+        }
+      }
+      if (-1 < tokusei.indexOf('龍特性')) {
+        var toLv = parseInt(tokusei.replace('竜特性', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **竜特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 9;
+        }
+      }
+      if (-1 < tokusei.indexOf('龍')) {
+        var toLv = parseInt(tokusei.replace('龍', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **竜特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 9;
+        }
+      }
+      if (-1 < tokusei.indexOf('龍装備')) {
+        var toLv = parseInt(tokusei.replace('龍装備', '').trim());
+        tokusei = '';
+        if (0 < toLv && 10 >= toLv) {
+          newSelection = toLv;
+          msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **竜特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+          subcmd = 9;
+        }
+      }
       if (-1 < tokusei.indexOf('スイート')) {
         var toLv = parseInt(tokusei.replace('スイート', '').trim());
         tokusei = '';
@@ -1076,6 +1254,7 @@
       + 'PVP特性防具の登録 **[特性 対人防具 1〜10]**\n'
       + 'スイート特性武器の登録 **[特性 スイート 1〜10]**\n'
       + '魔物特性武器の登録 **[特性 魔物 1〜10]**\n'
+      + '竜特性武器の登録 **[特性 竜 1〜10]**\n'
       + 'ボス特性武器の登録 **[特性 ボス 1〜10]**\n'
       + 'ボス石の欠片所持数の登録 **[ギロチン 120] [ザケン 120] [ギロチン 60 他の誰かの名前] [ザケン 0 使用した人の名前]**\n'
       + 'ボス石の欠片所持数の確認 **[ボス石確認]**\n'
@@ -1191,6 +1370,9 @@
                           }
                           if (8 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                             targetUser.sweet = newSelection;
+                          }
+                          if (9 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                            targetUser.dragon = newSelection;
                           }
                           if (10 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                             targetUser.level = newSelection;
@@ -1661,10 +1843,7 @@
     var date = new Date();
     var time = date.toFormat("HH24MI");
     console.log(time + " Ping Received");
-    if (time === '0000' || time === '0001' || time === '0002') {
-      // 0時0分なのでお知らせバッチ実行
-      infojob(false);
-    }
+    infojob(false);
   });
   app.listen(process.env.PORT);
 

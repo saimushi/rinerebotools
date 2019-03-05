@@ -2526,12 +2526,99 @@
 												<input type="text" name="newstag" class="form-control" placeholder="#要塞戦"/>
 												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 											</div>
+											<small style="font-size: xx-small;">
+												予定とタグで連動した場合、お知らせテキストには予定の情報を変数で利用できます
+												<br/>
+												【利用可能な変数】
+												<br/>
+												***urlview*** (参加者(閲覧者)用の予定のURL)
+												<br/>
+												***ptview*** (参加者(閲覧者)用のPT編成URL)
+												<br/>
+												***url*** (予定のURL)
+												<br/>
+												***pt*** (予定の(参加者用では無い)PT編成URL)
+												<br/>
+												***date*** (予定日時)
+												<br/>
+												***title*** (予定名)
+											</small>
 										</div>
 										<div class="form-group">
 											<div class="btn-group">
 												<input type="text" name="newsid" class="form-control" placeholder="任意:空欄は新規登録"/>
 												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 											</div>
+										</div>
+										<br/>
+										<h4>お知らせの自動通知設定</h4>
+										<small style="font-size: xx-small;">
+											※デフォルトは同じタグで設定された予定と連動した通知になっています
+											<br/>
+											設定を変えた場合、予定とは連動せずに独立して通知されます。
+										</small>
+										<div class="form-group">
+											<select class="form-control" name="newsnotifymode">
+												<option value="">同じタグの予定と連動(3日前から0時頃に通知)</option>
+												<option if={user.newsnotifymode==1} value="1" selected="selected">毎日通知</option>
+												<option if={user.newsnotifymode!=1} value="1">毎日通知</option>
+												<option if={user.newsnotifymode==11} value="11" selected="selected">毎週日曜通知</option>
+												<option if={user.newsnotifymode!=11} value="11">毎週日曜通知</option>
+												<option if={user.newsnotifymode==12} value="12" selected="selected">毎週月曜通知</option>
+												<option if={user.newsnotifymode!=12} value="12">毎週月曜通知</option>
+												<option if={user.newsnotifymode==13} value="13" selected="selected">毎週火曜通知</option>
+												<option if={user.newsnotifymode!=13} value="13">毎週火曜通知</option>
+												<option if={user.newsnotifymode==14} value="14" selected="selected">毎週水曜通知</option>
+												<option if={user.newsnotifymode!=14} value="14">毎週水曜通知</option>
+												<option if={user.newsnotifymode==15} value="15" selected="selected">毎週木曜通知</option>
+												<option if={user.newsnotifymode!=15} value="15">毎週木曜通知</option>
+												<option if={user.newsnotifymode==16} value="16" selected="selected">毎週金曜通知</option>
+												<option if={user.newsnotifymode!=16} value="16">毎週金曜通知</option>
+												<option if={user.newsnotifymode==17} value="17" selected="selected">毎週土曜通知</option>
+												<option if={user.newsnotifymode!=17} value="17">毎週土曜通知</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<select class="form-control" name="newsnotifytime">
+												<option if={user.newsnotifytime==24} value="24" selected="selected">0時頃</option>
+												<option if={user.newsnotifytime!=24} value="24">0時頃</option>
+												<option if={user.newsnotifytime==23} value="23" selected="selected">23時頃</option>
+												<option if={user.newsnotifytime!=23} value="23">23時頃</option>
+												<option if={user.newsnotifytime==22} value="22" selected="selected">22時頃</option>
+												<option if={user.newsnotifytime!=22} value="22">22時頃</option>
+												<option if={user.newsnotifytime==21} value="21" selected="selected">21時頃</option>
+												<option if={user.newsnotifytime!=21} value="21">21時頃</option>
+												<option if={user.newsnotifytime==20} value="20" selected="selected">20時頃</option>
+												<option if={user.newsnotifytime!=20} value="20">20時頃</option>
+												<option if={user.newsnotifytime==19} value="19" selected="selected">19時頃</option>
+												<option if={user.newsnotifytime!=19} value="19">19時頃</option>
+												<option if={user.newsnotifytime==18} value="18" selected="selected">18時頃</option>
+												<option if={user.newsnotifytime!=18} value="18">18時頃</option>
+												<option if={user.newsnotifytime==17} value="17" selected="selected">17時頃</option>
+												<option if={user.newsnotifytime!=17} value="17">17時頃</option>
+												<option if={user.newsnotifytime==16} value="16" selected="selected">16時頃</option>
+												<option if={user.newsnotifytime!=16} value="16">16時頃</option>
+												<option if={user.newsnotifytime==15} value="15" selected="selected">15時頃</option>
+												<option if={user.newsnotifytime!=15} value="15">15時頃</option>
+												<option if={user.newsnotifytime==14} value="14" selected="selected">14時頃</option>
+												<option if={user.newsnotifytime!=14} value="14">14時頃</option>
+												<option if={user.newsnotifytime==13} value="13" selected="selected">13時頃</option>
+												<option if={user.newsnotifytime!=13} value="13">13時頃</option>
+												<option if={user.newsnotifytime==12} value="12" selected="selected">12時頃</option>
+												<option if={user.newsnotifytime!=12} value="12">12時頃</option>
+												<option if={user.newsnotifytime==11} value="11" selected="selected">11時頃</option>
+												<option if={user.newsnotifytime!=11} value="11">11時頃</option>
+												<option if={user.newsnotifytime==10} value="10" selected="selected">10時頃</option>
+												<option if={user.newsnotifytime!=10} value="10">10時頃</option>
+												<option if={user.newsnotifytime==9} value="9" selected="selected">9時頃</option>
+												<option if={user.newsnotifytime!=9} value="9">9時頃</option>
+												<option if={user.newsnotifytime==8} value="8" selected="selected">8時頃</option>
+												<option if={user.newsnotifytime!=8} value="8">8時頃</option>
+												<option if={user.newsnotifytime==7} value="7" selected="selected">7時頃</option>
+												<option if={user.newsnotifytime!=7} value="7">7時頃</option>
+												<option if={user.newsnotifytime==6} value="6" selected="selected">6時頃</option>
+												<option if={user.newsnotifytime!=6} value="6">6時頃</option>
+											</select>
 										</div>
 										<botton class="btn btn-success" onclick="onclickRegisterNews(this)">登録</botton>
 									</form>
@@ -2548,6 +2635,7 @@
 												<th style="width:70px;">アクション</th>
 												<th>お知らせテキスト</th>
 												<th style="width:60px;">タグ</th>
+												<th style="width:60px;">通知設定</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -2558,6 +2646,37 @@
 												</td>
 												<td class="newstext"><pre>{news.text}</pre></td>
 												<td class="newstag">{news.tag}</td>
+												<td>
+													<p class="notifymode" if={'undefined' == typeof news.notifymode || 0 == news.notifymode}>同じタグ<br/>の予定<br/>と連動</p>
+													<p class="notifymode" if={1 == news.notifymode}>毎日</p>
+													<p class="notifymode" if={11 == news.notifymode}>毎週日曜</p>
+													<p class="notifymode" if={12 == news.notifymode}>毎週月曜</p>
+													<p class="notifymode" if={13 == news.notifymode}>毎週火曜</p>
+													<p class="notifymode" if={14 == news.notifymode}>毎週水曜</p>
+													<p class="notifymode" if={15 == news.notifymode}>毎週木曜</p>
+													<p class="notifymode" if={16 == news.notifymode}>毎週金曜</p>
+													<p class="notifymode" if={17 == news.notifymode}>毎週土曜</p>
+													<p class="notifytime" if={'undefined' == typeof news.notifytime || 0 == news.notifytime}>3日前<br/>から0時</p>
+													<p class="notifytime" if={24 == news.notifytime}>0時</p>
+													<p class="notifytime" if={23 == news.notifytime}>23時</p>
+													<p class="notifytime" if={22 == news.notifytime}>22時</p>
+													<p class="notifytime" if={21 == news.notifytime}>21時</p>
+													<p class="notifytime" if={20 == news.notifytime}>20時</p>
+													<p class="notifytime" if={19 == news.notifytime}>19時</p>
+													<p class="notifytime" if={18 == news.notifytime}>18時</p>
+													<p class="notifytime" if={17 == news.notifytime}>17時</p>
+													<p class="notifytime" if={16 == news.notifytime}>16時</p>
+													<p class="notifytime" if={15 == news.notifytime}>15時</p>
+													<p class="notifytime" if={14 == news.notifytime}>14時</p>
+													<p class="notifytime" if={13 == news.notifytime}>13時</p>
+													<p class="notifytime" if={12 == news.notifytime}>12時</p>
+													<p class="notifytime" if={11 == news.notifytime}>11時</p>
+													<p class="notifytime" if={10 == news.notifytime}>10時</p>
+													<p class="notifytime" if={9 == news.notifytime}>9時</p>
+													<p class="notifytime" if={8 == news.notifytime}>8時</p>
+													<p class="notifytime" if={7 == news.notifytime}>7時</p>
+													<p class="notifytime" if={6 == news.notifytime}>6時</p>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3375,11 +3494,12 @@
 											<br/>
 											<br/>
 											<h5 class="text-info">♦他にも以下のキーワードを利用する事が出来ます。</h5>
-											<h6>&nbsp;■「***ptview***」=> 参加者用のPT編成URLに自動変換されます。</h6>
+											<h6>&nbsp;■「***urlview***」=> 参加者(閲覧者)用のお知らせ通知をしたページのURLに自動変換されます。</h6>
+											<h6>&nbsp;■「***ptview***」=> 参加者(閲覧者)用のPT編成URLに自動変換されます。</h6>
 											<h6>&nbsp;■「***url***」 => お知らせ通知をしたページのURLに自動変換されます。</h6>
 											<h6>&nbsp;■「***pt***」 => お知らせ通知をしたページの(参加者用では無い)PT編成URLに自動変換されます。</h6>
 											<h6>&nbsp;■「***date***」 => お知らせ通知をしたページの予定日時に自動変換されます。</h6>
-											<h6>&nbsp;■「***title***」 => お知らせ通知をしたページの予定名に自動変換されます</h6>
+											<h6>&nbsp;■「***title***」 => お知らせ通知をしたページの予定名に自動変換されます。</h6>
 										</div>
 									</div>
 								</div>
@@ -3520,7 +3640,7 @@
 				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, boss: null, memo: '', activity: 9, joind: '', discord: '', };
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, autoReset: null, };
 				var partySchedule = {name:'', date: '', incount: 0, };
-				var news = { ID: '', text: '', tag: '', };
+				var news = { ID: '', text: '', tag: '', notifymode: 0, notifytime: 0, };
 				var partyUsers = null;
 
 				var jobimages = [];
@@ -3851,7 +3971,7 @@
 					if (data.ID != '') {
 						newsID = data.ID;
 						delete data.ID;
-						firebase.firestore().collection("news").doc(newsID).set(data).then(function(snapshot) {
+						firebase.firestore().collection("news").doc(newsID).update(data).then(function(snapshot) {
 							if (callback) {
 								callback(newsID);
 							}
@@ -4525,8 +4645,10 @@
 					var newstext = $('#editnewsform').find('textarea[name=newstext]').val();
 					var newsID = $('#editnewsform').find('input[name=newsid]').val();
 					var newstag = $('#editnewsform').find('input[name=newstag]').val();
+					var newsnotifymode = parseInt($('#editnewsform').find('select[name=newsnotifymode] option:selected').val());
+					var newsnotifytime = parseInt($('#editnewsform').find('select[name=newsnotifytime] option:selected').val());
 					if ('undefined' != typeof newstext && 0 < newstext.length) {
-						var data = { ID: newsID, text: newstext, tag: newstag, };
+						var data = { ID: newsID, text: newstext, tag: newstag, notifymode: newsnotifymode, notifytime: newsnotifytime };
 						registerNews(clan.ID, data, function (){
 							alert('登録しました。');
 							location.reload();
@@ -4653,9 +4775,96 @@
 					if ('#addnews' == location.hash) {
 						var newstext = $(target).parent().parent().find('.newstext').text();
 						var newstag = $(target).parent().parent().find('.newstag').text();
+						var newsnotifymode = '';
+						var newsnotifytime = '';
+						var notifymode = $(target).parent().parent().find('.notifymode').text();
+						var notifytime = $(target).parent().parent().find('.notifytime').text();
+						if (-1 < notifymode.indexOf('毎日')) {
+							newsnotifymode = 1;
+						}
+						else if(-1 < notifymode.indexOf('毎週日曜')) {
+							newsnotifymode = 11;
+						}
+						else if(-1 < notifymode.indexOf('毎週月曜')) {
+							newsnotifymode = 12;
+						}
+						else if(-1 < notifymode.indexOf('毎週火曜')) {
+							newsnotifymode = 13;
+						}
+						else if(-1 < notifymode.indexOf('毎週水曜')) {
+							newsnotifymode = 14;
+						}
+						else if(-1 < notifymode.indexOf('毎週木曜')) {
+							newsnotifymode = 15;
+						}
+						else if(-1 < notifymode.indexOf('毎週金曜')) {
+							newsnotifymode = 16;
+						}
+						else if(-1 < notifymode.indexOf('毎週土曜')) {
+							newsnotifymode = 17;
+						}
+						if (notifytime == '0時') {
+							newsnotifytime = 24;
+						}
+						else if (notifytime == '23時') {
+							newsnotifytime = 23;
+						}
+						else if (notifytime == '22時') {
+							newsnotifytime = 22;
+						}
+						else if (notifytime == '21時') {
+							newsnotifytime = 21;
+						}
+						else if (notifytime == '20時') {
+							newsnotifytime = 20;
+						}
+						else if (notifytime == '19時') {
+							newsnotifytime = 19;
+						}
+						else if (notifytime == '18時') {
+							newsnotifytime = 18;
+						}
+						else if (notifytime == '17時') {
+							newsnotifytime = 17;
+						}
+						else if (notifytime == '16時') {
+							newsnotifytime = 16;
+						}
+						else if (notifytime == '15時') {
+							newsnotifytime = 15;
+						}
+						else if (notifytime == '14時') {
+							newsnotifytime = 14;
+						}
+						else if (notifytime == '13時') {
+							newsnotifytime = 13;
+						}
+						else if (notifytime == '12時') {
+							newsnotifytime = 12;
+						}
+						else if (notifytime == '11時') {
+							newsnotifytime = 11;
+						}
+						else if (notifytime == '10時') {
+							newsnotifytime = 10;
+						}
+						else if (notifytime == '9時') {
+							newsnotifytime = 9;
+						}
+						else if (notifytime == '8時') {
+							newsnotifytime = 8;
+						}
+						else if (notifytime == '7時') {
+							newsnotifytime = 7;
+						}
+						else if (notifytime == '6時') {
+							newsnotifytime = 6;
+						}
 						$('#editnewsform').find('input[name=newsid]').val(rowID);
 						$('#editnewsform').find('textarea[name=newstext]').val(newstext);
 						$('#editnewsform').find('input[name=newstag]').val(newstag);
+						$('#editnewsform').find('select[name=newsnotifymode]').val(newsnotifymode);
+						$('#editnewsform').find('select[name=newsnotifytime]').val(newsnotifytime);
 						$("html,body").animate({scrollTop: 0}, "100");
 						return;
 					}
