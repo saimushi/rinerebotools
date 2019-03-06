@@ -61,9 +61,11 @@
 		  }
 			else if (agent.indexOf("opera") > -1){
 		    result = 'Opera';
+				browserEnabled = false;
 		  }
 			else if (agent.indexOf("firefox") > -1){
 		    result = 'Firefox';
+				browserEnabled = false;
 		  }
 			if (true !== browserEnabled) {
 				alert('申し訳御座いません、お使いのブラウザには現在対応していせん。\nPCでご利用の場合はGoogle Chromeを推奨します。');
