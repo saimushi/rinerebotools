@@ -27,6 +27,7 @@
       bot.executeWebhook(targetClan.discordhookid, targetClan.discordhooktoken, {
         username: 'エリカ様の血盟管理お手伝い',
         avatarURL: bot.user.dynamicAvatarURL('jpg', 256),
+        disableEveryone: false,
         content: message + '\n\n'
       });
     }
@@ -247,36 +248,42 @@
       var targetNew = targetNews[0];
       targetNews.shift();
       if (0 < targetNew.tag.length) {
-        firestore.collection("schedules").where("clanid", "==", targetClan.ID).where("tag", targetNew.tag).orderBy("date", "asc").startAt(targetStart).limit(1).get().then(function(querySnapshot) {
-          var targetEnd = Math.round(targetStart + (60 * 60 * 1000 * 24 * 6));
+        firestore.collection("schedules").where("clanid", "==", targetClan.ID).where("tag", '==', targetNew.tag).orderBy("date", "asc").startAt(targetStart).get().then(function(querySnapshot) {
+          var targetEnd = Math.round(targetStart + (60 * 60 * 1000 * 24 * 7));
+          console.log('targetStart=');
+          console.log(targetStart);
           console.log('targetEnd=');
           console.log(targetEnd);
           var data = null;
           querySnapshot.forEach(function(snapshot) {
             if(snapshot.exists) {
-              if ('undefined' != typeof snapshot.data().date) {
+              if ('undefined' != typeof snapshot.data().date && null === data) {
                 data = snapshot.data();
                 data.ID = snapshot.id;
                 data.date = data.date.toDate();
                 console.log('_notifyNews schedules data.date=');
                 console.log(data.date);
+                console.log(data.date.getTime());
                 if (targetStart > data.date.getTime()){
-                  return;
+                  data = null;
                 }
-                if (targetEnd < data.date.getTime()){
-                  return;
+                else if (targetEnd < data.date.getTime()){
+                  data = null;
                 }
-                data.date = data.date.toFormat("YYYY/MM/DD HH24:MI");
+                if (null != data) {
+                  data.date = data.date.toFormat("YYYY/MM/DD HH24:MI");
+                }
               }
             }
           });
-          _sendWebhookMessage(targetClan, data, targetNew.text);
+          _sendWebhookMessage(targetClan, data, '**【自動お知らせ通知】**\n' + targetNew.text);
           // リカーシブル
           _notifyNews(targetClans, targetClan, targetStart, notifyMode, notifyTime, targetNews);
           return;
         });
+        return;
       }
-      _sendWebhookMessage(targetClan, null, targetNew.text);
+      _sendWebhookMessage(targetClan, null, '**【自動お知らせ通知】**\n' + targetNew.text);
       // リカーシブル
       _notifyNews(targetClans, targetClan, targetStart, notifyMode, notifyTime, targetNews);
       return;
@@ -298,9 +305,9 @@
             targetNews.push(data);
           }
         });
-        console.log('targetNews=');
-        console.log(targetNews);
         if (0 < targetNews.length) {
+          console.log('targetNews=');
+          console.log(targetNews);
           _notifyNews(targetClans, targetClan, targetStart, notifyMode, notifyTime, targetNews);
         }
         else {

@@ -2621,6 +2621,7 @@
 											</select>
 										</div>
 										<botton class="btn btn-success" onclick="onclickRegisterNews(this)">登録</botton>
+										<botton if={'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnRegisterNews(this)">削除</botton>
 									</form>
 								</div>
 							</div>
@@ -3978,7 +3979,7 @@
 							loading(false);
 							return;
 						}).catch(function(error) {
-							alert('予定更新エラーが発生した為、処理を中断します。');
+							alert('お知らせ更新エラーが発生した為、処理を中断します。');
 							console.error("Error writing document: ", error);
 							// ログイン出来ていないのでログイン画面へ戻す
 							loading(false);
@@ -3993,12 +3994,30 @@
 							loading(false);
 							return;
 						}).catch(function(error) {
-							alert('予定追加エラーが発生した為、処理を中断します。');
+							alert('お知らせ追加エラーが発生した為、処理を中断します。');
 							console.error("Error writing document: ", error);
 							// ログイン出来ていないのでログイン画面へ戻す
 							loading(false);
 						});
 					}
+				};
+				var unregisterNews = function (newsID, callback) {
+					if (newsID == null || 'undefined' == typeof newsID || 1 > newsID.length) {
+						return;
+					}
+					loading(true);
+					firebase.firestore().collection("news").doc(newsID).delete().then(function(snapshot) {
+						if (callback) {
+							callback();
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('お知らせ削除エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
 				};
 				var registerSchedule = function (clanID, data, callback) {
 					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
@@ -4657,6 +4676,17 @@
 						return;
 					}
 					alert('入力が正しくない項目があった為、処理を中断します。');
+				};
+				var onclickUnRegisterNews = function (target) {
+					var newsID = $('#editnewsform').find('input[name=newsid]').val();
+					if ('undefined' != typeof newsID && 0 < newsID.length) {
+						unregisterNews(newsID, function (){
+							alert('お知らせを削除しました。');
+							location.reload();
+							return;
+						});
+					}
+					return;
 				};
 				var onclickRegister = function (target, userID, beforeUserName) {
 					var username = $('#registerform').find('input[name=username]').val();
