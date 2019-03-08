@@ -106,6 +106,10 @@
 			.table-hover>tbody>tr:hover {
 				background-color: #2dabc1;
 			}
+			navigationbar {
+				display: block;
+				height: 60px;
+			}
 			navigationbar .container {
 				width: 100%;
 			}
@@ -132,6 +136,11 @@
 			}
 			route>.riotcontes>div:first-child {
 				min-height: calc(100% - 300px);
+			}
+			.riotcontes {
+				top: 61px;
+				padding-bottom: 200px;
+				width: 100%;
 			}
 			div.row {
 				padding-left: 0;
@@ -231,6 +240,14 @@
 				margin-left: 2px;
 				margin-top: -20px;
 			}
+			app {
+				 display: block;
+				 width: 100% !important;
+				 padding-left: 0 !important;
+				 padding-right: 0 !important;
+				 margin-bottom: 20px;
+				 min-height: calc(100% - 180px - 60px - 20px);
+			}
 			@media screen and (max-width: 480px) {
 				td.jobimage p {
 					display: none;
@@ -243,9 +260,12 @@
 				z-index: 99999;
 			}
 			.footer {
+				position: relative;
 				width: 100%;
 				height: 180px;
 			  background-color: lightgray;
+				bottom: 0;
+				-webkit-transform: translate3d(0,0,0);
 			}
 			.footer div {
 				padding: 0;
@@ -326,33 +346,7 @@
 				</route>
 			</router>
 		</app>
-		<footer class="footer">
-			<p class="text-muted" style="margin: 5px; color: white;">広告から外部サイトに出られます！</p>
-			<div  class="row">
-				<!-- rakuten -->
-				<div class="col-sm-2">
-					&nbsp;
-				</div>
-				<div class="col-sm-3">
-					<table cellpadding="0" cellspacing="0" border="0" style="background-color: white; border:1px solid #ccc; width:350px;"><tr style="border-style:none;"><td style="vertical-align:top; border-style:none; padding:10px; width:75px;"><a href="https://rpx.a8.net/svt/ejp?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2Fg00qxb34.2bo1139a.g00qxb34.2bo12cfd%2Fa18080696711_2ZNAZL_FOEY9E_2HOM_BWGDT%3Fpc%3Dhttp%253A%252F%252Fitem.rakuten.co.jp%252Fkaen-web%252Fitunes10000%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252Fkaen-web%252Fi%252F10014129%252F" target="_blank" rel="nofollow"><img border="0" alt="" src="http://thumbnail.image.rakuten.co.jp/@0_mall/kaen-web/cabinet/itunes10000.jpg?_ex=64x64" /></a></td><td style="font-size:12px; vertical-align:middle; border-style:none; padding:10px;"><p style="padding:0; margin:0;"><a href="https://rpx.a8.net/svt/ejp?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2Fg00qxb34.2bo1139a.g00qxb34.2bo12cfd%2Fa18080696711_2ZNAZL_FOEY9E_2HOM_BWGDT%3Fpc%3Dhttp%253A%252F%252Fitem.rakuten.co.jp%252Fkaen-web%252Fitunes10000%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252Fkaen-web%252Fi%252F10014129%252F" target="_blank" rel="nofollow">APPLE アップル iTunesCard　アイチューンズカード10000円</a></p><p style="color:#666; margin-top:5px line-height:1.5;">価格:<span style="font-size:14px; color:#C00; font-weight:bold;">9,922円</span><br/><span style="font-size:10px; font-weight:normal;">(2018/8/6 13:08時点)</span><br/><span style="font-weight:bold;">感想(0件)</span></p></td></tr></table>
-					<img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT" alt="">
-				</div>
-				<!-- ドコモオンラインモール -->
-				<div class="col-sm-3">
-					<a href="https://px.a8.net/svt/ejp?a8mat=2ZNAZL+FPLTGY+37HI+60H7L" target="_blank" rel="nofollow">
-						<img border="0" width="350" alt="" src="https://www29.a8.net/svt/bgt?aid=180806241950&wid=001&eno=01&mid=s00000014967001010000&mc=1">
-					</a>
-					<img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=2ZNAZL+FPLTGY+37HI+60H7L" alt="">
-				</div>
-				<!-- お名前.com -->
-				<div class="col-sm-3">
-					<a href="https://px.a8.net/svt/ejp?a8mat=2ZNAZL+FP0DV6+50+2HMLEP" target="_blank" rel="nofollow">
-						<img border="0" width="140" height="140" alt="" src="https://www26.a8.net/svt/bgt?aid=180806241949&wid=001&eno=01&mid=s00000000018015054000&mc=1">
-					</a>
-					<img border="0" width="1" height="1" src="https://www14.a8.net/0.gif?a8mat=2ZNAZL+FP0DV6+50+2HMLEP" alt="">
-				</div>
-			</div>
-		</footer>
+		<footerbar></footerbar>
 
 		<!-- Riot tags -->
 		<section id="riot-tags">
@@ -392,6 +386,38 @@
 						});
 					});
 				</navigationbar>
+			</script>
+
+			<script type="riot/tag">
+				<footerbar>
+					<footer class="footer">
+						<p class="text-muted" style="margin: 5px; color: white;">広告から外部サイトに出られます！</p>
+						<div  class="row">
+							<!-- rakuten -->
+							<div class="col-sm-2">
+								&nbsp;
+							</div>
+							<div class="col-sm-3">
+								<table cellpadding="0" cellspacing="0" border="0" style="background-color: white; border:1px solid #ccc; width:350px;"><tr style="border-style:none;"><td style="vertical-align:top; border-style:none; padding:10px; width:75px;"><a href="https://rpx.a8.net/svt/ejp?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2Fg00qxb34.2bo1139a.g00qxb34.2bo12cfd%2Fa18080696711_2ZNAZL_FOEY9E_2HOM_BWGDT%3Fpc%3Dhttp%253A%252F%252Fitem.rakuten.co.jp%252Fkaen-web%252Fitunes10000%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252Fkaen-web%252Fi%252F10014129%252F" target="_blank" rel="nofollow"><img border="0" alt="" src="http://thumbnail.image.rakuten.co.jp/@0_mall/kaen-web/cabinet/itunes10000.jpg?_ex=64x64" /></a></td><td style="font-size:12px; vertical-align:middle; border-style:none; padding:10px;"><p style="padding:0; margin:0;"><a href="https://rpx.a8.net/svt/ejp?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT&rakuten=y&a8ejpredirect=http%3A%2F%2Fhb.afl.rakuten.co.jp%2Fhgc%2Fg00qxb34.2bo1139a.g00qxb34.2bo12cfd%2Fa18080696711_2ZNAZL_FOEY9E_2HOM_BWGDT%3Fpc%3Dhttp%253A%252F%252Fitem.rakuten.co.jp%252Fkaen-web%252Fitunes10000%252F%26m%3Dhttp%253A%252F%252Fm.rakuten.co.jp%252Fkaen-web%252Fi%252F10014129%252F" target="_blank" rel="nofollow">APPLE アップル iTunesCard　アイチューンズカード10000円</a></p><p style="color:#666; margin-top:5px line-height:1.5;">価格:<span style="font-size:14px; color:#C00; font-weight:bold;">9,922円</span><br/><span style="font-size:10px; font-weight:normal;">(2018/8/6 13:08時点)</span><br/><span style="font-weight:bold;">感想(0件)</span></p></td></tr></table>
+								<img border="0" width="1" height="1" src="https://www18.a8.net/0.gif?a8mat=2ZNAZL+FOEY9E+2HOM+BWGDT" alt="">
+							</div>
+							<!-- ドコモオンラインモール -->
+							<div class="col-sm-3">
+								<a href="https://px.a8.net/svt/ejp?a8mat=2ZNAZL+FPLTGY+37HI+60H7L" target="_blank" rel="nofollow">
+									<img border="0" width="350" alt="" src="https://www29.a8.net/svt/bgt?aid=180806241950&wid=001&eno=01&mid=s00000014967001010000&mc=1">
+								</a>
+								<img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=2ZNAZL+FPLTGY+37HI+60H7L" alt="">
+							</div>
+							<!-- お名前.com -->
+							<div class="col-sm-3">
+								<a href="https://px.a8.net/svt/ejp?a8mat=2ZNAZL+FP0DV6+50+2HMLEP" target="_blank" rel="nofollow">
+									<img border="0" width="140" height="140" alt="" src="https://www26.a8.net/svt/bgt?aid=180806241949&wid=001&eno=01&mid=s00000000018015054000&mc=1">
+								</a>
+								<img border="0" width="1" height="1" src="https://www14.a8.net/0.gif?a8mat=2ZNAZL+FP0DV6+50+2HMLEP" alt="">
+							</div>
+						</div>
+					</footer>
+				</footerbar>
 			</script>
 
 			<script type="riot/tag">
@@ -585,9 +611,9 @@
 						<div class="col-sm-1">
 							&nbsp;
 						</div>
-						<div class="col-sm-3 bg-primary" style="margin-top: 50px; padding: 30px;">
+						<div class="col-sm-3 bg-primary" style="margin-top: 30px; padding: 30px;">
 							<h4>血盟ログイン</h4>
-							<form id="loginform">
+							<form id="loginform" onsubmit="return onclickLogin(this);">
 								<div class="form-group">
 									<div class="btn-group">
 										<input type="text" name="clanID" class="form-control" placeholder="血盟ID"/>
@@ -616,7 +642,7 @@
 						</div>
 					</div>
 					<!-- 次行 -->
-					<div class="row parent-container">
+					<div class="row parent-container" style="padding-bottom: 140px">
 						<div class="col-sm-1">
 							&nbsp;
 						</div>
@@ -637,6 +663,7 @@
 						</div>
 					</div>
 					this.on('mount', function() {
+						riot.mount('footerbar');
 						$('.parent-container').magnificPopup({
   						delegate: 'a',
   						type: 'image',
@@ -655,35 +682,36 @@
 						<form id="registerClanform">
 							<div class="form-group">
 								<div class="btn-group">
-									<input type="text" name="clan" value="{clan.name}" class="form-control" placeholder="血盟名"/>
+									<input type="text" name="clan" value="{clan.name}" class="form-control" placeholder="(必須)血盟名"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
+								<small class="text-danger">※必須</small>
 							</div>
 							<div class="form-group">
 								<div class="btn-group">
-									<input type="text" name="url" value="{clan.url}" class="form-control" placeholder="血盟コミュニティURL"/>
+									<input type="text" name="url" value="{clan.url}" class="form-control" placeholder="(任意)血盟コミュニティURL"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
+								<small class="text-info">※任意</small>
 							</div>
 							<div if={'#setting' == location.hash} class="form-group">
 								<div class="btn-group">
-									<input type="text" name="discordhookid" value="{clan.discordhookid}" class="form-control" placeholder="Discord Webhook ID"/>
+									<input type="text" name="discordwebhook" value="{clan.discordwebhook}" class="form-control" placeholder="(任意)https://discordapp.com/api/webhooks/473768563144916994/SCTXRlLW_uGeATZwyqU72nzU1tviFZHvVkoAMA_Q8wN5macrPFZsrxP6eMFpe3tJ8val"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
-							</div>
-							<div if={'#setting' == location.hash} class="form-group">
-								<div class="btn-group">
-									<input type="text" name="discordhooktoken" value="{clan.discordhooktoken}" class="form-control" placeholder="Discord Webhook Token"/>
-									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
-								</div>
+								<small class="text-info">※任意 DiscordのWebhooks設定の「WEBHOOK URL」をそのままコピペして下さい</small>
 							</div>
 							<botton class="btn btn-success" onclick="onclickRegisterClan(this)">登録</botton>
 						</form>
 					</div>
-					var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
+					var clan = { ID: '', name: '', discordwebhook: '', discordhookid: '', discordhooktoken: '', };
 					this.on('mount', function() {
 						if ('#setting' == location.hash && 'undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length) {
 							auth(false, function (clan) {
+								// modifyモード
+								if ('string' == typeof clan.discordhookid && 'string' == typeof clan.discordhooktoken && 0 < clan.discordhookid.length && 0 < clan.discordhooktoken.length) {
+									clan.discordwebhook = 'https://discordapp.com/api/webhooks/'+ clan.discordhookid + '/' + clan.discordhooktoken;
+								}
 								// modifyモード
 								this.clan = clan;
 								riot.update();
@@ -695,7 +723,7 @@
 
 			<script type="riot/tag">
 				<adduser>
-					<div style="padding: 10px;">
+					<div style="padding-left: 10px; padding-right: 10px;">
 						<h2>血盟員追加</h2>
 						<form id="registerform">
 							<div class="form-group">
@@ -1843,6 +1871,7 @@
 						}
 						else {
 							auth(false, function (clan) {
+								$('footer').hide();
 								// APIからデータを撮ってくる
 								getSchedule(getParams['scheduleid'], function(schedule) {
 									getScheduleUsers(getParams['scheduleid'], null, function(entryOKUsers) {
@@ -2706,7 +2735,7 @@
 				<contribution>
 					<div  class="row">
 						<div class="col-xs-4">
-							<div class="container-fluid" style="padding: 10px;">
+							<div class="container-fluid" style="padding-left: 10px; padding-right: 10px;">
 								<h3>週間貢献度集計 {targetDate}</h3>
 								<div if={'on'!= getParams['view']}>
 									<form id="entrycontributionform">
@@ -3444,7 +3473,7 @@
 							</div>
 						</div>
 						<div class="col-xs-8">
-							<div class="container-fluid">
+							<div class="container-fluid" style="padding-bottom: 10px;">
 								<div id="helpContents" class="helpimage-container" style="padding-left: 10px; padding-right: 10px;">
 									<div class="bg-info helppanel">
 										<h4 id="help1" class="text-info">●要塞戦の出欠を取りたい場合はどうすれば良いですか？</h4>
@@ -3817,6 +3846,9 @@
 										newhref = newhref.replace('#dashboard', '&view=on#dashboard');
 									}
 									location.href = newhref;
+								}
+								if (!('undefined' == typeof clan.adddisabled && clan.adddisabled)) {
+									riot.mount('footerbar');
 								}
 								if (callback) {
 									callback(data);
@@ -4504,6 +4536,7 @@
 				var onclickLogin = function (target) {
 					var clanID = $('#loginform').find('input[name=clanID]').val();
 					auth(clanID);
+					return false;
 				};
 				var onclickAddClan = function (target) {
 					location.href='#addclan';
@@ -4514,17 +4547,17 @@
 					var updateClnaID = null;
 					if (0 < clanname.length) {
 						var data = {name: clanname, url: clanurl};
-						var webhookID = $('#registerClanform').find('input[name=discordhookid]').val();
-						var webhookToken = $('#registerClanform').find('input[name=discordhooktoken]').val();
-						if ('undefined' != typeof webhookID && 0 < webhookID.length) {
-							data.discordhookid = webhookID;
-						}
-						if ('undefined' != typeof webhookToken && 0 < webhookToken.length) {
-							data.discordhooktoken = webhookToken;
+						var webhook = $('#registerClanform').find('input[name=discordwebhook]').val();
+						var webhooks = webhook.split('/');
+						console.log(webhooks);
+						if (6 <= webhooks.length && 10 <= webhooks[webhooks.length-1].length && 68 <= webhooks[webhooks.length-2]) {
+							data.discordhookid = webhooks[webhooks.length-2];
+							data.discordhooktoken = webhooks[webhooks.length-1];
 						}
 						if ('#setting' == location.hash && 'undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length) {
 							updateClnaID = getParams['clanid'];
 						}
+						console.log(data);
 						registerClan(updateClnaID, data, function (newClanID){
 							alert('登録しました。');
 							if ('#addclan' == location.hash) {
@@ -5216,7 +5249,6 @@
 					getParams = getUrlVars();
 					$(window).load(function() {
 						riot.mount('navigationbar');
-						riot.mount('footerbar');
 						riot.mount('donation');
 						riot.mount('router');
 						loading(false);

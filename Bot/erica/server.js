@@ -464,7 +464,12 @@
         cmd = 0;
       }
     }
-    else if (0 === msg.content.indexOf('参加 ') || msg.content == '参加' || msg.content == 'ハァハァ' || msg.content == 'ハアハア') {
+    else if (0 === msg.content.indexOf('参加 ') || msg.content == '参加' || 0 < msg.content.indexOf('参戦') || 0 < msg.content.indexOf('参加') || msg.content == 'ハァハァ' || msg.content == 'ハアハア') {
+      if (0 !== msg.content.indexOf('参加 ') && msg.content != '参加') {
+        if ('ナリ☆助#0933' != msg.author.username + '#' + msg.author.discriminator && 'ナレノハテ明美#6358' == msg.author.username + '#' + msg.author.discriminator) {
+          return;
+        }
+      }
       if (msg.content == 'ハァハァ' || msg.content == 'ハアハア') {
         if ('ナレノハテ明美#6358' == msg.author.username + '#' + msg.author.discriminator) {
           msg.channel.createMessage('アナタ・・・出るのね・・・ハァハァ\n');
