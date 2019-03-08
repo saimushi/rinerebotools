@@ -466,7 +466,7 @@
     }
     else if (0 === msg.content.indexOf('参加 ') || msg.content == '参加' || 0 < msg.content.indexOf('参戦') || 0 < msg.content.indexOf('参加') || msg.content == 'ハァハァ' || msg.content == 'ハアハア') {
       if (0 !== msg.content.indexOf('参加 ') && msg.content != '参加') {
-        if ('ナリ☆助#0933' != msg.author.username + '#' + msg.author.discriminator && 'ナレノハテ明美#6358' == msg.author.username + '#' + msg.author.discriminator) {
+        if ('ナリ☆助#0933' != msg.author.username + '#' + msg.author.discriminator && 'ナレノハテ明美#6358' != msg.author.username + '#' + msg.author.discriminator) {
           return;
         }
       }
@@ -1215,6 +1215,12 @@
         return;
       }
     }
+    else if (0 == msg.content.indexOf('http://127.0.0.1:3000/?clanid=') || 0 == msg.content.indexOf('https://line2revo.fun/?clanid=')) {
+      cmd = 8;
+      var newTopicID = msg.content;
+      msg.channel.createMessage('<@' + msg.author.id + '> このチャンネルのトピックを今貰った血盟管理ツールURLの情報に書き換えるのね！任せて！\n'
+      + 'このチャンネルを血盟管理ツールと連動するって事よね。きっといい結果になると思うわよ★\n');
+    }
     else if (-1 < msg.content.indexOf('エリカ様今日悲しいことあった')) {
       var randnum = 1 + Math.floor( Math.random() * 100 );
       if (randnum > 40 && randnum < 50) {
@@ -1304,13 +1310,26 @@
       return;
     }
     else {
-      if ('string' == typeof msg.channel.topic && -1 < msg.channel.topic.indexOf('clanid=')) {
+      if ('string' == typeof newTopicID || true == ('string' == typeof msg.channel.topic && -1 < msg.channel.topic.indexOf('clanid='))) {
+        var clanID = null;
         var scheduleID = null;
-        var clanID = msg.channel.topic.replace('clanid=', '').replace("\r", '').replace("\n", '').replace("&", '');
-        if (-1 < clanID.indexOf('scheduleid=')) {
-          var splited = clanID.split('scheduleid=');
-          clanID = splited[0];
-          scheduleID = splited[1];
+        if ('string' == typeof newTopicID) {
+          var splitTopics = new URL(newTopicID);
+          clanID = splitTopics.searchParams.get('clanid');
+          var _scheduleID = splitTopics.searchParams.get('scheduleid');
+          if (_scheduleID) {
+            scheduleID = _scheduleID;
+            // コマンドを上位コマンドに改定
+            cmd = 9;
+          }
+        }
+        else {
+          clanID = msg.channel.topic.replace('clanid=', '').replace("\r", '').replace("\n", '').replace("&", '');
+          if (-1 < clanID.indexOf('scheduleid=')) {
+            var splited = clanID.split('scheduleid=');
+            clanID = splited[0];
+            scheduleID = splited[1];
+          }
         }
         console.log('clanID:[' + clanID + ']');
         console.log('scheduleID:[' + scheduleID + ']');
@@ -1330,7 +1349,7 @@
   					if ('undefined' != typeof clan.name && 0 < clan.name.length) {
               console.log('clan exists!');
               msg.channel.createMessage('<@' + msg.author.id + '> このチャンネルに該当する血盟登録が見つかったわ！\n***' + clan.name + '*** ね！\n');
-              if (1 == cmd || 4 == cmd || 5 == cmd) {
+              if (1 == cmd || 4 == cmd || 5 == cmd || 8 == cmd || 9 == cmd) {
                 // 血盟員の一覧を取得し、更新対象を特定する
                 firestore.collection("users").where('clanid', '==', clanID).where('activity', '>', -9).get().then(function(querySnapshot) {
                   var targetUserID = null;
@@ -1500,10 +1519,27 @@
                       msg.channel.createMessage('**このエラーは想定外！**\n作者に問い合わせのが懸命よ。きっとバグね・・・\nhttps://line2revo.fun/#inquiry\n');
                     });
                   }
-                  else if (4 == cmd || 5 == cmd) {
+                  if (8 == cmd) {
+                    msg.channel.edit({topic: 'clanid=' + clanID }).then(function(){
+                      msg.channel.createMessage('<@' + msg.author.id + '> トピックの設定を変えたわ！コレでこのチャンネルは血盟管理ツールと連動出来たハズよ！\nエリカに「エリカ様お願いします助けて下さい」って言ったらしょうが無いから使い方教えて上げるっ♥\n');
+                      return;
+                    }).catch(function(error) {
+                      console.error("Error topic edit 8 error: ", error);
+                      if ('object' == typeof error && -1 < error.toString().indexOf('Missing Permissions')) {
+                        msg.channel.createMessage('<@' + msg.author.id + '> ゴメンナサイ、トピックの設定を変える権限がエリカにないみたい・・・エリカの「チャンネルの管理」権限がONになってるか設定を確認してもらえる・・・？\n');
+                      }
+                      else {
+                        console.error("Error read schedule users: ", error);
+                        msg.channel.createMessage('**このエラーは想定外！**\n作者に問い合わせのが懸命よ。きっとバグね・・・\nhttps://line2revo.fun/#inquiry\n');
+                      }
+                      return;
+                    });
+                    return;
+                  }
+                  else if (4 == cmd || 5 == cmd || 9 == cmd) {
                     if (null === scheduleID) {
                       msg.channel.createMessage('このチャンネルに該当する予定が見当たらないわ・・・\nチャンネルのトピックにscheduleIDが「clanid=' + clanID + '&scheduleid=j3HQKbDdIirJgvZ0yNrf(※自身の血盟のscheduleidに置き換えて)」みたいにちゃんと設定されてるか確認してみて！\n'
-                      + '設定する値は予定ページのURL「 https://line2revo.fun/?clanid=z77eo2eYNkFEW9emP3bn&scheduleid=j3HQKbDdIirJgvZ0yNrf#detailschedule 」の「clanid=z77eo2eYNkFEW9emP3bn&scheduleid=j3HQKbDdIirJgvZ0yNrf」の部分を指定すると良いわよ！\n');
+                      + '設定する値は予定ページのURL「 https://line2revo.fun/?clanid=**貴方の血盟のclnaID**&scheduleid=**連携したい予定のscheduleID**#detailschedule 」を言ってくれたら私が代わりに設定することも出来るわよ！\n');
                       return;
                     }
                     // firbase問い合わせ
@@ -1521,7 +1557,24 @@
                         console.log('targetSchedule=');
                         console.log(targetSchedule);
                         incount = targetSchedule.incount;
-                        msg.channel.createMessage('該当する予定が見つかったわ！\n**' + dateLabel + 'に予定さている「' + targetSchedule.name + '」**ね！\n現在 **' + incount + '名** が参加予定になってるわ。\n');
+                        msg.channel.createMessage('<@' + msg.author.id + '> 該当する予定が見つかったわ！\n**' + dateLabel + 'に予定さている「' + targetSchedule.name + '」**ね！\n現在 **' + incount + '名** が参加予定になってるわ。\n');
+                        if (9 == cmd) {
+                          msg.channel.edit({topic: 'clanid=' + clanID + '&scheduleid=' + scheduleID }).then(function(){
+                            msg.channel.createMessage('<@' + msg.author.id + '> トピックの設定を変えたわ！コレでこのチャンネルは予定と連動出来たハズよ！\nエリカに「エリカ様お願いします助けて下さい」って言ったらしょうが無いから使い方教えて上げるっ♥\n');
+                            return;
+                          }).catch(function(error) {
+                            console.error("Error topic edit 8 error: ", error);
+                            if ('object' == typeof error && -1 < error.toString().indexOf('Missing Permissions')) {
+                              msg.channel.createMessage('<@' + msg.author.id + '> ゴメンナサイ、トピックの設定を変える権限がエリカにないみたい・・・エリカの「チャンネルの管理」権限がONになってるか設定を確認してもらえる・・・？\n');
+                            }
+                            else {
+                              console.error("Error read schedule users: ", error);
+                              msg.channel.createMessage('**このエラーは想定外！**\n作者に問い合わせのが懸命よ。きっとバグね・・・\nhttps://line2revo.fun/#inquiry\n');
+                            }
+                            return;
+                          });
+                          return;
+                        }
                         if (5 == cmd) {
                           console.log('targetUsers=');
                           console.log(targetUsers);
@@ -1687,13 +1740,13 @@
                       }
                       if (false === targetSchedule) {
                         msg.channel.createMessage('このチャンネルに該当する予定が見当たらないわ・・・\nチャンネルのトピックにscheduleIDが「clanid=' + clanID + '&scheduleid=j3HQKbDdIirJgvZ0yNrf(※自身の血盟のscheduleidに置き換えて)」みたいにちゃんと設定されてるか確認してみて！\n'
-                        + '設定する値は予定ページのURL「 https://line2revo.fun/?clanid=z77eo2eYNkFEW9emP3bn&scheduleid=j3HQKbDdIirJgvZ0yNrf#detailschedule 」の「clanid=z77eo2eYNkFEW9emP3bn&scheduleid=j3HQKbDdIirJgvZ0yNrf」の部分を指定すると良いわよ！\n');
+                        + '設定する値は予定ページのURL「 https://line2revo.fun/?clanid=**貴方の血盟のclnaID**&scheduleid=**連携したい予定のscheduleID**#detailschedule 」を言ってくれたら私が代わりに設定することも出来るわよ！\n');
                         return;
                       }
               			}).catch(function(error) {
               				console.error("Error read schedule: ", error);
                       msg.channel.createMessage('このチャンネルに該当する予定が見当たらないわ・・・\nチャンネルのトピックにscheduleIDが「clanid=' + clanID + '&scheduleid=j3HQKbDdIirJgvZ0yNrf(※自身の血盟のscheduleidに置き換えて)」みたいにちゃんと設定されてるか確認してみて！\n'
-                      + '設定する値は予定ページのURL「 https://line2revo.fun/?clanid=z77eo2eYNkFEW9emP3bn&scheduleid=j3HQKbDdIirJgvZ0yNrf#detailschedule 」の「clanid=z77eo2eYNkFEW9emP3bn&scheduleid=j3HQKbDdIirJgvZ0yNrf」の部分を指定すると良いわよ！\n');
+                      + '設定する値は予定ページのURL「 https://line2revo.fun/?clanid=**貴方の血盟のclnaID**&scheduleid=**連携したい予定のscheduleID**#detailschedule 」を言ってくれたら私が代わりに設定することも出来るわよ！\n');
                       return;
                     });
                   }
@@ -1826,15 +1879,18 @@
             }
             return;
           }
-          msg.channel.createMessage('このチャンネルに該当する血盟登録が見当たらないわ・・・\nチャンネルのトピックにclanIDが「clanid=z77eo2eYNkFEW9emP3bn(※自身の血盟のclanIDに置き換えて)」みたいにちゃんと設定されてるか確認してみて！\n');
+          msg.channel.createMessage('このチャンネルに該当する血盟登録が見当たらないわ・・・\nチャンネルのトピックにclanIDが「clanid=z77eo(※自身の血盟のclanIDに置き換えて)9emP3bn」みたいにちゃんと設定されてるか確認してみて！\n'
+          + '設定されて居なかったら貴方の血盟管理ツールの血盟ページURLをここに書いてくれれば私が代わりに設定出来るかも！試してみて！');
           return;
 			}).catch(function(error) {
   				console.error("Error read clan: ", error);
-          msg.channel.createMessage('このチャンネルに該当する血盟登録が見当たらないわ・・・\nチャンネルのトピックにclanIDが「clanid=z77eo2eYNkFEW9emP3bn(※自身の血盟のclanIDに置き換えて)」みたいにちゃんと設定されてるか確認してみて！\n');
+          msg.channel.createMessage('このチャンネルに該当する血盟登録が見当たらないわ・・・\nチャンネルのトピックにclanIDが「clanid=z77eo(※自身の血盟のclanIDに置き換えて)9emP3bn」みたいにちゃんと設定されてるか確認してみて！\n'
+          + '設定されて居なかったら貴方の血盟管理ツールの血盟ページURLをここに書いてくれれば私が代わりに設定出来るかも！試してみて！');
         });
         return;
       }
-      msg.channel.createMessage('このチャンネルに該当する血盟登録が見当たらないわ・・・\nチャンネルのトピックにclanIDが「clanid=z77eo2eYNkFEW9emP3bn(※自身の血盟のclanIDに置き換えて)」みたいにちゃんと設定されてるか確認してみて！\n');
+      msg.channel.createMessage('このチャンネルに該当する血盟登録が見当たらないわ・・・\nチャンネルのトピックにclanIDが「clanid=z77eo(※自身の血盟のclanIDに置き換えて)9emP3bn」みたいにちゃんと設定されてるか確認してみて！\n'
+      + '設定されて居なかったら貴方の血盟管理ツールの血盟ページURLをここに書いてくれれば私が代わりに設定出来るかも！試してみて！');
       return;
     }
     return;
