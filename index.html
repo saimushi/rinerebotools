@@ -3109,6 +3109,7 @@
 							}
 							console.log(lines);
 							var fields = lines[0].replace(/[\r\n]/g, '').trim().split(',');
+							console.log(fields);
 							if (19 > fields.length){
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
@@ -3122,7 +3123,7 @@
 							 || 0 > fields[6].indexOf('武器コス')
 							 || 0 > fields[7].indexOf('マント')
 							 || 0 > fields[8].indexOf('Lv')
-							 || 0 > fields[9].indexOf('ディフェンスゾーンLv')
+							 || (0 > fields[9].indexOf('ディフェンスゾーンLv') || 0 > fields[9].indexOf('Dz'))
 							 || 0 > fields[10].indexOf('対人攻撃特性')
 							 || 0 > fields[11].indexOf('対人防御特性(平均)')
 							 || 0 > fields[12].indexOf('スイート特性')
@@ -3145,7 +3146,7 @@
 								var cols = line.split(',');
 								console.log(cols);
 								if (19 > cols.length){
-									alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
+									alert('項目が足らない行がありました。\n' + lidx + '行目か' + (lidx+1) + '行目かを確認して下さい。');
 									return;
 								}
 								var _user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: 0, meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, boss: null, memo: '', activity: 9, joind: '' };
@@ -5132,6 +5133,9 @@
 								label = 'メテオLv';
 							}
 							else if (label == 'DZ') {
+								label = 'ディフェンスゾーンLv';
+							}
+							else if (label == 'Dz') {
 								label = 'ディフェンスゾーンLv';
 							}
 							else if (label == '区') {
