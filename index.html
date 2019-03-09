@@ -3062,12 +3062,13 @@
 									<td if={opts.mode=='contribution' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
 									<td if={opts.mode=='contribution' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
 									<td if={user.dzone==10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dzone}</td>
-									<td if={user.dzone!=10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dzone}</td>
+									<td if={isNaN(user.dzone)} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;"></td>
+									<td if={!isNaN(user.dzone) && user.dzone!=10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dzone}</td>
 									<td if={!opts.mode || opts.submode=='gvg'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpat}</td>
 									<td if={!opts.mode || opts.submode=='gvg'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpdf}</td>
 									<td if={!opts.mode || opts.submode=='gvg'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: yellow; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.sweet}</td>
 									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.mamono}</td>
-									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dragon}</td>
+									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dragon}</td>
 									<td if={!opts.mode || opts.submode=='bossraid'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.boss}</td>
 									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">AC</td>
 									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">IAC</td>
@@ -3187,7 +3188,7 @@
 								_user.manto = cols[7].trim();
 								_user.level = parseInt(cols[8].trim());
 								_user.meteo = 10;
-								_user.dzone = parseInt(cols[9].trim());
+								_user.dzone = (cols[9].trim() == '')? null: parseInt(cols[9].trim());
 								_user.pvpat = (cols[10].trim() == '')? null: parseInt(cols[10].trim());
 								_user.pvpdf = (cols[11].trim() == '')? null: parseInt(cols[11].trim());
 								_user.sweet = (cols[12].trim() == '')? null: parseInt(cols[12].trim());
