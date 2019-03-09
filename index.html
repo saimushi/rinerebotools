@@ -4548,11 +4548,13 @@
 					if (0 < clanname.length) {
 						var data = {name: clanname, url: clanurl};
 						var webhook = $('#registerClanform').find('input[name=discordwebhook]').val();
-						var webhooks = webhook.split('/');
-						console.log(webhooks);
-						if (6 <= webhooks.length && 10 <= webhooks[webhooks.length-1].length && 68 <= webhooks[webhooks.length-2]) {
-							data.discordhookid = webhooks[webhooks.length-2];
-							data.discordhooktoken = webhooks[webhooks.length-1];
+						if ('string' == typeof webhook) {
+							var webhooks = webhook.split('/');
+							console.log(webhooks);
+							if (6 <= webhooks.length && 10 <= webhooks[webhooks.length-1].length && 68 <= webhooks[webhooks.length-2]) {
+								data.discordhookid = webhooks[webhooks.length-2];
+								data.discordhooktoken = webhooks[webhooks.length-1];
+							}
 						}
 						if ('#setting' == location.hash && 'undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length) {
 							updateClnaID = getParams['clanid'];
