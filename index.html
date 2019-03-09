@@ -3123,12 +3123,12 @@
 							 || 0 > fields[6].indexOf('武器コス')
 							 || 0 > fields[7].indexOf('マント')
 							 || 0 > fields[8].indexOf('Lv')
-							 || (0 > fields[9].indexOf('ディフェンスゾーンLv') || 0 > fields[9].indexOf('Dz'))
+							 || true == (0 > fields[9].indexOf('ディフェンスゾーンLv') && 0 > fields[9].indexOf('Dz'))
 							 || 0 > fields[10].indexOf('対人攻撃特性')
 							 || 0 > fields[11].indexOf('対人防御特性(平均)')
 							 || 0 > fields[12].indexOf('スイート特性')
 							 || 0 > fields[13].indexOf('魔物特性')
-							 || 0 > fields[14].indexOf('竜特性')
+							 || true == (0 > fields[14].indexOf('竜特性') && 0 > fields[14].indexOf('竜'))
 							 || 0 > fields[15].indexOf('ボス特性')
 							 || 0 > fields[16].indexOf('区分')
 							 || 0 > fields[17].indexOf('入隊日')
@@ -5128,6 +5128,9 @@
 							}
 							else if (label == 'ボ') {
 								label = 'ボス特性';
+							}
+							else if (label == '竜') {
+								label = '竜特性';
 							}
 							else if (label == 'メ') {
 								label = 'メテオLv';
