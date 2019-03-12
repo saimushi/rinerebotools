@@ -2590,65 +2590,39 @@
 										</small>
 										<div class="form-group">
 											<select class="form-control" name="newsnotifymode">
-												<option value="">同じタグの予定と連動(3日前から0時頃に通知)</option>
-												<option if={user.newsnotifymode==1} value="1" selected="selected">毎日通知</option>
-												<option if={user.newsnotifymode!=1} value="1">毎日通知</option>
-												<option if={user.newsnotifymode==11} value="11" selected="selected">毎週日曜通知</option>
-												<option if={user.newsnotifymode!=11} value="11">毎週日曜通知</option>
-												<option if={user.newsnotifymode==12} value="12" selected="selected">毎週月曜通知</option>
-												<option if={user.newsnotifymode!=12} value="12">毎週月曜通知</option>
-												<option if={user.newsnotifymode==13} value="13" selected="selected">毎週火曜通知</option>
-												<option if={user.newsnotifymode!=13} value="13">毎週火曜通知</option>
-												<option if={user.newsnotifymode==14} value="14" selected="selected">毎週水曜通知</option>
-												<option if={user.newsnotifymode!=14} value="14">毎週水曜通知</option>
-												<option if={user.newsnotifymode==15} value="15" selected="selected">毎週木曜通知</option>
-												<option if={user.newsnotifymode!=15} value="15">毎週木曜通知</option>
-												<option if={user.newsnotifymode==16} value="16" selected="selected">毎週金曜通知</option>
-												<option if={user.newsnotifymode!=16} value="16">毎週金曜通知</option>
-												<option if={user.newsnotifymode==17} value="17" selected="selected">毎週土曜通知</option>
-												<option if={user.newsnotifymode!=17} value="17">毎週土曜通知</option>
+												<option value="">同じタグの予定と連動</option>
+												<option value="1">毎日通知</option>
+												<option value="11">毎週日曜通知</option>
+												<option value="12">毎週月曜通知</option>
+												<option value="13">毎週火曜通知</option>
+												<option value="14">毎週水曜通知</option>
+												<option value="15">毎週木曜通知</option>
+												<option value="16">毎週金曜通知</option>
+												<option value="17">毎週土曜通知</option>
 											</select>
 										</div>
 										<div class="form-group">
 											<select class="form-control" name="newsnotifytime">
-												<option if={user.newsnotifytime==24} value="24" selected="selected">0時頃</option>
-												<option if={user.newsnotifytime!=24} value="24">0時頃</option>
-												<option if={user.newsnotifytime==23} value="23" selected="selected">23時頃</option>
-												<option if={user.newsnotifytime!=23} value="23">23時頃</option>
-												<option if={user.newsnotifytime==22} value="22" selected="selected">22時頃</option>
-												<option if={user.newsnotifytime!=22} value="22">22時頃</option>
-												<option if={user.newsnotifytime==21} value="21" selected="selected">21時頃</option>
-												<option if={user.newsnotifytime!=21} value="21">21時頃</option>
-												<option if={user.newsnotifytime==20} value="20" selected="selected">20時頃</option>
-												<option if={user.newsnotifytime!=20} value="20">20時頃</option>
-												<option if={user.newsnotifytime==19} value="19" selected="selected">19時頃</option>
-												<option if={user.newsnotifytime!=19} value="19">19時頃</option>
-												<option if={user.newsnotifytime==18} value="18" selected="selected">18時頃</option>
-												<option if={user.newsnotifytime!=18} value="18">18時頃</option>
-												<option if={user.newsnotifytime==17} value="17" selected="selected">17時頃</option>
-												<option if={user.newsnotifytime!=17} value="17">17時頃</option>
-												<option if={user.newsnotifytime==16} value="16" selected="selected">16時頃</option>
-												<option if={user.newsnotifytime!=16} value="16">16時頃</option>
-												<option if={user.newsnotifytime==15} value="15" selected="selected">15時頃</option>
-												<option if={user.newsnotifytime!=15} value="15">15時頃</option>
-												<option if={user.newsnotifytime==14} value="14" selected="selected">14時頃</option>
-												<option if={user.newsnotifytime!=14} value="14">14時頃</option>
-												<option if={user.newsnotifytime==13} value="13" selected="selected">13時頃</option>
-												<option if={user.newsnotifytime!=13} value="13">13時頃</option>
-												<option if={user.newsnotifytime==12} value="12" selected="selected">12時頃</option>
-												<option if={user.newsnotifytime!=12} value="12">12時頃</option>
-												<option if={user.newsnotifytime==11} value="11" selected="selected">11時頃</option>
-												<option if={user.newsnotifytime!=11} value="11">11時頃</option>
-												<option if={user.newsnotifytime==10} value="10" selected="selected">10時頃</option>
-												<option if={user.newsnotifytime!=10} value="10">10時頃</option>
-												<option if={user.newsnotifytime==9} value="9" selected="selected">9時頃</option>
-												<option if={user.newsnotifytime!=9} value="9">9時頃</option>
-												<option if={user.newsnotifytime==8} value="8" selected="selected">8時頃</option>
-												<option if={user.newsnotifytime!=8} value="8">8時頃</option>
-												<option if={user.newsnotifytime==7} value="7" selected="selected">7時頃</option>
-												<option if={user.newsnotifytime!=7} value="7">7時頃</option>
-												<option if={user.newsnotifytime==6} value="6" selected="selected">6時頃</option>
-												<option if={user.newsnotifytime!=6} value="6">6時頃</option>
+											<option value="">3日前から0時頃に通知</option>
+												<option value="24">0時頃</option>
+												<option value="23">23時頃</option>
+												<option value="22">22時頃</option>
+												<option value="21">21時頃</option>
+												<option value="20">20時頃</option>
+												<option value="19">19時頃</option>
+												<option value="18">18時頃</option>
+												<option value="17">17時頃</option>
+												<option value="16">16時頃</option>
+												<option value="15">15時頃</option>
+												<option value="14">14時頃</option>
+												<option value="13">13時頃</option>
+												<option value="12">12時頃</option>
+												<option value="11">11時頃</option>
+												<option value="10">10時頃</option>
+												<option value="9">9時頃</option>
+												<option value="8">8時頃</option>
+												<option value="7">7時頃</option>
+												<option value="6">6時頃</option>
 											</select>
 										</div>
 										<botton class="btn btn-success" onclick="onclickRegisterNews(this)">登録</botton>
@@ -2679,7 +2653,7 @@
 												<td class="newstext"><pre>{news.text}</pre></td>
 												<td class="newstag">{news.tag}</td>
 												<td>
-													<p class="notifymode" if={'undefined' == typeof news.notifymode || 0 == news.notifymode}>同じタグ<br/>の予定<br/>と連動</p>
+													<p class="notifymode" if={'undefined' == typeof news.notifymode || 0 == news.notifymode || isNaN(news.notifymode)}>同じタグ<br/>の予定<br/>と連動</p>
 													<p class="notifymode" if={1 == news.notifymode}>毎日</p>
 													<p class="notifymode" if={11 == news.notifymode}>毎週日曜</p>
 													<p class="notifymode" if={12 == news.notifymode}>毎週月曜</p>
@@ -2688,7 +2662,7 @@
 													<p class="notifymode" if={15 == news.notifymode}>毎週木曜</p>
 													<p class="notifymode" if={16 == news.notifymode}>毎週金曜</p>
 													<p class="notifymode" if={17 == news.notifymode}>毎週土曜</p>
-													<p class="notifytime" if={'undefined' == typeof news.notifytime || 0 == news.notifytime}>3日前<br/>から0時</p>
+													<p class="notifytime" if={'undefined' == typeof news.notifytime || 0 == news.notifytime || isNaN(news.notifytime)}>3日前<br/>から0時</p>
 													<p class="notifytime" if={24 == news.notifytime}>0時</p>
 													<p class="notifytime" if={23 == news.notifytime}>23時</p>
 													<p class="notifytime" if={22 == news.notifytime}>22時</p>
@@ -2961,7 +2935,7 @@
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 20px; padding-left: 3px;">PT</th>
 									<th if={opts.mode=='schedule'} style="width: 28px; padding-left: 0px;">status</th>
 									<th if={opts.mode=='schedule'} style="width: 20px; padding-left: 3px; padding-right: 2px;">VC</th>
-									<th style="width: 65px;">キャラ</th>
+									<th style="width: 70px;">キャラ</th>
 									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 40px; padding-left: 5px; padding-right: 0;">戦闘力</th>
 									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 20px; padding-left: 2px;">Job</th>
 									<th if={opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 20px; padding-left: 5px;">飾</th>
@@ -3848,7 +3822,7 @@
 									}
 									location.href = newhref;
 								}
-								if (!('undefined' != typeof clan.adddisabled && clan.adddisabled)) {
+								if (!('undefined' != typeof clan.addisabled && clan.addisabled)) {
 									riot.mount('footerbar');
 								}
 								if (callback) {
@@ -4705,7 +4679,13 @@
 					var newsnotifymode = parseInt($('#editnewsform').find('select[name=newsnotifymode] option:selected').val());
 					var newsnotifytime = parseInt($('#editnewsform').find('select[name=newsnotifytime] option:selected').val());
 					if ('undefined' != typeof newstext && 0 < newstext.length) {
-						var data = { ID: newsID, text: newstext, tag: newstag, notifymode: newsnotifymode, notifytime: newsnotifytime };
+						var data = { ID: newsID, text: newstext, tag: newstag, notifymode: 0, notifytime: 0, };
+						if (!isNaN(newsnotifymode) && 0 < newsnotifymode) {
+							data.notifymode = newsnotifymode;
+						}
+						if (!isNaN(newsnotifytime) && 0 < newsnotifytime) {
+							data.notifytime = newsnotifytime;
+						}
 						registerNews(clan.ID, data, function (){
 							alert('登録しました。');
 							location.reload();
@@ -4932,7 +4912,9 @@
 						$('#editnewsform').find('textarea[name=newstext]').val(newstext);
 						$('#editnewsform').find('input[name=newstag]').val(newstag);
 						$('#editnewsform').find('select[name=newsnotifymode]').val(newsnotifymode);
-						$('#editnewsform').find('select[name=newsnotifytime]').val(newsnotifytime);
+						if ('' != newsnotifytime) {
+							$('#editnewsform').find('select[name=newsnotifytime]').val(newsnotifytime);
+						}
 						$("html,body").animate({scrollTop: 0}, "100");
 						return;
 					}

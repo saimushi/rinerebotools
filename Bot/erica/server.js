@@ -34,7 +34,7 @@
   };
 
   var _infoNews = function(targetClan, targetSchedule) {
-    var baseMessage = '**【自動お知らせ通知】** ' + targetSchedule.date + 'に「' + targetSchedule.name + '」が予定されてるわよ！確認してみて！\n https://line2revo.fun/?clanid=' + targetClan.ID + '&scheduleid=' + targetSchedule.ID + '&view=on#detailschedule \n';
+    var baseMessage = '@everyone **【自動お知らせ通知】** ' + targetSchedule.date + 'に「' + targetSchedule.name + '」が予定されてるわよ！確認してみて！\n https://line2revo.fun/?clanid=' + targetClan.ID + '&scheduleid=' + targetSchedule.ID + '&view=on#detailschedule \n';
     console.log(targetClan);
     console.log(targetSchedule);
     console.log(baseMessage);
@@ -325,6 +325,7 @@
       var datas2 = [];
       var datas3 = [];
       var datas4 = [];
+      var datas5 = [];
       querySnapshot.forEach(function(snapshot) {
         if(snapshot.exists) {
           var data = snapshot.data();
@@ -333,6 +334,7 @@
             if ('string' == typeof data.discordhookid && 'string' == typeof data.discordhooktoken && 0 < data.discordhookid.length && 0 < data.discordhooktoken.length) {
               if (true == data.useInfoJob) {
                 datas1.push(data);
+                datas5.push(data);
               }
               datas3.push(data);
               datas4.push(data);
@@ -341,10 +343,12 @@
           }
         }
       });
-      console.log(datas1);
-      console.log(datas2);
-      console.log(datas3);
-      if (0 < datas1.length || 0 < datas2.length || 0 < datas3.length || 0 < datas4.length) {
+      console.log('datas1.length='+datas1.length);
+      console.log('datas2.length='+datas2.length);
+      console.log('datas3.length='+datas3.length);
+      console.log('datas4.length='+datas4.length);
+      console.log('datas5.length='+datas5.length);
+      if (0 < datas1.length || 0 < datas2.length || 0 < datas3.length || 0 < datas4.length || 0 < datas5.length) {
         var dt = new Date();
         /*var dayLabel = dt.toFormat("DDD");
         var targetDayCnt = 7;
@@ -387,40 +391,48 @@
         var min = dt.toFormat("MI");
         console.log('min=');
         console.log(min);
-        if (true == (min === '00' || min === '01' || min === '02') && 0 < datas3.length) {
+        if (true == (min === '00' || min === '01' || min === '02') && true == (0 < datas3.length || 0 < datas5.length)) {
+          // 約1時間前告知
+          if (0 < datas5.length) {
+            var targetEnd = Math.round(targetStart + (60 * 60 * 1000));
+            console.log('targetDayCnt=' + 1 + ' & targetStart = ' + targetStart + ' & targetEnd=' + targetEnd);
+            _infoSchedules(datas5, targetStart, targetEnd);
+          }
           // 定期お知らせ配信
-          var hour = parseInt(dt.toFormat("HH24"));
-          if (hour == 0) {
-            hour = 24;
+          if (0 < datas3.length) {
+            var hour = parseInt(dt.toFormat("HH24"));
+            if (hour == 0) {
+              hour = 24;
+            }
+            var mode = 0;
+            var day = dt.toFormat("DDD");
+            if (day == 'Sun') {
+              mode = 11;
+            }
+            else if (day == 'Mon') {
+              mode = 12;
+            }
+            else if (day == 'Tue') {
+              mode = 13;
+            }
+            else if (day == 'Wed') {
+              mode = 14;
+            }
+            else if (day == 'Thu') {
+              mode = 15;
+            }
+            else if (day == 'Fri') {
+              mode = 16;
+            }
+            else if (day == 'Sat') {
+              mode = 17;
+            }
+            console.log(mode);
+            console.log(hour);
+            _infojob(datas3, targetStart, mode, hour);
+            // 毎日配信
+            _infojob(datas4, targetStart, 1, hour);
           }
-          var mode = 0;
-          var day = dt.toFormat("DDD");
-          if (day == 'Sun') {
-            mode = 11;
-          }
-          else if (day == 'Mon') {
-            mode = 12;
-          }
-          else if (day == 'Tue') {
-            mode = 13;
-          }
-          else if (day == 'Wed') {
-            mode = 14;
-          }
-          else if (day == 'Thu') {
-            mode = 15;
-          }
-          else if (day == 'Fri') {
-            mode = 16;
-          }
-          else if (day == 'Sat') {
-            mode = 17;
-          }
-          console.log(mode);
-          console.log(hour);
-          _infojob(datas3, targetStart, mode, hour);
-          // 毎日配信
-          _infojob(datas4, targetStart, 1, hour);
         }
       }
       return;
@@ -442,6 +454,7 @@
     var subcmd = 0;
     var newcp = 0;
     var newSelection = 0;
+    var commnet = null;
     if ('エリカ様の血盟管理お手伝い' ==  msg.author.username) {
       return;
     }
@@ -464,6 +477,20 @@
         cmd = 0;
       }
     }
+    else if (0 === msg.content.indexOf('不参加 ') || msg.content == '不参加' || 0 === msg.content.indexOf('欠席 ') || msg.content == '欠席') {
+      msg.channel.createMessage('予定へ不参加で登録するのね、仕方ないわ・・・次は来てね★\n');
+      var entry = msg.content.replace('不参加', '');
+      entry = entry.replace('欠席', '').trim();
+      cmd = 4;
+      subcmd = -1;
+      newSelection = 0;
+      if ('string' == typeof entry && 0 < entry.length) {
+        commnet = entry;
+      }
+      if (null === commnet) {
+        msg.channel.createMessage('メモの設定は同時にしなくて良かったかしら？もし必要なら「不参加 何かメモしたいコメント」の形で教えてちょうだいね★\n');
+      }
+    }
     else if (0 === msg.content.indexOf('参加 ') || msg.content == '参加' || 0 < msg.content.indexOf('参戦') || 0 < msg.content.indexOf('参加') || msg.content == 'ハァハァ' || msg.content == 'ハアハア') {
       if (0 !== msg.content.indexOf('参加 ') && msg.content != '参加') {
         if ('ナリ☆助#0933' != msg.author.username + '#' + msg.author.discriminator && 'ナレノハテ明美#6358' != msg.author.username + '#' + msg.author.discriminator) {
@@ -483,16 +510,23 @@
         msg.channel.createMessage('予定に参加するのね！ありがとう！！\n');
       }
       var entry = msg.content.replace('参加', '').trim();
+      var vcSelection = 0;
       cmd = 4;
       subcmd = 1;
       if (-1 < entry.indexOf('聞き専')) {
+        entry = entry.replace('聞き専', '').trim();
         newSelection = 2
       }
-      if (-1 < entry.indexOf('可能')) {
+      else if (-1 < entry.indexOf('可能')) {
+        entry = entry.replace('可能', '').trim();
         newSelection = 1
       }
-      if (-1 < entry.indexOf('不可')) {
+      else if (-1 < entry.indexOf('不可')) {
+        entry = entry.replace('不可', '').trim();
         newSelection = -1
+      }
+      if ('string' == typeof entry && 0 < entry.length) {
+        commnet = entry;
       }
       if (0 === newSelection) {
         msg.channel.createMessage('VCの設定は同時にしなくて良かったかしら？もし必要なら「聞き専」「可能」「不可」のどれかを教えてちょうだいね★\n');
@@ -505,16 +539,11 @@
       subcmd = 0;
       newSelection = 0;
       if ('string' == typeof entry && 0 < entry.length) {
-        newSelection = entry;
+        commnet = entry;
       }
-      if (0 === newSelection) {
+      if (null === commnet) {
         msg.channel.createMessage('メモの設定は同時にしなくて良かったかしら？もし必要なら「参加△ 何かメモしたいコメント」の形で教えてちょうだいね★\n');
       }
-    }
-    else if (msg.content == '不参加') {
-      msg.channel.createMessage('予定へ不参加で登録するのね、仕方ないわ・・・次は来てね★\n');
-      cmd = 4;
-      subcmd = -1;
     }
     else if (msg.content === '確認') {
       msg.channel.createMessage('予定への参加表明がまだの人を確認するのね、任せて！\n');
@@ -1705,13 +1734,13 @@
                               }
                               else {
                                 subMSg = 'たぶん参加';
-                                if (0 !== newSelection) {
-                                  targetUser.comment = newSelection;
-                                }
                               }
                               targetUser.status = 0;
                               targetUser.party = 0;
                               targetUser.voice = 0;
+                            }
+                            if (null !== commnet) {
+                              targetUser.comment = commnet;
                             }
                             if ('string' == typeof targetUser.comment && targetUser.comment == '同一タグの前回のPT編成をコピー') {
                               targetUser.comment = '';

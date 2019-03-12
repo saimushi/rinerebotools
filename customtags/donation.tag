@@ -54,6 +54,7 @@
           console.log(data);
           ev.complete('success');
           swal({ text: '寄付に感謝致します！！', icon: 'success',});
+          //if () {}
         })
         .fail((data) => {
           //失敗した場合の処理
