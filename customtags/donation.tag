@@ -53,8 +53,20 @@
           //成功した場合の処理
           console.log(data);
           ev.complete('success');
-          swal({ text: '寄付に感謝致します！！', icon: 'success',});
-          //if () {}
+          var message = '寄付に感謝致します！！';
+          if ('undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length && '56fhe8sie5UrrZUWVz9V' != getParams['clanid']) {
+            message = message + '\n寄付により血盟管理ツールでの公告表示が無効化されます。\n再度表示させたい場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
+            loading(true);
+            firebase.firestore().collection("clans").doc(getParams['clanid']).update({donate:true,addisabled:true}).then(function(snapshot){
+              loading(false);
+            });
+          }
+          else {
+            message = message + '\n\n寄付により血盟管理ツールでの公告表示が無効化出来ます。\n無効化をご希望の場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
+          }
+          var alertDiv = document.createElement("div");
+          alertDiv.insertAdjacentHTML('beforeend', '<br/>' + message.replace(/\r?\n/g, '<br/>'));
+          swal({ content: alertDiv, icon: 'success',});
         })
         .fail((data) => {
           //失敗した場合の処理
