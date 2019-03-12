@@ -80,6 +80,18 @@
     this.on('mount', function() {
       if (!initializedDonation) {
         initializedDonation = true;
+        if ('undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length && '56fhe8sie5UrrZUWVz9V' != getParams['clanid'] && 'undefined' != typeof getParams['donated'] && 0 < getParams['donated'].length) {
+          var message = '寄付に感謝致します！！';
+          if ('undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length && '56fhe8sie5UrrZUWVz9V' != getParams['clanid']) {
+            message = message + '\n寄付により血盟管理ツールでの公告表示が無効化されます。\n再度表示させたい場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
+          }
+          else {
+            message = message + '\n\n寄付により血盟管理ツールでの公告表示が無効化出来ます。\n無効化をご希望の場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
+          }
+          var alertDiv = document.createElement("div");
+          alertDiv.insertAdjacentHTML('beforeend', '<br/>' + message.replace(/\r?\n/g, '<br/>'));
+          swal({ content: alertDiv, icon: 'success',});
+        }
         $.getScript('https://js.stripe.com/v3/', function(){
           initApplepayDonation();
           $('<script>')
