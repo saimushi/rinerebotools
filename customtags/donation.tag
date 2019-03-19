@@ -55,14 +55,14 @@
           ev.complete('success');
           var message = '寄付に感謝致します！！';
           if ('undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length && '56fhe8sie5UrrZUWVz9V' != getParams['clanid']) {
-            message = message + '\n寄付により血盟管理ツールでの公告表示が無効化されます。\n再度表示させたい場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
+            message = message + '\n寄付により管理ツールでの公告表示が無効化されます。\n再度表示させたい場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
             loading(true);
             firebase.firestore().collection("clans").doc(getParams['clanid']).update({donate:true,addisabled:true}).then(function(snapshot){
               loading(false);
             });
           }
           else {
-            message = message + '\n\n寄付により血盟管理ツールでの公告表示が無効化出来ます。\n無効化をご希望の場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
+            message = message + '\n\n寄付により管理ツールでの公告表示が無効化出来ます。\n無効化をご希望の場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
           }
           var alertDiv = document.createElement("div");
           alertDiv.insertAdjacentHTML('beforeend', '<br/>' + message.replace(/\r?\n/g, '<br/>'));
@@ -83,14 +83,20 @@
         if ('undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length && '56fhe8sie5UrrZUWVz9V' != getParams['clanid'] && 'undefined' != typeof getParams['donated'] && 0 < getParams['donated'].length) {
           var message = '寄付に感謝致します！！';
           if ('undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length && '56fhe8sie5UrrZUWVz9V' != getParams['clanid']) {
-            message = message + '\n寄付により血盟管理ツールでの公告表示が無効化されます。\n再度表示させたい場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
+            message = message + '\n寄付により管理ツールでの公告表示が無効化されます。\n再度表示させたい場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
           }
           else {
-            message = message + '\n\n寄付により血盟管理ツールでの公告表示が無効化出来ます。\n無効化をご希望の場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
+            message = message + '\n\n寄付により管理ツールでの公告表示が無効化出来ます。\n無効化をご希望の場合はお手数ですが<a href="#inquiry">お問い合わせ</a>下さい。';
           }
           var alertDiv = document.createElement("div");
           alertDiv.insertAdjacentHTML('beforeend', '<br/>' + message.replace(/\r?\n/g, '<br/>'));
           swal({ content: alertDiv, icon: 'success',});
+        }
+        var dataLabel = 'L2R Tool';
+        var dataLogo = './images/l2r/titlelogo.png';
+        if (mode == 2) {
+          dataLabel = 'ギルド管理Tool';
+          dataLogo = './images/kurosaba/titlelogo.png';
         }
         $.getScript('https://js.stripe.com/v3/', function(){
           initApplepayDonation();
@@ -99,9 +105,9 @@
           .attr('class', 'stripe-button')
           .attr('data-key', 'pk_live_JlhrlmDnSu9qzPjvJ5eqjSro')
           .attr('data-email', 'saimushi@gmial.com')
-          .attr('data-name', 'L2R Tool')
+          .attr('data-name', dataLabel)
           .attr('data-description', '寄付を・・・お願いしますm(_ _)m')
-          .attr('data-image', './images/titlelogo.png')
+          .attr('data-image', dataLogo)
           .attr('data-label', '寄付する')
           .attr('data-amount', '1000')
           .attr('data-locale', 'auto')
