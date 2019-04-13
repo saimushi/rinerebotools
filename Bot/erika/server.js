@@ -1,6 +1,16 @@
 
 require('date-utils');
 
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+const _ = require('lodash')
+const originalConsoleError = console.error
+console.error = function(msg) {
+  if(_.startsWith(msg, '[vuex] unknown')) return
+  if(_.startsWith(msg, 'Error: Could not parse CSS stylesheet')) return
+  originalConsoleError(msg)
+}
+
 var admin = require('firebase-admin');
 var serviceAccount = require('./serviceAccountKey.json');
 admin.initializeApp({
@@ -19,7 +29,7 @@ if (process.env.PROJECT_DOMAIN == 'erikasama') {
   mode = 1;
 }
 
-var _sendWebhookMessage = function(targetClan, targetSchedule, message) {
+var _sendWebhookMessage = function(targetClan, targetSchedule, message, username, avatarURL) {
   if ('string' == typeof targetClan.discordhookid && 'string' == typeof targetClan.discordhooktoken && 0 < targetClan.discordhookid.length && 0 < targetClan.discordhooktoken.length) {
     if (targetSchedule) {
       var baseURL = 'https://' + strings.domain + '/?clanid=' + targetClan.ID + '&scheduleid=' + targetSchedule.ID
@@ -30,9 +40,17 @@ var _sendWebhookMessage = function(targetClan, targetSchedule, message) {
       message = message.replace('***url***', baseURL + '#detailschedule');
       message = message.replace('***urlview***', baseURL + '&view=on#detailschedule');
     }
+    var _username = strings.botname;
+    if ('string' == typeof username && 0 < username.length) {
+      _username = username;
+    }
+    var _avatarURL = bot.user.dynamicAvatarURL('jpg', 256);
+    if ('string' == typeof avatarURL && 0 < avatarURL.length) {
+      _avatarURL = avatarURL;
+    }
     bot.executeWebhook(targetClan.discordhookid, targetClan.discordhooktoken, {
-      username: strings.botname,
-      avatarURL: bot.user.dynamicAvatarURL('jpg', 256),
+      username: _username,
+      avatarURL: _avatarURL,
       disableEveryone: false,
       content: message + '\n\n'
     });
@@ -323,6 +341,33 @@ var _infojob = function (targetClans, targetStart, notifyMode, notifyTime) {
   }
 };
 
+var _notifyOfficalInfo = function (targetClans, targetClan, targetNotifies, notifyIndex) {
+  if (0 < targetClans.length && targetClan == null) {
+    targetClan = targetClans[0];
+    targetClans.shift();
+  }
+  if ('object' == typeof targetClan && null != targetClan && notifyIndex < targetNotifies.length && 'object' == typeof targetNotifies[notifyIndex]) {
+    var targetNotify = targetNotifies[notifyIndex];
+    console.log('@everyone \n' + targetNotify.message);
+    var _name = 'ギルド管理ツールからのお知らせ';
+    var _avatarURL = 'https://kurosaba.fun/images/kurosaba/titlelogo.png';
+    if (mode == 1) {
+      _name = '血盟管理ツールからのお知らせ';
+      _avatarURL = 'https://line2revo.fun/images/l2r/titlelogo.png';
+    }
+    _sendWebhookMessage(targetClan, null, '@everyone \n' + targetNotify.message , _name, _avatarURL);
+    firestore.collection("notify").doc(targetNotify.ID).update({notified: true}).then(function(querySnapshot) {
+      notifyIndex = notifyIndex + 1;
+      _notifyOfficalInfo(targetClans, targetClan, targetNotifies, notifyIndex);
+    });
+  }
+  else if (0 < targetClans.length){
+    // 次の血盟
+    _notifyOfficalInfo(targetClans, null, targetNotifies, 0);
+  }
+  return;
+};
+
 var infojob = function (testClanID) {
   // firbase問い合わせ
   /*firestore.collection("clans").where("useInfoJob", "==", true).get().then(function(querySnapshot) {*/
@@ -332,6 +377,8 @@ var infojob = function (testClanID) {
     var datas3 = [];
     var datas4 = [];
     var datas5 = [];
+    var datas6 = [];
+    var datas7 = [];
     querySnapshot.forEach(function(snapshot) {
       if(snapshot.exists) {
         var data = snapshot.data();
@@ -344,6 +391,8 @@ var infojob = function (testClanID) {
             }
             datas3.push(data);
             datas4.push(data);
+            datas6.push(data);
+            datas7.push(data);
           }
           datas2.push(data);
         }
@@ -354,7 +403,7 @@ var infojob = function (testClanID) {
     console.log('datas3.length='+datas3.length);
     console.log('datas4.length='+datas4.length);
     console.log('datas5.length='+datas5.length);
-    if (0 < datas1.length || 0 < datas2.length || 0 < datas3.length || 0 < datas4.length || 0 < datas5.length) {
+    if (0 < datas1.length || 0 < datas2.length || 0 < datas3.length || 0 < datas4.length || 0 < datas5.length || 0 < datas6.length || 0 < datas7.length) {
       var dt = new Date();
       /*var dayLabel = dt.toFormat("DDD");
       var targetDayCnt = 7;
@@ -410,35 +459,84 @@ var infojob = function (testClanID) {
           if (hour == 0) {
             hour = 24;
           }
-          var mode = 0;
+          var _mode = 0;
           var day = dt.toFormat("DDD");
           if (day == 'Sun') {
-            mode = 11;
+            _mode = 11;
           }
           else if (day == 'Mon') {
-            mode = 12;
+            _mode = 12;
           }
           else if (day == 'Tue') {
-            mode = 13;
+            _mode = 13;
           }
           else if (day == 'Wed') {
-            mode = 14;
+            _mode = 14;
           }
           else if (day == 'Thu') {
-            mode = 15;
+            _mode = 15;
           }
           else if (day == 'Fri') {
-            mode = 16;
+            _mode = 16;
           }
           else if (day == 'Sat') {
-            mode = 17;
+            _mode = 17;
           }
-          console.log(mode);
+          console.log(_mode);
           console.log(hour);
-          _infojob(datas3, targetStart, mode, hour);
+          _infojob(datas3, targetStart, _mode, hour);
           // 毎日配信
           _infojob(datas4, targetStart, 1, hour);
         }
+      }
+      // 作者からのお知らせ
+      if (0 < datas6.length) {
+        firestore.collection("notify").where("notified", "==", false).get().then(function(querySnapshot) {
+          var targetNotifies = [];
+          querySnapshot.forEach(function(snapshot) {
+            if(snapshot.exists) {
+              var data = snapshot.data();
+              data.ID = snapshot.id;
+              targetNotifies.push(data);
+            }
+          });
+          if (0 < datas6.length) {
+            console.log('targetNotifies=');
+            console.log(targetNotifies);
+            _notifyOfficalInfo(datas6, null, targetNotifies, 0);
+          }
+        });
+      }
+      if (0 < datas7.length) {
+        console.log("tweet scraip");
+        var targettwitter = 'https://twitter.com/BlackDesertM_JP';
+        if (mode == 1) {
+          targettwitter = 'https://twitter.com/Line2Revo';
+        }
+        JSDOM.fromURL(targettwitter).then(dom => {
+          if (typeof dom.window !== 'undefined') {
+            var lastTweetURL = dom.window.document.querySelector('.stream-items li:nth-child(2) small.time a').href;
+            console.log('lastTweetURL='+lastTweetURL);
+            firestore.collection("lastTweetURL").where('lastTweetURL', '==', lastTweetURL).get().then(function(querySnapshot) {
+              var latesttweet = null;
+              querySnapshot.forEach(function(snapshot) {
+                console.log('snapshot='+snapshot);
+                if(snapshot.exists) {
+                  latesttweet = true;
+                }
+              });
+              console.log('latesttweet='+latesttweet);
+              if (null == latesttweet) {
+                firestore.collection("lastTweetURL").doc('lastTweetURL').set({lastTweetURL:lastTweetURL}).then(function() {
+                  var notify = { ID: dt.toFormat("YYYY-MM-DD HH24:MI:SS"), message: '公式がツイートしました！\n' + lastTweetURL + '\n', notified: false };
+                  firestore.collection("notify").doc(notify.ID).set({message: '公式がツイートしました！\n' + lastTweetURL + '\n', notified: false}).then(function(setSnapShot) {
+                    _notifyOfficalInfo(datas7, null,  [notify], 0);
+                  });
+                });
+              }
+            });
+          }
+        });
       }
     }
     return;
@@ -476,8 +574,20 @@ bot.on('messageCreate', (msg) => {
     return;
   }
   if (-1 < msg.content.indexOf('\n')) {
-    console.log('改行は無視');
-    return;
+    if ('サンフレ#9241' == msg.author.username + '#' + msg.author.discriminator && -1 < msg.content.indexOf('お知らせ追加\n')) {
+      var message = msg.content.replace('お知らせ追加\n', '');
+      console.log('お知らせ追加');
+      console.log(msg.content);
+      var now = new Date();
+      firestore.collection("notify").doc(now.toFormat("YYYY-MM-DD HH24:MI:SS")).set({message: message, notified: false, registerd: now}).then(function(snapshot) {
+        msg.channel.createMessage('<@' + msg.author.id + '> お知らせを追加しました。');
+      });
+      return;
+    }
+    else {
+      console.log('改行は無視');
+      return;
+    }
   }
   msg.content = msg.content.replace(/　/g, " ");
   msg.content = msg.content.replace(/,/g, "");
@@ -1285,8 +1395,8 @@ bot.on('messageCreate', (msg) => {
   else if (mode == 1 && true == (-1 < msg.content.indexOf('AF') || -1 < msg.content.indexOf('アーティファクト'))) {
     if (-1 < msg.content.indexOf('計算') || -1 < msg.content.indexOf('最適') || -1 < msg.content.indexOf('教えて') || -1 < msg.content.indexOf('知りたい')) {
       msg.channel.createMessage('フレヤサーバーの @KK1116 さん、 @Lsama さんが **アーティファクト計算ツール** を作って公開してくれているわ！\n'
-      + 'それを活用するのがベストよ！\nhttps://t.co/yHzFtk4rXo\n\n'
-      + '**【使い方(PC)】**\nリンクを開いた後に「ファイル」 => 「コピーを作成」とやって自分専用のシートにコピーして使うのよ！\n決して作者さんに権限追加依頼を出さないように注意してね。\n\nhttps://twitter.com/KK11161/status/1083645715081904129 \n\n'
+      + 'それを活用するのがベストよ！\nhttps://t.co/yqubI5hkjS\n\n'
+      + '**【使い方(PC)】**\nリンクを開いた後に「ファイル」 => 「コピーを作成」とやって自分専用のシートにコピーして使うのよ！\n決して作者さんに権限追加依頼を出さないように注意してね。\n\nhttps://twitter.com/KK11161/status/1108343644975620098 \n\n'
       + '**【使い方(スマホ)】**\nスマホの場合は「Googleスプレッドシート」アプリ( https://www.google.com/intl/ja_jp/sheets/about/ )\nをインストールしてからリンクを開くとアプリが起動するわ。\nメニューから「共有とエクスポート」 => 「コピーの作成」ってやるとPCと同じ事が出来るわ！\n\n'
       + '**【スマホ版シートの開き方説明動画】**\nhttps://youtu.be/xKo-PGzjALI\n*※提供のねーこちゃんありがとう♥*'
       /*+ 'アプリを入れずにどうしても直ぐに試してみたい場合は作者が用意してるコチラのリンク\nhttps://docs.google.com/spreadsheets/d/1cBqk4uM34QEhBOiqw1X2XTlh9VxnDejenYu4dKh902c/edit?usp=sharing\nを使ってみて！\n他の人が編集している場合があるし、後から他の人に見られたりするからくれぐれも注意して使ってね。\n\n'*/
@@ -1408,7 +1518,7 @@ bot.on('messageCreate', (msg) => {
       msg.channel.createMessage('やるならやらしく行こうぜ・・・？ ハァハァ');
     }
   }
-  else if ('へーじ#0698' == (msg.author.username + '#' + msg.author.discriminator)) {
+  else if (mode == 2 && 0 < cmd && 'へーじ#0698' == (msg.author.username + '#' + msg.author.discriminator)) {
     var randnum = 1 + Math.floor( Math.random() * 100 );
     if (randnum > 70 && randnum <= 80) {
       msg.channel.createMessage('<@' + msg.author.id + '> せやかて工藤、ワイが手伝えるんはココまでやで？');

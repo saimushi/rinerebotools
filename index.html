@@ -146,6 +146,11 @@
 			navigationbar .container {
 				width: 100%;
 			}
+			@media (max-width: 1113px) {
+				.datepicker.col-md-6 {
+					width: 100%;
+				}
+			}
 			.orverlay {
 				display: none;
 				position: fixed;
@@ -856,6 +861,10 @@
 									<option if={user.job!='ウイッチ'} value="ウイッチ">ウイッチ</option>
 									<option if={user.job=='レンジャー'} value="レンジャー" selected="selected">レンジャー</option>
 									<option if={user.job!='レンジャー'} value="レンジャー">レンジャー</option>
+									<option if={user.job=='ブレイダー'} value="ブレイダー" selected="selected">ブレイダー</option>
+									<option if={user.job!='ブレイダー'} value="ブレイダー">ブレイダー</option>
+									<option if={user.job=='リトルサマナー'} value="リトルサマナー" selected="selected">リトルサマナー</option>
+									<option if={user.job!='リトルサマナー'} value="リトルサマナー">リトルサマナー</option>
 								</select>
 							</div>
 							<div if={mode==1} class="form-group">
@@ -1599,7 +1608,7 @@
 								<h5>入団日(選択して下さい)</h5>
 								<div class='input-group date' id='joinddate'/>
 							</div>
-							<botton class="btn btn-success" onclick="onclickRegister(this, '{user.ID}', '{user.name}')">登録</botton>
+							<botton class="btn btn-success" onclick="onclickRegister(this, '{user.ID}', &quot;{user.name}&quot;)">登録</botton>
 							<botton if={user.ID!='' && 'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
@@ -1707,7 +1716,7 @@
 						<div class="row">
 							<table class="table border">
 								<tr each="{party, index in parties}">
-									<td if={'undefined' != typeof pusers} each="{pusers, pindex in party}" style="padding: 0; border: none;">
+									<td each="{pusers, pindex in party}" if={pusers != null} style="padding: 0; border: none;">
 
 												<table class="table table-striped"style="overflow: hidden; margin-bottom: 0px;">
 													<tr if={pusers[0].party==49 || pusers[0].party==99} style="color: black; font-size: 8px;">
@@ -1939,8 +1948,29 @@
 								$('footer').hide();
 								// APIからデータを撮ってくる
 								getSchedule(getParams['scheduleid'], function(schedule) {
-									getScheduleUsers(getParams['scheduleid'], null, function(entryOKUsers) {
-										viewGrid(schedule, entryOKUsers);
+									var removeusers = {};
+									getUsers(clan.ID, false, function(users) {
+										console.log('pusers=');
+										console.log(users);
+										getScheduleUsers(getParams['scheduleid'], null, function(entryOKUsers) {
+											console.log(entryOKUsers);
+											for (var uidx=0; uidx < users.length; uidx++) {
+												for (var euidx=0; euidx < entryOKUsers.length; euidx++) {
+													if (users[uidx].ID != entryOKUsers[euidx].ID) {
+														if (!removeusers[entryOKUsers[euidx].ID]) {
+															removeusers[entryOKUsers[euidx].ID] = 0;
+														}
+														removeusers[entryOKUsers[euidx].ID]++;
+														if (removeusers[entryOKUsers[euidx].ID] == users.length) {
+															entryOKUsers.splice(euidx, 1);
+														}
+													}
+												}
+											}
+											console.log('removeusers=');
+											console.log(removeusers);
+											viewGrid(schedule, entryOKUsers);
+										});
 									});
 								});
 							});
@@ -2049,6 +2079,11 @@
 													<botton class="btn btn-danger" onclick="{onEntryPT}" data-party="7">DF3</botton>
 												</div>
 											</div>
+											<div class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-default focus" onclick="{onEntryPT}" data-party="0">PTから外す</botton>
+												</div>
+											</div>
 										</div>
 									</form>
 								</div>
@@ -2087,7 +2122,7 @@
 										</thead>
 										<tbody>
 											<tr each="{_outuser, index in outusers}" >
-												<td class="action"><botton class="btn btn-danger" onclick="onclickNotify(this, '{_outuser.name}', '{_outuser.discord}');">催促</botton></td>
+												<td class="action"><botton class="btn btn-danger" onclick="onclickNotify(this, &quot;{_outuser.name}&quot;, &quot;{_outuser.discord}&quot;);">催促</botton></td>
 												<td onclick="onclickModify(this, '{_outuser.ID}');"><strong class="scheduleusername">{_outuser.name}</strong></td>
 												<td onclick="onclickModify(this, '{_outuser.ID}');" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;"><strong class="danger">{_outuser.discord}</strong></td>
 												<td onclick="onclickDetail(this, '{_outuser.ID}');" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{_outuser.memo}</td>
@@ -2132,6 +2167,8 @@
 					var selectusers = [];
 					var scheduleusers = [];
 					var outusers = [];
+					var removeusers = {};
+					var removed = false;
 					var newses = [];
 					var thisis;
 					this.on('mount', function() {
@@ -2228,6 +2265,20 @@
 												inuser.push(thisis.selectusers[uidx]);
 												entryed = true;
 											}
+											else {
+												// 一致しないユーザーは削除用にストック
+												if (!removeusers[thisis.scheduleusers[suidx].ID]) {
+													removeusers[thisis.scheduleusers[suidx].ID] = 0;
+												}
+												removeusers[thisis.scheduleusers[suidx].ID]++;
+												if (removeusers[thisis.scheduleusers[suidx].ID] == thisis.selectusers.length) {
+													if (0 < parseInt(thisis.scheduleusers[suidx].entry)) {
+														schedule.incount--;
+													}
+													thisis.scheduleusers[suidx] = null;
+													removed = true;
+												}
+											}
 										}
 										if (false == entryed && thisis.selectusers[uidx].activity < 0) {
 											thisis.selectusers[uidx].outlabel = '';
@@ -2240,6 +2291,15 @@
 										if (false === entryed) {
 											outuser.push(thisis.selectusers[uidx]);
 										}
+									}
+									if (removed) {
+										var _scheduleusers = [];
+										for (var suidx=0; suidx < thisis.scheduleusers.length; suidx++) {
+											if (null != thisis.scheduleusers[suidx]) {
+												_scheduleusers.push(thisis.scheduleusers[suidx]);
+											}
+										}
+										thisis.scheduleusers = _scheduleusers;
 									}
 									if (0 < outuser.length) {
 										thisis.outusers = outuser;
@@ -2256,8 +2316,11 @@
 										thisis.selectusers_ = thisis.selectusers;
 									}
 									$('#addscheduleform input[name=scheduletag]').ready(function (){
-										if ($('#partylist') && 0 < $('#partylist').size() && 'iOS' != platform.os.family && 'Android' != platform.os.family && 'Windows Phone' != platform.os.family) {
+										console.log(window.innerWidth + ' & ' + window.innerHeight);
+										//if ($('#partylist') && 0 < $('#partylist').size() && 'iOS' != platform.os.family && 'Android' != platform.os.family && 'Windows Phone' != platform.os.family) {
 											// XXX PCのみドラッグアンドドロップソートを有効にする
+										if ($('#partylist') && 0 < $('#partylist').size() && 760 < window.innerWidth && 760 < window.innerHeight) {
+											// XXX PC・タブレットのみドラッグアンドドロップソートを有効にする
 											Sortable.create( document.getElementById('partylist'),
 												{
 													tag: 'tr',
@@ -2534,7 +2597,7 @@
 					}
 					onEntryPT = function (target) {
 						var partyData = $(target.srcElement).data();
-						if ('undefined' != typeof partyData && 'undefined' != typeof partyData.party && 0 < parseInt(partyData.party)){
+						if ('undefined' != typeof partyData && 'undefined' != typeof partyData.party && 0 <= parseInt(partyData.party)){
 							var index = $('#entryscheduleform').find('select[name=scheduleuser] option:selected').val();
 							if (0 > parseInt(index)) {
 								alert('参加キャラを選択して下さい。');
@@ -2559,23 +2622,25 @@
 							var jobDuplicated = false;
 							var entryCnt = 0;
 							for (var eIdx=0; eIdx < thisis.scheduleusers.length; eIdx++) {
-								if ('undefined' != typeof thisis.scheduleusers[eIdx].party && partyData.party == thisis.scheduleusers[eIdx].party) {
-									entryCnt++;
-									if (scheduleuser.job == thisis.scheduleusers[eIdx].job) {
-										jobDuplicated = true;
-										bufDuplicated = false;
+								if (thisis.scheduleusers[eIdx] != null) {
+									if ('undefined' != typeof thisis.scheduleusers[eIdx].party && 0 < partyData.party && partyData.party == thisis.scheduleusers[eIdx].party) {
+										entryCnt++;
+										if (scheduleuser.job == thisis.scheduleusers[eIdx].job) {
+											jobDuplicated = true;
+											bufDuplicated = false;
+										}
+										if (false == jobDuplicated && 'undefined' != jobbufs[scheduleuser.job] && 'undefined' != typeof jobbufs[thisis.scheduleusers[eIdx].job] && jobbufs[scheduleuser.job] == jobbufs[thisis.scheduleusers[eIdx].job]) {
+											bufDuplicated = true;
+										}
+										if (5 <= entryCnt) {
+											alert('このPTは既に5人編成済みです。');
+											return;
+											break;
+										}
 									}
-									if (false == jobDuplicated && 'undefined' != jobbufs[scheduleuser.job] && 'undefined' != typeof jobbufs[thisis.scheduleusers[eIdx].job] && jobbufs[scheduleuser.job] == jobbufs[thisis.scheduleusers[eIdx].job]) {
-										bufDuplicated = true;
+									if (scheduleuser.name == thisis.scheduleusers[eIdx].name) {
+										uIdx = eIdx;
 									}
-									if (5 <= entryCnt) {
-										alert('このPTは既に5人編成済みです。');
-										return;
-										break;
-									}
-								}
-								if (scheduleuser.name == thisis.scheduleusers[eIdx].name) {
-									uIdx = eIdx;
 								}
 							}
 							if (jobDuplicated) {
@@ -2592,7 +2657,12 @@
 							thisis.scheduleusers[uIdx].party = partyData.party;
 							var targetElm = $('#partylist tr[index="'+uIdx+'"] .scheduleparty');
 							targetElm.data(partyData);
-							targetElm.text($(target.srcElement).text());
+							if ($(target.srcElement).text() == 'PTから外す') {
+								targetElm.text('&nbsp;&nbsp;無');
+							}
+							else {
+								targetElm.text($(target.srcElement).text());
+							}
 							targetElm.attr('data-party', partyData.party);
 							loading(true);
 							registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
@@ -3780,6 +3850,8 @@
 					jobimages['ジャイアント'] = './images/kurosaba/classes/icn_giant.png';
 					jobimages['ウイッチ'] = './images/kurosaba/classes/icn_witch.png';
 					jobimages['レンジャー'] = './images/kurosaba/classes/icn_ranger.png';
+					jobimages['ブレイダー'] = './images/kurosaba/classes/icn_blader.png';
+					jobimages['リトルサマナー'] = './images/kurosaba/classes/icn_beastmaster.png';
 				}
 
 				var jobnamesForURL = [];
@@ -3819,6 +3891,8 @@
 					jobnamesForURL['./images/kurosaba/classes/icn_giant.png'] = 'ジャイアント';
 					jobnamesForURL['./images/kurosaba/classes/icn_witch.png'] = 'ウイッチ';
 					jobnamesForURL['./images/kurosaba/classes/icn_ranger.png'] = 'レンジャー';
+					jobnamesForURL['./images/kurosaba/classes/icn_blader.png'] = 'ブレイダー';
+					jobnamesForURL['./images/kurosaba/classes/icn_beastmaster.png'] = 'リトルサマナー';
 				}
 
 				var jobbufs = [];
@@ -3858,12 +3932,18 @@
 					jobbufs['ジャイアント'] = '近距離';
 					jobbufs['ウイッチ'] = '遠距離';
 					jobbufs['レンジャー'] = '遠距離';
+					jobbufs['ブレイダー'] = '近距離';
+					jobbufs['リトルサマナー'] = '遠距離';
 				}
 
 				var portlate = false;
 				var dispatchPortlateLayout = function(){
 					if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
 						var orientation = window.orientation;
+						if (orientation == undefined && 'undefined' != typeof getParams['orientation'] && 'landscape' == getParams['orientation']) {
+							orientation = 1;
+						}
+						console.log('orientation='+orientation);
 						if(orientation == 0 || undefined == orientation){
 							$("body").addClass("portrait");
 							$("body").removeClass("landscape");
