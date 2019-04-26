@@ -2,6 +2,7 @@
 
 血盟管理ツール「 https://line2revo.fun/ 」
 エリカ様Bot「 https://t.co/3CE3BIYqcV 」
+導入手順「 http://line2revo.strikingly.com 」
 #リネレボ
 #リネレボツール
 

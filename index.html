@@ -24,7 +24,7 @@
 		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css"/>
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
-		<!-- ブラウザチェック -->
+		<!-- ブラウザ・モードチェック -->
 		<script type="text/javascript">
 			var browserEnabled = true;
 			var result = null;
@@ -89,7 +89,7 @@
 			}
 		</script>
 
-		<!-- this app -->
+		<!-- this app styles -->
 		<style>
 			html, body {
 				height: 100%;
@@ -172,6 +172,10 @@
 				margin-left: 0;
 				margin-right: 0;
 			}
+			.btn-default {
+				background-color: #bbb;
+				color: white;
+			}
 			route>.riotcontes>div:first-child {
 				min-height: calc(100% - 300px);
 			}
@@ -226,53 +230,58 @@
 			th, tr {
 				font-size: 10px;
 			}
-			td.scheduleparty[data-party="39"] {
+			td.scheduleparty[data-party="49"], input[name=schedulept49label]+.clearbtn {
+				background-color: #bbb;
+			}
+			td.scheduleparty[data-party="48"], input[name=schedulept48label]+.clearbtn {
+				background-color: #aaa;
+			}
+			td.scheduleparty[data-party="39"], input[name=schedulept39label]+.clearbtn {
 				background-color: dodgerblue;
 			}
-			td.scheduleparty[data-party="38"] {
+			td.scheduleparty[data-party="38"], input[name=schedulept38label]+.clearbtn {
 				background-color: blue;
 			}
-			td.scheduleparty[data-party="37"] {
+			td.scheduleparty[data-party="37"], input[name=schedulept37label]+.clearbtn {
 				background-color: navy;
 			}
-			td.scheduleparty[data-party="29"] {
+			td.scheduleparty[data-party="29"], input[name=schedulept29label]+.clearbtn {
 				background-color: limegreen;
 			}
-			td.scheduleparty[data-party="28"] {
+			td.scheduleparty[data-party="28"], input[name=schedulept28label]+.clearbtn {
 				background-color: green;
 			}
-			td.scheduleparty[data-party="27"] {
+			td.scheduleparty[data-party="27"], input[name=schedulept27label]+.clearbtn {
 				background-color: darkgreen;
 			}
-			td.scheduleparty[data-party="19"] {
+			td.scheduleparty[data-party="19"], input[name=schedulept19label]+.clearbtn {
 				background-color: gold;
 			}
-			td.scheduleparty[data-party="18"] {
+			td.scheduleparty[data-party="18"], input[name=schedulept18label]+.clearbtn {
 				background-color: orange;
 			}
-			td.scheduleparty[data-party="17"] {
+			td.scheduleparty[data-party="17"], input[name=schedulept17label]+.clearbtn {
 				background-color: darkorange;
 			}
-			td.scheduleparty[data-party="9"] {
+			td.scheduleparty[data-party="9"], input[name=schedulept9label]+.clearbtn {
 				background-color: red;
 			}
-			td.scheduleparty[data-party="8"] {
+			td.scheduleparty[data-party="8"], input[name=schedulept8label]+.clearbtn {
 				background-color: crimson;
 			}
-			td.scheduleparty[data-party="7"] {
+			td.scheduleparty[data-party="7"], input[name=schedulept7label]+.clearbtn {
 				background-color: firebrick;
 			}
 			td.scheduleparty[data-party="0"] {
-				background-color: gray;
+				background-color: #444;
 			}
 			td.scheduleparty[data-party=""] {
-				background-color: gray;
+				background-color: #444;
 			}
 			td.jobimage p {
-				position: absolute;
 				display: block;
 				width: 20px;
-				height: 20px;
+				height: 12px;
 				font-size: 15px;
 				color: white;
 				margin-left: 2px;
@@ -326,7 +335,6 @@
 			}
 		</style>
 	</head>
-
 	<body>
 		<div id="loader" class="orverlay loading"></div>
 		<div id="popup" class="orverlay"></div>
@@ -388,9 +396,10 @@
 
 		<!-- Riot tags -->
 		<section id="riot-tags">
-
+			<!-- donation -->
 			<script type="riot/tag" src="./customtags/donation.tag"></script>
 
+			<!-- navigationbar -->
 			<script type="riot/tag">
 				<navigationbar>
 					<div if={'#party' != location.hash} class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -431,6 +440,7 @@
 				</navigationbar>
 			</script>
 
+			<!-- footerbar -->
 			<script type="riot/tag">
 				<footerbar>
 					<footer class="footer">
@@ -463,6 +473,7 @@
 				</footerbar>
 			</script>
 
+			<!-- top -->
 			<script type="riot/tag">
 				<top>
 					this.on('mount', function() {
@@ -472,6 +483,7 @@
 				</top>
 			</script>
 
+			<!-- donat -->
 			<script type="riot/tag">
 				<donat>
 					<div style="padding: 10px;">
@@ -499,6 +511,7 @@
 				</donat>
 			</script>
 
+			<!-- dashboard -->
 			<script type="riot/tag">
 				<dashboard>
 					<div  class="row">
@@ -642,6 +655,7 @@
 				</dashboard>
 			</script>
 
+			<!-- login -->
 			<script type="riot/tag">
 				<login>
 					<div class="row" style="padding-top: 45px">
@@ -723,6 +737,7 @@
 				</login>
 			</script>
 
+			<!-- addclan -->
 			<script type="riot/tag">
 				<addclan>
 					<div style="padding: 10px;">
@@ -768,6 +783,7 @@
 				</addclan>
 			</script>
 
+			<!-- adduser -->
 			<script type="riot/tag">
 				<adduser>
 					<div style="padding-left: 10px; padding-right: 10px;">
@@ -1635,6 +1651,7 @@
 				</adduser>
 			</script>
 
+			<!-- addschedule -->
 			<script type="riot/tag">
 				<addschedule>
 					<div style="padding: 10px;">
@@ -1709,6 +1726,7 @@
 				</addschedule>
 			</script>
 
+			<!-- party -->
 			<script type="riot/tag">
 				<party>
 					<div style="position: fixed; top: 5px;">
@@ -1718,92 +1736,106 @@
 								<tr each="{party, index in parties}">
 									<td each="{pusers, pindex in party}" if={pusers != null} style="padding: 0; border: none;">
 
-												<table class="table table-striped"style="overflow: hidden; margin-bottom: 0px;">
-													<tr if={pusers[0].party==49 || pusers[0].party==99} style="color: black; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1A</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+												<table class="table table-striped" style="overflow: hidden; margin-bottom: 0px;">
+													<tr if={pusers[0].party==49 || pusers[0].party==99} style="background-color: #bbb; color: white; font-size: 8px;">
+														<th if={'string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt49label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1A</th>
+														<th if={!('string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
-													<tr if={pusers[0].party==48} style="color: black; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1B</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+													<tr if={pusers[0].party==48} style="background-color: #aaa; color: white; font-size: 8px;">
+														<th if={'string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt48label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1B</th>
+														<th if={!('string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==39 || pusers[0].party==89} style="background-color: dodgerblue; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2A</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">聖刻</th>
+														<th if={'string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt39label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2A</th>
+														<th if={!('string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">聖刻</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==38} style="background-color: blue; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2B</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">偵察</th>
+														<th if={'string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt38label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2B</th>
+														<th if={!('string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">偵察</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==37} style="background-color: navy; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">封殺</th>
+														<th if={'string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt37label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+														<th if={!('string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">封殺</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==29 || pusers[0].party==79} style="background-color: limegreen; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3A</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW1</th>
+														<th if={'string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt29label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3A</th>
+														<th if={!('string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW1</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==28} style="border: none; background-color: green; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3B</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW2</th>
+														<th if={'string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt28label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3B</th>
+														<th if={!('string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW2</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==27} style="border: none; background-color: darkgreen; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW3</th>
+														<th if={'string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt27label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+														<th if={!('string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW3</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==19 || pusers[0].party==69} style="border: none; background-color: gold; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4A</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF1</th>
+														<th if={'string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt19label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4A</th>
+														<th if={!('string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF1</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==18} style="border: none; background-color: orange; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4B</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF2</th>
+														<th if={'string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt18label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4B</th>
+														<th if={!('string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF2</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==17} style="border: none; background-color: darkorange; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF3</th>
+														<th if={'string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt17label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+														<th if={!('string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF3</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==9 || pusers[0].party==59} style="border: none; background-color: red; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5A</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF1</th>
+														<th if={'string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt9label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5A</th>
+														<th if={!('string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF1</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==8} style="border: none; background-color: crimson; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5B</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF2</th>
+														<th if={'string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt8label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5B</th>
+														<th if={!('string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF2</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==7} style="border: none; background-color: firebrick; color: white; font-size: 8px;">
-														<th if={ -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
-														<th if={ 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF3</th>
+														<th if={'string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt7label}</div></th>
+														<th if={!('string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
+														<th if={!('string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF3</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
 													</tr>
-													<tr if={pusers[0].party==0} style="border: none; background-color: gray; color: white; font-size: 8px;">
+													<tr if={pusers[0].party==0} style="border: none; background-color: #444; color: white; font-size: 8px;">
 														<th style="border: none; width:100px; padding: 5px;">欠席</th>
 														<th style="border: none;"></th>
 														<th style="border: none; width:25px;"></th>
@@ -1823,10 +1855,10 @@
 														<td if={mode==1 && jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></td>
 														<td if={mode==2 && jobbufs[puser.job]=='近距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></td>
 														<td if={mode==2 && jobbufs[puser.job]=='遠距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></td>
-														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: gray;">&nbsp;</td>
+														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: #444;">&nbsp;</td>
 													</tr>
 													<tr if={'on'!=getParams['view']} class="partycp" style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
-														<td colspan="2" style="border: none; padding: 2px;"><b>{partyCPs[((index-1)*5)+pindex].toLocaleString()}</b></td><td style="padding: 0;">&nbsp;</td>
+														<td colspan="2" style="border: none; padding: 2px;"><b>{partyCPs[((index)*5)+pindex].toLocaleString()}</b></td><td style="padding: 0;">&nbsp;</td>
 													</tr>
 												</table>
 
@@ -1894,6 +1926,30 @@
 							var partyCnt = 0;
 							var beforeParty = -1;
 							this.parties[rowCnt] = [];
+							if (-1 < this.partySchedule.tag.indexOf('レイド')) {
+								this.parties[0] = [];
+								this.parties[1] = [];
+								this.parties[0][0] = [{name:'', party:99}];
+								this.parties[0][1] = [{name:'', party:89}];
+								this.parties[0][2] = [{name:'', party:79}];
+								this.parties[0][3] = [{name:'', party:69}];
+								this.parties[0][4] = [{name:'', party:59}];
+								this.parties[1][5] = [{name:'', party:48}];
+								this.parties[1][6] = [{name:'', party:38}];
+								this.parties[1][7] = [{name:'', party:28}];
+								this.parties[1][8] = [{name:'', party:18}];
+								this.parties[1][9] = [{name:'', party:8}];
+								this.partyCPs[0] = 0;
+								this.partyCPs[1] = 0;
+								this.partyCPs[2] = 0;
+								this.partyCPs[3] = 0;
+								this.partyCPs[4] = 0;
+								this.partyCPs[5] = 0;
+								this.partyCPs[6] = 0;
+								this.partyCPs[7] = 0;
+								this.partyCPs[8] = 0;
+								this.partyCPs[9] = 0;
+							}
 							this.partyCPs[partyCnt] = 0;
 							for (var pidx=0; pidx < data.length; pidx++) {
 								if (beforeParty != data[pidx].party) {
@@ -1905,7 +1961,7 @@
 										}
 									}
 									partyCnt++;
-									if (0 < partyCnt && 0 == (partyCnt-1)%5) {
+									if (1 < partyCnt && 0 == (partyCnt-1)%5) {
 										rowCnt++;
 									}
 									if ('undefined' == typeof this.parties[rowCnt]) {
@@ -1915,8 +1971,35 @@
 										this.parties[rowCnt][partyCnt-1] = [];
 										this.partyCPs[partyCnt-1] = 0;
 									}
+									if (-1 < this.partySchedule.tag.indexOf('レイド') && 'undefined' != typeof this.parties[rowCnt][partyCnt-1] && 'undefined' != typeof this.parties[rowCnt][partyCnt-1][0] && this.parties[rowCnt][partyCnt-1][0].name == '') {
+										while (11 > partyCnt && this.parties[rowCnt][partyCnt-1][0].party != data[pidx].party) {
+											if (0 < partyCnt && 5 > this.parties[rowCnt][partyCnt-1].length) {
+												var paddingLen = 5 - this.parties[rowCnt][partyCnt-1].length;
+												for (var mpidx=0; mpidx < paddingLen; mpidx++) {
+													var emptyUser = {name: '　', cp: '　',};
+													this.parties[rowCnt][partyCnt-1].push(emptyUser);
+												}
+											}
+											partyCnt++;
+											if (1 < partyCnt && 0 == (partyCnt-1)%5) {
+												rowCnt++;
+											}
+											if ('undefined' == typeof this.parties[rowCnt]) {
+												this.parties[rowCnt] = [];
+											}
+											if ('undefined' == typeof this.parties[rowCnt][partyCnt-1]) {
+												this.parties[rowCnt][partyCnt-1] = [];
+												this.partyCPs[partyCnt-1] = 0;
+											}
+										}
+									}
 								}
-								this.parties[rowCnt][partyCnt-1].push(data[pidx]);
+								if (-1 < this.partySchedule.tag.indexOf('レイド') && 'undefined' != typeof this.parties[rowCnt][partyCnt-1] && 'undefined' != typeof this.parties[rowCnt][partyCnt-1][0] && this.parties[rowCnt][partyCnt-1][0].name == '') {
+									this.parties[rowCnt][partyCnt-1][0] = data[pidx];
+								}
+								else {
+									this.parties[rowCnt][partyCnt-1].push(data[pidx]);
+								}
 								this.partyCPs[partyCnt-1] += parseInt(data[pidx].cp);
 								beforeParty = data[pidx].party;
 							}
@@ -1927,6 +2010,7 @@
 									this.parties[rowCnt][partyCnt-1].push(emptyUser);
 								}
 							}
+							console.log(this.parties);
 							console.log(this.partyCPs);
 							riot.update();
 						};
@@ -1979,6 +2063,7 @@
 				</party>
 			</script>
 
+			<!-- detailschedule -->
 			<script type="riot/tag">
 				<detailschedule>
 					<div  class="row">
@@ -2007,6 +2092,7 @@
 												<botton class="btn btn-danger" onclick="{onEntryNG}">✕</botton>
 											</div>
 										</div>
+										<br/>
 										<div if={'on'!=getParams['view']}>
 											<h4 if={-1 < schedule.tag.indexOf('レイド')}>
 												レイドPT設定
@@ -2084,9 +2170,119 @@
 													<botton class="btn btn-default focus" onclick="{onEntryPT}" data-party="0">PTから外す</botton>
 												</div>
 											</div>
+											<div class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-danger focus" onclick="{onAllDientryPT}">PTオールリセット</botton>
+												</div>
+											</div>
+										</div>
+										<br/>
+										<div if={'on'!=getParams['view']}>
+											<h4>PTラベル設定 <small><botton onclick="{switchPTLabelEdit}" style="border: 1px solid gray;">開く</botton></small></h4>
+											<div id="ptlabelform" style="display: none;">
+												<small>※ラベルは<a href="javascript: void(0);" onclick="{showPT}">PT表</a>時に適用されます</small>
+												<div if={-1 < schedule.tag.indexOf('レイド')} class="form-group">
+													<div class="btn-group">
+														<input type="text" name="schedulept49label" value="{schedule.pt49label}" class="form-control" placeholder="1A"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div if={-1 < schedule.tag.indexOf('レイド')} class="form-group">
+													<div class="btn-group">
+														<input type="text" name="schedulept48label" value="{schedule.pt48label}" class="form-control" placeholder="1B"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="btn-group">
+														<input if={-1 < schedule.tag.indexOf('レイド')} type="text" name="schedulept39label" value="{schedule.pt39label}" class="form-control" placeholder="2A"/>
+														<input if={0 > schedule.tag.indexOf('レイド')} type="text" name="schedulept39label" value="{schedule.pt39label}" class="form-control" placeholder="星刻"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="btn-group">
+														<input if={-1 < schedule.tag.indexOf('レイド')} type="text" name="schedulept38label" value="{schedule.pt38label}" class="form-control" placeholder="2B"/>
+														<input if={0 > schedule.tag.indexOf('レイド')} type="text" name="schedulept38label" value="{schedule.pt38label}" class="form-control" placeholder="偵察"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div if={0 > schedule.tag.indexOf('レイド')} class="form-group">
+													<div class="btn-group">
+														<input type="text" name="schedulept37label" value="{schedule.pt37label}" class="form-control" placeholder="封殺"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="btn-group">
+														<input if={-1 < schedule.tag.indexOf('レイド')} type="text" name="schedulept29label" value="{schedule.pt29label}" class="form-control" placeholder="3A"/>
+														<input if={0 > schedule.tag.indexOf('レイド')} type="text" name="schedulept29label" value="{schedule.pt29label}" class="form-control" placeholder="FW1"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="btn-group">
+														<input if={-1 < schedule.tag.indexOf('レイド')} type="text" name="schedulept28label" value="{schedule.pt28label}" class="form-control" placeholder="3B"/>
+														<input if={0 > schedule.tag.indexOf('レイド')} type="text" name="schedulept28label" value="{schedule.pt28label}" class="form-control" placeholder="FW2"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div if={0 > schedule.tag.indexOf('レイド')} class="form-group">
+													<div class="btn-group">
+														<input type="text" name="schedulept27label" value="{schedule.pt27label}" class="form-control" placeholder="FW3"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="btn-group">
+														<input if={-1 < schedule.tag.indexOf('レイド')} type="text" name="schedulept19label" value="{schedule.pt19label}" class="form-control" placeholder="4A"/>
+														<input if={0 > schedule.tag.indexOf('レイド')} type="text" name="schedulept19label" value="{schedule.pt19label}" class="form-control" placeholder="MF1"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="btn-group">
+														<input if={-1 < schedule.tag.indexOf('レイド')} type="text" name="schedulept18label" value="{schedule.pt18label}" class="form-control" placeholder="4B"/>
+														<input if={0 > schedule.tag.indexOf('レイド')} type="text" name="schedulept18label" value="{schedule.pt18label}" class="form-control" placeholder="MF2"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div if={0 > schedule.tag.indexOf('レイド')} class="form-group">
+													<div class="btn-group">
+														<input type="text" name="schedulept27label" value="{schedule.pt17label}" class="form-control" placeholder="MF3"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="btn-group">
+														<input if={-1 < schedule.tag.indexOf('レイド')} type="text" name="schedulept9label" value="{schedule.pt9label}" class="form-control" placeholder="5A"/>
+														<input if={0 > schedule.tag.indexOf('レイド')} type="text" name="schedulept9label" value="{schedule.pt9label}" class="form-control" placeholder="DF1"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="btn-group">
+														<input if={-1 < schedule.tag.indexOf('レイド')} type="text" name="schedulept8label" value="{schedule.pt8label}" class="form-control" placeholder="5B"/>
+														<input if={0 > schedule.tag.indexOf('レイド')} type="text" name="schedulept8label" value="{schedule.pt8label}" class="form-control" placeholder="DF2"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div if={0 > schedule.tag.indexOf('レイド')} class="form-group">
+													<div class="btn-group">
+														<input type="text" name="schedulept7label" value="{schedule.pt7label}" class="form-control" placeholder="DF3"/>
+														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+													</div>
+												</div>
+												<div class="form-group">
+													<div class="btn-group">
+														<botton class="btn btn-success" onclick="onclickSavePTLabel(this, '{schedule.ID}')">適用</botton>
+													</div>
+												</div>
+											</div>
 										</div>
 									</form>
 								</div>
+								<br/>
 								<h3 style="margin-left: 10px; margin-bottom: -10px;">予定詳細</h3>
 								<addschedule/>
 							</div>
@@ -2212,6 +2408,7 @@
 										for (var suidx=0; suidx < thisis.scheduleusers.length; suidx++) {
 											if (thisis.selectusers[uidx].ID == thisis.scheduleusers[suidx].ID){
 												// 最新パラメータのコピー
+												thisis.scheduleusers[suidx].name = thisis.selectusers[uidx].name;
 												thisis.scheduleusers[suidx].cp = parseInt(thisis.selectusers[uidx].cp);
 												thisis.scheduleusers[suidx].activity = thisis.selectusers[uidx].activity;
 												if (mode==1) {
@@ -2412,6 +2609,15 @@
 						}
 						location.href = newhref;
 					};
+					switchPTLabelEdit = function (event) {
+						if ($(event.target).text() == '開く') {
+							$('#ptlabelform').show();
+							$(event.target).text('閉じる');
+						} else {
+							$('#ptlabelform').hide();
+							$(event.target).text('開く');
+						}
+					};
 					onEntryOK = function () {
 						var index = $('#entryscheduleform').find('select[name=scheduleuser] option:selected').val();
 						if (0 > parseInt(index)) {
@@ -2465,7 +2671,7 @@
 					};
 					onEntryNG = function () {
 						var index = $('#entryscheduleform').find('select[name=scheduleuser] option:selected').val();
-						if (0 > parseInt(index)) {
+						if (0 > parseInt(index) || isNaN(parseInt(index))) {
 							alert('参加キャラを選択して下さい。');
 							return;
 						}
@@ -2661,7 +2867,7 @@
 								targetElm.text('&nbsp;&nbsp;無');
 							}
 							else {
-								targetElm.text($(target.srcElement).text());
+								targetElm.text('&nbsp;&nbsp;'+$(target.srcElement).text());
 							}
 							targetElm.attr('data-party', partyData.party);
 							loading(true);
@@ -2675,9 +2881,38 @@
 							});
 						}
 					};
+					onAllDientryPT = function (target) {
+						if (!confirm('全てのキャラをPTから外します！\nよろしいですか？')) {
+							return;
+						}
+						loading(true);
+						allDientryPT = function (uIdx){
+							console.log('uIdx='+uIdx);
+							if ('undefined' != typeof thisis.scheduleusers[uIdx] && 0 < thisis.scheduleusers[uIdx].party) {
+								thisis.scheduleusers[uIdx].party = 0;
+								if ('同一タグの前回のPT編成をコピー' == thisis.scheduleusers[uIdx].comment) {
+									thisis.scheduleusers[uIdx].comment = '';
+								}
+								registerScheduleuser(getParams['scheduleid'], thisis.scheduleusers[uIdx], function (){
+									allDientryPT(uIdx+1);
+								});
+							}
+							else if (uIdx < thisis.scheduleusers.length) {
+								allDientryPT(uIdx+1);
+							}
+							else {
+								loading(false);
+								alert('全てのキャラをPTから外しました。');
+								location.reload();
+								return;
+							}
+						};
+						allDientryPT(0);
+					};
 				</detailschedule>
 			</script>
 
+			<!-- addnews -->
 			<script type="riot/tag">
 				<addnews>
 					<div  class="row">
@@ -2842,6 +3077,7 @@
 				</addnews>
 			</script>
 
+			<!-- contribution -->
 			<script type="riot/tag">
 				<contribution>
 					<div  class="row">
@@ -3058,6 +3294,7 @@
 				</contribution>
 			</script>
 
+			<!-- users -->
 			<script type="riot/tag">
 				<users>
 					<div style="padding-left: 10px; padding-right: 10px;">
@@ -3107,8 +3344,8 @@
 									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning draggable" style="font-size: xx-small; padding-left: 3px; padding-right: 0;">△</td>
 									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger draggable" style="font-size: xx-small; padding-left: 4px; padding-right: 0;">✕</td>
 
-									<td if={opts.mode=='schedule' && user.party==49 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="49" style="color: black; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;1A</td>
-									<td if={opts.mode=='schedule' && user.party==48 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="48" style="color: black; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;1B</td>
+									<td if={opts.mode=='schedule' && user.party==49 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="49" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;1A</td>
+									<td if={opts.mode=='schedule' && user.party==48 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="48" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;1B</td>
 									<td if={opts.mode=='schedule' && user.party==39 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="39" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;2A</td>
 									<td if={opts.mode=='schedule' && user.party==38 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="38" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;2B</td>
 									<td if={opts.mode=='schedule' && user.party==37 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
@@ -3566,6 +3803,7 @@
 				</users>
 			</script>
 
+			<!-- howto -->
 			<script type="riot/tag">
 				<howto>
 					<div  class="row">
@@ -3674,6 +3912,7 @@
 				</howto>
 			</script>
 
+			<!-- inquiry -->
 			<script type="riot/tag">
 				<inquiry>
 					<div style="padding: 20px;">
@@ -3692,6 +3931,7 @@
 				</inquiry>
 			</script>
 
+			<!-- manage -->
 			<script type="riot/tag">
 				<manage>
 					<div style="padding: 20px;">
@@ -3733,10 +3973,10 @@
 					});
 				</manage>
 			</script>
-
 		</section>
 
-		<section id="scripts">
+		<!-- libraries -->
+		<section id="libraries">
 			<!-- platform js -->
 			<script src="//cdnjs.cloudflare.com/ajax/libs/platform/1.3.5/platform.min.js"></script>
 
@@ -3767,9 +4007,12 @@
 
 			<!-- Discord -->
 			<script src="//greasyfork.org/scripts/29088-discord-js-for-browser/code/Discordjs%20for%20Browser.js?version=208579"></script>
+		</section>
 
+		<!-- initialize-scripts -->
+		<section id="initialize-scripts">
+			<!-- Initialize Firebase -->
 			<script>
-				// Initialize Firebase
 				var config = {
 					apiKey: "AIzaSyDYyTbnnltwtf4qPOjn7i1d3PRVAQBclIE",
 					authDomain: "rinerebo-210503.firebaseapp.com",
@@ -3793,8 +4036,7 @@
 				firebase.initializeApp(config);
 				firebase.firestore().settings({timestampsInSnapshots: true,});
 			</script>
-
-			<!-- this app -->
+			<!-- this app [global vars] -->
 			<script>
 				var firstView = false;
 				var totalcp = 0;
@@ -3935,7 +4177,13 @@
 					jobbufs['ブレイダー'] = '近距離';
 					jobbufs['リトルサマナー'] = '遠距離';
 				}
+			</script>
+		</section>
 
+		<!-- this app functions -->
+		<section id="scripts">
+			<!-- this app [utility functions] -->
+			<script>
 				var portlate = false;
 				var dispatchPortlateLayout = function(){
 					if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
@@ -3963,7 +4211,6 @@
 						}
 					}
 				}
-
 				var getUrlVars = function(){
 					var vars = {};
 					var param = location.search.substring(1).split('&');
@@ -3989,6 +4236,10 @@
 						}
 					}
 				};
+			</script>
+
+			<!-- this app [database functions] -->
+			<script>
 				var auth = function (clanID, callback) {
 					loading(true);
 					var loginRedirect = false;
@@ -4240,7 +4491,7 @@
 					if (data.ID != '') {
 						scheduleID = data.ID;
 						delete data.ID;
-						firebase.firestore().collection("schedules").doc(scheduleID).set(data).then(function(snapshot) {
+						firebase.firestore().collection("schedules").doc(scheduleID).update(data).then(function(snapshot) {
 							if (callback) {
 								callback(scheduleID);
 							}
@@ -4708,6 +4959,10 @@
 						loading(false);
 					});
 				};
+			</script>
+
+			<!-- this app [event functions] -->
+			<script>
 				var clerinput = function (target) {
 					$(target).parent().find('input').val('');
 				};
@@ -4874,6 +5129,75 @@
 						return;
 					}
 					alert('入力が正しくない項目があった為、処理を中断します。');
+				};
+				var onclickSavePTLabel = function (target, scheduleID) {
+					if (0 < scheduleID.length) {
+						var schedulept49label = $('#entryscheduleform').find('input[name=schedulept49label]').val();
+						var schedulept48label = $('#entryscheduleform').find('input[name=schedulept48label]').val();
+						//var schedulept47label = $('#entryscheduleform').find('input[name=schedulept47label]').val();
+						var schedulept39label = $('#entryscheduleform').find('input[name=schedulept39label]').val();
+						var schedulept38label = $('#entryscheduleform').find('input[name=schedulept38label]').val();
+						var schedulept37label = $('#entryscheduleform').find('input[name=schedulept37label]').val();
+						var schedulept29label = $('#entryscheduleform').find('input[name=schedulept29label]').val();
+						var schedulept28label = $('#entryscheduleform').find('input[name=schedulept28label]').val();
+						var schedulept27label = $('#entryscheduleform').find('input[name=schedulept27label]').val();
+						var schedulept19label = $('#entryscheduleform').find('input[name=schedulept19label]').val();
+						var schedulept18label = $('#entryscheduleform').find('input[name=schedulept18label]').val();
+						var schedulept17label = $('#entryscheduleform').find('input[name=schedulept17label]').val();
+						var schedulept9label = $('#entryscheduleform').find('input[name=schedulept9label]').val();
+						var schedulept8label = $('#entryscheduleform').find('input[name=schedulept8label]').val();
+						var schedulept7label = $('#entryscheduleform').find('input[name=schedulept7label]').val();
+						var data = { ID: scheduleID };
+						if ('string' == typeof schedulept49label && 0 < schedulept49label.length) {
+							data.pt49label = schedulept49label;
+						}
+						if ('string' == typeof schedulept48label && 0 < schedulept48label.length) {
+							data.pt48label = schedulept48label;
+						}
+						/*if ('string' == typeof schedulept47label && 0 < schedulept47label.length) {
+							data.pt49label = schedulept47label;
+						}*/
+						if ('string' == typeof schedulept39label && 0 < schedulept39label.length) {
+							data.pt39label = schedulept39label;
+						}
+						if ('string' == typeof schedulept38label && 0 < schedulept38label.length) {
+							data.pt38label = schedulept38label;
+						}
+						if ('string' == typeof schedulept37label && 0 < schedulept37label.length) {
+							data.pt37label = schedulept37label;
+						}
+						if ('string' == typeof schedulept29label && 0 < schedulept29label.length) {
+							data.pt29label = schedulept29label;
+						}
+						if ('string' == typeof schedulept28label && 0 < schedulept28label.length) {
+							data.pt28label = schedulept28label;
+						}
+						if ('string' == typeof schedulept27label && 0 < schedulept27label.length) {
+							data.pt27label = schedulept27label;
+						}
+						if ('string' == typeof schedulept19label && 0 < schedulept19label.length) {
+							data.pt19label = schedulept19label;
+						}
+						if ('string' == typeof schedulept18label && 0 < schedulept18label.length) {
+							data.pt18label = schedulept18label;
+						}
+						if ('string' == typeof schedulept17label && 0 < schedulept17label.length) {
+							data.pt17label = schedulept17label;
+						}
+						if ('string' == typeof schedulept9label && 0 < schedulept9label.length) {
+							data.pt9label = schedulept9label;
+						}
+						if ('string' == typeof schedulept8label && 0 < schedulept8label.length) {
+							data.pt8label = schedulept8label;
+						}
+						if ('string' == typeof schedulept7label && 0 < schedulept7label.length) {
+							data.pt7label = schedulept7label;
+						}
+						registerSchedule(clan.ID, data, function (newScheduleID){
+							alert('更新しました。');
+							return;
+						});
+					}
 				};
 				var onclickRegisterNews = function (target) {
 					var newstext = $('#editnewsform').find('textarea[name=newstext]').val();
@@ -5467,6 +5791,10 @@
 					$('#downloader')[0].click();
 					return false;
 				};
+			</script>
+
+			<!-- this app start -->
+			<script>
 				$(function() {
 					loading(true);
 					getParams = getUrlVars();

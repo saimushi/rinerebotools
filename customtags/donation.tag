@@ -1,4 +1,3 @@
-<!-- Stripe Checkout -->
 <donation>
   <form action="https://l2rtool-donation.glitch.me" class="donation-form" method="POST"></form>
   <script type="text/javascript">
