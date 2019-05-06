@@ -2085,7 +2085,7 @@
 										<div class="form-group">
 											<select class="form-control" name="scheduleuser">
 												<option value="-1">参加キャラ</option>
-												<option each="{_user, index in selectusers_}" value={index} data={_user.name}>{_user.outlabel}{_user.name}</option>
+												<option each="{_user, index in selectusers_}" value={index} data={escapeHTML(_user.name)}>{_user.outlabel}{_user.name}</option>
 											</select>
 										</div>
 										<div class="form-group">
@@ -5560,7 +5560,7 @@
 							var scheduleusername = $(target).parent().find('.scheduleusername').text();
 							var schedulecomment = $(target).parent().find('.schedulecomment').text();
 							var scheduleparty = $(target).parent().find('.scheduleparty').data();
-							var scheduleuserindex = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
+							var scheduleuserindex = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + escapeHTML(scheduleusername) + '"]').val();
 							$('#entryscheduleform').find('select[name=scheduleuser]').val(scheduleuserindex);
 							$('#entryscheduleform').find('input[name=schedulecomment]').val(schedulecomment);
 							if ('undefined' != typeof scheduleparty && 'undefined' != typeof scheduleparty.party) {
