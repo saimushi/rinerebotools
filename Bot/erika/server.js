@@ -355,7 +355,9 @@ var _notifyOfficalInfo = function (targetClans, targetClan, targetNotifies, noti
       _name = '血盟管理ツールからのお知らせ';
       _avatarURL = 'https://line2revo.fun/images/l2r/titlelogo.png';
     }
-    _sendWebhookMessage(targetClan, null, '@everyone \n' + targetNotify.message , _name, _avatarURL);
+    if (!(-1 < targetNotify.message.indexOf('公式がツイートしました') && 'undefined' != typeof targetClan.twitterDisabled && 1 == targetClan.twitterDisabled)) {
+      _sendWebhookMessage(targetClan, null, '@everyone \n' + targetNotify.message , _name, _avatarURL);
+    }
     firestore.collection("notify").doc(targetNotify.ID).update({notified: true}).then(function(querySnapshot) {
       notifyIndex = notifyIndex + 1;
       _notifyOfficalInfo(targetClans, targetClan, targetNotifies, notifyIndex);

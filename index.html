@@ -763,6 +763,13 @@
 								</div>
 								<small class="text-info">※任意 DiscordのWebhooks設定の「WEBHOOK URL」をそのままコピペして下さい</small>
 							</div>
+							<div if={'#setting' == location.hash} class="form-check">
+								<input if={'number' == typeof clan.twitterDisabled && clan.twitterDisabled === 1} type="checkbox" name="twitterDisabled" value="1"  class="form-check-input" id="twitterDisabled"/>
+								<input if={false == ('number' == typeof clan.twitterDisabled && clan.twitterDisabled === 1)} type="checkbox" name="twitterDisabled" value="1"  class="form-check-input" id="twitterDisabled" checked="checked"/>
+								<label class="form-check-label" for="twitterDisabled">公式ツイートを自動通知</label>
+								<br/>
+								<br/>
+							</div>
 							<botton class="btn btn-success" onclick="onclickRegisterClan(this)">登録</botton>
 						</form>
 					</div>
@@ -4991,6 +4998,10 @@
 						}
 						if ('#setting' == location.hash && 'undefined' != typeof getParams['clanid'] && 0 < getParams['clanid'].length) {
 							updateClnaID = getParams['clanid'];
+						}
+						data.twitterDisabled = 1;
+						if ($('#registerClanform').find('input[name=twitterDisabled]').prop('checked')) {
+							data.twitterDisabled = 0;
 						}
 						console.log(data);
 						registerClan(updateClnaID, data, function (newClanID){
