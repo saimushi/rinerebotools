@@ -600,15 +600,24 @@ bot.on('messageCreate', (msg) => {
     newcp = parseInt(msg.content);
     cmd = 1;
     var randnum = 1 + Math.floor( Math.random() * 100 );
-    if (mode == 2 && 'つかさ#7044' == msg.author.username + '#' + msg.author.discriminator) {
-      if (randnum > 30 && randnum <= 50) {
-        msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[0] + '\n\n・・・ってあれ？？つかさ今日こんなもん？？\n');
+    if (mode == 2 && ('つかさ#7044' == msg.author.username + '#' + msg.author.discriminator || 'Vega#3839' == msg.author.username + '#' + msg.author.discriminator)) {
+      if (randnum > 30 && randnum <= 40) {
+        msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[0] + '\n\n・・・ってあれ？？' + msg.author.username + '今日こんなもん？？\n');
       }
-      else if (randnum > 50 && randnum <= 70) {
+      else if (randnum > 50 && randnum <= 60) {
         msg.channel.createMessage('<@' + msg.author.id + '> マジかよまた戦闘力上げたの？・・・ところでオレにスシってのご馳走してくれるって約束覚えてる？？\n');
       }
-      else if (randnum > 70 && randnum <= 90) {
+      else if (randnum > 70 && randnum <= 80) {
         msg.channel.createMessage('<@' + msg.author.id + '> 今日も順調に上がってるね！もうメンドーだし取り敢えず1マンとかに更新しとく？\n');
+      }
+      if (randnum > 40 && randnum <= 50) {
+        msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[0] + '\n\n今日あと10回くらいは更新するんだよな？？\n');
+      }
+      else if (randnum > 60 && randnum <= 70) {
+        msg.channel.createMessage('<@' + msg.author.id + '> はいはい戦闘力の更新なー。\n\nでも俺が思ってたより低いわ。ショージキもっと上げてくると思ってたわ。\n\n本当にこれで更新しちゃっていいの？？\n');
+      }
+      else if (randnum > 80 && randnum <= 90) {
+        msg.channel.createMessage('<@' + msg.author.id + '> 戦闘力の更新も良いんだけどさ、たまには俺に酒っていうおいしいお水？ご馳走してくれても良いんだぜ？？なんなら皆にご馳走ってのもアリだぜ？\n');
       }
       randnum = 999;
     }
@@ -659,6 +668,11 @@ bot.on('messageCreate', (msg) => {
     if (-1 < entry.indexOf('聞き専')) {
       entry = entry.replace('聞き専', '').trim();
       newSelection = 2
+    }
+    else if (mode == 2 && -1 < entry.indexOf('聞き戦')) {
+      entry = entry.replace('聞き戦', '').trim();
+      newSelection = 2
+      msg.channel.createMessage('意地を通すのは不便なものよな。生に涯あれど名に涯はなし！！ この一戦こそわれらいくさ人のひのき舞台だぞ！！\n');
     }
     else if (-1 < entry.indexOf('可能')) {
       entry = entry.replace('可能', '').trim();

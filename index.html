@@ -136,6 +136,9 @@
 			.table-striped>tbody>tr:nth-of-type(odd) {
 				background-color: #ffffff;
 			}
+			dashboard .table-striped>tbody#partylist.mode1partylist>tr:nth-child(-n+30) {
+				background-color: #dff3fa;
+			}
 			.table-hover>tbody>tr:hover {
 				background-color: #2dabc1;
 			}
@@ -519,7 +522,7 @@
 							<div class="container-fluid" style="padding: 10px;">
 								<h2 style="margin-top: 5px;"><a href="{clanurl}">{clanname}</a></h2>
 								<h4>アクティブ{clanMemberLabel}数: {usercnt}</h4>
-								<h5 if={mode==1}>LRT選考基準CP: {prelrtcp.toLocaleString()}</h5>
+								<h5 if={mode==1} style="color: #31b0d5;">LRT選考基準CP: {prelrtcp.toLocaleString()}</h5>
 								<h5>総アクティブCP: {totalcp.toLocaleString()}</h5>
 								<small>
 									<b style="font-size: x-small;">{url}</b>
@@ -1631,7 +1634,7 @@
 								<h5>入団日(選択して下さい)</h5>
 								<div class='input-group date' id='joinddate'/>
 							</div>
-							<botton class="btn btn-success" onclick="onclickRegister(this, '{user.ID}', &quot;{user.name}&quot;)">登録</botton>
+							<botton class="btn btn-success" onclick="onclickRegister(this, '{user.ID}', '{escapeHTML(user.name)}')">登録</botton>
 							<botton if={user.ID!='' && 'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
@@ -3338,7 +3341,7 @@
 									<th if={opts.mode!='schedule'} style="font-size: 6px; padding-left: 1px; padding-right: 0;">メモ</th>
 								</tr>
 							</thead>
-							<tbody id="partylist">
+							<tbody id="partylist" class="mode{mode}partylist">
 								<tr each="{user, index in opts.data}" class="activity{user.activity}" id="party_{index+1}" index="{index}">
 									<td if={opts.mode=='contribution'} onclick="onclickModify(this, '{user.ID}');" style="padding-left: 3px; padding-right: 3px; text-align: right;">{index+1}</td>
 									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution draggable" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0; text-align: right;"><b>{opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)}</b></td>
@@ -3420,7 +3423,7 @@
 									<td if={mode==2 && opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 1px; padding-right: 2px; text-align: right;">{user.spiritlevel}</td>
 									<td if={mode==1 && opts.mode=='contribution' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
 									<td if={mode==1 && opts.mode=='contribution' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
-									<td if={mode==1 && user.dzone==10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dzone}</td>
+									<td if={mode==1 && user.dzone==10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; font-weight: bold; padding-left: 0; padding-right: 1px; text-align: right;">{user.dzone}</td>
 									<td if={mode==1 && isNaN(user.dzone)} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;"></td>
 									<td if={mode==1 && !isNaN(user.dzone) && user.dzone!=10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dzone}</td>
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpat}</td>
@@ -4229,6 +4232,9 @@
 							if(key != '') vars[key] = decodeURI(val);
 					}
 					return vars;
+				};
+				var escapeHTML = function (str) {
+				   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 				};
 				var loading = function (show) {
 					if (show) {
