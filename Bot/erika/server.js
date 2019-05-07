@@ -603,23 +603,28 @@ bot.on('messageCreate', (msg) => {
     if (mode == 2 && ('つかさ#7044' == msg.author.username + '#' + msg.author.discriminator || 'Vega#3839' == msg.author.username + '#' + msg.author.discriminator)) {
       if (randnum > 30 && randnum <= 40) {
         msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[0] + '\n\n・・・ってあれ？？' + msg.author.username + '今日こんなもん？？\n');
+        randnum = 999;
       }
       else if (randnum > 50 && randnum <= 60) {
         msg.channel.createMessage('<@' + msg.author.id + '> マジかよまた戦闘力上げたの？・・・ところでオレにスシってのご馳走してくれるって約束覚えてる？？\n');
+        randnum = 999;
       }
       else if (randnum > 70 && randnum <= 80) {
         msg.channel.createMessage('<@' + msg.author.id + '> 今日も順調に上がってるね！もうメンドーだし取り敢えず1マンとかに更新しとく？\n');
+        randnum = 999;
       }
-      if (randnum > 40 && randnum <= 50) {
+      else if (randnum > 40 && randnum <= 50) {
         msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[0] + '\n\n今日あと10回くらいは更新するんだよな？？\n');
+        randnum = 999;
       }
       else if (randnum > 60 && randnum <= 70) {
         msg.channel.createMessage('<@' + msg.author.id + '> はいはい戦闘力の更新なー。\n\nでも俺が思ってたより低いわ。ショージキもっと上げてくると思ってたわ。\n\n本当にこれで更新しちゃっていいの？？\n');
+        randnum = 999;
       }
       else if (randnum > 80 && randnum <= 90) {
         msg.channel.createMessage('<@' + msg.author.id + '> 戦闘力の更新も良いんだけどさ、たまには俺に酒っていうおいしいお水？ご馳走してくれても良いんだぜ？？なんなら皆にご馳走ってのもアリだぜ？\n');
+        randnum = 999;
       }
-      randnum = 999;
     }
     if (randnum < 999) {
       msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[0] + '\n');
