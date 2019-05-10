@@ -1701,6 +1701,10 @@
 								<br/>
 								<small>※この機能を利用する為には<a href="https://t.co/3CE3BIYqcV" target="_blank">"エリカ様Bot"</a>の導入が必要です！</small>
 								<br/>
+								<input if={schedule.autoResetPT==true} type="checkbox" name="scheduleautoresetpt" value="1"  class="form-check-input" id="scheduleautoresetpt" checked="checked"/>
+								<input if={schedule.autoResetPT!=true} type="checkbox" name="scheduleautoresetpt" value="1"  class="form-check-input" id="scheduleautoresetpt"/>
+								<label class="form-check-label" for="scheduleautoresetpt">自動リセット時に編成と参加不参加もリセット</label>
+								<br/>
 								<br/>
 							</div>
 							<input type="hidden" name="scheduleincount" value="{schedule.incount}" id='scheduleincount'/>
@@ -2549,7 +2553,7 @@
 														var scheduleusername = from.parent().find('.scheduleusername').text();
 														var schedulecomment = from.parent().find('.schedulecomment').text();
 														var scheduleparty = to.data();
-														var scheduleuserindex = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
+														var scheduleuserindex = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + escapeHTML(scheduleusername) + '"]').val();
 														if (scheduleparty.party == thisis.selectusers_[scheduleuserindex].party) {
 															// PT変わってないので無視
 															return;
@@ -2718,7 +2722,7 @@
 							}
 						}
 						var scheduleusername = $(target).parent().find('.scheduleusername').text();
-						var index = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + scheduleusername + '"]').val();
+						var index = $('#entryscheduleform').find('select[name=scheduleuser] option[data="' + escapeHTML(scheduleusername) + '"]').val();
 						var scheduleuser = thisis.selectusers_[index];
 						if ('undefined' == typeof scheduleuser.entry) {
 							alert('出欠登録を先にする必要があります。');
@@ -5082,8 +5086,12 @@
 					var scheduleincount = $('#addscheduleform').find('input[name=scheduleincount]').val();
 					var scheduletype = $('#addscheduleform').find('select[name=scheduletype] option:selected').val();
 					var scheduleautoreset = false;
+					var scheduleautoresetpt = false;
 					if ($('#addscheduleform').find('input[name=scheduleautoreset]').prop('checked')) {
 						scheduleautoreset = true;
+						if ($('#addscheduleform').find('input[name=scheduleautoresetpt]').prop('checked')) {
+							scheduleautoresetpt = true;
+						}
 					}
 					if (1 > scheduleincount.length) {
 						scheduleincount = '0';
@@ -5095,7 +5103,7 @@
 						}
 					}
 					if (0 < schedulename.length && 0 < scheduledate.length && 0 < scheduleincount.length) {
-						var data = { ID: scheduleID, name: schedulename, date: new Date(scheduledate), tag: scheduletag, incount: parseInt(scheduleincount), type: parseInt(scheduletype), autoReset: scheduleautoreset };
+						var data = { ID: scheduleID, name: schedulename, date: new Date(scheduledate), tag: scheduletag, incount: parseInt(scheduleincount), type: parseInt(scheduletype), autoReset: scheduleautoreset, autoResetPT: scheduleautoresetpt };
 						registerSchedule(clan.ID, data, function (newScheduleID){
 							data.ID = newScheduleID;
 							if ('#detailschedule' == location.hash && 'undefined' != typeof getParams['scheduleid'] && 0 < getParams['scheduleid'].length) {

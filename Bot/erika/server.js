@@ -146,7 +146,7 @@ var _resetScheduleUser = function (targetSchedule, targetUsers, targetSchedules,
       if(snapshot.exists) {
         data = snapshot.data();
       }
-      if (data && data.activity > -1) {
+      if (data && data.activity > -1 && true != ('undefined' != typeof targetSchedule.autoResetPT && true == targetSchedule.autoResetPT)) {
         targetSchedule.incount++;
         firestore.collection("schedules").doc(targetSchedule.ID).collection("users").doc(targetUser.ID).update({entry:0, comment:'同一タグの前回のPT編成をコピー'}).then(function(_snapshot) {
           _resetScheduleUser(targetSchedule, targetUsers, targetSchedules, targetClans, targetClan, targetBigin, targetStart);
@@ -187,7 +187,7 @@ var _resetSchedule = function (targetSchedules, targetClans, targetClan, targetB
     var targetSchedule = targetSchedules[0];
     targetSchedule.incount = 0;
     targetSchedules.shift();
-    firestore.collection("schedules").doc(targetSchedule.ID).collection("users").where("entry", ">=", 0).get().then(function(querySnapshot) {
+    firestore.collection("schedules").doc(targetSchedule.ID).collection("users").get().then(function(querySnapshot) {
       var users = [];
       querySnapshot.forEach(function(snapshot) {
         if(snapshot.exists) {
