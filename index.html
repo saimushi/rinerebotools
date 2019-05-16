@@ -4604,7 +4604,15 @@
 							return false;
 						}
 						if (true != clan.donate && '' == _operation.ID) {
-							if (Object.keys(thisis.operations).length < 2) {
+							var myOCnt = 0;
+							var OKeys = Object.keys(thisis.operations);
+							var totalOCnt = OKeys.length;
+							for (var oidx=0; oidx < totalOCnt; oidx++) {
+								if (clan.ID == thisis.operations[OKeys[oidx]].clanid) {
+									myOCnt++;
+								}
+							}
+							if (myOCnt < 2) {
 								alert('作戦書を2件以上保存する場合には寄付履歴が必要になります！\nご注意下さいm(_ _)m');
 							}
 							else {
