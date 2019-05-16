@@ -4,13 +4,14 @@
 		<meta charset="utf-8"/>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<meta name="description" content="血盟管理ツール"/>
 		<meta name="robots" content="noindex"/>
 		<!-- Line2revo -->
+		<meta name="description" content="血盟管理ツール"/>
 		<meta id="ogimage" property="og:image" content="https://line2revo.fun/images/l2r/ogimage.png" />
 		<title>L2R Tool</title>
 		<!-- end/ -->
 		<!-- kurosaba --
+		<meta name="description" content="ギルド管理ツール"/>
 		<meta id="ogimage" property="og:image" content="https://kurosaba.fun/images/kurosaba/ogimage.png" />
 		<title>【黒い砂漠】ギルド管理 Tool</title>
 		<!-- end/ -->
@@ -381,6 +382,9 @@
 				<route path="party">
 					<party class="riotcontes"/>
 				</route>
+				<route path="addoperation">
+					<addoperation class="addoperation"/>
+				</route>
 				<route path="howto">
 					<howto class="riotcontes"/>
 				</route>
@@ -537,6 +541,7 @@
 									<a class="btn btn-success" href="#addschedule" style="margin-bottom: 10px;">予定追加</a>
 									<a class="btn btn-info" href="#adduser" style="margin-bottom: 10px;">{clanMemberLabel}追加</a>
 									<a class="btn btn-warning" href="#addnews" style="margin-bottom: 10px;">お知らせ管理</a>
+									<a if={mode==1} class="btn btn-primary" href="#addoperation" style="margin-bottom: 10px;">作戦書管理</a>
 									<a if={mode==1} class="btn btn-primary" href="#contribution" style="margin-bottom: 10px;">週間貢献度集計</a>
 								</div>
 								<table class="table table-bordered table-hover table-striped">
@@ -1745,7 +1750,7 @@
 				<party>
 					<div style="position: fixed; top: 5px;">
 						<h5 style="margin-top: 0; margin-bottom: 5px; padding-left: 5px;"><a href="{scheduleURL}">PT編成 {partySchedule.date} {partySchedule.name} 参加予定:{partySchedule.incount}人</a>&nbsp;&nbsp;&nbsp;<a href="{clan.url}">[ {clanPageLabel}に戻る ]</a></h5>
-						<div class="row">
+						<div id="partytable" class="row">
 							<table class="table border">
 								<tr each="{party, index in parties}">
 									<td each="{pusers, pindex in party}" if={pusers != null} style="padding: 0; border: none;">
@@ -1756,103 +1761,103 @@
 														<th if={!('string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1A</th>
 														<th if={!('string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==48} style="background-color: #aaa; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt48label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1B</th>
 														<th if={!('string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==39 || pusers[0].party==89} style="background-color: dodgerblue; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt39label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2A</th>
 														<th if={!('string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">聖刻</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==38} style="background-color: blue; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt38label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2B</th>
 														<th if={!('string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">偵察</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==37} style="background-color: navy; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt37label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
 														<th if={!('string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">封殺</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==29 || pusers[0].party==79} style="background-color: limegreen; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt29label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3A</th>
 														<th if={!('string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW1</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==28} style="border: none; background-color: green; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt28label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3B</th>
 														<th if={!('string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW2</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==27} style="border: none; background-color: darkgreen; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt27label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
 														<th if={!('string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW3</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==19 || pusers[0].party==69} style="border: none; background-color: gold; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt19label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4A</th>
 														<th if={!('string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF1</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==18} style="border: none; background-color: orange; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt18label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4B</th>
 														<th if={!('string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF2</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==17} style="border: none; background-color: darkorange; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt17label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
 														<th if={!('string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF3</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==9 || pusers[0].party==59} style="border: none; background-color: red; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt9label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5A</th>
 														<th if={!('string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF1</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==8} style="border: none; background-color: crimson; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt8label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5B</th>
 														<th if={!('string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF2</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==7} style="border: none; background-color: firebrick; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt7label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
 														<th if={!('string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF3</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr if={pusers[0].party==0} style="border: none; background-color: #444; color: white; font-size: 8px;">
 														<th style="border: none; width:100px; padding: 5px;">欠席</th>
 														<th style="border: none;"></th>
-														<th style="border: none; width:25px;"></th>
+														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
 													<tr each="{puser, uindex in pusers}" style="border: none;" class="activity{puser.activity}">
 														<td if={puser.status==2} class="text-info" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
@@ -1891,8 +1896,10 @@
 						$('footer').show();
 					});
 					this.on('mount', function() {
-						$('donation').hide();
-						$('footer').hide();
+						if (location.hash == '#party') {
+							$('donation').hide();
+							$('footer').hide();
+						}
 						var viewGrid = function (schedule, data) {
 							if (-1 < schedule.tag.indexOf('レイド')) {
 								for (var pidx=0; pidx < data.length; pidx++) {
@@ -2027,6 +2034,9 @@
 							console.log(this.parties);
 							console.log(this.partyCPs);
 							riot.update();
+							if (opts.scheduleid && 'function' == typeof onLoadParty) {
+								onLoadParty(schedule);
+							}
 						};
 						if (partyUsers != null && 'undefined' != typeof partyUsers.length) {
 							partyUsers.sort(function(a, b){
@@ -2043,14 +2053,26 @@
 						}
 						else {
 							auth(false, function (clan) {
-								$('footer').hide();
+								if (location.hash == '#party') {
+									$('footer').hide();
+								}
+								var scheduleid = undefined
+								if (location.hash == '#party') {
+									scheduleid = getParams['scheduleid'];
+								}
+								else if (opts.scheduleid) {
+									scheduleid = opts.scheduleid;
+								}
+								if ('undefined' == typeof scheduleid || scheduleid == 'none') {
+									return;
+								}
 								// APIからデータを撮ってくる
-								getSchedule(getParams['scheduleid'], function(schedule) {
+								getSchedule(scheduleid, function(schedule) {
 									var removeusers = {};
 									getUsers(clan.ID, false, function(users) {
 										console.log('pusers=');
 										console.log(users);
-										getScheduleUsers(getParams['scheduleid'], null, function(entryOKUsers) {
+										getScheduleUsers(scheduleid, null, function(entryOKUsers) {
 											console.log(entryOKUsers);
 											for (var uidx=0; uidx < users.length; uidx++) {
 												for (var euidx=0; euidx < entryOKUsers.length; euidx++) {
@@ -2210,7 +2232,7 @@
 												<div class="form-group">
 													<div class="btn-group">
 														<input if={-1 < schedule.tag.indexOf('レイド')} type="text" name="schedulept39label" value="{schedule.pt39label}" class="form-control" placeholder="2A"/>
-														<input if={0 > schedule.tag.indexOf('レイド')} type="text" name="schedulept39label" value="{schedule.pt39label}" class="form-control" placeholder="星刻"/>
+														<input if={0 > schedule.tag.indexOf('レイド')} type="text" name="schedulept39label" value="{schedule.pt39label}" class="form-control" placeholder="聖刻"/>
 														<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 													</div>
 												</div>
@@ -3613,7 +3635,7 @@
 							if (0 < e.target.files.length) {
 								var csv = e.target.files[0];
 								console.log(csv);
-								if (csv.type != 'text/plain' && csv.type != 'text/csv') {
+								if (csv.type != 'text/plain' && csv.type != 'text/csv' && csv.type != 'application/vnd.ms-excel') {
 									alert('指定されたファイルはCSVファイルではありません');
 									return;
 								}
@@ -3817,6 +3839,827 @@
 				</users>
 			</script>
 
+			<!-- addoperation -->
+			<script type="riot/tag">
+				<addoperation>
+					<div  class="row">
+						<div class="col-xs-4">
+							<div class="container-fluid">
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h3>作戦書登録</h3>
+									<form id="editnewsform">
+										<br/>
+										<h4>作戦名</h4>
+										<div class="form-group">
+											<div class="btn-group">
+												<input type="text" id="operationname" name="operationname" class="form-control" value="" placeholder="一点突破作戦！"/>
+												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+											</div>
+										</div>
+										<br/>
+										<h4>編成</h4>
+										<div class="form-group">
+											<select class="form-control" id="operationscheduleID" onchange="onchangeSchedule(this);">
+												<option value="none"></option>
+												<option each="{schedule, index in schedules}" value="{schedule.ID}">{schedule.name} ({schedule.ID})</option>
+											</select>
+											<small style="font-size: xx-small;">
+												※ 作成済みの予定の編成を読み込んで使用します。<br/>
+												新たに編成を行いたい場合は「<a href="#addschedule">予定追加</a>」から行って下さい。<br/>
+											</small>
+											<a id="partyimage" href="#" style="display: none;"><img src="" style="width: 300px;"/></a>
+											<party id="partyview" style="display: none;" scheduleid='{scheduleid}'>
+										</div>
+										<br/>
+										<h4>マップ</h4>
+										<canvas id="map" width="1200" height="800" style="width: 300px;"></canvas>
+										<div class="form-group">
+											<select class="form-control" id="operationmap" name="map" onchange="onchangeMap(this);">
+												<option value="11">要塞戦攻略</option>
+												<option value="12">要塞戦防衛</option>
+											</select>
+											<img id="map11image" src="./images/l2r/map-at.jpg" style="display: none;"/>
+											<img id="map12image" src="./images/l2r/map-df.jpg" style="display: none;"/>
+										</div>
+										<h4>開始位置</h4>
+										<div class="form-group">
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-info" style="background-color: #269abc; border-color: #1b6d85;">聖刻</label>
+												<label class="btn btn-info active"><input type="radio" name="pt39position" id="pt39positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-info"><input type="radio" name="pt39position" id="pt39positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-info"><input type="radio" name="pt39position" id="pt39positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-info" style="background-color: #269abc; border-color: #1b6d85;">偵察</label>
+												<label class="btn btn-info active"><input type="radio" name="pt38position" id="pt38positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-info"><input type="radio" name="pt38position" id="pt38positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-info"><input type="radio" name="pt38position" id="pt38positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-info" style="background-color: #269abc; border-color: #1b6d85;">封殺</label>
+												<label class="btn btn-info active"><input type="radio" name="pt37position" id="pt37positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-info"><input type="radio" name="pt37position" id="pt37positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-info"><input type="radio" name="pt37position" id="pt37positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-success" style="background-color: #398439; border-color: #255625;">FW1</label>
+												<label class="btn btn-success active"><input type="radio" name="pt29position" id="pt29positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-success"><input type="radio" name="pt29position" id="pt29positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-success"><input type="radio" name="pt29position" id="pt29positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-success" style="background-color: #398439; border-color: #255625;">FW2</label>
+												<label class="btn btn-success active"><input type="radio" name="pt28position" id="pt28positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-success"><input type="radio" name="pt28position" id="pt28positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-success"><input type="radio" name="pt28position" id="pt28positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-success" style="background-color: #398439; border-color: #255625;">FW3</label>
+												<label class="btn btn-success active"><input type="radio" name="pt27position" id="pt27positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-success"><input type="radio" name="pt27position" id="pt27positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-success"><input type="radio" name="pt27position" id="pt27positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-warning" style="background-color: #d58512; border-color: #d58512;">MF1</label>
+												<label class="btn btn-warning active"><input type="radio" name="pt19position" id="pt19positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-warning"><input type="radio" name="pt19position" id="pt19positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-warning"><input type="radio" name="pt19position" id="pt19positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-warning" style="background-color: #d58512; border-color: #d58512;">MF2</label>
+												<label class="btn btn-warning active"><input type="radio" name="pt18position" id="pt18positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-warning"><input type="radio" name="pt18position" id="pt18positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-warning"><input type="radio" name="pt18position" id="pt18positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-warning" style="background-color: #d58512; border-color: #d58512;">MF3</label>
+												<label class="btn btn-warning active"><input type="radio" name="pt17position" id="pt17positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-warning"><input type="radio" name="pt17position" id="pt17positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-warning"><input type="radio" name="pt17position" id="pt17positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-danger" style="background-color: #ac2925; border-color: #761c19;">DF1</label>
+												<label class="btn btn-danger active"><input type="radio" name="pt9position" id="pt9positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-danger"><input type="radio" name="pt9position" id="pt9positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-danger"><input type="radio" name="pt9position" id="pt9positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-danger" style="background-color: #ac2925; border-color: #761c19;">DF2</label>
+												<label class="btn btn-danger active"><input type="radio" name="pt8position" id="pt8positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-danger"><input type="radio" name="pt8position" id="pt8positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-danger"><input type="radio" name="pt8position" id="pt8positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+											<br/>
+											<br/>
+											<div class="btn-group btn-group-toggle" data-toggle="buttons">
+											  <label class="btn btn-danger" style="background-color: #ac2925; border-color: #761c19;">DF3</label>
+												<label class="btn btn-danger active"><input type="radio" name="pt7position" id="pt7positionNone" value="" autocomplete="off" onchange="onchangeMap(this);" checked="checked">無</label>
+											  <label class="btn btn-danger"><input type="radio" name="pt7position" id="pt7positionleft" value="left" autocomplete="off" onchange="onchangeMap(this);">左</label>
+											  <label class="btn btn-danger"><input type="radio" name="pt7position" id="pt7positionright" value="right" autocomplete="off" onchange="onchangeMap(this);">右</label>
+											</div>
+										</div>
+										<br/>
+										<h4>ルール</h4>
+										<div class="form-group">
+											<select id="rule" class="form-control" name="rule">
+												<option value="11">即復活アリ</option>
+												<option value="12">LRTルール</option>
+											</select>
+										</div>
+										<div class="form-group">
+											<textarea id="detailrule" class="form-control" name="detailrule" placeholder="バフ、高級p、ssあり" rows="3"></textarea>
+										</div>
+										<br/>
+										<h4>作戦</h4>
+										<div class="form-group">
+											<textarea id="operation" class="form-control" name="operation" placeholder="" rows="3"></textarea>
+											<br/>
+											<label class="btn btn-info" for="operationimage"><i class="fas fa-camera"></i> 画像添付</label>
+											<input type="hidden" id="operationimageurl" name="operationimageurl" value=""/>
+											<input type="file" id="operationimage" style="display: none;" onchange="{onchangeFile}"/>
+											<br/>
+											<img id="operationimage-thumbnail" crossOrigin="" style="padding-top: 10px; max-width: 300px;" src=""/>
+										</div>
+										<br/>
+										<h4>初動</h4>
+										<div class="form-group">
+											<textarea id="firstattack" class="form-control" name="firstattack" placeholder="" rows="3"></textarea>
+											<br/>
+											<label class="btn btn-info" for="firstattackimage"><i class="fas fa-camera"></i> 画像添付</label>
+											<input type="hidden" id="firstattackimageurl" name="firstattackimageurl" value=""/>
+											<input type="file" id="firstattackimage" style="display: none;" onchange="{onchangeFile}"/>
+											<br/>
+											<img id="firstattackimage-thumbnail" crossOrigin="" style="padding-top: 10px; max-width: 300px;" src=""/>
+										</div>
+										<br/>
+										<h4>その他事項</h4>
+										<div class="form-group">
+											<textarea id="otheroperation" class="form-control" name="otheroperation" placeholder="刻印中のポジションは・・・" rows="3"></textarea>
+											<br/>
+											<label class="btn btn-info" for="otherimage"><i class="fas fa-camera"></i> 画像添付</label>
+											<input type="hidden" id="otherimageurl" name="otherimageurl" value=""/>
+											<input type="file" id="otherimage" style="display: none;" onchange="{onchangeFile}"/>
+											<br/>
+											<img id="otherimage-thumbnail" crossOrigin="" style="padding-top: 10px; max-width: 300px;" src=""/>
+										</div>
+										<br/>
+										<h4>作戦書ID</h4>
+										<div class="form-group">
+											<div class="btn-group">
+												<input id="operationid" type="text" name="operationid" class="form-control" placeholder="任意:空欄は新規登録"/>
+												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+											</div>
+										</div>
+										<div class="form-check">
+											<input type="checkbox" name="share" value="1"  class="form-check-input" id="operationshare"/>
+											<label class="form-check-label" for="operationshare">誰でも閲覧可能にする</label>
+										</div>
+										<br/>
+										<botton id="previewOperationBtn" class="btn btn-info" onclick={onclickPreviewOperation}>プレビュー</botton>
+										<botton id="downloadOperationBtn" class="btn btn-warning" onclick={onclickPreviewOperation}>ダウンロード</botton>
+										<botton if={'on'!= getParams['view']} class="btn btn-success" onclick={onclickRegisterOperation}>保存</botton>
+										<br/>
+										<br/>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-8">
+							<div class="container-fluid">
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h3>作戦書一覧</h3>
+									<table class="table table-bordered table-hover table-striped">
+										<thead>
+											<tr class="info">
+												<th style="width:100px;">登録{clanLabel}</th>
+												<th style="width:100px;">作戦名</th>
+												<th>作戦</th>
+												<th style="width:70px;">ルール</th>
+												<th style="width:50px;">登録日</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr each="{operation, index in operations}" onclick={onclickModify}>
+												<td class="clanname" data-index="{operation.ID}">
+													<p if={operation.share==false}>{operation.clanname}</p>
+													<b if={operation.share==true} style="color: limegreen;"><i class="fa fa-retweet" aria-hidden="true"></i> {operation.clanname}</b>
+												</td>
+												<td class="operationname">{operation.name}</td>
+												<td class="operation"><pre>{operation.operation}</pre></td>
+												<td class="operationrule" if={operation.rule==11}>即復活アリ</td>
+												<td class="operationrule" if={operation.rule==12}>LRTルール</td>
+												<td class="operationrule" if={operation.rule!=11 && operation.rule!=12}></td>
+												<td class="operationdate" style="text-align: right;">{operation.date.split(' ')[0].replace('/', '\n')}</td>
+											</tr>
+										</tbody>
+									</table>
+							</div>
+						</div>
+					</div>
+					<style>
+						#partytable {
+							width: 640px;
+						}
+					</style>
+					var operation = { name: '', detailrule: '', };
+					var operations = {};
+					var schedules = [];
+					var scheduleid = 'none';
+					var targetSchedule = { name: '要塞戦', pt39label: '聖刻', pt38label: '偵察', pt37label: '封殺',  pt29label: 'FW1', pt28label: 'FW2', pt27label: 'FW3', pt19label: 'MF1', pt18label: 'MF2', pt17label: 'MF3', pt9label: 'DF1', pt8label: 'DF2', pt7label: 'DF3', };
+					var thisis;
+					this.on('mount', function() {
+						this.operation = operation;
+						this.operations = operations;
+						this.schedules = schedules;
+						this.scheduleid = scheduleid;
+						thisis = this;
+						// 認証
+						auth(false, function (clan) {
+							getOperations(clan.ID, function(operations) {
+								thisis.operations = operations;
+								getSchedules(clan.ID, function(_schedules) {
+									var __schedules = [];
+									for (var sidx=0; sidx < _schedules.length; sidx++) {
+										if (-1 < _schedules[sidx].name.indexOf('要塞') || -1 < _schedules[sidx].tag.indexOf('要塞')) {
+											__schedules.push(_schedules[sidx]);
+										}
+									}
+									thisis.schedules = __schedules;
+									onchangeMap(this);
+									riot.update();
+								});
+							});
+						});
+						dispatchPortlateLayout();
+					});
+					onchangeSchedule = function (target) {
+						console.log(thisis.scheduleid);
+						thisis.scheduleid = $('#operationscheduleID option:selected').val();
+						console.log(thisis.scheduleid);
+						$('#partyimage img').attr('src', '');
+						$('#partyimage').attr('href', 'javascript:void(0);');
+						$('#partyimage').hide();
+						riot.mount('party');
+						riot.update();
+					};
+					var convertParty = false;
+					onLoadParty = function (schedule) {
+						if (convertParty) {
+							return;
+						}
+						targetSchedule = $.extend(targetSchedule, schedule);
+						convertParty = true;
+						$('#partyview').show();
+						html2canvas($('#partytable'), {
+        			onrendered: function(canvas){
+          			//imgタグのsrcの中に、html2canvasがレンダリングした画像を指定する。
+          			var imgData = canvas.toDataURL();
+								$('#partyimage img').attr('src', imgData);
+								$('#partyimage').attr('href', '?clanid=' + clan.ID + '&scheduleid=' + schedule.ID + '#detailschedule');
+								$('#partyimage').show();
+								convertParty = false;
+								$('#partyview').hide();
+								onchangeMap(this);
+        			}
+      			});
+					};
+					onchangeMap = function (target) {
+						var mapmode = parseInt($('#operationmap option:selected').val());
+						var mapimg = document.getElementById('map' + mapmode + 'image');
+						var canvas = document.getElementById('map');
+    				var ctx = canvas.getContext('2d');
+						ctx.drawImage(mapimg, 0, 0, canvas.width, canvas.height);
+						//ctx.fillStyle = "blue";
+						//ctx.fillRect(0, 460, canvas.width, 60);
+						if ($('input[name=pt39position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt39label, 200, 400, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt39label, 700, 600, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+						}
+						else if ($('input[name=pt39position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt39label, 350, 600, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt39label, 900, 400, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+						}
+						if ($('input[name=pt38position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt38label, 250, 400, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt38label, 750, 600, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+						}
+						else if ($('input[name=pt38position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt38label, 400, 600, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt38label, 950, 400, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+						}
+						if ($('input[name=pt37position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt37label, 300, 400, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt37label, 800, 600, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+						}
+						else if ($('input[name=pt37position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt37label, 450, 600, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt37label, 1000, 400, { fontSize: 23, color: 'white', backgroundcolor: '#269abc'});
+							}
+						}
+
+						if ($('input[name=pt29position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt29label, 200, 450, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt29label, 700, 650, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+						}
+						else if ($('input[name=pt29position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt29label, 350, 650, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt29label, 900, 450, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+						}
+						if ($('input[name=pt28position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt28label, 250, 450, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt28label, 750, 650, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+						}
+						else if ($('input[name=pt28position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt28label, 400, 650, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt28label, 950, 450, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+						}
+						if ($('input[name=pt27position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt27label, 300, 450, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt27label, 800, 650, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+						}
+						else if ($('input[name=pt27position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt27label, 450, 650, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt27label, 1000, 450, { fontSize: 23, color: 'white', backgroundcolor: '#398439'});
+							}
+						}
+
+						if ($('input[name=pt19position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt19label, 200, 500, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt19label, 700, 700, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+						}
+						else if ($('input[name=pt19position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt19label, 350, 700, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt19label, 900, 500, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+						}
+						if ($('input[name=pt18position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt18label, 250, 500, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt18label, 750, 700, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+						}
+						else if ($('input[name=pt18position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt18label, 400, 700, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt18label, 950, 500, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+						}
+						if ($('input[name=pt17position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt17label, 300, 500, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt17label, 800, 700, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+						}
+						else if ($('input[name=pt17position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt17label, 450, 700, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt17label, 1000, 500, { fontSize: 23, color: 'white', backgroundcolor: '#d58512'});
+							}
+						}
+
+
+						if ($('input[name=pt9position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt9label, 200, 550, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt9label, 700, 750, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+						}
+						else if ($('input[name=pt9position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt9label, 350, 750, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt9label, 900, 550, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+						}
+						if ($('input[name=pt8position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt9label, 250, 550, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt9label, 750, 750, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+						}
+						else if ($('input[name=pt8position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt9label, 400, 750, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt9label, 950, 550, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+						}
+						if ($('input[name=pt7position]:checked').val() === 'left') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt9label, 300, 550, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt9label, 800, 750, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+						}
+						else if ($('input[name=pt7position]:checked').val() === 'right') {
+							// 要塞攻略
+							if (mapmode == 11) {
+								drawText(ctx, targetSchedule.pt9label, 450, 750, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+							// 要塞防衛
+							else if (mapmode == 12) {
+								drawText(ctx, targetSchedule.pt9label, 1000, 550, { fontSize: 23, color: 'white', backgroundcolor: '#ac2925'});
+							}
+						}
+						// キャンバスを画像化
+						return canvas.toDataURL();
+					};
+					onclickModify = function (event) {
+						var index = $(event.target).parent().find('td.clanname').data('index');
+						if (index == undefined) {
+							index = $(event.target).parent().parent().find('td.clanname').data('index');
+						}
+						var _operation = thisis.operations[index];
+						$('#operationname').val(_operation.name);
+						$('#firstattackimageurl').val(_operation.firstattackimageurl);
+						$('#operationmap').val(_operation.map);
+
+						if (_operation.pt39position != '') {
+							$('#pt39positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt38position != '') {
+							$('#pt38positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt37position != '') {
+							$('#pt37positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt29position != '') {
+							$('#pt29positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt28position != '') {
+							$('#pt28positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt27position != '') {
+							$('#pt27positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt19position != '') {
+							$('#pt19positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt18position != '') {
+							$('#pt18positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt17position != '') {
+							$('#pt17positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt9position != '') {
+							$('#pt9positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt8position != '') {
+							$('#pt8positionNone').parent().removeClass('active');
+						}
+						if (_operation.pt7position != '') {
+							$('#pt7positionNone').parent().removeClass('active');
+						}
+						$('#pt39positionleft').parent().removeClass('active');
+						$('#pt38positionleft').parent().removeClass('active');
+						$('#pt37positionleft').parent().removeClass('active');
+						$('#pt29positionleft').parent().removeClass('active');
+						$('#pt28positionleft').parent().removeClass('active');
+						$('#pt27positionleft').parent().removeClass('active');
+						$('#pt19positionleft').parent().removeClass('active');
+						$('#pt18positionleft').parent().removeClass('active');
+						$('#pt17positionleft').parent().removeClass('active');
+						$('#pt9positionleft').parent().removeClass('active');
+						$('#pt8positionleft').parent().removeClass('active');
+						$('#pt7positionleft').parent().removeClass('active');
+
+						$('#pt39positionright').parent().removeClass('active');
+						$('#pt38positionright').parent().removeClass('active');
+						$('#pt37positionright').parent().removeClass('active');
+						$('#pt29positionright').parent().removeClass('active');
+						$('#pt28positionright').parent().removeClass('active');
+						$('#pt27positionright').parent().removeClass('active');
+						$('#pt19positionright').parent().removeClass('active');
+						$('#pt18positionright').parent().removeClass('active');
+						$('#pt17positionright').parent().removeClass('active');
+						$('#pt9positionright').parent().removeClass('active');
+						$('#pt8positionright').parent().removeClass('active');
+						$('#pt7positionright').parent().removeClass('active');
+
+						$('#pt39position' + _operation.pt39position).parent().addClass('active');
+						$('#pt38position' + _operation.pt38position).parent().addClass('active');
+						$('#pt37position' + _operation.pt37position).parent().addClass('active');
+						$('#pt29position' + _operation.pt29position).parent().addClass('active');
+						$('#pt28position' + _operation.pt28position).parent().addClass('active');
+						$('#pt27position' + _operation.pt27position).parent().addClass('active');
+						$('#pt19position' + _operation.pt19position).parent().addClass('active');
+						$('#pt18position' + _operation.pt18position).parent().addClass('active');
+						$('#pt17position' + _operation.pt17position).parent().addClass('active');
+						$('#pt9position' + _operation.pt9position).parent().addClass('active');
+						$('#pt8position' + _operation.pt8position).parent().addClass('active');
+						$('#pt7position' + _operation.pt7position).parent().addClass('active');
+
+						$('#pt39position' + _operation.pt39position).prop('checked', true);
+						$('#pt38position' + _operation.pt38position).prop('checked', true);
+						$('#pt37position' + _operation.pt37position).prop('checked', true);
+						$('#pt29position' + _operation.pt29position).prop('checked', true);
+						$('#pt28position' + _operation.pt28position).prop('checked', true);
+						$('#pt27position' + _operation.pt27position).prop('checked', true);
+						$('#pt19position' + _operation.pt19position).prop('checked', true);
+						$('#pt18position' + _operation.pt18position).prop('checked', true);
+						$('#pt17position' + _operation.pt17position).prop('checked', true);
+						$('#pt9position' + _operation.pt9position).prop('checked', true);
+						$('#pt8position' + _operation.pt8position).prop('checked', true);
+						$('#pt7position' + _operation.pt7position).prop('checked', true);
+
+						$('#rule').val(_operation.rule);
+						$('#detailrule').val(_operation.detailrule);
+						$('#operation').val(_operation.operation);
+						$('#operationimageurl').val(_operation.operationimageurl);
+						$('#firstattack').val(_operation.firstattack);
+						$('#firstattackimageurl').val(_operation.firstattackimageurl);
+						$('#otheroperation').val(_operation.otheroperation);
+						$('#otherimageurl').val(_operation.otherimageurl);
+						$('#operationid').val(_operation.ID);
+						$('#operationshare').prop('checked', _operation.share);
+
+						onchangeMap(this);
+						$('#operationimage-thumbnail').attr('src', _operation.operationimageurl);
+						$('#firstattackimage-thumbnail').attr('src', _operation.firstattackimageurl);
+						$('#otherimage-thumbnail').attr('src', _operation.otherimageurl);
+
+						return false;
+					};
+					onclickPreviewOperation = function (event) {
+						var docDefinition = {
+							content: [
+								{ text: convertZenkaku2hankaku(targetSchedule.name + ' 作戦書'), fontSize: 20 },
+								{ text: '　', fontSize: 14 },
+								{ text: convertZenkaku2hankaku($('#operationname').val() + ' 作戦'), fontSize: 30 },
+							],
+							defaultStyle: {
+								font: 'GenShin',
+							},
+						};
+						if (0 < $('#partyimage img').attr('src').length) {
+							docDefinition.content.push({ text: ' ', fontSize: 14 });
+							docDefinition.content.push({ text: '【編成】', fontSize: 20 });
+							docDefinition.content.push({ text: ' ', fontSize: 14 });
+							docDefinition.content.push({ image: $('#partyimage img').attr('src'), width: 520});
+							docDefinition.content.push({ text: ' ', fontSize: 14, pageBreak: 'after' });
+						}
+						docDefinition.content.push({ text: ' ', fontSize: 14 });
+						docDefinition.content.push({ text: '【マップ・配置】', fontSize: 20 });
+						docDefinition.content.push({ text: ' ', fontSize: 14 });
+						docDefinition.content.push({ image: onchangeMap(this), width: 520});
+						docDefinition.content.push({ text: ' ', fontSize: 14 });
+						docDefinition.content.push({ text: '【ルール】 ' + convertZenkaku2hankaku(($('#rule option:selected').val() == '11')? '即復活アリ' : 'LRTルール'), fontSize: 20 });
+						if (0 < $('#detailrule').val().length) {
+							docDefinition.content.push({ text: convertZenkaku2hankaku($('#detailrule').val()), fontSize: 14 });
+						}
+						var operate = false;
+						if (0 < $('#operation').val().length) {
+							operate = true;
+							docDefinition.content.push({ text: ' ', fontSize: 14, pageBreak: 'after' });
+							docDefinition.content.push({ text: '【作戦】', fontSize: 20 });
+							docDefinition.content.push({ text: convertZenkaku2hankaku($('#operation').val()), fontSize: 14 });
+							var operationimage = getBase64Image('operationimage-thumbnail');
+							if (10 < operationimage.length) {
+								docDefinition.content.push({ text: ' ', fontSize: 14 });
+								docDefinition.content.push({image: operationimage, width: 520});
+							}
+						}
+						if (0 < $('#firstattack').val().length) {
+							if (operate == false) {
+								docDefinition.content.push({ text: ' ', fontSize: 14, pageBreak: 'after' });
+							}
+							else {
+								docDefinition.content.push({ text: ' ', fontSize: 14 });
+							}
+							docDefinition.content.push({ text: '【初動】', fontSize: 20 });
+							docDefinition.content.push({ text: convertZenkaku2hankaku($('#firstattack').val()), fontSize: 14 });
+							var firstattackimage = getBase64Image('firstattackimage-thumbnail');
+							if (10 < firstattackimage.length) {
+								docDefinition.content.push({ text: ' ', fontSize: 14 });
+								docDefinition.content.push({image: firstattackimage, width: 520});
+							}
+						}
+						if (0 < $('#otheroperation').val().length) {
+							docDefinition.content.push({ text: ' ', fontSize: 14, pageBreak: 'after' });
+							docDefinition.content.push({ text: '【その他事項】', fontSize: 20 });
+							docDefinition.content.push({ text: convertZenkaku2hankaku($('#otheroperation').val()), fontSize: 14 });
+							var otherimage = getBase64Image('otherimage-thumbnail');
+							if (10 < otherimage.length) {
+								docDefinition.content.push({ text: ' ', fontSize: 14 });
+								docDefinition.content.push({image: otherimage, width: 520});
+							}
+						}
+						console.log(docDefinition);
+						pdfMake.fonts = {
+					      GenShin: {
+					        normal: 'GenShinGothic-Normal-Sub.ttf',
+					        bold: 'GenShinGothic-Normal-Sub.ttf',
+					        italics: 'GenShinGothic-Normal-Sub.ttf',
+					        bolditalics: 'GenShinGothic-Normal-Sub.ttf'
+					      }
+					  };
+						if ($(event.target).attr('id') == 'downloadOperationBtn') {
+							pdfMake.createPdf(docDefinition).download($('#operationname').val() + '作戦.pdf');
+						}
+						else {
+							pdfMake.createPdf(docDefinition).open();
+						}
+						return false;
+					};
+					onclickRegisterOperation = function (event) {
+						var _operation = {};
+						_operation.ID = $('#operationid').val();
+						if ('object' == typeof thisis.operations[_operation.ID] && clan.ID != thisis.operations[_operation.ID].clanid) {
+							alert('公開されている別の' + clanLabel + 'の作戦書を更新する事は出来ません');
+							return false;
+						}
+						if (true != clan.donate && '' == _operation.ID) {
+							if (Object.keys(thisis.operations).length < 2) {
+								alert('作戦書を2件以上保存する場合には寄付履歴が必要になります！\nご注意下さいm(_ _)m');
+							}
+							else {
+								if (confirm('作戦書を2件以上保存するには寄付履歴が必要です！m(_ _)m\n今すぐ寄付を行いますか？')){
+									location.hash = 'donation';
+								}
+								return false;
+							}
+						}
+						// 保存処理
+						_operation.name = $('#operationname').val();
+						_operation.firstattackimageurl = $('#firstattackimageurl').val();
+						_operation.map = parseInt($('#operationmap option:selected').val());
+						_operation.pt39position = $('input[name=pt39position]:checked').val();
+						_operation.pt38position = $('input[name=pt38position]:checked').val();
+						_operation.pt37position = $('input[name=pt37position]:checked').val();
+						_operation.pt29position = $('input[name=pt29position]:checked').val();
+						_operation.pt28position = $('input[name=pt28position]:checked').val();
+						_operation.pt27position = $('input[name=pt27position]:checked').val();
+						_operation.pt19position = $('input[name=pt19position]:checked').val();
+						_operation.pt18position = $('input[name=pt18position]:checked').val();
+						_operation.pt17position = $('input[name=pt17position]:checked').val();
+						_operation.pt9position = $('input[name=pt9position]:checked').val();
+						_operation.pt8position = $('input[name=pt8position]:checked').val();
+						_operation.pt7position = $('input[name=pt7position]:checked').val();
+						_operation.rule = parseInt($('#rule option:selected').val());
+						_operation.detailrule = $('#detailrule').val();
+						_operation.operation = $('#operation').val();
+						_operation.operationimageurl = $('#operationimageurl').val();
+						_operation.firstattack = $('#firstattack').val();
+						_operation.firstattackimageurl = $('#firstattackimageurl').val();
+						_operation.otheroperation = $('#otheroperation').val();
+						_operation.otherimageurl = $('#otherimageurl').val();
+						_operation.ID = $('#operationid').val();
+						_operation.share = false;
+						if ($('#operationshare').prop('checked')) {
+							_operation.share = true;
+							if (!confirm('誰でも閲覧可能な作戦書は、他の方が真似をして保存したり\nコピーしたりも出来てしまいます。\n公開を続けてよろしいですか？')){
+								return false;
+							}
+						}
+						// バリデーション
+						if (0 >= _operation.name.length) {
+							alert('簡潔な作戦名を付けて下さい。');
+							return false;
+						}
+						registerOperation(clan.ID, _operation, function(){
+							alert('作戦書を保存しました');
+							location.reload();
+						});
+						return false;
+					};
+				</addoperation>
+			</script>
+
 			<!-- howto -->
 			<script type="riot/tag">
 				<howto>
@@ -3948,11 +4791,15 @@
 			<!-- manage -->
 			<script type="riot/tag">
 				<manage>
-					<div style="padding: 20px;">
-						<h5 each="{_clan, cindex in clans}">
-							<a href="./?clanid={_clan.ID}" target="_blank">{cindex+1}. {_clan.name} ({_clan.ID})</a>
-						</h5>
-					</div>
+					<table class="table table-bordered table-hover table-striped">
+						<tr each="{_clan, cindex in clans}" if={_clan.memberCnt>=30}>
+							<td style="width:40px;">{cindex+1}</td>
+							<td style="width:100px;"><a href="./?clanid={_clan.ID}" target="_blank">{_clan.name}</a></td>
+							<td style="width:100px; text-align: right;">{_clan.lrtCP.toLocaleString()}</td>
+							<td style="width:60px; text-align: right;">{_clan.memberCnt}人</td>
+							<td><a href="./?clanid={_clan.ID}" target="_blank">{_clan.ID}</a></td>
+						</tr>
+					</table>
 					var clans = [];
 					var thisis;
 					this.on('mount', function() {
@@ -3978,7 +4825,47 @@
 									getClans(function(clans){
 										console.log(clans);
 										thisis.clans = clans;
-										riot.update();
+										loading(true);
+										var maxClanCnt = 1000;
+										var getUsersForLRT = function (clans, idx) {
+											if (clans.length <= idx || maxClanCnt < idx) {
+												loading(false);
+												clans.sort(function(a, b){
+													if( parseInt(a.lrtCP) > parseInt(b.lrtCP) ) return -1;
+													if( parseInt(a.lrtCP) < parseInt(b.lrtCP) ) return 1;
+													return 0;
+												});
+												riot.update();
+												return;
+											}
+											if (-1 < clans[idx].name.indexOf('テスト') || -1 < clans[idx].name.indexOf('test') || -1 < clans[idx].name.indexOf('Test') || -1 < clans[idx].name.indexOf('TEST') || -1 < clans[idx].name.indexOf('てすと')) {
+												clans[idx].lrtCP = 0;
+												clans[idx].memberCnt = 0;
+												getUsersForLRT(clans, (idx+1));
+												return;
+											}
+											showToast('idx=' + idx);
+											firebase.firestore().collection("users").where("clanid", "==", clans[idx].ID).orderBy("activity", "desc").orderBy("cp", "desc").orderBy("joind", "asc").get().then(function(querySnapshot) {
+												var lrtCP = 0;
+												var memberCnt = 0;
+												querySnapshot.forEach(function(snapshot) {
+													if(snapshot.exists) {
+														var data = snapshot.data();
+														if (data.activity > 0) {
+															if (memberCnt < 30) {
+																lrtCP += parseInt(data.cp);
+															}
+															memberCnt++;
+														}
+													}
+												});
+												clans[idx].lrtCP = lrtCP;
+												clans[idx].memberCnt = memberCnt;
+												getUsersForLRT(clans, (idx+1));
+											});
+										};
+										getUsersForLRT(clans, 0);
+										//riot.update();
 									});
 								}
 							}
@@ -4021,6 +4908,13 @@
 
 			<!-- Discord -->
 			<script src="//greasyfork.org/scripts/29088-discord-js-for-browser/code/Discordjs%20for%20Browser.js?version=208579"></script>
+
+			<!-- html2canvas -->
+			<script src="//cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
+			<!-- pdfmake -->
+			<script src="./js/pdfmake/pdfmake.min.js"></script>
+			<script src="./js/pdfmake/vfs_fonts.js"></script>
 		</section>
 
 		<!-- initialize-scripts -->
@@ -4052,6 +4946,11 @@
 			</script>
 			<!-- this app [global vars] -->
 			<script>
+				var getParams = {};
+				var loadingCount = 0;
+				var portlate = false;
+				var toasts = 0;
+				var toastIntervals = [];
 				var firstView = false;
 				var totalcp = 0;
 				var prelrtcp = 0;
@@ -4059,8 +4958,6 @@
 				if (mode == 2) {
 					publicURL = 'kurosaba.fun';
 				}
-				var getParams = {};
-				var loadingCount = 0;
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
 				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', spiritlevel: '', meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, boss: null, memo: '', activity: 9, joind: '', discord: '', };
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, autoReset: null, };
@@ -4198,7 +5095,6 @@
 		<section id="scripts">
 			<!-- this app [utility functions] -->
 			<script>
-				var portlate = false;
 				var dispatchPortlateLayout = function(){
 					if ((navigator.userAgent.indexOf('iPhone') > 0 && navigator.userAgent.indexOf('iPad') == -1) || navigator.userAgent.indexOf('iPod') > 0 || navigator.userAgent.indexOf('Android') > 0) {
 						var orientation = window.orientation;
@@ -4253,6 +5149,155 @@
 						}
 					}
 				};
+				var showToast = function (argMessage) {
+				  toasts++;
+				  if (0 < $('#toast').size()) {
+				    $('#toast').text(argMessage);
+						$('#toast').show();
+				  }
+				  else {
+				      $('body').append('<b id="toast" style="background-color: gray; opacity: 0.6; color: white; font-size: x-small; text-align: center; position: fixed; bottom: 10px; right: 10px; padding: 10px; z-index: 3000;" onclick="closeToast(true);">' + argMessage + '</b>');
+				  }
+					console.log(argMessage);
+				  toastIntervals.push(setInterval(function(){
+				    closeToast(false, toastIntervals.length);
+				  }, 10000));
+				};
+				var closeToast = function (argForceFlag, idx) {
+				  toasts--;
+				  if (argForceFlag) {
+				    toasts = 0;
+				  }
+					else {
+				    clearInterval(toastIntervals[idx]);
+				    toastIntervals[idx] = null;
+				  }
+				  if (0 >= toasts) {
+				    toasts = 0;
+				    $('#toast').fadeOut('nomal');
+						toastIntervals = [];
+				  }
+				};
+				var uploadImageToImgur = function (base64image, callback) {
+					loading(true);
+					var bese64idx = base64image.indexOf('base64,');
+					if (-1 < bese64idx) {
+						base64image = base64image.substr(bese64idx+7).trim();
+					}
+					var formData = new FormData();
+					formData.append('image', base64image);
+					return $.ajax({
+						contentType: false,
+						data: formData,
+						headers: {
+							Authorization: 'Client-ID 3a8b3d4747fe56d',
+						},
+						processData: false,
+						type: 'POST',
+						url: 'https://api.imgur.com/3/image'
+					}).done(function(data) {
+						loading(false);
+						if ('function' == typeof callback) {
+							callback(true, data);
+						}
+					}).fail(function(data) {
+						loader(false);
+						console.log(data);
+						if ('function' == typeof callback) {
+							callback(false, data);
+						}
+						else {
+							alert('画像のアップロードに失敗しました。');
+						}
+					});
+				};
+				var getBase64Image = function (targetID){
+					if (!('string' == typeof $('#'+targetID).attr('src') && 0 < $('#'+targetID).attr('src').length)) {
+						return '';
+					}
+					if (1 < $('#'+targetID).attr('src').indexOf(';base64')) {
+						return $('#'+targetID).attr('src');
+					}
+  				//img要素オブジェクトを取得する
+  				var obj = document.getElementById(targetID);
+					obj.crossOrigin = 'anonymous';
+					//canvas要素を生成してimg要素を反映する
+					var cvs = document.createElement('canvas');
+					cvs.width  = obj.width;
+					cvs.height = obj.height;
+					var ctx = cvs.getContext('2d');
+					ctx.drawImage(obj, 0, 0);
+					//canvas要素をBase64化する
+					return cvs.toDataURL();
+ 				};
+				var convertZenkaku2hankaku = function (val) {
+					var regex = /[Ａ-Ｚａ-ｚ０-９！＂＃＄％＆＇（）＊＋，－．／：；＜＝＞？＠［＼］＾＿｀｛｜｝]/g;
+					// 入力値の全角を半角の文字に置換
+					value = val.replace(regex, function(s) {
+						return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
+					})
+					.replace(/[‐－―]/g, "-") // ハイフンなど
+					.replace(/[～〜]/g, "~") // チルダ
+					.replace(/　/g, " "); // スペース
+					return value;
+				};
+				var drawText = function(ctx, txt, x, y, opt){
+				    var def = {
+				        baseline:'middle',
+				        align:'left',
+								color: 'black',
+				        backgroundcolor: null,
+				        fontSize:12
+				    };
+				    $.extend(def,opt);
+				    ctx.font = def.fontSize + "px Meiryo";
+				    ctx.textAlign = def.align;
+				    ctx.textBaseline = def.baseline;
+
+				    var leftX, topY, width, height;
+				    height = def.fontSize;
+				    width = ctx.measureText(txt).width;
+
+				    switch(def.baseline){
+				        case 'top':
+				            height *= 1.5;
+				            topY = y;
+				            break;
+				        case 'middle':
+				            topY = y - (height/2);
+				            break;
+				        case 'bottom':
+				            height *= 1.5;
+				            topY = y - height;
+				            break;
+				    }
+				    switch(def.align){
+				        case 'left':
+				            leftX = x;
+				            break;
+				        case 'center':
+				            leftX = x + (width/2);
+				            break;
+				        case 'right':
+				            leftX = x + width;
+				            break;
+				    }
+
+				    if(topY && leftX && def.backgroundcolor){
+				        ctx.fillStyle = def.backgroundcolor;
+								// paddingを少し入れる
+				        ctx.fillRect(leftX, topY, width + 6, height + 6);
+								x += 4;
+								y += 4;
+				    }
+				    ctx.fillStyle = def.color;
+				    /*指定位置に点を打つ
+				    ctx.beginPath();
+				    ctx.arc(x, y, 3, 0, Math.PI*2, false);
+				    ctx.fill();
+				    */
+				    ctx.fillText(txt, x, y);
+				};
 			</script>
 
 			<!-- this app [database functions] -->
@@ -4302,7 +5347,7 @@
 								return;
 							}
 						}
-						alert('該当する血盟が見つかりませんでした。');
+						alert('該当する' + clanLabel + 'が見つかりませんでした。');
 						// ログイン出来ていないのでログイン画面へ戻す
 						location.href = '/#login';
 						loading(false);
@@ -4976,6 +6021,91 @@
 						loading(false);
 					});
 				};
+				var getOperations = function (clanID, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					firebase.firestore().collection("operations").where("clanid", "==", clanID).orderBy("date", "desc").get().then(function(querySnapshot) {
+						var datas = {};
+						querySnapshot.forEach(function(snapshot) {
+							if(snapshot.exists) {
+								var data = snapshot.data();
+								data.ID = snapshot.id;
+								if ('undefined' != typeof data.date) {
+									data.date = data.date.toDate();
+									data.date = data.date.toLocaleString();
+								}
+								datas[data.ID] = data;
+							}
+						});
+						firebase.firestore().collection("operations").where("share", "==", true).orderBy("date", "desc").get().then(function(_querySnapshot) {
+							_querySnapshot.forEach(function(_snapshot) {
+								if(_snapshot.exists) {
+									var data = _snapshot.data();
+									data.ID = _snapshot.id;
+									if ('undefined' != typeof data.date) {
+										data.date = data.date.toDate();
+										data.date = data.date.toLocaleString();
+									}
+									datas[data.ID] = data;
+								}
+							});
+							if ('undefined' != typeof datas) {
+								if (callback) {
+									callback(datas);
+								}
+							}
+							loading(false);
+							return;
+						});
+					}).catch(function(error) {
+						alert('作戦書一覧参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
+				var registerOperation = function (clanID, data, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					data.clanid = clanID;
+					data.clanname = clan.name;
+					if (data.ID != '') {
+						newsID = data.ID;
+						delete data.ID;
+						firebase.firestore().collection("operations").doc(newsID).update(data).then(function(snapshot) {
+							if (callback) {
+								callback(newsID);
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('作戦書更新エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
+					else {
+						delete data.ID;
+						data.date = new Date();
+						firebase.firestore().collection("operations").add(data).then(function(snapshot) {
+							if (callback) {
+								callback(snapshot.id);
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('作戦書追加エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
+				};
 			</script>
 
 			<!-- this app [event functions] -->
@@ -5018,7 +6148,7 @@
 							alert('登録しました。');
 							if ('#addclan' == location.hash) {
 								var url = location.protocol + '//' + document.domain + location.pathname + '?clanid=' + newClanID;
-								alert('あなたの血盟URLは「' + url + '」です。\nログイン用血盟IDは「' + newClanID + '」です。\n無くさないように保管してください！');
+								alert('あなたの' + clanLabel + 'URLは「' + url + '」です。\nログイン用' + clanLabel + 'IDは「' + newClanID + '」です。\n無くさないように保管してください！');
 							}
 							getParams['clanid'] = newClanID;
 							location.href = '?clanid=' + newClanID + '#dashboard';
@@ -5635,7 +6765,7 @@
 					var schedulename = $('#addscheduleform').find('input[name=schedulename]').val();
 					var scheduledate = $('#addscheduleform').find('#scheduledate').data().date;
 					if (false === ('undefined' != typeof clan.discordhookid && 0 < clan.discordhookid.length)) {
-						alert('血盟で使用しているDiscordのWebhook情報が登録されていない為、この機能を利用出来ません！\n「設定」から設定して下さい。');
+						alert(clanLabel + 'で使用しているDiscordのWebhook情報が登録されていない為、この機能を利用出来ません！\n「設定」から設定して下さい。');
 						return;
 					}
 					var discordIDMsg = '';
@@ -5815,6 +6945,30 @@
 			    a.href = url;
 					$('#downloader')[0].click();
 					return false;
+				};
+				var onchangeFile = function (event) {
+		      var targetID = $(event.target).attr('id');
+		      console.log(targetID);
+		      var file = $(event.target).prop('files')[0];
+		      console.log(file);
+					// 画像以外は処理を停止
+		      if (!file.type.match('image.*')) {
+		        // クリア
+		        return;
+		      }
+					var reader = new FileReader();
+		      reader.onload = function(img) {
+						var base64image = img.target.result;
+						$('#' + targetID + '-thumbnail').attr('src', base64image);
+		        // アップロード
+						loading(true);
+						uploadImageToImgur(base64image, function (response, result) {
+							console.log(result);
+							$('#' + targetID + 'url').val(result.data.link);
+							loading(false);
+						});
+		      };
+		      reader.readAsDataURL(file);
 				};
 			</script>
 
