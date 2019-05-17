@@ -4054,7 +4054,7 @@
 											<tr class="info">
 												<th style="width:100px;">登録{clanLabel}</th>
 												<th style="width:100px;">作戦名</th>
-												<th>作戦</th>
+												<th class="tdoperation">作戦</th>
 												<th style="width:70px;">ルール</th>
 												<th style="width:50px;">登録日</th>
 											</tr>
@@ -4066,7 +4066,7 @@
 													<b if={operation.share==true} style="color: limegreen;"><i class="fa fa-retweet" aria-hidden="true"></i> {operation.clanname}</b>
 												</td>
 												<td class="operationname">{operation.name}</td>
-												<td class="operation"><pre>{operation.operation}</pre></td>
+												<td class="tdoperation"><pre class="operation tdoperation">{operation.operation}</pre></td>
 												<td class="operationrule" if={operation.rule==11}>即復活アリ</td>
 												<td class="operationrule" if={operation.rule==12}>LRTルール</td>
 												<td class="operationrule" if={operation.rule!=11 && operation.rule!=12}></td>
@@ -4080,6 +4080,12 @@
 					<style>
 						#partytable {
 							width: 640px;
+						}
+						@media screen and (max-width: 767px) {
+							.tdoperation {
+								width: 0;
+								display: none;
+							}
 						}
 					</style>
 					var operation = { name: '', detailrule: '', };
