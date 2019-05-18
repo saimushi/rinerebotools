@@ -4060,7 +4060,7 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr each="{operation, index in operations}" onclick={onclickModify}>
+											<tr each="{operation, index in operations}" onclick={onclickOperationModify}>
 												<td class="clanname" data-index="{operation.ID}">
 													<p if={operation.share==false}>{operation.clanname}</p>
 													<b if={operation.share==true} style="color: limegreen;"><i class="fa fa-retweet" aria-hidden="true"></i> {operation.clanname}</b>
@@ -4405,7 +4405,7 @@
 						// キャンバスを画像化
 						return canvas.toDataURL();
 					};
-					onclickModify = function (event) {
+					onclickOperationModify = function (event) {
 						var index = $(event.target).parent().find('td.clanname').data('index');
 						if (index == undefined) {
 							index = $(event.target).parent().parent().find('td.clanname').data('index');
