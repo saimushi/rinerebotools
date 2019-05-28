@@ -1854,12 +1854,12 @@
 														<th style="border: none;"></th>
 														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
-													<tr if={pusers[0].party==0} style="border: none; background-color: #444; color: white; font-size: 8px;">
+													<tr if={pusers[0].party==0} style="border: none; background-color: #444; color: white; font-size: 8px;" class="pt0">
 														<th style="border: none; width:100px; padding: 5px;">欠席</th>
 														<th style="border: none;"></th>
 														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
-													<tr each="{puser, uindex in pusers}" style="border: none;" class="activity{puser.activity}">
+													<tr each="{puser, uindex in pusers}" style="border: none;" class="activity{puser.activity} pt{puser.party}">
 														<td if={puser.status==2} class="text-info" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td if={puser.status==1} class="text-success" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
 														<td if={puser.status==-1} class="text-danger" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
@@ -1876,7 +1876,7 @@
 														<td if={mode==2 && jobbufs[puser.job]=='遠距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></td>
 														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: #444;">&nbsp;</td>
 													</tr>
-													<tr if={'on'!=getParams['view']} class="partycp" style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
+													<tr if={'on'!=getParams['view']} class="partycp pt{pusers[0].party}" style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
 														<td colspan="2" style="border: none; padding: 2px;"><b>{partyCPs[((index)*5)+pindex].toLocaleString()}</b></td><td style="padding: 0;">&nbsp;</td>
 													</tr>
 												</table>
@@ -3362,7 +3362,7 @@
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 12px; padding-left: 1px;">竜</th>
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="width: 12px; padding-left: 1px;">ボ</th>
 									<th style="width: 15px; padding-left: 2px;">区</th>
-									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="width: 31px; padding-left: 0; padding-right: 0;">入隊日</th>
+									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 31px; padding: 0; text-align: center; vertical-align: middle;">入隊日<br/>更新日</th>
 									<th if={opts.mode=='schedule'} style="font-size: 6px; padding-left: 1px; padding-right: 0;">コメ</th>
 									<th if={opts.mode!='schedule'} style="font-size: 6px; padding-left: 1px; padding-right: 0;">メモ</th>
 								</tr>
@@ -3423,14 +3423,14 @@
 									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername draggable" style="font-size: xx-small; padding-left: 2px; padding-right: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.name}</td>
 									<td if={opts.mode!='contribution'} style="font-size: xx-small; padding-left: 1px; padding-right: 1px; text-align: right;">{user.cp}</td>
 
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick; padding: 5px; padding-left: 0px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: orange; padding: 5px; padding-left: 0px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: blue; padding: 5px; padding-left: 0px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green; padding: 5px; padding-left: 0px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 0px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink; padding: 5px; padding-left: 0px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='近距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick; padding: 5px; padding-left: 0px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='遠距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 0px;"><img src="{jobimages[user.job]}" title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: orange; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: blue; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
+									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='近距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='遠距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/></td>
 									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="font-size: 5px;">{user.job}</td>
 
 									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 80 <= user.acce1 && 90 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px;  vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_75801_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
@@ -4081,6 +4081,9 @@
 						#partytable {
 							width: 640px;
 						}
+						#partytable .pt0 {
+							display: none;
+						}
 						@media screen and (max-width: 767px) {
 							.tdoperation {
 								width: 0;
@@ -4126,7 +4129,7 @@
 						$('#partyimage img').attr('src', '');
 						$('#partyimage').attr('href', 'javascript:void(0);');
 						$('#partyimage').hide();
-						riot.mount('party');
+						riot.mount('party', {operation:true});
 						riot.update();
 					};
 					var convertParty = false;
@@ -5620,10 +5623,11 @@
 					}
 					loading(true);
 					data.clanid = clanID;
+					data.modified = new Date();
 					if (data.ID != '') {
 						userID = data.ID;
 						delete data.ID;
-						firebase.firestore().collection("users").doc(userID).set(data).then(function(snapshot) {
+						firebase.firestore().collection("users").doc(userID).update(data).then(function(snapshot) {
 							if (callback) {
 								callback(userID);
 							}
@@ -5734,6 +5738,12 @@
 									data.joind = data.joind.toDate();
 									data.joind = data.joind.toLocaleString();
 									data.joind = data.joind.split(' ')[0];
+								}
+								if ('undefined' != typeof data.modified && 'string' != typeof data.modified) {
+									data.modified = data.modified.toDate();
+									data.modified = data.modified.toLocaleString();
+									// 表示を置き換え
+									data.joind = data.modified.split(' ')[0];
 								}
 								datas.push(data);
 							}
@@ -6867,6 +6877,7 @@
 							value = value.replace(/&nbsp;/g, ' ');
 							value = value.replace(/[\r\n]/g, ' ');
 							value = value.trim();
+							value = value.replace(/"/g, '""');
 							console.log(value);
 							if (value == '<i class="fas fa-microphone"></i>') {
 								value = 'VC可';
@@ -6884,8 +6895,9 @@
 								value = '';
 							}
 							else if (-1 < value.indexOf('<img ')) {
-								var imgURL = $(value).attr('src');
+								var imgURL = $(userDatas[didx]).find('img').attr('src');
 								if (0 < value.indexOf('3d')) {
+									console.log('imgURL=' + imgURL);
 									value = jobnamesForURL[imgURL] + '","3次職';
 								}
 								else {

@@ -1416,8 +1416,8 @@ bot.on('messageCreate', (msg) => {
   else if (mode == 1 && true == (-1 < msg.content.indexOf('AF') || -1 < msg.content.indexOf('アーティファクト'))) {
     if (-1 < msg.content.indexOf('計算') || -1 < msg.content.indexOf('最適') || -1 < msg.content.indexOf('教えて') || -1 < msg.content.indexOf('知りたい')) {
       msg.channel.createMessage('フレヤサーバーの @KK1116 さん、 @Lsama さんが **アーティファクト計算ツール** を作って公開してくれているわ！\n'
-      + 'それを活用するのがベストよ！\nhttps://t.co/yqubI5hkjS\n\n'
-      + '**【使い方(PC)】**\nリンクを開いた後に「ファイル」 => 「コピーを作成」とやって自分専用のシートにコピーして使うのよ！\n決して作者さんに権限追加依頼を出さないように注意してね。\n\nhttps://twitter.com/KK11161/status/1108343644975620098 \n\n'
+      + 'それを活用するのがベストよ！\nhttps://t.co/zyA7QgQW6n\n\n'
+      + '**【使い方(PC)】**\nリンクを開いた後に「ファイル」 => 「コピーを作成」とやって自分専用のシートにコピーして使うのよ！\n決して作者さんに権限追加依頼を出さないように注意してね。\n\nhttps://twitter.com/KK11161/status/1132613198182436864 \n\n'
       + '**【使い方(スマホ)】**\nスマホの場合は「Googleスプレッドシート」アプリ( https://www.google.com/intl/ja_jp/sheets/about/ )\nをインストールしてからリンクを開くとアプリが起動するわ。\nメニューから「共有とエクスポート」 => 「コピーの作成」ってやるとPCと同じ事が出来るわ！\n\n'
       + '**【スマホ版シートの開き方説明動画】**\nhttps://youtu.be/xKo-PGzjALI\n*※提供のねーこちゃんありがとう♥*'
       /*+ 'アプリを入れずにどうしても直ぐに試してみたい場合は作者が用意してるコチラのリンク\nhttps://docs.google.com/spreadsheets/d/1cBqk4uM34QEhBOiqw1X2XTlh9VxnDejenYu4dKh902c/edit?usp=sharing\nを使ってみて！\n他の人が編集している場合があるし、後から他の人に見られたりするからくれぐれも注意して使ってね。\n\n'*/
@@ -1672,7 +1672,8 @@ bot.on('messageCreate', (msg) => {
                   return;
                 }
                 if (1 == cmd) {
-                  firestore.collection("users").doc(targetUserID).set(targetUser).then(function(snapshot) {
+                  targetUser.modified = new Date();
+                  firestore.collection("users").doc(targetUserID).update(targetUser).then(function(snapshot) {
                     msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[25] + '\n' + targetUser.name + ': https://' + strings.domain + '/?clanid=' + clanID + '&userid=' + targetUserID + '&view=on#modifyuser\n');
                     if (mode == 1 && 0 < cpmargin) {
                       var randnum = 1 + Math.floor( Math.random() * 100 );

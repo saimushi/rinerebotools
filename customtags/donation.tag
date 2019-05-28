@@ -103,7 +103,7 @@
           .attr('src', 'https://checkout.stripe.com/checkout.js')
           .attr('class', 'stripe-button')
           .attr('data-key', 'pk_live_JlhrlmDnSu9qzPjvJ5eqjSro')
-          .attr('data-email', 'saimushi@gmial.com')
+          .attr('data-email', 'saimushi@gmail.com')
           .attr('data-name', dataLabel)
           .attr('data-description', '寄付を・・・お願いしますm(_ _)m')
           .attr('data-image', dataLogo)
