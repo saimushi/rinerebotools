@@ -5,12 +5,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<meta name="robots" content="noindex"/>
-		<!-- Line2revo -->
+		<!-- Line2revo --
 		<meta name="description" content="血盟管理ツール"/>
 		<meta id="ogimage" property="og:image" content="https://line2revo.fun/images/l2r/ogimage.png" />
 		<title>L2R Tool</title>
 		<!-- end/ -->
-		<!-- kurosaba --
+		<!-- kurosaba -->
 		<meta name="description" content="ギルド管理ツール"/>
 		<meta id="ogimage" property="og:image" content="https://kurosaba.fun/images/kurosaba/ogimage.png" />
 		<title>【黒い砂漠】ギルド管理 Tool</title>
@@ -271,7 +271,7 @@
 				background-color: red;
 			}
 			td.scheduleparty[data-party="8"], input[name=schedulept8label]+.clearbtn {
-				background-color: crimson;
+				background-color: salmon;
 			}
 			td.scheduleparty[data-party="7"], input[name=schedulept7label]+.clearbtn {
 				background-color: firebrick;
@@ -896,6 +896,26 @@
 									<option if={user.job!='ブレイダー'} value="ブレイダー">ブレイダー</option>
 									<option if={user.job=='リトルサマナー'} value="リトルサマナー" selected="selected">リトルサマナー</option>
 									<option if={user.job!='リトルサマナー'} value="リトルサマナー">リトルサマナー</option>
+									<option if={user.job=='ソーサレス'} value="ソーサレス" selected="selected">ソーサレス</option>
+									<option if={user.job!='ソーサレス'} value="ソーサレス">ソーサレス</option>
+									<option if={user.job=='ウィザード'} value="ウィザード" selected="selected">ウィザード</option>
+									<option if={user.job!='ウィザード'} value="ウィザード">ウィザード</option>
+									<option if={user.job=='ツバキ'} value="ツバキ" selected="selected">ツバキ</option>
+									<option if={user.job!='ツバキ'} value="ツバキ">ツバキ</option>
+									<option if={user.job=='ニンジャ'} value="ニンジャ" selected="selected">ニンジャ</option>
+									<option if={user.job!='ニンジャ'} value="ニンジャ">ニンジャ</option>
+									<option if={user.job=='クノイチ'} value="クノイチ" selected="selected">クノイチ</option>
+									<option if={user.job!='クノイチ'} value="クノイチ">クノイチ</option>
+									<option if={user.job=='ミスティック'} value="ミスティック" selected="selected">ミスティック</option>
+									<option if={user.job!='ミスティック'} value="ミスティック">ミスティック</option>
+									<option if={user.job=='格闘家'} value="格闘家" selected="selected">格闘家</option>
+									<option if={user.job!='格闘家'} value="格闘家">格闘家</option>
+									<option if={user.job=='ダークナイト'} value="ダークナイト" selected="selected">ダークナイト</option>
+									<option if={user.job!='ダークナイト'} value="ダークナイト">ダークナイト</option>
+									<option if={user.job=='ラン'} value="ラン" selected="selected">ラン</option>
+									<option if={user.job!='ラン'} value="ラン">ラン</option>
+									<option if={user.job=='アーチャー'} value="アーチャー" selected="selected">アーチャー</option>
+									<option if={user.job!='アーチャー'} value="アーチャー">アーチャー</option>
 								</select>
 							</div>
 							<div if={mode==1} class="form-group">
@@ -1162,6 +1182,28 @@
 										<option if={user.bukicos!='百鬼3'} value="百鬼3">百鬼夜行 特性Lv3</option>
 										<option if={user.bukicos!='百鬼2'} value="百鬼2">百鬼夜行 特性Lv2</option>
 										<option if={user.bukicos!='百鬼1'} value="百鬼1">百鬼夜行 特性Lv1</option>
+									</optgroup>
+									<optgroup label="トラベラーズ">
+										<option if={user.bukicos=='旅人10'} value="旅人10" selected="selected">トラベラーズ 特性Lv10</option>
+										<option if={user.bukicos=='旅人9'} value="旅人9" selected="selected">トラベラーズ 特性Lv9</option>
+										<option if={user.bukicos=='旅人8'} value="旅人8" selected="selected">トラベラーズ 特性Lv8</option>
+										<option if={user.bukicos=='旅人7'} value="旅人7" selected="selected">トラベラーズ 特性Lv7</option>
+										<option if={user.bukicos=='旅人6'} value="旅人6" selected="selected">トラベラーズ 特性Lv6</option>
+										<option if={user.bukicos=='旅人5'} value="旅人5" selected="selected">トラベラーズ 特性Lv5</option>
+										<option if={user.bukicos=='旅人4'} value="旅人4" selected="selected">トラベラーズ 特性Lv4</option>
+										<option if={user.bukicos=='旅人3'} value="旅人3" selected="selected">トラベラーズ 特性Lv3</option>
+										<option if={user.bukicos=='旅人2'} value="旅人2" selected="selected">トラベラーズ 特性Lv2</option>
+										<option if={user.bukicos=='旅人1'} value="旅人1" selected="selected">トラベラーズ 特性Lv1</option>
+										<option if={user.bukicos!='旅人10'} value="旅人10">トラベラーズ 特性Lv10</option>
+										<option if={user.bukicos!='旅人9'} value="旅人9">トラベラーズ 特性Lv9</option>
+										<option if={user.bukicos!='旅人8'} value="旅人8">トラベラーズ 特性Lv8</option>
+										<option if={user.bukicos!='旅人7'} value="旅人7">トラベラーズ 特性Lv7</option>
+										<option if={user.bukicos!='旅人6'} value="旅人6">トラベラーズ 特性Lv6</option>
+										<option if={user.bukicos!='旅人5'} value="旅人5">トラベラーズ 特性Lv5</option>
+										<option if={user.bukicos!='旅人4'} value="旅人4">トラベラーズ 特性Lv4</option>
+										<option if={user.bukicos!='旅人3'} value="旅人3">トラベラーズ 特性Lv3</option>
+										<option if={user.bukicos!='旅人2'} value="旅人2">トラベラーズ 特性Lv2</option>
+										<option if={user.bukicos!='旅人1'} value="旅人1">トラベラーズ 特性Lv1</option>
 									</optgroup>
 									<optgroup label="ハロウィン">
 										<option if={user.bukicos=='カボ10'} value="カボ10" selected="selected">ハロウィン 特性Lv10</option>
@@ -1840,7 +1882,7 @@
 														<th style="border: none;"></th>
 														<th if={mode==1} style="border: none; width:25px;"></th>
 													</tr>
-													<tr if={pusers[0].party==8} style="border: none; background-color: crimson; color: white; font-size: 8px;">
+													<tr if={pusers[0].party==8} style="border: none; background-color: salmon; color: white; font-size: 8px;">
 														<th if={'string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt8label}</div></th>
 														<th if={!('string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5B</th>
 														<th if={!('string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF2</th>
@@ -1872,7 +1914,7 @@
 														<td if={mode==1 && jobbufs[puser.job]=='移動'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></td>
 														<td if={mode==1 && jobbufs[puser.job]=='命中'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></td>
 														<td if={mode==1 && jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></td>
-														<td if={mode==2 && jobbufs[puser.job]=='近距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></td>
+														<td if={mode==2 && jobbufs[puser.job]=='近距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: salmon;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></td>
 														<td if={mode==2 && jobbufs[puser.job]=='遠距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></td>
 														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: #444;">&nbsp;</td>
 													</tr>
@@ -3358,8 +3400,8 @@
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} style="background-color: royalblue; color: white; width: 12px; padding-left: 1px;">攻</th>
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} style="background-color: royalblue; color: white; width: 12px; padding-left: 1px;">防</th>
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} style="background-color: yellow; width: 12px; padding-left: 1px;">甘</th>
-									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 12px; padding-left: 1px;">魔</th>
-									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 12px; padding-left: 1px;">竜</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: salmon; color: white; width: 12px; padding-left: 1px;">魔</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: salmon; color: white; width: 12px; padding-left: 1px;">竜</th>
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="width: 12px; padding-left: 1px;">ボ</th>
 									<th style="width: 15px; padding-left: 2px;">区</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 31px; padding: 0; text-align: center; vertical-align: middle;">入隊日<br/>更新日</th>
@@ -3429,7 +3471,7 @@
 									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
 									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
 									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='近距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='近距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: salmon; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/></td>
 									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='遠距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/></td>
 									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="font-size: 5px;">{user.job}</td>
 
@@ -3455,8 +3497,8 @@
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpat}</td>
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpdf}</td>
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: yellow; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.sweet}</td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.mamono}</td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dragon}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: salmon; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.mamono}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: salmon; color: white; font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dragon}</td>
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.boss}</td>
 									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">AC</td>
 									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">IAC</td>
@@ -5022,6 +5064,16 @@
 					jobimages['レンジャー'] = './images/kurosaba/classes/icn_ranger.png';
 					jobimages['ブレイダー'] = './images/kurosaba/classes/icn_blader.png';
 					jobimages['リトルサマナー'] = './images/kurosaba/classes/icn_beastmaster.png';
+					jobimages['ソーサレス'] = './images/kurosaba/classes/icn_sorceress.png';
+					jobimages['ウィザード'] = './images/kurosaba/classes/icn_wizard.png';
+					jobimages['ツバキ'] = './images/kurosaba/classes/icn_f-blader.png';
+					jobimages['ニンジャ'] = './images/kurosaba/classes/icn_ninja.png';
+					jobimages['クノイチ'] = './images/kurosaba/classes/icn_kunoichi.png';
+					jobimages['ミスティック'] = './images/kurosaba/classes/icn_mystic.png';
+					jobimages['格闘家'] = './images/kurosaba/classes/icn_striker.png';
+					jobimages['ダークナイト'] = './images/kurosaba/classes/icn_dark knight.png';
+					jobimages['ラン'] = './images/kurosaba/classes/icn_lahn.png';
+					jobimages['アーチャー'] = './images/kurosaba/classes/icn_archer.png';
 				}
 
 				var jobnamesForURL = [];
@@ -5063,6 +5115,16 @@
 					jobnamesForURL['./images/kurosaba/classes/icn_ranger.png'] = 'レンジャー';
 					jobnamesForURL['./images/kurosaba/classes/icn_blader.png'] = 'ブレイダー';
 					jobnamesForURL['./images/kurosaba/classes/icn_beastmaster.png'] = 'リトルサマナー';
+					jobnamesForURL['./images/kurosaba/classes/icn_sorceress.png'] = 'ソーサレス';
+					jobnamesForURL['./images/kurosaba/classes/icn_wizard.png'] = 'ウィザード';
+					jobnamesForURL['./images/kurosaba/classes/icn_f-blader.png'] = 'ツバキ';
+					jobnamesForURL['./images/kurosaba/classes/icn_ninja.png'] = 'ニンジャ';
+					jobnamesForURL['./images/kurosaba/classes/icn_kunoichi.png'] = 'クノイチ';
+					jobnamesForURL['./images/kurosaba/classes/icn_mystic.png'] = 'ミスティック';
+					jobnamesForURL['./images/kurosaba/classes/icn_striker.png'] = '格闘家';
+					jobnamesForURL['./images/kurosaba/classes/icn_dark knight.png'] = 'ダークナイト';
+					jobnamesForURL['./images/kurosaba/classes/icn_lahn.png'] = 'ラン';
+					jobnamesForURL['./images/kurosaba/classes/icn_archer.png'] = 'アーチャー';
 				}
 
 				var jobbufs = [];
@@ -5104,6 +5166,16 @@
 					jobbufs['レンジャー'] = '遠距離';
 					jobbufs['ブレイダー'] = '近距離';
 					jobbufs['リトルサマナー'] = '遠距離';
+					jobbufs['ソーサレス'] = '遠距離';
+					jobbufs['ウィザード'] = '遠距離';
+					jobbufs['ツバキ'] = '近距離';
+					jobbufs['ニンジャ'] = '近距離';
+					jobbufs['クノイチ'] = '近距離';
+					jobbufs['ミスティック'] = '近距離';
+					jobbufs['格闘家'] = '近距離';
+					jobbufs['ダークナイト'] = '近距離';
+					jobbufs['ラン'] = '遠距離';
+					jobbufs['アーチャー'] = '遠距離';
 				}
 			</script>
 		</section>

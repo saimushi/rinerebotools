@@ -591,9 +591,16 @@ bot.on('messageCreate', (msg) => {
       return;
     }
   }
+  if (msg.channel.id == 379464851560595468 || msg.channel.id == 530716770030452756) {
+    bot.executeWebhook('584953379336486922', 'v4_osSlytIf42DnXa5JvUStVWtp8IIcxuah1-VHv_wHpiF3HBYa60CFr6apmYx2wvy_M', {
+      disableEveryone: false,
+      content: '[' + msg.author.username + ']' +  msg.content + '\n\n'
+    });
+  }
+  console.log(msg.channel.id);
+  console.log(msg.content);
   msg.content = msg.content.replace(/　/g, " ");
   msg.content = msg.content.replace(/,/g, "");
-  console.log(msg.content);
   console.log(msg.author.id);
   console.log(msg.author.username + '#' + msg.author.discriminator);
   if (isFinite(msg.content) && 0 < parseInt(msg.content)) {
