@@ -964,6 +964,27 @@ bot.on('messageCreate', (msg) => {
         msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **フェアリーローズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
       }
     }
+    if (-1 < buki.indexOf('トラベラーズ')) {
+      var toLv = parseInt(buki.replace('トラベラーズ', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '旅人' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **トラベラーズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('トラベラー')) {
+      var toLv = parseInt(buki.replace('トラベラー', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '旅人' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **トラベラーズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('旅人')) {
+      var toLv = parseInt(buki.replace('旅人', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '旅人' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **トラベラーズシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
     console.log('武器コスID=' + newSelection);
     if (true != ('string' == typeof newSelection && 0 < newSelection.length)) {
       msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つからなかったわ・・・\n「武器コス 海賊5」みたいな指定をしてみて！5の部分は特性レベルを入れるのよ！\n');
