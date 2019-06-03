@@ -596,6 +596,10 @@ bot.on('messageCreate', (msg) => {
       disableEveryone: false,
       content: '[' + msg.author.username + ']' +  msg.content + '\n\n'
     });
+    bot.executeWebhook('585021387262001152', '5Q_fZ_ddid8DXtlyxUqL5tbUno4_u4czvawKnR4rK5-CEhmpSdcn3IqqkGLiapXu1XWb', {
+      disableEveryone: false,
+      content: '[' + msg.author.username + ']' +  msg.content + '\n\n'
+    });
   }
   console.log(msg.channel.id);
   console.log(msg.content);
