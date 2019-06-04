@@ -3575,7 +3575,7 @@
 									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 37px; padding-left: 5px; padding-right: 0;">戦闘力</th>
 									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 20px; padding-left: 2px;">Job</th>
 									<th if={mode==1 && opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 20px; padding: 0; text-align: center; vertical-align: middle;">飾</th>
-									<th if={mode==1 && opts.mode!='contribution'} onclick="{sortAcce1}" style="font-size: 6px; width: 20px; padding: 0; text-align: center; vertical-align: middle;">サブ飾</th>
+									<th if={mode==1 && opts.mode!='contribution'} style="font-size: 6px; width: 20px; padding: 0; text-align: center; vertical-align: middle;">サブ飾</th>
 									<th if={mode==1 && opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">武</th>
 									<th if={mode==1 && opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">マ</th>
 									<th if={opts.mode!='schedule'} onclick="{sortLevel}" style="width: 18px; padding-left: 3px;">Lv</th>
@@ -3737,7 +3737,7 @@
 							console.log(lines);
 							var fields = lines[0].replace(/[\r\n]/g, '').trim().split(',');
 							console.log(fields);
-							if (19 > fields.length){
+							if (21 > fields.length){
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
 							}
@@ -3747,19 +3747,21 @@
 							 || 0 > fields[3].indexOf('3次職')
 							 || 0 > fields[4].indexOf('装飾品')
 							 || 0 > fields[5].indexOf('特性')
-							 || 0 > fields[6].indexOf('武器コス')
-							 || 0 > fields[7].indexOf('マント')
-							 || 0 > fields[8].indexOf('Lv')
-							 || true == (0 > fields[9].indexOf('ディフェンスゾーンLv') && 0 > fields[9].indexOf('Dz'))
-							 || 0 > fields[10].indexOf('対人攻撃特性')
-							 || 0 > fields[11].indexOf('対人防御特性(平均)')
-							 || 0 > fields[12].indexOf('スイート特性')
-							 || 0 > fields[13].indexOf('魔物特性')
-							 || true == (0 > fields[14].indexOf('竜特性') && 0 > fields[14].indexOf('竜'))
-							 || 0 > fields[15].indexOf('ボス特性')
-							 || 0 > fields[16].indexOf('区分')
-							 || 0 > fields[17].indexOf('入隊日')
-							 || 0 > fields[18].indexOf('メモ')
+							 || 0 > fields[6].indexOf('サブ装飾品')
+							 || 0 > fields[7].indexOf('サブ特性')
+							 || 0 > fields[8].indexOf('武器コス')
+							 || 0 > fields[9].indexOf('マント')
+							 || 0 > fields[10].indexOf('Lv')
+							 || true == (0 > fields[11].indexOf('ディフェンスゾーンLv') && 0 > fields[11].indexOf('Dz'))
+							 || 0 > fields[12].indexOf('対人攻撃特性')
+							 || 0 > fields[13].indexOf('対人防御特性(平均)')
+							 || 0 > fields[14].indexOf('スイート特性')
+							 || 0 > fields[15].indexOf('魔物特性')
+							 || true == (0 > fields[16].indexOf('竜特性') && 0 > fields[16].indexOf('竜'))
+							 || 0 > fields[17].indexOf('ボス特性')
+							 || 0 > fields[18].indexOf('区分')
+							 || 0 > fields[19].indexOf('入隊日')
+							 || 0 > fields[20].indexOf('メモ')
 							) {
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
@@ -3772,11 +3774,11 @@
 								}
 								var cols = line.split(',');
 								console.log(cols);
-								if (19 > cols.length){
+								if (21 > cols.length){
 									alert('項目が足らない行がありました。\n' + lidx + '行目か' + (lidx+1) + '行目かを確認して下さい。');
 									return;
 								}
-								var _user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: 0, meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, boss: null, memo: '', activity: 9, joind: '' };
+								var _user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: 0, meteo: 0, dzone: null, acce1: 0, acce2: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, boss: null, memo: '', activity: 9, joind: '' };
 								_user.name = cols[0].trim();
 								_user.cp = parseInt(cols[1].trim());
 								_user.job = cols[2].trim();
@@ -3810,18 +3812,47 @@
 								else {
 									_user.acce1 = 0;
 								}
-								_user.bukicos = cols[6].trim();
-								_user.manto = cols[7].trim();
-								_user.level = parseInt(cols[8].trim());
+								_user.acce2 = cols[6].trim();
+								acce2tokusei = cols[7].trim();
+								if (-1 < _user.acce2.indexOf('カラ')) {
+									_user.acce2 = 60 + parseInt(acce2tokusei) -1;
+								}
+								else if (-1 < _user.acce2.indexOf('魔女')) {
+									_user.acce2 = 80 + parseInt(acce2tokusei) -1;
+								}
+								else if (-1 < _user.acce2.indexOf('エルヴン')) {
+									_user.acce2 = 70 + parseInt(acce2tokusei) -1;
+								}
+								else if (-1 < _user.acce2.indexOf('ナッセン')) {
+									_user.acce2 = 50 + parseInt(acce2tokusei) -1;
+								}
+								else if (-1 < _user.acce2.indexOf('ムーンストーン')) {
+									_user.acce2 = 40 + parseInt(acce2tokusei) -1;
+								}
+								else if (-1 < _user.acce2.indexOf('ブラックオール')) {
+									_user.acce2 = 30 + parseInt(acce2tokusei) -1;
+								}
+								else if (-1 < _user.acce2.indexOf('アルボール')) {
+									_user.acce2 = 20 + parseInt(acce2tokusei) -1;
+								}
+								else if (-1 < _user.acce2.indexOf('フェニックス')) {
+									_user.acce2 = 10 + parseInt(acce2tokusei) -1;
+								}
+								else {
+									_user.acce2 = 0;
+								}
+								_user.bukicos = cols[8].trim();
+								_user.manto = cols[9].trim();
+								_user.level = parseInt(cols[10].trim());
 								_user.meteo = 10;
-								_user.dzone = (cols[9].trim() == '')? null: parseInt(cols[9].trim());
-								_user.pvpat = (cols[10].trim() == '')? null: parseInt(cols[10].trim());
-								_user.pvpdf = (cols[11].trim() == '')? null: parseInt(cols[11].trim());
-								_user.sweet = (cols[12].trim() == '')? null: parseInt(cols[12].trim());
-								_user.mamono = (cols[13].trim() == '')? null: parseInt(cols[13].trim());
-								_user.dragon = (cols[14].trim() == '')? null: parseInt(cols[14].trim());
-								_user.boss = (cols[15].trim() == '')? null: parseInt(cols[15].trim());
-								_user.activity = cols[16].trim();
+								_user.dzone = (cols[11].trim() == '')? null: parseInt(cols[11].trim());
+								_user.pvpat = (cols[12].trim() == '')? null: parseInt(cols[12].trim());
+								_user.pvpdf = (cols[13].trim() == '')? null: parseInt(cols[13].trim());
+								_user.sweet = (cols[14].trim() == '')? null: parseInt(cols[14].trim());
+								_user.mamono = (cols[15].trim() == '')? null: parseInt(cols[15].trim());
+								_user.dragon = (cols[16].trim() == '')? null: parseInt(cols[16].trim());
+								_user.boss = (cols[17].trim() == '')? null: parseInt(cols[17].trim());
+								_user.activity = cols[18].trim();
 								if (_user.activity == 'アクティブ') {
 									_user.activity = 1;
 								}
@@ -3834,9 +3865,9 @@
 								else if (_user.activity == '除名') {
 									_user.activity = -9;
 								}
-								var _joind = cols[17].trim().replace(' ', '/').split('/');
+								var _joind = cols[19].trim().replace(' ', '/').split('/');
 								_user.joind = (('0000' + _joind[0]).slice(-4)) + '/' + (('00' + _joind[1]).slice(-2)) + '/' + (('00' + _joind[2]).slice(-2));
-								_user.memo = cols[18].trim();
+								_user.memo = cols[20].trim();
 								_users.push(_user);
 							}
 							console.log('usser=');
@@ -7097,6 +7128,9 @@
 							}
 							else if (label == '飾') {
 								label = '装飾品","特性';
+							}
+							else if (label == 'サブ飾') {
+								label = 'サブ装飾品","サブ特性';
 							}
 							else if (label == '武') {
 								label = '武器コス';

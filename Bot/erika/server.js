@@ -727,12 +727,21 @@ bot.on('messageCreate', (msg) => {
     cmd = 5;
     subcmd = 2;
   }
-  else if (mode == 1 && 0 === msg.content.indexOf('アクセ ')) {
+  else if (mode == 1 && true == (0 === msg.content.indexOf('アクセ ') || 0 === msg.content.indexOf('サブアクセ '))) {
     msg.content = msg.content.replace(/[０-９]/g, function(s){
         return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
     });
-    msg.channel.createMessage('<@' + msg.author.id + '> 装飾品を更新するのね、私に任せて！\n');
-    var acce = msg.content.replace('アクセ ', '');
+    var acce = '';
+    subcmd = 1;
+    if (-1 < msg.content.indexOf('サブアクセ ')) {
+      subcmd = 21;
+      msg.channel.createMessage('<@' + msg.author.id + '> サブ装飾品を更新するのね、私に任せて！\n');
+      var acce = msg.content.replace('サブアクセ ', '');
+    }
+    else {
+      msg.channel.createMessage('<@' + msg.author.id + '> 装飾品を更新するのね、私に任せて！\n');
+      var acce = msg.content.replace('アクセ ', '');
+    }
     console.log(acce);
     cmd = 1;
     if (-1 < acce.indexOf('魔女')) {
@@ -839,7 +848,6 @@ bot.on('messageCreate', (msg) => {
       cmd = 0;
       return;
     }
-    subcmd = 1;
   }
   else if (mode == 1 && 0 === msg.content.indexOf('武器コス ')) {
     msg.content = msg.content.replace(/[０-９]/g, function(s){
@@ -1654,6 +1662,9 @@ bot.on('messageCreate', (msg) => {
                         }
                         if (1 == subcmd && 0 < newSelection) {
                           targetUser.acce1 = newSelection;
+                        }
+                        if (21 == subcmd && 0 < newSelection) {
+                          targetUser.acce2 = newSelection;
                         }
                         if (2 == subcmd && 'string' == typeof newSelection && 0 < newSelection.length) {
                           targetUser.bukicos = newSelection;
