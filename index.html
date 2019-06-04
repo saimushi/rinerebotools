@@ -1137,6 +1137,187 @@
 								</select>
 							</div>
 							<div if={mode==1} class="form-group">
+								<select class="form-control" name="useracce2">
+									<option>サブ装飾品</option>
+									<optgroup label="エルヴン">
+										<option if={user.acce2==79} value="79" selected="selected">エルヴン 平均特性10</option>
+										<option if={user.acce2==78} value="78" selected="selected">エルヴン 平均特性9</option>
+										<option if={user.acce2==77} value="77" selected="selected">エルヴン 平均特性8</option>
+										<option if={user.acce2==76} value="76" selected="selected">エルヴン 平均特性7</option>
+										<option if={user.acce2==75} value="75" selected="selected">エルヴン 平均特性6</option>
+										<option if={user.acce2==74} value="74" selected="selected">エルヴン 平均特性5</option>
+										<option if={user.acce2==73} value="73" selected="selected">エルヴン 平均特性4</option>
+										<option if={user.acce2==72} value="72" selected="selected">エルヴン 平均特性3</option>
+										<option if={user.acce2==71} value="71" selected="selected">エルヴン 平均特性2</option>
+										<option if={user.acce2==70} value="70" selected="selected">エルヴン 平均特性1</option>
+										<option if={user.acce2!=79} value="79">エルヴン 平均特性10</option>
+										<option if={user.acce2!=78} value="78">エルヴン 平均特性9</option>
+										<option if={user.acce2!=77} value="77">エルヴン 平均特性8</option>
+										<option if={user.acce2!=76} value="76">エルヴン 平均特性7</option>
+										<option if={user.acce2!=75} value="75">エルヴン 平均特性6</option>
+										<option if={user.acce2!=74} value="74">エルヴン 平均特性5</option>
+										<option if={user.acce2!=73} value="73">エルヴン 平均特性4</option>
+										<option if={user.acce2!=72} value="72">エルヴン 平均特性3</option>
+										<option if={user.acce2!=71} value="71">エルヴン 平均特性2</option>
+										<option if={user.acce2!=70} value="70">エルヴン 平均特性1</option>
+									</optgroup>
+									<optgroup label="ナッセン">
+										<option if={user.acce2==59} value="59" selected="selected">ナッセン 平均特性10</option>
+										<option if={user.acce2==58} value="58" selected="selected">ナッセン 平均特性9</option>
+										<option if={user.acce2==57} value="57" selected="selected">ナッセン 平均特性8</option>
+										<option if={user.acce2==56} value="56" selected="selected">ナッセン 平均特性7</option>
+										<option if={user.acce2==55} value="55" selected="selected">ナッセン 平均特性6</option>
+										<option if={user.acce2==54} value="54" selected="selected">ナッセン 平均特性5</option>
+										<option if={user.acce2==53} value="53" selected="selected">ナッセン 平均特性4</option>
+										<option if={user.acce2==52} value="52" selected="selected">ナッセン 平均特性3</option>
+										<option if={user.acce2==51} value="51" selected="selected">ナッセン 平均特性2</option>
+										<option if={user.acce2==50} value="50" selected="selected">ナッセン 平均特性1</option>
+										<option if={user.acce2!=59} value="59">ナッセン 平均特性10</option>
+										<option if={user.acce2!=58} value="58">ナッセン 平均特性9</option>
+										<option if={user.acce2!=57} value="57">ナッセン 平均特性8</option>
+										<option if={user.acce2!=56} value="56">ナッセン 平均特性7</option>
+										<option if={user.acce2!=55} value="55">ナッセン 平均特性6</option>
+										<option if={user.acce2!=54} value="54">ナッセン 平均特性5</option>
+										<option if={user.acce2!=53} value="53">ナッセン 平均特性4</option>
+										<option if={user.acce2!=52} value="52">ナッセン 平均特性3</option>
+										<option if={user.acce2!=51} value="51">ナッセン 平均特性2</option>
+										<option if={user.acce2!=50} value="50">ナッセン 平均特性1</option>
+									</optgroup>
+									<optgroup label="カラ">
+										<option if={user.acce2==69} value="69" selected="selected">カラ 平均特性10</option>
+										<option if={user.acce2==68} value="68" selected="selected">カラ 平均特性9</option>
+										<option if={user.acce2==67} value="67" selected="selected">カラ 平均特性8</option>
+										<option if={user.acce2==66} value="66" selected="selected">カラ 平均特性7</option>
+										<option if={user.acce2==65} value="65" selected="selected">カラ 平均特性6</option>
+										<option if={user.acce2==64} value="64" selected="selected">カラ 平均特性5</option>
+										<option if={user.acce2==63} value="63" selected="selected">カラ 平均特性4</option>
+										<option if={user.acce2==62} value="62" selected="selected">カラ 平均特性3</option>
+										<option if={user.acce2==61} value="61" selected="selected">カラ 平均特性2</option>
+										<option if={user.acce2==60} value="69" selected="selected">カラ 平均特性1</option>
+										<option if={user.acce2!=69} value="69">カラ 平均特性10</option>
+										<option if={user.acce2!=68} value="68">カラ 平均特性9</option>
+										<option if={user.acce2!=67} value="67">カラ 平均特性8</option>
+										<option if={user.acce2!=66} value="66">カラ 平均特性7</option>
+										<option if={user.acce2!=65} value="65">カラ 平均特性6</option>
+										<option if={user.acce2!=64} value="64">カラ 平均特性5</option>
+										<option if={user.acce2!=63} value="63">カラ 平均特性4</option>
+										<option if={user.acce2!=62} value="62">カラ 平均特性3</option>
+										<option if={user.acce2!=61} value="61">カラ 平均特性2</option>
+										<option if={user.acce2!=60} value="60">カラ 平均特性1</option>
+									</optgroup>
+									<optgroup label="ブラックオール">
+										<option if={user.acce2==39} value="39" selected="selected">ブラックオール 平均特性10</option>
+										<option if={user.acce2==38} value="38" selected="selected">ブラックオール 平均特性9</option>
+										<option if={user.acce2==37} value="37" selected="selected">ブラックオール 平均特性8</option>
+										<option if={user.acce2==36} value="36" selected="selected">ブラックオール 平均特性7</option>
+										<option if={user.acce2==35} value="35" selected="selected">ブラックオール 平均特性6</option>
+										<option if={user.acce2==34} value="34" selected="selected">ブラックオール 平均特性5</option>
+										<option if={user.acce2==33} value="33" selected="selected">ブラックオール 平均特性4</option>
+										<option if={user.acce2==32} value="32" selected="selected">ブラックオール 平均特性3</option>
+										<option if={user.acce2==31} value="31" selected="selected">ブラックオール 平均特性2</option>
+										<option if={user.acce2==30} value="30" selected="selected">ブラックオール 平均特性1</option>
+										<option if={user.acce2!=39} value="39">ブラックオール 平均特性10</option>
+										<option if={user.acce2!=38} value="38">ブラックオール 平均特性9</option>
+										<option if={user.acce2!=37} value="37">ブラックオール 平均特性8</option>
+										<option if={user.acce2!=36} value="36">ブラックオール 平均特性7</option>
+										<option if={user.acce2!=35} value="35">ブラックオール 平均特性6</option>
+										<option if={user.acce2!=34} value="34">ブラックオール 平均特性5</option>
+										<option if={user.acce2!=33} value="33">ブラックオール 平均特性4</option>
+										<option if={user.acce2!=32} value="32">ブラックオール 平均特性3</option>
+										<option if={user.acce2!=31} value="31">ブラックオール 平均特性2</option>
+										<option if={user.acce2!=30} value="30">ブラックオール 平均特性1</option>
+									</optgroup>
+									<optgroup label="魔女">
+										<option if={user.acce2==89} value="89" selected="selected">魔女 平均特性10</option>
+										<option if={user.acce2==88} value="88" selected="selected">魔女 平均特性9</option>
+										<option if={user.acce2==87} value="87" selected="selected">魔女 平均特性8</option>
+										<option if={user.acce2==86} value="86" selected="selected">魔女 平均特性7</option>
+										<option if={user.acce2==85} value="85" selected="selected">魔女 平均特性6</option>
+										<option if={user.acce2==84} value="84" selected="selected">魔女 平均特性5</option>
+										<option if={user.acce2==83} value="83" selected="selected">魔女 平均特性4</option>
+										<option if={user.acce2==82} value="82" selected="selected">魔女 平均特性3</option>
+										<option if={user.acce2==81} value="81" selected="selected">魔女 平均特性2</option>
+										<option if={user.acce2==80} value="80" selected="selected">魔女 平均特性1</option>
+										<option if={user.acce2!=89} value="89">魔女 平均特性10</option>
+										<option if={user.acce2!=88} value="88">魔女 平均特性9</option>
+										<option if={user.acce2!=87} value="87">魔女 平均特性8</option>
+										<option if={user.acce2!=86} value="86">魔女 平均特性7</option>
+										<option if={user.acce2!=85} value="85">魔女 平均特性6</option>
+										<option if={user.acce2!=84} value="84">魔女 平均特性5</option>
+										<option if={user.acce2!=83} value="83">魔女 平均特性4</option>
+										<option if={user.acce2!=82} value="82">魔女 平均特性3</option>
+										<option if={user.acce2!=81} value="81">魔女 平均特性2</option>
+										<option if={user.acce2!=80} value="80">魔女 平均特性1</option>
+									</optgroup>
+									<optgroup label="アルボール">
+										<option if={user.acce2==29} value="29" selected="selected">アルボール 平均特性10</option>
+										<option if={user.acce2==28} value="28" selected="selected">アルボール 平均特性9</option>
+										<option if={user.acce2==27} value="27" selected="selected">アルボール 平均特性8</option>
+										<option if={user.acce2==26} value="26" selected="selected">アルボール 平均特性7</option>
+										<option if={user.acce2==25} value="25" selected="selected">アルボール 平均特性6</option>
+										<option if={user.acce2==24} value="24" selected="selected">アルボール 平均特性5</option>
+										<option if={user.acce2==23} value="23" selected="selected">アルボール 平均特性4</option>
+										<option if={user.acce2==22} value="22" selected="selected">アルボール 平均特性3</option>
+										<option if={user.acce2==21} value="21" selected="selected">アルボール 平均特性2</option>
+										<option if={user.acce2==20} value="20" selected="selected">アルボール 平均特性1</option>
+										<option if={user.acce2!=29} value="29">アルボール 平均特性10</option>
+										<option if={user.acce2!=28} value="28">アルボール 平均特性9</option>
+										<option if={user.acce2!=27} value="27">アルボール 平均特性8</option>
+										<option if={user.acce2!=26} value="26">アルボール 平均特性7</option>
+										<option if={user.acce2!=25} value="25">アルボール 平均特性6</option>
+										<option if={user.acce2!=24} value="24">アルボール 平均特性5</option>
+										<option if={user.acce2!=23} value="23">アルボール 平均特性4</option>
+										<option if={user.acce2!=22} value="22">アルボール 平均特性3</option>
+										<option if={user.acce2!=21} value="21">アルボール 平均特性2</option>
+										<option if={user.acce2!=20} value="20">アルボール 平均特性1</option>
+									</optgroup>
+									<optgroup label="フェニックス">
+										<option if={user.acce2==19} value="19" selected="selected">フェニックス 平均特性10</option>
+										<option if={user.acce2==18} value="18" selected="selected">フェニックス 平均特性9</option>
+										<option if={user.acce2==17} value="17" selected="selected">フェニックス 平均特性8</option>
+										<option if={user.acce2==16} value="16" selected="selected">フェニックス 平均特性7</option>
+										<option if={user.acce2==15} value="15" selected="selected">フェニックス 平均特性6</option>
+										<option if={user.acce2==14} value="14" selected="selected">フェニックス 平均特性5</option>
+										<option if={user.acce2==13} value="13" selected="selected">フェニックス 平均特性4</option>
+										<option if={user.acce2==12} value="12" selected="selected">フェニックス 平均特性3</option>
+										<option if={user.acce2==11} value="11" selected="selected">フェニックス 平均特性2</option>
+										<option if={user.acce2==10} value="10" selected="selected">フェニックス 平均特性1</option>
+										<option if={user.acce2!=19} value="19">フェニックス 平均特性10</option>
+										<option if={user.acce2!=18} value="18">フェニックス 平均特性9</option>
+										<option if={user.acce2!=17} value="17">フェニックス 平均特性8</option>
+										<option if={user.acce2!=16} value="16">フェニックス 平均特性7</option>
+										<option if={user.acce2!=15} value="15">フェニックス 平均特性6</option>
+										<option if={user.acce2!=14} value="14">フェニックス 平均特性5</option>
+										<option if={user.acce2!=13} value="13">フェニックス 平均特性4</option>
+										<option if={user.acce2!=12} value="12">フェニックス 平均特性3</option>
+										<option if={user.acce2!=11} value="11">フェニックス 平均特性2</option>
+										<option if={user.acce2!=10} value="10">フェニックス 平均特性1</option>
+									</optgroup>
+									<optgroup label="ムーンストーン">
+										<option if={user.acce2==49} value="49" selected="selected">ムーンストーン 平均特性10</option>
+										<option if={user.acce2==48} value="48" selected="selected">ムーンストーン 平均特性9</option>
+										<option if={user.acce2==47} value="47" selected="selected">ムーンストーン 平均特性8</option>
+										<option if={user.acce2==46} value="46" selected="selected">ムーンストーン 平均特性7</option>
+										<option if={user.acce2==45} value="45" selected="selected">ムーンストーン 平均特性6</option>
+										<option if={user.acce2==44} value="44" selected="selected">ムーンストーン 平均特性5</option>
+										<option if={user.acce2==43} value="43" selected="selected">ムーンストーン 平均特性4</option>
+										<option if={user.acce2==42} value="42" selected="selected">ムーンストーン 平均特性3</option>
+										<option if={user.acce2==41} value="41" selected="selected">ムーンストーン 平均特性2</option>
+										<option if={user.acce2==40} value="40" selected="selected">ムーンストーン 平均特性1</option>
+										<option if={user.acce2!=49} value="49">ムーンストーン 平均特性10</option>
+										<option if={user.acce2!=48} value="48">ムーンストーン 平均特性9</option>
+										<option if={user.acce2!=47} value="47">ムーンストーン 平均特性8</option>
+										<option if={user.acce2!=46} value="46">ムーンストーン 平均特性7</option>
+										<option if={user.acce2!=45} value="45">ムーンストーン 平均特性6</option>
+										<option if={user.acce2!=44} value="44">ムーンストーン 平均特性5</option>
+										<option if={user.acce2!=43} value="43">ムーンストーン 平均特性4</option>
+										<option if={user.acce2!=42} value="42">ムーンストーン 平均特性3</option>
+										<option if={user.acce2!=41} value="41">ムーンストーン 平均特性2</option>
+										<option if={user.acce2!=40} value="40">ムーンストーン 平均特性1</option>
+									</optgroup>
+								</select>
+							</div>
+							<div if={mode==1} class="form-group">
 								<select class="form-control" name="userbukicos">
 									<option value="">武器コス</option>
 									<optgroup label="海賊王">
@@ -2492,6 +2673,9 @@
 												if (mode==1) {
 													thisis.scheduleusers[suidx].job3d = thisis.selectusers[uidx].job3d;
 													thisis.scheduleusers[suidx].acce1 = parseInt(thisis.selectusers[uidx].acce1);
+													if ('undefined' != typeof thisis.selectusers[uidx].acce2 && null != thisis.selectusers[uidx].acce2 && '' != thisis.selectusers[uidx].acce2) {
+														thisis.scheduleusers[suidx].acce1 = parseInt(thisis.selectusers[uidx].acce2);
+													}
 													thisis.scheduleusers[suidx].bukicos = thisis.selectusers[uidx].bukicos;
 													thisis.scheduleusers[suidx].meteo = thisis.selectusers[uidx].meteo;
 													thisis.scheduleusers[suidx].dzone = thisis.selectusers[uidx].dzone;
@@ -3385,15 +3569,16 @@
 									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 35px; padding-left: 1px; padding-right: 0;">週クエ</th>
 									<th if={opts.mode=='schedule'} style="width: 10px;"></th>
 									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 20px; padding-left: 3px;">PT</th>
-									<th if={opts.mode=='schedule'} style="width: 28px; padding-left: 0px;">status</th>
+									<th if={opts.mode=='schedule'} style="font-size: 6px; width: 20px; padding: 0; text-align: center; vertical-align: middle;">status</th>
 									<th if={opts.mode=='schedule'} style="width: 20px; padding-left: 3px; padding-right: 2px;">VC</th>
 									<th style="width: 70px;">キャラ</th>
-									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 40px; padding-left: 5px; padding-right: 0;">戦闘力</th>
+									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 37px; padding-left: 5px; padding-right: 0;">戦闘力</th>
 									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 20px; padding-left: 2px;">Job</th>
-									<th if={mode==1 && opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 20px; padding-left: 5px;">飾</th>
+									<th if={mode==1 && opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 20px; padding: 0; text-align: center; vertical-align: middle;">飾</th>
+									<th if={mode==1 && opts.mode!='contribution'} onclick="{sortAcce1}" style="font-size: 6px; width: 20px; padding: 0; text-align: center; vertical-align: middle;">サブ飾</th>
 									<th if={mode==1 && opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">武</th>
 									<th if={mode==1 && opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">マ</th>
-									<th if={opts.mode!='schedule'} onclick="{sortLevel}" style="width: 20px; padding-left: 3px;">Lv</th>
+									<th if={opts.mode!='schedule'} onclick="{sortLevel}" style="width: 18px; padding-left: 3px;">Lv</th>
 									<th if={mode==2 && opts.mode!='schedule'} onclick="{sortLevel}" style="width: 24px; padding-left: 1px; padding-right: 0;">精霊</th>
 									<th if={mode==1 && opts.mode=='contribution'} style="width: 12px; padding-left: 1px;">メ</th>
 									<th if={mode==1} style="width: 12px; padding-left: 0;">Dz</th>
@@ -3404,9 +3589,9 @@
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 12px; padding-left: 1px;">竜</th>
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="width: 12px; padding-left: 1px;">ボ</th>
 									<th style="width: 15px; padding-left: 2px;">区</th>
-									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 31px; padding: 0; text-align: center; vertical-align: middle;">入隊日<br/>更新日</th>
-									<th if={opts.mode=='schedule'} style="font-size: 6px; padding-left: 1px; padding-right: 0;">コメ</th>
-									<th if={opts.mode!='schedule'} style="font-size: 6px; padding-left: 1px; padding-right: 0;">メモ</th>
+									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 22px; padding: 0; text-align: center; vertical-align: middle;">入隊日<br/>更新日</th>
+									<th if={opts.mode=='schedule'} style="font-size: 6px; padding: 0; text-align: center; vertical-align: middle;">コメ</th>
+									<th if={opts.mode!='schedule'} style="font-size: 6px; padding: 0; text-align: center; vertical-align: middle;">メモ</th>
 								</tr>
 							</thead>
 							<tbody id="partylist" class="mode{mode}partylist">
@@ -3454,10 +3639,10 @@
 									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
 									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
 
-									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-info text-info draggable" propaty="2" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">リダ</td>
-									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-success text-success draggable" propaty="1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">サブ</td>
-									<td if={opts.mode=='schedule' && user.status==-1} class="scheduleuserstatus bg-danger text-danger draggable" propaty="-1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">急欠</td>
-									<td if={opts.mode=='schedule' && user.status!=-1 && user.status!=2 && user.status!=1} class="scheduleuserstatus draggable" propaty="0" onclick="switchType(this, 'status');" style="font-size: xx-small; padding-left: 5px; padding-right: 0;">&nbsp;</td>
+									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-info text-info draggable" propaty="2" onclick="switchType(this, 'status');" style="font-size: xx-small; padding: 0; text-align: center; vertical-align: middle;">リダ</td>
+									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-success text-success draggable" propaty="1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding: 0; text-align: center; vertical-align: middle;">サブ</td>
+									<td if={opts.mode=='schedule' && user.status==-1} class="scheduleuserstatus bg-danger text-danger draggable" propaty="-1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding: 0; text-align: center; vertical-align: middle;">急欠</td>
+									<td if={opts.mode=='schedule' && user.status!=-1 && user.status!=2 && user.status!=1} class="scheduleuserstatus draggable" propaty="0" onclick="switchType(this, 'status');" style="font-size: xx-small; padding: 0; text-align: center; vertical-align: middle;">&nbsp;</td>
 									<td if={opts.mode=='schedule' && user.voice==1} class="scheduleuservoice bg-info draggable" style="padding-left: auto; padding-right: auto;" propaty="1" onclick="switchType(this, 'voice');"><i class="fas fa-microphone"></i></td>
 									<td if={opts.mode=='schedule' && user.voice==2} class="scheduleuservoice bg-success draggable" style="padding-left: auto; padding-right: auto;" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
 									<td if={opts.mode=='schedule' && user.voice==-1} class="scheduleuservoice bg-success draggable" style="padding-left: auto; padding-right: auto;" propaty="-1" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
@@ -3484,6 +3669,17 @@
 									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 20 <= user.acce1 && 30 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66505_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
 									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 10 <= user.acce1 && 20 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66508_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
 									<td if={mode==1 && opts.mode!='contribution' && false === ('undefined' != typeof user.acce1 && 10 <= user.acce1)} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_noimage.png)  no-repeat center top; background-size: 0">&nbsp;</td>
+
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 80 <= user.acce2 && 90 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px;  vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_75801_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 70 <= user.acce2 && 80 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66514_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 60 <= user.acce2 && 70 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(./images/l2r/kara.jpg)  no-repeat left top; background-size: auto 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 50 <= user.acce2 && 60 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66511_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 40 <= user.acce2 && 50 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66502_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 30 <= user.acce2 && 40 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66517_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 20 <= user.acce2 && 30 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66505_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 10 <= user.acce2 && 20 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66508_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && false === ('undefined' != typeof user.acce2 && 10 <= user.acce2)} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_noimage.png)  no-repeat center top; background-size: 0">&nbsp;</td>
+
 									<td if={mode==1 && opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 1px; text-align: right;">{user.bukicos}</td>
 									<td if={mode==1 && opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 1px; text-align: right;">{user.manto}</td>
 
@@ -6564,6 +6760,7 @@
 							userdzone = parseInt(userdzone);
 						}
 						var useracce1 = $('#registerform').find('select[name=useracce1] option:selected').val();
+						var useracce2 = $('#registerform').find('select[name=useracce2] option:selected').val();
 						var userbukicos = $('#registerform').find('select[name=userbukicos] option:selected').val();
 						var usermanto = $('#registerform').find('select[name=usermanto] option:selected').val();
 						if (true != ('メテオ' != usermeteo && '装飾品' != useracce1 && 0 < usermeteo.length && 0 < useracce1.length)) {
@@ -6580,6 +6777,9 @@
 						data.meteo = parseInt(usermeteo);
 						data.dzone = userdzone;
 						data.acce1 = parseInt(useracce1);
+						if ('サブ装飾品' != useracce2 && !isNaN(parseInt(useracce2))) {
+							data.acce2 = parseInt(useracce2);
+						}
 						data.bukicos = userbukicos;
 						data.manto = usermanto;
 						data.pvpat = userpvpat;
