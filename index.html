@@ -1320,6 +1320,28 @@
 							<div if={mode==1} class="form-group">
 								<select class="form-control" name="userbukicos">
 									<option value="">武器コス</option>
+									<optgroup label="ブラスバンド">
+										<option if={user.bukicos=='楽団10'} value="楽団10" selected="selected">ブラスバンド 特性Lv10</option>
+										<option if={user.bukicos=='楽団9'} value="楽団9" selected="selected">ブラスバンド 特性Lv9</option>
+										<option if={user.bukicos=='楽団8'} value="楽団8" selected="selected">ブラスバンド 特性Lv8</option>
+										<option if={user.bukicos=='楽団7'} value="楽団7" selected="selected">ブラスバンド 特性Lv7</option>
+										<option if={user.bukicos=='楽団6'} value="楽団6" selected="selected">ブラスバンド 特性Lv6</option>
+										<option if={user.bukicos=='楽団5'} value="楽団5" selected="selected">ブラスバンド 特性Lv5</option>
+										<option if={user.bukicos=='楽団4'} value="楽団4" selected="selected">ブラスバンド 特性Lv4</option>
+										<option if={user.bukicos=='楽団3'} value="楽団3" selected="selected">ブラスバンド 特性Lv3</option>
+										<option if={user.bukicos=='楽団2'} value="楽団2" selected="selected">ブラスバンド 特性Lv2</option>
+										<option if={user.bukicos=='楽団1'} value="楽団1" selected="selected">ブラスバンド 特性Lv1</option>
+										<option if={user.bukicos!='楽団10'} value="楽団10">ブラスバンド 特性Lv10</option>
+										<option if={user.bukicos!='楽団9'} value="楽団9">ブラスバンド 特性Lv9</option>
+										<option if={user.bukicos!='楽団8'} value="楽団8">ブラスバンド 特性Lv8</option>
+										<option if={user.bukicos!='楽団7'} value="楽団7">ブラスバンド 特性Lv7</option>
+										<option if={user.bukicos!='楽団6'} value="楽団6">ブラスバンド 特性Lv6</option>
+										<option if={user.bukicos!='楽団5'} value="楽団5">ブラスバンド 特性Lv5</option>
+										<option if={user.bukicos!='楽団4'} value="楽団4">ブラスバンド 特性Lv4</option>
+										<option if={user.bukicos!='楽団3'} value="楽団3">ブラスバンド 特性Lv3</option>
+										<option if={user.bukicos!='楽団2'} value="楽団2">ブラスバンド 特性Lv2</option>
+										<option if={user.bukicos!='楽団1'} value="楽団1">ブラスバンド 特性Lv1</option>
+									</optgroup>
 									<optgroup label="海賊王">
 										<option if={user.bukicos=='海賊10'} value="海賊10" selected="selected">海賊王 特性Lv10</option>
 										<option if={user.bukicos=='海賊9'} value="海賊9" selected="selected">海賊王 特性Lv9</option>
