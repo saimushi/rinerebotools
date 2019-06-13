@@ -4329,6 +4329,9 @@
 										<br/>
 										<botton id="previewOperationBtn" class="btn btn-info" onclick={onclickPreviewOperation}>PDFプレビュー</botton>
 										<botton id="downloadOperationBtn" class="btn btn-warning" onclick={onclickPreviewOperation}>PDFダウンロード</botton>
+										<botton id="shareOperationBtn" class="btn btn-danger" onclick={onclickPreviewOperation}>Discord共有</botton>
+										<br/>
+										<br/>
 										<botton if={'on'!= getParams['view']} class="btn btn-success" onclick={onclickRegisterOperation}>保存</botton>
 										<br/>
 										<br/>
@@ -4891,6 +4894,57 @@
 						if ($(event.target).attr('id') == 'downloadOperationBtn') {
 							pdfMake.createPdf(docDefinition).download($('#operationname').val() + '作戦.pdf');
 						}
+						else if ($(event.target).attr('id') == 'shareOperationBtn') {
+							var _webhook = '';
+							if ('string' == typeof clan.discordhookid && 'string' == typeof clan.discordhooktoken && 0 < clan.discordhookid.length && 0 < clan.discordhooktoken.length) {
+								_webhook = 'https://discordapp.com/api/webhooks/'+ clan.discordhookid + '/' + clan.discordhooktoken;
+							}
+							swal({
+								title: '共有先のチャンネルのWEBHOOK URLを指定して下さい。',
+								content: {
+									element: 'input',
+									attributes: {
+										id: 'sharedWebhookURL',
+										type: 'text',
+										value: _webhook,
+									},
+								},
+								buttons: {
+							    cancel: "キャンセル",
+							    ok: true
+							  }
+							}).then(function(val) {
+								var ok = false;
+								if (val) {
+									// 入力値を受け取る
+									var __webhook = $('#sharedWebhookURL').val();
+									var __webhooks = __webhook.split('/');
+									var _discordhookid = null;
+									var _discordhooktoken = null;
+									if (6 <= __webhook.length &&  2 < __webhooks.length && 10 <= __webhooks[__webhooks.length-1].length && 68 <= __webhooks[__webhooks.length-2]) {
+										_discordhookid = __webhooks[__webhooks.length-2];
+										_discordhooktoken = __webhooks[__webhooks.length-1];
+									}
+									if (null != _discordhookid && null != _discordhooktoken) {
+										ok = true;
+										loading(true);
+										pdfMake.createPdf(docDefinition).getBuffer((buffer) => {
+											var _buffer = buffer.buffer;
+											var discordHook = new Discord.WebhookClient(_discordhookid, _discordhooktoken);
+											discordHook.browser = true;
+											discordHook.sendFile(_buffer, $('#operationname').val() + '作戦.pdf', '@everyone ' + $('#operationname').val() + '作戦');
+											loading(false);
+											alert('共有先のチャンネルに作戦書をアップロードしました！');
+											return;
+										});
+									}
+								}
+								if (ok == false) {
+									alert('共有先のチャンネルのWEBHOOK URLを正しく指定して下さい。');
+								}
+								return;
+							});
+						}
 						else {
 							pdfMake.createPdf(docDefinition).open();
 						}
@@ -5214,8 +5268,9 @@
 			<!-- Firebase -->
 			<script src="//www.gstatic.com/firebasejs/5.2.0/firebase.js"></script>
 
-			<!-- Discord -->
-			<script src="//greasyfork.org/scripts/29088-discord-js-for-browser/code/Discordjs%20for%20Browser.js?version=208579"></script>
+			<!-- Discord
+			<script src="//greasyfork.org/scripts/29088-discord-js-for-browser/code/Discordjs%20for%20Browser.js?version=208579"></script>-->
+			<script src="./js/DiscordjsForBrowser.js"></script>
 
 			<!-- html2canvas -->
 			<script src="//cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
