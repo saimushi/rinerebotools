@@ -47,7 +47,7 @@
 
 ## 闇の精霊さん
 
-https://discordapp.com/oauth2/authorize?client_id=547338194245386241&scope=bot&permissions=0
+https://discordapp.com/oauth2/authorize?client_id=547338194245386241&scope=bot&permissions=131072
 https://glitch.com/edit/#!/spirit-of-darkness?path=server.js:862:83
 
 ## エリカ様

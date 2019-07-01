@@ -1949,7 +1949,7 @@
 								<br/>
 								<small>※毎週同じ予定を開催する場合に有効です。</small>
 								<br/>
-								<small>※この機能を利用する為には<a href="https://t.co/3CE3BIYqcV" target="_blank">"エリカ様Bot"</a>の導入が必要です！</small>
+								<small>※この機能を利用する為には<a href="{botURL}" target="_blank">"{botName}"</a>の導入が必要です！</small>
 								<br/>
 								<input if={schedule.autoResetPT==true} type="checkbox" name="scheduleautoresetpt" value="1"  class="form-check-input" id="scheduleautoresetpt" checked="checked"/>
 								<input if={schedule.autoResetPT!=true} type="checkbox" name="scheduleautoresetpt" value="1"  class="form-check-input" id="scheduleautoresetpt"/>
@@ -2454,6 +2454,11 @@
 											<div class="form-group">
 												<div class="btn-group">
 													<botton class="btn btn-danger focus" onclick="{onAllDientryPT}">PTオールリセット</botton>
+												</div>
+											</div>
+											<div class="form-group">
+												<div class="btn-group">
+													<botton class="btn btn-danger focus" onclick="{onAllDientry}">出欠フルリセット</botton>
 												</div>
 											</div>
 										</div>
@@ -3165,6 +3170,30 @@
 							});
 						}
 					};
+					onAllDientry = function (target) {
+						if (!confirm('全てのキャラの出欠をリセットします！PT編成も全てリセットされます！\nよろしいですか？')) {
+							return;
+						}
+						loading(true);
+						allDientry = function (uIdx){
+							console.log('uIdx='+uIdx);
+							if ('undefined' != typeof thisis.scheduleusers[uIdx] && 'undefined' != typeof thisis.scheduleusers[uIdx].ID) {
+								unregisterScheduleuser(getParams['scheduleid'], thisis.scheduleusers[uIdx].ID, function (){
+									allDientry(uIdx+1);
+								});
+							}
+							else if (uIdx < thisis.scheduleusers.length) {
+								allDientry(uIdx+1);
+							}
+							else {
+								loading(false);
+								alert('全てのキャラの出欠をリセットしました。');
+								location.reload();
+								return;
+							}
+						};
+						allDientry(0);
+					}
 					onAllDientryPT = function (target) {
 						if (!confirm('全てのキャラをPTから外します！\nよろしいですか？')) {
 							return;
@@ -5321,6 +5350,15 @@
 				if (mode == 2) {
 					publicURL = 'kurosaba.fun';
 				}
+				var botName = 'エリカ様Bot';
+				if (mode == 2) {
+					botName = '精霊Bot';
+				}
+				var botURL = 'https://t.co/3CE3BIYqcV';
+				if (mode == 2) {
+					botURL = 'https://t.co/hiUjWXDU38';
+				}
+
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
 				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', spiritlevel: '', meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, boss: null, memo: '', activity: 9, joind: '', discord: '', };
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, autoReset: null, };
@@ -5988,6 +6026,24 @@
 						return;
 					}).catch(function(error) {
 						alert('参加登録エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
+				var unregisterScheduleuser = function (scheduleID, userID, callback) {
+					if (scheduleID == null || 'undefined' == typeof scheduleID || 1 > scheduleID.length) {
+						return;
+					}
+					loading(true);
+					firebase.firestore().collection("schedules").doc(scheduleID).collection("users").doc(userID).delete().then(function() {
+						if (callback) {
+							callback();
+						}
+						loading(false);
+						return;
+					}).catch(function(error) {
+						alert('参加者削除エラーが発生した為、処理を中断します。');
 						console.error("Error writing document: ", error);
 						// ログイン出来ていないのでログイン画面へ戻す
 						loading(false);
