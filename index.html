@@ -2760,6 +2760,9 @@
 												if (removeusers[thisis.scheduleusers[suidx].ID] == thisis.selectusers.length) {
 													if (0 < parseInt(thisis.scheduleusers[suidx].entry)) {
 														schedule.incount--;
+														if (0 > schedule.incount) {
+															schedule.incount = 0;
+														}
 													}
 													thisis.scheduleusers[suidx] = null;
 													removed = true;
@@ -3186,14 +3189,15 @@
 								allDientry(uIdx+1);
 							}
 							else {
-								loading(false);
-								alert('全てのキャラの出欠をリセットしました。');
-								location.reload();
+								$('#addscheduleform').find('input[name=scheduleincount]').val(0).ready(function (){
+									onclickRegisterSchedule(null, getParams['scheduleid']);
+									alert('全てのキャラの出欠をリセットしました。');
+								});
 								return;
 							}
 						};
 						allDientry(0);
-					}
+					};
 					onAllDientryPT = function (target) {
 						if (!confirm('全てのキャラをPTから外します！\nよろしいですか？')) {
 							return;
