@@ -2168,10 +2168,10 @@
 							height: 30px;
 						}
 						span.username {
-							width: calc(100% - 128px);
+							width: 100px;
 						}
 						span.cp {
-							width: 100px;
+							width: calc(100% - 128px);
 						}
 						span.jobimage {
 							width: 28px;
@@ -2187,6 +2187,17 @@
 						}
 						.ptlabel, .ptlabel span {
 							height: 24px;
+						}
+						@media screen and (max-width: 700px) {
+							.ptlabel span:nth-child(n+2) {
+								display: none;
+							}
+							span.username {
+								width: calc(100% - 28px);
+							}
+							span.cp {
+								display: none;
+							}
 						}
 					</style>
 					var scheduleURL = '';
@@ -2254,16 +2265,16 @@
 							if (-1 < this.partySchedule.tag.indexOf('レイド')) {
 								this.parties[0] = [];
 								this.parties[1] = [];
-								this.parties[0][0] = [{name:'', party:99}];
-								this.parties[0][1] = [{name:'', party:89}];
-								this.parties[0][2] = [{name:'', party:79}];
-								this.parties[0][3] = [{name:'', party:69}];
-								this.parties[0][4] = [{name:'', party:59}];
-								this.parties[1][5] = [{name:'', party:48}];
-								this.parties[1][6] = [{name:'', party:38}];
-								this.parties[1][7] = [{name:'', party:28}];
-								this.parties[1][8] = [{name:'', party:18}];
-								this.parties[1][9] = [{name:'', party:8}];
+								this.parties[0][0] = [{name:'', party:99},{name:'', party:99},{name:'', party:99},{name:'', party:99},{name:'', party:99}];
+								this.parties[0][1] = [{name:'', party:89},{name:'', party:89},{name:'', party:89},{name:'', party:89},{name:'', party:89}];
+								this.parties[0][2] = [{name:'', party:79},{name:'', party:79},{name:'', party:79},{name:'', party:79},{name:'', party:79}];
+								this.parties[0][3] = [{name:'', party:69},{name:'', party:69},{name:'', party:69},{name:'', party:69},{name:'', party:69}];
+								this.parties[0][4] = [{name:'', party:59},{name:'', party:59},{name:'', party:59},{name:'', party:59},{name:'', party:59}];
+								this.parties[1][5] = [{name:'', party:48},{name:'', party:48},{name:'', party:48},{name:'', party:48},{name:'', party:48}];
+								this.parties[1][6] = [{name:'', party:38},{name:'', party:38},{name:'', party:38},{name:'', party:38},{name:'', party:38}];
+								this.parties[1][7] = [{name:'', party:28},{name:'', party:28},{name:'', party:28},{name:'', party:28},{name:'', party:28}];
+								this.parties[1][8] = [{name:'', party:18},{name:'', party:18},{name:'', party:18},{name:'', party:18},{name:'', party:18}];
+								this.parties[1][9] = [{name:'', party:8},{name:'', party:8},{name:'', party:8},{name:'', party:8},{name:'', party:8}];
 								this.partyCPs[0] = 0;
 								this.partyCPs[1] = 0;
 								this.partyCPs[2] = 0;
@@ -2278,7 +2289,7 @@
 							this.partyCPs[partyCnt] = 0;
 							for (var pidx=0; pidx < data.length; pidx++) {
 								if (beforeParty != data[pidx].party) {
-									if (0 < partyCnt && 5 > this.parties[rowCnt][partyCnt-1].length) {
+									if (0 < partyCnt && 5 >= this.parties[rowCnt][partyCnt-1].length) {
 										var paddingLen = 5 - this.parties[rowCnt][partyCnt-1].length;
 										for (var mpidx=0; mpidx < paddingLen; mpidx++) {
 											var emptyUser = {name: '　', cp: '　',};
@@ -2298,9 +2309,10 @@
 									}
 									if (-1 < this.partySchedule.tag.indexOf('レイド') && 'undefined' != typeof this.parties[rowCnt][partyCnt-1] && 'undefined' != typeof this.parties[rowCnt][partyCnt-1][0] && this.parties[rowCnt][partyCnt-1][0].name == '') {
 										while (11 > partyCnt && this.parties[rowCnt][partyCnt-1][0].party != data[pidx].party) {
-											if (0 < partyCnt && 5 > this.parties[rowCnt][partyCnt-1].length) {
+											if (0 < partyCnt && 5 >= this.parties[rowCnt][partyCnt-1].length) {
 												var paddingLen = 5 - this.parties[rowCnt][partyCnt-1].length;
 												for (var mpidx=0; mpidx < paddingLen; mpidx++) {
+													console.log('mpidx='+paddingLen+' & '+mpidx);
 													var emptyUser = {name: '　', cp: '　',};
 													this.parties[rowCnt][partyCnt-1].push(emptyUser);
 												}
@@ -2320,6 +2332,7 @@
 									}
 								}
 								if (-1 < this.partySchedule.tag.indexOf('レイド') && 'undefined' != typeof this.parties[rowCnt][partyCnt-1] && 'undefined' != typeof this.parties[rowCnt][partyCnt-1][0] && this.parties[rowCnt][partyCnt-1][0].name == '') {
+									this.parties[rowCnt][partyCnt-1] = [];
 									this.parties[rowCnt][partyCnt-1][0] = data[pidx];
 								}
 								else {
@@ -2335,6 +2348,7 @@
 									this.parties[rowCnt][partyCnt-1].push(emptyUser);
 								}
 							}
+							console.log('this.parties=');
 							console.log(this.parties);
 							console.log(this.partyCPs);
 							riot.update();
