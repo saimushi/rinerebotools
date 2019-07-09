@@ -2343,7 +2343,7 @@
 							}
 							else {
 								// XXX PC・タブレットのみドラッグアンドドロップソートを有効にする
-								if ($('#partytable') && 0 < $('#partytable').size() && 760 < window.innerWidth && 760 < window.innerHeight) {
+								if ($('#partytable') && 0 < $('#partytable').size() && 760 < window.innerWidth && 700 < window.innerHeight) {
 									for (var pidx=0; pidx < 11; pidx++) {
 										if ($('#partytable'+pidx) && 0 < $('#partytable'+pidx+' li').size()) {
 											//$('#partytable'+pidx).sortable();
@@ -2923,7 +2923,7 @@
 										console.log(window.innerWidth + ' & ' + window.innerHeight);
 										//if ($('#partylist') && 0 < $('#partylist').size() && 'iOS' != platform.os.family && 'Android' != platform.os.family && 'Windows Phone' != platform.os.family) {
 											// XXX PCのみドラッグアンドドロップソートを有効にする
-										if ($('#partylist') && 0 < $('#partylist').size() && 760 < window.innerWidth && 760 < window.innerHeight) {
+										if ($('#partylist') && 0 < $('#partylist').size() && 760 < window.innerWidth && 700 < window.innerHeight) {
 											// XXX PC・タブレットのみドラッグアンドドロップソートを有効にする
 											Sortable.create( document.getElementById('partylist'),
 												{
