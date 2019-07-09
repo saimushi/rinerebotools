@@ -282,7 +282,7 @@
 			td.scheduleparty[data-party=""] {
 				background-color: #444;
 			}
-			td.jobimage p {
+			.jobimage p {
 				display: block;
 				width: 20px;
 				height: 12px;
@@ -2018,146 +2018,182 @@
 					<div style="position: fixed; top: 5px;">
 						<h5 style="margin-top: 0; margin-bottom: 5px; padding-left: 5px;"><a href="{scheduleURL}">PT編成 {partySchedule.date} {partySchedule.name} 参加予定:{partySchedule.incount}人</a>&nbsp;&nbsp;&nbsp;<a href="{clan.url}">[ {clanPageLabel}に戻る ]</a></h5>
 						<div id="partytable" class="row">
-							<table class="table border">
+							<table>
 								<tr each="{party, index in parties}">
-									<td each="{pusers, pindex in party}" if={pusers != null} style="padding: 0; border: none;">
+									<td each="{pusers, pindex in party}" if={pusers != null} style="width: 20%; padding: 0; border: none;">
 
-												<table class="table table-striped" style="overflow: hidden; margin-bottom: 0px;">
-													<tr if={pusers[0].party==49 || pusers[0].party==99} style="background-color: #bbb; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt49label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1A</th>
-														<th if={!('string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==48} style="background-color: #aaa; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt48label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1B</th>
-														<th if={!('string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==39 || pusers[0].party==89} style="background-color: dodgerblue; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt39label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2A</th>
-														<th if={!('string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">聖刻</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==38} style="background-color: blue; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt38label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2B</th>
-														<th if={!('string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">偵察</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==37} style="background-color: navy; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt37label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
-														<th if={!('string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">封殺</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==29 || pusers[0].party==79} style="background-color: limegreen; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt29label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3A</th>
-														<th if={!('string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW1</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==28} style="border: none; background-color: green; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt28label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3B</th>
-														<th if={!('string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW2</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==27} style="border: none; background-color: darkgreen; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt27label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
-														<th if={!('string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW3</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==19 || pusers[0].party==69} style="border: none; background-color: gold; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt19label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4A</th>
-														<th if={!('string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF1</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==18} style="border: none; background-color: orange; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt18label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4B</th>
-														<th if={!('string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF2</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==17} style="border: none; background-color: darkorange; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt17label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
-														<th if={!('string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF3</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==9 || pusers[0].party==59} style="border: none; background-color: red; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt9label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5A</th>
-														<th if={!('string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF1</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==8} style="border: none; background-color: crimson; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt8label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5B</th>
-														<th if={!('string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF2</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==7} style="border: none; background-color: firebrick; color: white; font-size: 8px;">
-														<th if={'string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt7label}</div></th>
-														<th if={!('string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</th>
-														<th if={!('string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF3</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr if={pusers[0].party==0} style="border: none; background-color: #444; color: white; font-size: 8px;" class="pt0">
-														<th style="border: none; width:100px; padding: 5px;">欠席</th>
-														<th style="border: none;"></th>
-														<th if={mode==1} style="border: none; width:25px;"></th>
-													</tr>
-													<tr each="{puser, uindex in pusers}" style="border: none;" class="activity{puser.activity} pt{puser.party}">
-														<td if={puser.status==2} class="text-info" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
-														<td if={puser.status==1} class="text-success" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
-														<td if={puser.status==-1} class="text-danger" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
-														<td if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="color: orange; font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
-														<td if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} style="border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</td>
-														<td style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray; text-align: right;">{puser.cp}</td>
-														<td if={mode==1 && jobbufs[puser.job]=='攻撃'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></td>
-														<td if={mode==1 && jobbufs[puser.job]=='クリ'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></td>
-														<td if={mode==1 && jobbufs[puser.job]=='防御'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></td>
-														<td if={mode==1 && jobbufs[puser.job]=='移動'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></td>
-														<td if={mode==1 && jobbufs[puser.job]=='命中'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></td>
-														<td if={mode==1 && jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></td>
-														<td if={mode==2 && jobbufs[puser.job]=='近距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: salmon;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></td>
-														<td if={mode==2 && jobbufs[puser.job]=='遠距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></td>
-														<td if={'undefined' == typeof jobbufs[puser.job]} style="border: none; padding: 5px; background-color: #444;">&nbsp;</td>
-													</tr>
-													<tr if={'on'!=getParams['view']} class="partycp pt{pusers[0].party}" style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
-														<td colspan="2" style="border: none; padding: 2px;"><b>{partyCPs[((index)*5)+pindex].toLocaleString()}</b></td><td style="padding: 0;">&nbsp;</td>
-													</tr>
-												</table>
+												<ul class="table table-striped" id="partytable{(index*5)+pindex}" style="overflow: hidden; margin-bottom: 0px;" data-party="{pusers[0].party}">
+													<li if={pusers[0].party==49 || pusers[0].party==99} class="ptlabel" style="background-color: #bbb; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt49label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1A</span>
+														<span if={!('string' == typeof partySchedule.pt49label && 0 < partySchedule.pt49label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==48} class="ptlabel" style="background-color: #aaa; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt48label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">1B</span>
+														<span if={!('string' == typeof partySchedule.pt48label && 0 < partySchedule.pt48label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==39 || pusers[0].party==89} class="ptlabel" style="background-color: dodgerblue; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt39label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2A</span>
+														<span if={!('string' == typeof partySchedule.pt39label && 0 < partySchedule.pt39label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">聖刻</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==38} class="ptlabel" style="background-color: blue; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt38label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">2B</span>
+														<span if={!('string' == typeof partySchedule.pt38label && 0 < partySchedule.pt38label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">偵察</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==37} class="ptlabel" style="background-color: navy; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt37label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</span>
+														<span if={!('string' == typeof partySchedule.pt37label && 0 < partySchedule.pt37label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">封殺</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==29 || pusers[0].party==79} class="ptlabel" style="background-color: limegreen; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt29label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3A</span>
+														<span if={!('string' == typeof partySchedule.pt29label && 0 < partySchedule.pt29label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW1</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==28} class="ptlabel" style="border: none; background-color: green; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt28label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">3B</span>
+														<span if={!('string' == typeof partySchedule.pt28label && 0 < partySchedule.pt28label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW2</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==27} class="ptlabel" style="border: none; background-color: darkgreen; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt27label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</span>
+														<span if={!('string' == typeof partySchedule.pt27label && 0 < partySchedule.pt27label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">FW3</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==19 || pusers[0].party==69} class="ptlabel" style="border: none; background-color: gold; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt19label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4A</span>
+														<span if={!('string' == typeof partySchedule.pt19label && 0 < partySchedule.pt19label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF1</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==18} class="ptlabel" style="border: none; background-color: orange; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt18label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">4B</span>
+														<span if={!('string' == typeof partySchedule.pt18label && 0 < partySchedule.pt18label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF2</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==17} class="ptlabel" style="border: none; background-color: darkorange; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt17label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</span>
+														<span if={!('string' == typeof partySchedule.pt17label && 0 < partySchedule.pt17label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">MF3</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==9 || pusers[0].party==59} class="ptlabel" style="border: none; background-color: red; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt9label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5A</span>
+														<span if={!('string' == typeof partySchedule.pt9label && 0 < partySchedule.pt9label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF1</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==8} class="ptlabel" style="border: none; background-color: crimson; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt8label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">5B</span>
+														<span if={!('string' == typeof partySchedule.pt8label && 0 < partySchedule.pt8label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF2</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==7} class="ptlabel" style="border: none; background-color: firebrick; color: white; font-size: 8px;">
+														<span if={'string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length} style="border: none; width:100px; padding: 5px;"><div style="height: 14px; overflow: hidden;">{partySchedule.pt7label}</div></span>
+														<span if={!('string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length) && -1 < partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">&nbsp;</span>
+														<span if={!('string' == typeof partySchedule.pt7label && 0 < partySchedule.pt7label.length) && 0 > partySchedule.tag.indexOf('レイド')} style="border: none; width:100px; padding: 5px;">DF3</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li if={pusers[0].party==0} class="ptlabel" style="border: none; background-color: #444; color: white; font-size: 8px;" class="pt0">
+														<span style="border: none; width:100px; padding: 5px;">欠席</span>
+														<span style="border: none;"></span>
+														<span if={mode==1} style="border: none; width:25px;"></span>
+													</li>
+													<li each="{puser, uindex in pusers}" style="border: none;" class="ptuser activity{puser.activity} pt{puser.party}" data-userid="{puser.ID}">
+														<span if={puser.status==2} class="username text-info" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.status==1} class="username text-success" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.status==-1} class="username text-danger" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} class="username" style="color: orange; font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} class="username" style="border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray; text-align: right;" class="cp">{puser.cp}</span>
+														<span if={mode==1 && jobbufs[puser.job]=='攻撃'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='クリ'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='防御'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='移動'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='命中'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==2 && jobbufs[puser.job]=='近距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: salmon;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></span>
+														<span if={mode==2 && jobbufs[puser.job]=='遠距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></span>
+														<span if={'undefined' == typeof jobbufs[puser.job]} class="jobimage" style="border: none; padding: 5px; background-color: #444;">&nbsp;</span>
+													</li>
+													<li if={'on'!=getParams['view']} class="partycp pt{pusers[0].party}" style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
+														<b>{partyCPs[((index)*5)+pindex].toLocaleString()}</b>&nbsp;
+													</li>
+												</ul>
 
 									</td>
 								</tr>
 							</table>
-
 						</div>
 					</div>
+					<style>
+						table {
+							width: 100%;
+						}
+						table td {
+							vertical-align: top;
+						}
+						span {
+							display: block;
+							float: left;
+							max-width: 100%;
+							padding: 0;
+							height: 30px;
+						}
+						span.username {
+							width: calc(100% - 128px);
+						}
+						span.cp {
+							width: 100px;
+						}
+						span.jobimage {
+							width: 28px;
+						}
+						li {
+							clear: both;
+							padding: 0;
+							height: 30px;
+							border-left: none;
+						}
+						li:nth-child(even) span {
+							background: #f9f9f9;
+						}
+						.ptlabel, .ptlabel span {
+							height: 24px;
+						}
+					</style>
 					var scheduleURL = '';
 					var partySchedule = {name:'', date: '', incount: 0, autoReset: null, };
 					var parties = [];
 					var partyCPs = [];
+					var entryUsers = [];
 					this.on('unmount', function() {
 						$('donation').show();
 						$('footer').show();
@@ -2168,6 +2204,7 @@
 							$('footer').hide();
 						}
 						var viewGrid = function (schedule, data) {
+							entryUsers = data;
 							if (-1 < schedule.tag.indexOf('レイド')) {
 								for (var pidx=0; pidx < data.length; pidx++) {
 									if (0 == (data[pidx].party + 1) % 10) {
@@ -2303,6 +2340,58 @@
 							riot.update();
 							if (opts.scheduleid && 'function' == typeof onLoadParty) {
 								onLoadParty(schedule);
+							}
+							else {
+								// XXX PC・タブレットのみドラッグアンドドロップソートを有効にする
+								if ($('#partytable') && 0 < $('#partytable').size() && 760 < window.innerWidth && 760 < window.innerHeight) {
+									for (var pidx=0; pidx < 11; pidx++) {
+										if ($('#partytable'+pidx) && 0 < $('#partytable'+pidx+' li').size()) {
+											//$('#partytable'+pidx).sortable();
+											Sortable.create($('#partytable'+pidx)[0],
+												{
+													group: {
+															name: 'partytable',
+													},
+													onEnd: function(e) {
+														console.log(e);
+														if (e.newIndex == e.oldIndex && e.from == e.to) {
+															return;
+														}
+														console.log(e.item);
+														console.log(e.to);
+														var _targetUserID = $(e.item).data('userid');
+														var _targetUsers = entryUsers.filter(function(_user){
+															return _user.ID == _targetUserID;
+														});
+														var scheduleuser = _targetUsers[0];
+														console.log(scheduleuser);
+														var _newParty = $(e.to).data('party');
+														if (-1 < schedule.tag.indexOf('レイド')) {
+															if (0 == (_newParty + 1) % 10) {
+																_newParty = _newParty - 50;
+															}
+														}
+														if (scheduleuser.party == _newParty) {
+															return;
+														}
+														scheduleuser.party = _newParty;
+														var entrypusers = entryUsers.filter(function(_user){
+															return _user.party == _newParty;
+														});
+														if (5 <= entrypusers.length) {
+															alert('このPTは既に5人編成済みですが処理そのまま保存されますのでご注意下さい！');
+														}
+														loading(true);
+														registerScheduleuser(getParams['scheduleid'], scheduleuser, function (){
+															loading(false);
+														});
+														return false;
+													},
+												}
+											);
+										}
+									}
+								}
 							}
 						};
 						if (partyUsers != null && 'undefined' != typeof partyUsers.length) {
