@@ -2360,6 +2360,10 @@
 														console.log(e.item);
 														console.log(e.to);
 														var _targetUserID = $(e.item).data('userid');
+														console.log(_targetUserID);
+														if ('undefined' == typeof _targetUserID) {
+															return;
+														}
 														var _targetUsers = entryUsers.filter(function(_user){
 															return _user.ID == _targetUserID;
 														});
@@ -2371,7 +2375,7 @@
 																_newParty = _newParty - 50;
 															}
 														}
-														if (scheduleuser.party == _newParty) {
+														if ('undefined' != typeof scheduleuser.party && scheduleuser.party == _newParty) {
 															return;
 														}
 														scheduleuser.party = _newParty;
