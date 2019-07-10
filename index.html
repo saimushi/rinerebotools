@@ -2127,21 +2127,21 @@
 														<span if={mode==1} style="border: none; width:25px;"></span>
 													</li>
 													<li each="{puser, uindex in pusers}" style="border: none;" class="ptuser activity{puser.activity} pt{puser.party}" data-userid="{puser.ID}">
-														<span if={puser.status==2} class="username text-info" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
-														<span if={puser.status==1} class="username text-success" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
-														<span if={puser.status==-1} class="username text-danger" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
-														<span if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} class="username" style="color: orange; font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
-														<span if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} class="username" style="border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 30px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.status==2} class="username text-info" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.status==1} class="username text-success" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.status==-1} class="username text-danger" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} class="username" style="color: orange; font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} class="username" style="border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
 														<span style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray; text-align: right;" class="cp">{puser.cp}</span>
-														<span if={mode==1 && jobbufs[puser.job]=='攻撃'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==1 && jobbufs[puser.job]=='クリ'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==1 && jobbufs[puser.job]=='防御'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==1 && jobbufs[puser.job]=='移動'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==1 && jobbufs[puser.job]=='命中'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==1 && jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==2 && jobbufs[puser.job]=='近距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: salmon;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></span>
-														<span if={mode==2 && jobbufs[puser.job]=='遠距離'} class="jobimage" style="border: none; padding: 5px; padding-left: 3px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></span>
-														<span if={'undefined' == typeof jobbufs[puser.job]} class="jobimage" style="border: none; padding: 5px; background-color: #444;">&nbsp;</span>
+														<span if={mode==1 && jobbufs[puser.job]=='攻撃'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='クリ'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='防御'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='移動'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='命中'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==2 && jobbufs[puser.job]=='近距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: salmon;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></span>
+														<span if={mode==2 && jobbufs[puser.job]=='遠距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></span>
+														<span if={'undefined' == typeof jobbufs[puser.job]} class="jobimage" style="border: none; padding: 3px; background-color: #444;">&nbsp;</span>
 													</li>
 													<li if={'on'!=getParams['view']} class="partycp pt{pusers[0].party}" style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
 														<b>{partyCPs[((index)*5)+pindex].toLocaleString()}</b>&nbsp;
@@ -2165,21 +2165,21 @@
 							float: left;
 							max-width: 100%;
 							padding: 0;
-							height: 30px;
+							height: 24px;
 						}
 						span.username {
 							width: 100px;
 						}
 						span.cp {
-							width: calc(100% - 128px);
+							width: calc(100% - 124px);
 						}
 						span.jobimage {
-							width: 28px;
+							width: 24px;
 						}
 						li {
 							clear: both;
 							padding: 0;
-							height: 30px;
+							height: 24px;
 							border-left: none;
 						}
 						li:nth-child(even) span {
@@ -2193,7 +2193,7 @@
 								display: none;
 							}
 							span.username {
-								width: calc(100% - 28px);
+								width: calc(100% - 24px);
 							}
 							span.cp {
 								display: none;
