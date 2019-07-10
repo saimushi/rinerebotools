@@ -2357,7 +2357,7 @@
 							}
 							else {
 								// XXX PC・タブレットのみドラッグアンドドロップソートを有効にする
-								if ($('#partytable') && 0 < $('#partytable').size() && 760 < window.innerWidth && 700 < window.innerHeight) {
+								if ($('#partytable') && 0 < $('#partytable').size()/* && 760 < window.innerWidth && 700 < window.innerHeight*/) {
 									for (var pidx=0; pidx < 11; pidx++) {
 										if ($('#partytable'+pidx) && 0 < $('#partytable'+pidx+' li').size()) {
 											//$('#partytable'+pidx).sortable();
@@ -2366,6 +2366,7 @@
 													group: {
 															name: 'partytable',
 													},
+													draggable: '.ptuser',
 													onEnd: function(e) {
 														console.log(e);
 														if (e.newIndex == e.oldIndex && e.from == e.to) {
