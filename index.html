@@ -105,7 +105,7 @@
 				padding-top: 5px;
 				padding-bottom: 5px;
 			}
-			tr.activity-1 {
+			li.activity-1 span.username, li.activity-1 span.cp {
 				background-color: rgb(183, 227, 255) !important;
 			}
 			.navbar {
@@ -286,10 +286,12 @@
 				display: block;
 				width: 20px;
 				height: 12px;
-				font-size: 15px;
+				font-size: 13px;
 				color: white;
-				margin-left: 2px;
-				margin-top: -20px;
+				margin-top: -18px;
+			}
+			party li .jobimage p {
+				margin-left: 4px;
 			}
 			app {
 				 display: block;
@@ -304,6 +306,23 @@
 			}
 			addoperation span.username {
 				width: 104px !important;
+			}
+			users>div {
+				overflow: auto;
+			}
+			users>div table {
+				table-layout: auto;
+			}
+			users>div table td {
+				padding: 0 !important;
+				padding-top: 2px !important;
+			}
+			users>div table th, users>div table td {
+				padding-left: 2px !important;
+				padding-right: 2px !important;
+				text-align: center;
+				vertical-align: middle !important;
+				font-size: xx-small;
 			}
 			@media screen and (max-width: 480px) {
 				td.jobimage p {
@@ -819,69 +838,77 @@
 							<div if={mode==1} class="form-group">
 								<select class="form-control" name="userjob">
 									<option>職業</option>
+									<optgroup label="カマエル">
+										<option if={user.job=='バーサーカー'} value="バーサーカー" selected="selected">{jobs['バーサーカー']}</option>
+										<option if={user.job!='バーサーカー'} value="バーサーカー">{jobs['バーサーカー']}</option>
+										<option if={user.job=='アヴァレスタ'} value="アヴァレスタ" selected="selected">{jobs['アヴァレスタ']}</option>
+										<option if={user.job!='アヴァレスタ'} value="アヴァレスタ">{jobs['アヴァレスタ']}</option>
+										<option if={user.job=='ソウルブレーカー'} value="ソウルブレーカー" selected="selected">{jobs['ソウルブレーカー']}</option>
+										<option if={user.job!='ソウルブレーカー'} value="ソウルブレーカー">{jobs['ソウルブレーカー']}</option>
+									</optgroup>
 									<optgroup label="オーク">
-										<option if={user.job=='オークレイダー'} value="オークレイダー" selected="selected">オークレイダー</option>
-										<option if={user.job!='オークレイダー'} value="オークレイダー">オークレイダー</option>
-										<option if={user.job=='オークモンク'} value="オークモンク" selected="selected">オークモンク</option>
-										<option if={user.job!='オークモンク'} value="オークモンク">オークモンク</option>
-										<option if={user.job=='オークシャーマン'} value="オークシャーマン" selected="selected">オークシャーマン</option>
-										<option if={user.job!='オークシャーマン'} value="オークシャーマン">オークシャーマン</option>
+										<option if={user.job=='オークレイダー'} value="オークレイダー" selected="selected">{jobs['オークレイダー']}</option>
+										<option if={user.job!='オークレイダー'} value="オークレイダー">{jobs['オークレイダー']}</option>
+										<option if={user.job=='オークモンク'} value="オークモンク" selected="selected">{jobs['オークモンク']}</option>
+										<option if={user.job!='オークモンク'} value="オークモンク">{jobs['オークモンク']}</option>
+										<option if={user.job=='オークシャーマン'} value="オークシャーマン" selected="selected">{jobs['オークシャーマン']}</option>
+										<option if={user.job!='オークシャーマン'} value="オークシャーマン">{jobs['オークシャーマン']}</option>
 									</optgroup>
 									<optgroup label="ヒューマン">
-										<option if={user.job=='パラディン'} value="パラディン" selected="selected">パラディン</option>
-										<option if={user.job!='パラディン'} value="パラディン">パラディン</option>
-										<option if={user.job=='ウォーロード'} value="ウォーロード" selected="selected">ウォーロード</option>
-										<option if={user.job!='ウォーロード'} value="ウォーロード">ウォーロード</option>
-										<option if={user.job=='トレジャーハンター'} value="トレジャーハンター" selected="selected">トレジャーハンター</option>
-										<option if={user.job!='トレジャーハンター'} value="トレジャーハンター">トレジャーハンター</option>
-										<option if={user.job=='ホークアイ'} value="ホークアイ" selected="selected">ホークアイ</option>
-										<option if={user.job!='ホークアイ'} value="ホークアイ">ホークアイ</option>
-										<option if={user.job=='ソーサラー'} value="ソーサラー" selected="selected">ソーサラー</option>
-										<option if={user.job!='ソーサラー'} value="ソーサラー">ソーサラー</option>
-										<option if={user.job=='ビショップ'} value="ビショップ" selected="selected">ビショップ</option>
-										<option if={user.job!='ビショップ'} value="ビショップ">ビショップ</option>
+										<option if={user.job=='パラディン'} value="パラディン" selected="selected">{jobs['パラディン']}</option>
+										<option if={user.job!='パラディン'} value="パラディン">{jobs['パラディン']}</option>
+										<option if={user.job=='ウォーロード'} value="ウォーロード" selected="selected">{jobs['ウォーロード']}</option>
+										<option if={user.job!='ウォーロード'} value="ウォーロード">{jobs['ウォーロード']}</option>
+										<option if={user.job=='トレジャーハンター'} value="トレジャーハンター" selected="selected">{jobs['トレジャーハンター']}</option>
+										<option if={user.job!='トレジャーハンター'} value="トレジャーハンター">{jobs['トレジャーハンター']}</option>
+										<option if={user.job=='ホークアイ'} value="ホークアイ" selected="selected">{jobs['ホークアイ']}</option>
+										<option if={user.job!='ホークアイ'} value="ホークアイ">{jobs['ホークアイ']}</option>
+										<option if={user.job=='ソーサラー'} value="ソーサラー" selected="selected">{jobs['ソーサラー']}</option>
+										<option if={user.job!='ソーサラー'} value="ソーサラー">{jobs['ソーサラー']}</option>
+										<option if={user.job=='ビショップ'} value="ビショップ" selected="selected">{jobs['ビショップ']}</option>
+										<option if={user.job!='ビショップ'} value="ビショップ">{jobs['ビショップ']}</option>
 									</optgroup>
 									<optgroup label="エルフ">
-										<option if={user.job=='テンプルナイト'} value="テンプルナイト" selected="selected">テンプルナイト	</option>
-										<option if={user.job!='テンプルナイト'} value="テンプルナイト">テンプルナイト	</option>
-										<option if={user.job=='ソードシンガー'} value="ソードシンガー" selected="selected">ソードシンガー	</option>
-										<option if={user.job!='ソードシンガー'} value="ソードシンガー">ソードシンガー	</option>
-										<option if={user.job=='プレインズウォーカー'} value="プレインズウォーカー" selected="selected">プレインズウォーカー</option>
-										<option if={user.job!='プレインズウォーカー'} value="プレインズウォーカー">プレインズウォーカー</option>
-										<option if={user.job=='シルバーレンジャー'} value="シルバーレンジャー" selected="selected">シルバーレンジャー</option>
-										<option if={user.job!='シルバーレンジャー'} value="シルバーレンジャー">シルバーレンジャー</option>
-										<option if={user.job=='スペルシンガー'} value="スペルシンガー" selected="selected">スペルシンガー</option>
-										<option if={user.job!='スペルシンガー'} value="スペルシンガー">スペルシンガー</option>
-										<option if={user.job=='エルダー'} value="エルダー" selected="selected">エルダー</option>
-										<option if={user.job!='エルダー'} value="エルダー">エルダー</option>
+										<option if={user.job=='テンプルナイト'} value="テンプルナイト" selected="selected">{jobs['テンプルナイト']}</option>
+										<option if={user.job!='テンプルナイト'} value="テンプルナイト">{jobs['テンプルナイト']}</option>
+										<option if={user.job=='ソードシンガー'} value="ソードシンガー" selected="selected">{jobs['ソードシンガー']}</option>
+										<option if={user.job!='ソードシンガー'} value="ソードシンガー">{jobs['ソードシンガー']}</option>
+										<option if={user.job=='プレインズウォーカー'} value="プレインズウォーカー" selected="selected">{jobs['プレインズウォーカー']}</option>
+										<option if={user.job!='プレインズウォーカー'} value="プレインズウォーカー">{jobs['プレインズウォーカー']}</option>
+										<option if={user.job=='シルバーレンジャー'} value="シルバーレンジャー" selected="selected">{jobs['シルバーレンジャー']}</option>
+										<option if={user.job!='シルバーレンジャー'} value="シルバーレンジャー">{jobs['シルバーレンジャー']}</option>
+										<option if={user.job=='スペルシンガー'} value="スペルシンガー" selected="selected">{jobs['スペルシンガー']}</option>
+										<option if={user.job!='スペルシンガー'} value="スペルシンガー">{jobs['スペルシンガー']}</option>
+										<option if={user.job=='エルダー'} value="エルダー" selected="selected">{jobs['エルダー']}</option>
+										<option if={user.job!='エルダー'} value="エルダー">{jobs['エルダー']}</option>
 									</optgroup>
 									<optgroup label="ダークエルフ">
-										<option if={user.job=='シリエンナイト'} value="シリエンナイト" selected="selected">シリエンナイト</option>
-										<option if={user.job!='シリエンナイト'} value="シリエンナイト">シリエンナイト</option>
-										<option if={user.job=='ブレードダンサー'} value="ブレードダンサー" selected="selected">ブレードダンサー</option>
-										<option if={user.job!='ブレードダンサー'} value="ブレードダンサー">ブレードダンサー</option>
-										<option if={user.job=='アビスウォーカー'} value="アビスウォーカー" selected="selected">アビスウォーカー</option>
-										<option if={user.job!='アビスウォーカー'} value="アビスウォーカー">アビスウォーカー</option>
-										<option if={user.job=='ファントムレンジャー'} value="ファントムレンジャー" selected="selected">ファントムレンジャー</option>
-										<option if={user.job!='ファントムレンジャー'} value="ファントムレンジャー">ファントムレンジャー</option>
-										<option if={user.job=='スペルハウラー'} value="スペルハウラー" selected="selected">スペルハウラー</option>
-										<option if={user.job!='スペルハウラー'} value="スペルハウラー">スペルハウラー</option>
-										<option if={user.job=='シリエンエルダー'} value="シリエンエルダー" selected="selected">シリエンエルダー</option>
-										<option if={user.job!='シリエンエルダー'} value="シリエンエルダー">シリエンエルダー</option>
+										<option if={user.job=='シリエンナイト'} value="シリエンナイト" selected="selected">{jobs['シリエンナイト']}</option>
+										<option if={user.job!='シリエンナイト'} value="シリエンナイト">{jobs['シリエンナイト']}</option>
+										<option if={user.job=='ブレードダンサー'} value="ブレードダンサー" selected="selected">{jobs['ブレードダンサー']}</option>
+										<option if={user.job!='ブレードダンサー'} value="ブレードダンサー">{jobs['ブレードダンサー']}</option>
+										<option if={user.job=='アビスウォーカー'} value="アビスウォーカー" selected="selected">{jobs['アビスウォーカー']}</option>
+										<option if={user.job!='アビスウォーカー'} value="アビスウォーカー">{jobs['アビスウォーカー']}</option>
+										<option if={user.job=='ファントムレンジャー'} value="ファントムレンジャー" selected="selected">{jobs['ファントムレンジャー']}</option>
+										<option if={user.job!='ファントムレンジャー'} value="ファントムレンジャー">{jobs['ファントムレンジャー']}</option>
+										<option if={user.job=='スペルハウラー'} value="スペルハウラー" selected="selected">{jobs['スペルハウラー']}</option>
+										<option if={user.job!='スペルハウラー'} value="スペルハウラー">{jobs['スペルハウラー']}</option>
+										<option if={user.job=='シリエンエルダー'} value="シリエンエルダー" selected="selected">{jobs['シリエンエルダー']}</option>
+										<option if={user.job!='シリエンエルダー'} value="シリエンエルダー">{jobs['シリエンエルダー']}</option>
 									</optgroup>
 									<optgroup label="ドワーフ">
-										<option if={user.job=='ガーディアン'} value="ガーディアン" selected="selected">ガーディアン</option>
-										<option if={user.job!='ガーディアン'} value="ガーディアン">ガーディアン</option>
-										<option if={user.job=='スレイヤー'} value="スレイヤー" selected="selected">スレイヤー</option>
-										<option if={user.job!='スレイヤー'} value="スレイヤー">スレイヤー</option>
-										<option if={user.job=='スカベンジャー'} value="スカベンジャー" selected="selected">スカベンジャー</option>
-										<option if={user.job!='スカベンジャー'} value="スカベンジャー">スカベンジャー</option>
-										<option if={user.job=='ウォーレンジャー'} value="ウォーレンジャー" selected="selected">ウォーレンジャー</option>
-										<option if={user.job!='ウォーレンジャー'} value="ウォーレンジャー">ウォーレンジャー</option>
-										<option if={user.job=='クォーラルウィザード'} value="クォーラルウィザード" selected="selected">クォーラルウィザード</option>
-										<option if={user.job!='クォーラルウィザード'} value="クォーラルウィザード">クォーラルウィザード</option>
-										<option if={user.job=='セイジ'} value="セイジ" selected="selected">セイジ</option>
-										<option if={user.job!='セイジ'} value="セイジ">セイジ</option>
+										<option if={user.job=='ガーディアン'} value="ガーディアン" selected="selected">{jobs['ガーディアン']}</option>
+										<option if={user.job!='ガーディアン'} value="ガーディアン">{jobs['ガーディアン']}</option>
+										<option if={user.job=='スレイヤー'} value="スレイヤー" selected="selected">{jobs['スレイヤー']}</option>
+										<option if={user.job!='スレイヤー'} value="スレイヤー">{jobs['スレイヤー']}</option>
+										<option if={user.job=='スカベンジャー'} value="スカベンジャー" selected="selected">{jobs['スカベンジャー']}</option>
+										<option if={user.job!='スカベンジャー'} value="スカベンジャー">{jobs['スカベンジャー']}</option>
+										<option if={user.job=='ウォーレンジャー'} value="ウォーレンジャー" selected="selected">{jobs['ウォーレンジャー']}</option>
+										<option if={user.job!='ウォーレンジャー'} value="ウォーレンジャー">{jobs['ウォーレンジャー']}</option>
+										<option if={user.job=='クォーラルウィザード'} value="クォーラルウィザード" selected="selected">{jobs['クォーラルウィザード']}</option>
+										<option if={user.job!='クォーラルウィザード'} value="クォーラルウィザード">{jobs['クォーラルウィザード']}</option>
+										<option if={user.job=='セイジ'} value="セイジ" selected="selected">{jobs['セイジ']}</option>
+										<option if={user.job!='セイジ'} value="セイジ">{jobs['セイジ']}</option>
 									</optgroup>
 								</select>
 							</div>
@@ -934,6 +961,96 @@
 							<div class="form-group">
 								<div class="btn-group">
 									<input type="number" pattern="\d{4,8}" name="usercp" value="{user.cp}" class="form-control" placeholder="戦闘力"/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<div if={mode==1} class="form-group">
+								<select class="form-control" name="usersubjob">
+									<option>デュアルクラス</option>
+									<optgroup label="カマエル">
+										<option if={user.subjob=='バーサーカー'} value="バーサーカー" selected="selected">{jobs['バーサーカー']}</option>
+										<option if={user.subjob!='バーサーカー'} value="バーサーカー">{jobs['バーサーカー']}</option>
+										<option if={user.subjob=='アヴァレスタ'} value="アヴァレスタ" selected="selected">{jobs['アヴァレスタ']}</option>
+										<option if={user.subjob!='アヴァレスタ'} value="アヴァレスタ">{jobs['アヴァレスタ']}</option>
+										<option if={user.subjob=='ソウルブレーカー'} value="ソウルブレーカー" selected="selected">{jobs['ソウルブレーカー']}</option>
+										<option if={user.subjob!='ソウルブレーカー'} value="ソウルブレーカー">{jobs['ソウルブレーカー']}</option>
+									</optgroup>
+									<optgroup label="オーク">
+										<option if={user.subjob=='オークレイダー'} value="オークレイダー" selected="selected">{jobs['オークレイダー']}</option>
+										<option if={user.subjob!='オークレイダー'} value="オークレイダー">{jobs['オークレイダー']}</option>
+										<option if={user.subjob=='オークモンク'} value="オークモンク" selected="selected">{jobs['オークモンク']}</option>
+										<option if={user.subjob!='オークモンク'} value="オークモンク">{jobs['オークモンク']}</option>
+										<option if={user.subjob=='オークシャーマン'} value="オークシャーマン" selected="selected">{jobs['オークシャーマン']}</option>
+										<option if={user.subjob!='オークシャーマン'} value="オークシャーマン">{jobs['オークシャーマン']}</option>
+									</optgroup>
+									<optgroup label="ヒューマン">
+										<option if={user.subjob=='パラディン'} value="パラディン" selected="selected">{jobs['パラディン']}</option>
+										<option if={user.subjob!='パラディン'} value="パラディン">{jobs['パラディン']}</option>
+										<option if={user.subjob=='ウォーロード'} value="ウォーロード" selected="selected">{jobs['ウォーロード']}</option>
+										<option if={user.subjob!='ウォーロード'} value="ウォーロード">{jobs['ウォーロード']}</option>
+										<option if={user.subjob=='トレジャーハンター'} value="トレジャーハンター" selected="selected">{jobs['トレジャーハンター']}</option>
+										<option if={user.subjob!='トレジャーハンター'} value="トレジャーハンター">{jobs['トレジャーハンター']}</option>
+										<option if={user.subjob=='ホークアイ'} value="ホークアイ" selected="selected">{jobs['ホークアイ']}</option>
+										<option if={user.subjob!='ホークアイ'} value="ホークアイ">{jobs['ホークアイ']}</option>
+										<option if={user.subjob=='ソーサラー'} value="ソーサラー" selected="selected">{jobs['ソーサラー']}</option>
+										<option if={user.subjob!='ソーサラー'} value="ソーサラー">{jobs['ソーサラー']}</option>
+										<option if={user.subjob=='ビショップ'} value="ビショップ" selected="selected">{jobs['ビショップ']}</option>
+										<option if={user.subjob!='ビショップ'} value="ビショップ">{jobs['ビショップ']}</option>
+									</optgroup>
+									<optgroup label="エルフ">
+										<option if={user.subjob=='テンプルナイト'} value="テンプルナイト" selected="selected">{jobs['テンプルナイト']}</option>
+										<option if={user.subjob!='テンプルナイト'} value="テンプルナイト">{jobs['テンプルナイト']}</option>
+										<option if={user.subjob=='ソードシンガー'} value="ソードシンガー" selected="selected">{jobs['ソードシンガー']}</option>
+										<option if={user.subjob!='ソードシンガー'} value="ソードシンガー">{jobs['ソードシンガー']}</option>
+										<option if={user.subjob=='プレインズウォーカー'} value="プレインズウォーカー" selected="selected">{jobs['プレインズウォーカー']}</option>
+										<option if={user.subjob!='プレインズウォーカー'} value="プレインズウォーカー">{jobs['プレインズウォーカー']}</option>
+										<option if={user.subjob=='シルバーレンジャー'} value="シルバーレンジャー" selected="selected">{jobs['シルバーレンジャー']}</option>
+										<option if={user.subjob!='シルバーレンジャー'} value="シルバーレンジャー">{jobs['シルバーレンジャー']}</option>
+										<option if={user.subjob=='スペルシンガー'} value="スペルシンガー" selected="selected">{jobs['スペルシンガー']}</option>
+										<option if={user.subjob!='スペルシンガー'} value="スペルシンガー">{jobs['スペルシンガー']}</option>
+										<option if={user.subjob=='エルダー'} value="エルダー" selected="selected">{jobs['エルダー']}</option>
+										<option if={user.subjob!='エルダー'} value="エルダー">{jobs['エルダー']}</option>
+									</optgroup>
+									<optgroup label="ダークエルフ">
+										<option if={user.subjob=='シリエンナイト'} value="シリエンナイト" selected="selected">{jobs['シリエンナイト']}</option>
+										<option if={user.subjob!='シリエンナイト'} value="シリエンナイト">{jobs['シリエンナイト']}</option>
+										<option if={user.subjob=='ブレードダンサー'} value="ブレードダンサー" selected="selected">{jobs['ブレードダンサー']}</option>
+										<option if={user.subjob!='ブレードダンサー'} value="ブレードダンサー">{jobs['ブレードダンサー']}</option>
+										<option if={user.subjob=='アビスウォーカー'} value="アビスウォーカー" selected="selected">{jobs['アビスウォーカー']}</option>
+										<option if={user.subjob!='アビスウォーカー'} value="アビスウォーカー">{jobs['アビスウォーカー']}</option>
+										<option if={user.subjob=='ファントムレンジャー'} value="ファントムレンジャー" selected="selected">{jobs['ファントムレンジャー']}</option>
+										<option if={user.subjob!='ファントムレンジャー'} value="ファントムレンジャー">{jobs['ファントムレンジャー']}</option>
+										<option if={user.subjob=='スペルハウラー'} value="スペルハウラー" selected="selected">{jobs['スペルハウラー']}</option>
+										<option if={user.subjob!='スペルハウラー'} value="スペルハウラー">{jobs['スペルハウラー']}</option>
+										<option if={user.subjob=='シリエンエルダー'} value="シリエンエルダー" selected="selected">{jobs['シリエンエルダー']}</option>
+										<option if={user.subjob!='シリエンエルダー'} value="シリエンエルダー">{jobs['シリエンエルダー']}</option>
+									</optgroup>
+									<optgroup label="ドワーフ">
+										<option if={user.subjob=='ガーディアン'} value="ガーディアン" selected="selected">{jobs['ガーディアン']}</option>
+										<option if={user.subjob!='ガーディアン'} value="ガーディアン">{jobs['ガーディアン']}</option>
+										<option if={user.subjob=='スレイヤー'} value="スレイヤー" selected="selected">{jobs['スレイヤー']}</option>
+										<option if={user.subjob!='スレイヤー'} value="スレイヤー">{jobs['スレイヤー']}</option>
+										<option if={user.subjob=='スカベンジャー'} value="スカベンジャー" selected="selected">{jobs['スカベンジャー']}</option>
+										<option if={user.subjob!='スカベンジャー'} value="スカベンジャー">{jobs['スカベンジャー']}</option>
+										<option if={user.subjob=='ウォーレンジャー'} value="ウォーレンジャー" selected="selected">{jobs['ウォーレンジャー']}</option>
+										<option if={user.subjob!='ウォーレンジャー'} value="ウォーレンジャー">{jobs['ウォーレンジャー']}</option>
+										<option if={user.subjob=='クォーラルウィザード'} value="クォーラルウィザード" selected="selected">{jobs['クォーラルウィザード']}</option>
+										<option if={user.subjob!='クォーラルウィザード'} value="クォーラルウィザード">{jobs['クォーラルウィザード']}</option>
+										<option if={user.subjob=='セイジ'} value="セイジ" selected="selected">{jobs['セイジ']}</option>
+										<option if={user.subjob!='セイジ'} value="セイジ">{jobs['セイジ']}</option>
+									</optgroup>
+								</select>
+							</div>
+							<div if={mode==1} class="form-group">
+								<select class="form-control" name="usersubjob3d">
+									<option value="0">デュアルクラス3次職未転職</option>
+									<option if={user.subjob3d=='1'} value="1" selected="selected">デュアルクラス3次職転職済</option>
+									<option if={user.subjob3d!='1'} value="1">デュアルクラス3次職転職済</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<div class="btn-group">
+									<input type="number" pattern="\d{4,8}" name="usersubcp" value="{user.subcp}" class="form-control" placeholder="デュアルクラス戦闘力"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
@@ -1924,6 +2041,7 @@
 								// modifyモード
 								getUser(getParams['userid'], function(user) {
 									this.user = user;
+									console.log(this.user);
 									$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00", defaultDate: user.joind, });
 									riot.update();
 								});
@@ -2133,18 +2251,18 @@
 														<span if={mode==1} style="border: none; width:25px;"></span>
 													</li>
 													<li each="{puser, uindex in pusers}" style="border: none;" class="ptuser activity{puser.activity} pt{puser.party}" data-userid="{puser.ID}">
-														<span if={puser.status==2} class="username text-info" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
-														<span if={puser.status==1} class="username text-success" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
-														<span if={puser.status==-1} class="username text-danger" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
-														<span if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} class="username" style="color: orange; font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
-														<span if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} class="username" style="border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.status==2} class="username text-info" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px; line-height: 1.6; overflow: hidden;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.status==1} class="username text-success" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px; line-height: 1.6; overflow: hidden;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.status==-1} class="username text-danger" style="font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px; line-height: 1.6; overflow: hidden;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.entry!=1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} class="username" style="color: orange; font-weight: bolder; border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px; line-height: 1.6; overflow: hidden;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
+														<span if={puser.entry==1 && puser.status!=-1 && puser.status!=2 && puser.status!=1} class="username" style="border: none; padding: 5px; padding-left: 3px; padding-right: 0; border-left: 1px solid gray; height: 24px; line-height: 1.6; overflow: hidden;"><i if={puser.voice==1} class="fas fa-microphone"></i><i if={puser.voice==2} class="fas fa-microphone-slash"></i> {puser.name}</span>
 														<span style="overflow: hidden; border: none; padding: 5px; border-left: 1px solid gray; text-align: right;" class="cp">{puser.cp}</span>
-														<span if={mode==1 && jobbufs[puser.job]=='攻撃'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==1 && jobbufs[puser.job]=='クリ'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==1 && jobbufs[puser.job]=='防御'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==1 && jobbufs[puser.job]=='移動'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==1 && jobbufs[puser.job]=='命中'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
-														<span if={mode==1 && jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 == puser.job3d}>3d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='攻撃'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: firebrick;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 != puser.job3d}>2d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='クリ'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: orange;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 != puser.job3d}>2d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='防御'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: blue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 != puser.job3d}>2d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='移動'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: green;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 != puser.job3d}>2d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='命中'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 != puser.job3d}>2d</p></span>
+														<span if={mode==1 && jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 != puser.job3d}>2d</p></span>
 														<span if={mode==2 && jobbufs[puser.job]=='近距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: salmon;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></span>
 														<span if={mode==2 && jobbufs[puser.job]=='遠距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/></span>
 														<span if={'undefined' == typeof jobbufs[puser.job]} class="jobimage" style="border: none; padding: 3px; background-color: #444;">&nbsp;</span>
@@ -2228,6 +2346,12 @@
 								for (var pidx=0; pidx < data.length; pidx++) {
 									if (0 == (data[pidx].party + 1) % 10) {
 										data[pidx].party = data[pidx].party + 50;
+									}
+									if (1 == data[pidx].dual) {
+										data[pidx].job = data[pidx].subjob;
+										data[pidx].job3d = data[pidx].subjob3d;
+										data[pidx].cp = data[pidx].subcp;
+										data[pidx].activity = -1;
 									}
 								}
 								// PTで並べ直し
@@ -2851,6 +2975,9 @@
 													thisis.scheduleusers[suidx].mamono = thisis.selectusers[uidx].mamono;
 													thisis.scheduleusers[suidx].dragon = thisis.selectusers[uidx].dragon;
 													thisis.scheduleusers[suidx].boss = thisis.selectusers[uidx].boss;
+													thisis.scheduleusers[suidx].subjob = thisis.selectusers[uidx].subjob;
+													thisis.scheduleusers[suidx].subjob3d = thisis.selectusers[uidx].subjob3d;
+													thisis.scheduleusers[suidx].subcp = thisis.selectusers[uidx].subcp;
 												}
 												thisis.selectusers[uidx].outlabel = '';
 												if (thisis.selectusers[uidx].activity == -9) {
@@ -3131,6 +3258,12 @@
 								next = 2;
 							}
 						}
+						else if ('dual' == propaty) {
+							next = parseInt(now) + 1;
+							if (1 < next) {
+								next = 0;
+							}
+						}
 						else {
 							next = parseInt(now) + 1;
 							if (2 < next) {
@@ -3186,6 +3319,18 @@
 									$(target).addClass('text-danger');
 									$(target).attr('propaty', next);
 									$(target).text('急欠');
+								}
+								else {
+									$(target).attr('propaty', next);
+									$(target).text('');
+								}
+							}
+							else if ('dual' == propaty) {
+								$(target).removeClass('bg-info');
+								if (1 == next) {
+									$(target).addClass('bg-info');
+									$(target).attr('propaty', next);
+									$(target).text('Dual');
 								}
 								else {
 									$(target).attr('propaty', next);
@@ -3294,10 +3439,10 @@
 							var targetElm = $('#partylist tr[index="'+uIdx+'"] .scheduleparty');
 							targetElm.data(partyData);
 							if ($(target.srcElement).text() == 'PTから外す') {
-								targetElm.text('&nbsp;&nbsp;無');
+								targetElm.text('無');
 							}
 							else {
-								targetElm.text('&nbsp;&nbsp;'+$(target.srcElement).text());
+								targetElm.text($(target.srcElement).text());
 							}
 							targetElm.attr('data-party', partyData.party);
 							loading(true);
@@ -3752,150 +3897,166 @@
 			<!-- users -->
 			<script type="riot/tag">
 				<users>
-					<div style="padding-left: 10px; padding-right: 10px;">
+					<div style="margin-left: 10px; margin-right: 10px;">
 						<table class="table table-bordered table-hover table-striped">
 							<thead>
 								<tr class="info">
-									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 20px; padding-left: 3px; padding-right: 0;">No</th>
-									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 45px; padding-left: 1px; padding-right: 0;">実貢献度</th>
-									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 35px; padding-left: 1px; padding-right: 0;">貢献度</th>
-									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 35px; padding-left: 1px; padding-right: 0;">週クエ</th>
-									<th if={opts.mode=='schedule'} style="width: 10px;"></th>
-									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 20px; padding-left: 3px;">PT</th>
-									<th if={opts.mode=='schedule'} style="font-size: 6px; width: 20px; padding: 0; text-align: center; vertical-align: middle;">status</th>
-									<th if={opts.mode=='schedule'} style="width: 20px; padding-left: 3px; padding-right: 2px;">VC</th>
-									<th style="width: 70px;">キャラ</th>
-									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 37px; padding-left: 5px; padding-right: 0;">戦闘力</th>
-									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 20px; padding-left: 2px;">Job</th>
-									<th if={mode==1 && opts.mode!='contribution'} onclick="{sortAcce1}" style="width: 20px; padding: 0; text-align: center; vertical-align: middle;">飾</th>
-									<th if={mode==1 && opts.mode!='contribution'} style="font-size: 6px; width: 20px; padding: 0; text-align: center; vertical-align: middle;">サブ飾</th>
-									<th if={mode==1 && opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">武</th>
-									<th if={mode==1 && opts.mode!='contribution'} style="width: 20px; padding-left: 5px;">マ</th>
-									<th if={opts.mode!='schedule'} onclick="{sortLevel}" style="width: 18px; padding-left: 3px;">Lv</th>
-									<th if={mode==2 && opts.mode!='schedule'} onclick="{sortLevel}" style="width: 24px; padding-left: 1px; padding-right: 0;">精霊</th>
-									<th if={mode==1 && opts.mode=='contribution'} style="width: 12px; padding-left: 1px;">メ</th>
-									<th if={mode==1} style="width: 12px; padding-left: 0;">Dz</th>
-									<th if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} style="background-color: royalblue; color: white; width: 12px; padding-left: 1px;">攻</th>
-									<th if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} style="background-color: royalblue; color: white; width: 12px; padding-left: 1px;">防</th>
-									<th if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} style="background-color: yellow; width: 12px; padding-left: 1px;">甘</th>
-									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 12px; padding-left: 1px;">魔</th>
-									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 12px; padding-left: 1px;">竜</th>
-									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="width: 12px; padding-left: 1px;">ボ</th>
-									<th style="width: 15px; padding-left: 2px;">区</th>
-									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 22px; padding: 0; text-align: center; vertical-align: middle;">入隊日<br/>更新日</th>
-									<th if={opts.mode=='schedule'} style="font-size: 6px; padding: 0; text-align: center; vertical-align: middle;">コメ</th>
-									<th if={opts.mode!='schedule'} style="font-size: 6px; padding: 0; text-align: center; vertical-align: middle;">メモ</th>
+									<th if={opts.mode!='schedule'} onclick="{sortContribution}" style="width: 20px;">No</th>
+									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 45px; max-width: 45px; min-width: 45px;">実貢献度</th>
+									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 35px; max-width: 35px; min-width: 35px;">貢献度</th>
+									<th if={opts.mode=='contribution'} onclick="{sortContribution}" style="width: 35px; max-width: 35px; min-width: 35px;">週クエ</th>
+									<th if={opts.mode=='schedule'} style="width: 20px; max-width: 20px; min-width: 20px;"></th>
+									<th if={opts.mode=='schedule'} onclick="{sortPT}" style="width: 25px; max-width: 25px; min-width: 25px;">PT</th>
+									<th if={opts.mode=='schedule'} style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">status</th>
+									<th if={opts.mode=='schedule' && opts.submode!='bossraid'} style="width: 25px; max-width: 25px; min-width: 25px;">VC</th>
+									<th if={opts.mode=='schedule' && opts.submode=='bossraid'} style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">Dual<br>で参加</th>
+									<th style="width: 80px; max-width: 200px; min-width: 80px; text-align: left;">キャラ</th>
+									<th if={opts.mode!='contribution'} onclick="{sortCP}" style="width: 40px; max-width: 40px; min-width: 40px;">戦闘力</th>
+									<th if={opts.mode!='contribution'} onclick="{sortJob}" style="width: 25px; max-width: 25px; min-width: 25px;">Job</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="font-size: 6px; width: 40px; max-width: 40px; min-width: 40px;">Dual<br>戦闘力</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">Dual<br>クラス</th>
+									<th if={mode==1 && opts.mode!='contribution'} onclick="{sortAcce1}" style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">装飾品</th>
+									<th if={mode==1 && opts.mode!='contribution'} style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">サブ<br>装飾品</th>
+									<th if={mode==1 && opts.mode!='contribution'} style="font-size: 6px; width: 25px; max-width: 23px; min-width: 25px;">武器<br>コス</th>
+									<th if={mode==1 && opts.mode!='contribution'} style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">マント</th>
+									<th if={opts.mode!='schedule'} onclick="{sortLevel}" style="width: 20px; max-width: 20px; min-width: 20px;">Lv</th>
+									<th if={mode==2 && opts.mode!='schedule'} onclick="{sortLevel}" style="width: 20px; max-width: 20px; min-width: 20px;">精霊</th>
+									<th if={mode==1 && opts.mode=='contribution'} style="font-size: 6px; width: 20px; max-width: 20px; min-width: 20px;">メテオ</th>
+									<th if={mode==1} style="width: 15px; max-width: 15px; min-width: 15px;">Dz</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} style="background-color: royalblue; color: white; width: 15px; max-width: 15px; min-width: 15px;">攻</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} style="background-color: royalblue; color: white; width: 15px; max-width: 15px; min-width: 15px;">防</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} style="background-color: yellow; width: 15px; max-width: 15px; min-width: 15px;">甘</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 15px; max-width: 15px; min-width: 15px;">魔</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 15px; max-width: 15px; min-width: 15px;">竜</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="width: 15px; max-width: 15px; min-width: 15px;">ボ</th>
+									<th style="width: 15px; max-width: 15px; min-width: 15px;">区</th>
+									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">入隊日</th>
+									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">更新日</th>
+									<th if={opts.mode=='schedule'} style="font-size: 6px; text-align: left; width: auto; max-width: 3000px; min-width: 30px;">コメント</th>
+									<th if={opts.mode!='schedule'} style="font-size: 6px; text-align: left; width: auto; max-width: 3000px; min-width: 30px;">メモ</th>
 								</tr>
 							</thead>
 							<tbody id="partylist" class="mode{mode}partylist">
 								<tr each="{user, index in opts.data}" class="activity{user.activity}" id="party_{index+1}" index="{index}">
-									<td if={opts.mode=='contribution'} onclick="onclickModify(this, '{user.ID}');" style="padding-left: 3px; padding-right: 3px; text-align: right;">{index+1}</td>
-									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution draggable" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0; text-align: right;"><b>{opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)}</b></td>
-									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="contribution draggable" contribution="0" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0;">未入力</td>
-									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="orgcontribution draggable" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 6px; padding-right: 0; text-align: right;">{opts.contributiondata[user.ID].contribution}</td>
-									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="orgcontribution draggable" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 2px; padding-right: 0;">未入力</td>
+									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{index+1}</td>
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution draggable" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');" style="text-align: right;"><b>{opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)}</b></td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="contribution draggable" contribution="0" onclick="onclickModify(this, '{user.ID}');">未入力</td>
+									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="orgcontribution draggable" onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{opts.contributiondata[user.ID].contribution}</td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="orgcontribution draggable" onclick="onclickModify(this, '{user.ID}');">未入力</td>
 									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="weekquestcnt draggable" weekquestcnt="{opts.contributiondata[user.ID].weekquestcnt}" onclick="onclickModify(this, '{user.ID}');">{opts.contributiondata[user.ID].weekquestcnt}</td>
-									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="weekquestcnt draggable" weekquestcnt="0" onclick="onclickModify(this, '{user.ID}');" style="padding-left: 2px; padding-right: 0;">未入力</td>
-									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success draggable" style="font-size: xx-small; padding-left: 3px; padding-right: 0;">◯</td>
-									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning draggable" style="font-size: xx-small; padding-left: 3px; padding-right: 0;">△</td>
-									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger draggable" style="font-size: xx-small; padding-left: 4px; padding-right: 0;">✕</td>
+									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="weekquestcnt draggable" weekquestcnt="0" onclick="onclickModify(this, '{user.ID}');">未入力</td>
+									<td if={opts.mode=='schedule' && user.entry==1} onclick="onclickModify(this, '{user.ID}');" class="success draggable">◯</td>
+									<td if={opts.mode=='schedule' && user.entry==0} onclick="onclickModify(this, '{user.ID}');" class="warning draggable">△</td>
+									<td if={opts.mode=='schedule' && user.entry==-1} onclick="onclickModify(this, '{user.ID}');" class="danger draggable">✕</td>
 
-									<td if={opts.mode=='schedule' && user.party==49 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="49" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;1A</td>
-									<td if={opts.mode=='schedule' && user.party==48 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="48" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;1B</td>
-									<td if={opts.mode=='schedule' && user.party==39 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="39" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;2A</td>
-									<td if={opts.mode=='schedule' && user.party==38 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="38" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;2B</td>
-									<td if={opts.mode=='schedule' && user.party==37 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
-									<td if={opts.mode=='schedule' && user.party==29 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="29" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;3A</td>
-									<td if={opts.mode=='schedule' && user.party==28 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="28" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;3B</td>
-									<td if={opts.mode=='schedule' && user.party==27 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
-									<td if={opts.mode=='schedule' && user.party==19 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="19" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;4A</td>
-									<td if={opts.mode=='schedule' && user.party==18 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="18" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;4B</td>
-									<td if={opts.mode=='schedule' && user.party==17 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
-									<td if={opts.mode=='schedule' && user.party==9 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="9" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;5A</td>
-									<td if={opts.mode=='schedule' && user.party==8 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="8" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;5B</td>
-									<td if={opts.mode=='schedule' && user.party==7 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
+									<td if={opts.mode=='schedule' && user.party==49 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="49" style="color: white;">1A</td>
+									<td if={opts.mode=='schedule' && user.party==48 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="48" style="color: white;">1B</td>
+									<td if={opts.mode=='schedule' && user.party==39 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="39" style="color: white;">2A</td>
+									<td if={opts.mode=='schedule' && user.party==38 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="38" style="color: white;">2B</td>
+									<td if={opts.mode=='schedule' && user.party==37 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white;">無</td>
+									<td if={opts.mode=='schedule' && user.party==29 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="29" style="color: white;">3A</td>
+									<td if={opts.mode=='schedule' && user.party==28 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="28" style="color: white;">3B</td>
+									<td if={opts.mode=='schedule' && user.party==27 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white;">無</td>
+									<td if={opts.mode=='schedule' && user.party==19 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="19" style="color: white;">4A</td>
+									<td if={opts.mode=='schedule' && user.party==18 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="18" style="color: white;">4B</td>
+									<td if={opts.mode=='schedule' && user.party==17 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white;">無</td>
+									<td if={opts.mode=='schedule' && user.party==9 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="9" style="color: white;">5A</td>
+									<td if={opts.mode=='schedule' && user.party==8 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="8" style="color: white;">5B</td>
+									<td if={opts.mode=='schedule' && user.party==7 && -1 < schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white;">無</td>
 
-									<td if={opts.mode=='schedule' && user.party==39 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="39" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">聖刻</td>
-									<td if={opts.mode=='schedule' && user.party==38 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="38" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">偵察</td>
-									<td if={opts.mode=='schedule' && user.party==37 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="37" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">封殺</td>
-									<td if={opts.mode=='schedule' && user.party==29 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="29" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW1</td>
-									<td if={opts.mode=='schedule' && user.party==28 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="28" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW2</td>
-									<td if={opts.mode=='schedule' && user.party==27 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="27" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">FW3</td>
-									<td if={opts.mode=='schedule' && user.party==19 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="19" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF1</td>
-									<td if={opts.mode=='schedule' && user.party==18 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="18" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF2</td>
-									<td if={opts.mode=='schedule' && user.party==17 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="17" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">MF3</td>
-									<td if={opts.mode=='schedule' && user.party==9 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="9" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF1</td>
-									<td if={opts.mode=='schedule' && user.party==8 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="8" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF2</td>
-									<td if={opts.mode=='schedule' && user.party==7 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="7" style="color: white; font-size: 8px; padding-left: 1px; padding-right: 0;">DF3</td>
+									<td if={opts.mode=='schedule' && user.party==39 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="39" style="color: white;">聖刻</td>
+									<td if={opts.mode=='schedule' && user.party==38 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="38" style="color: white;">偵察</td>
+									<td if={opts.mode=='schedule' && user.party==37 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="37" style="color: white;">封殺</td>
+									<td if={opts.mode=='schedule' && user.party==29 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="29" style="color: white;">FW1</td>
+									<td if={opts.mode=='schedule' && user.party==28 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="28" style="color: white;">FW2</td>
+									<td if={opts.mode=='schedule' && user.party==27 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="27" style="color: white;">FW3</td>
+									<td if={opts.mode=='schedule' && user.party==19 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="19" style="color: white;">MF1</td>
+									<td if={opts.mode=='schedule' && user.party==18 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="18" style="color: white;">MF2</td>
+									<td if={opts.mode=='schedule' && user.party==17 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="17" style="color: white;">MF3</td>
+									<td if={opts.mode=='schedule' && user.party==9 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="9" style="color: white;">DF1</td>
+									<td if={opts.mode=='schedule' && user.party==8 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="8" style="color: white;">DF2</td>
+									<td if={opts.mode=='schedule' && user.party==7 && 0 > schedule.tag.indexOf('レイド')} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="7" style="color: white;">DF3</td>
 
-									<td if={opts.mode=='schedule' && user.party==0} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
-									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
-									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="color: white; font-size: 8px; padding-left: 1px;">&nbsp;&nbsp;無</td>
+									<td if={opts.mode=='schedule' && user.party==0} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white;">無</td>
+									<td if={opts.mode=='schedule' && user.party===''} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty draggable" data-party="0" style="color: white;">無</td>
+									<td if={opts.mode=='schedule' && user.party==undefined} onclick="onclickModify(this, '{user.ID}');" class="scheduleparty" data-party="0" style="color: white;">無</td>
 
-									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-info text-info draggable" propaty="2" onclick="switchType(this, 'status');" style="font-size: xx-small; padding: 0; text-align: center; vertical-align: middle;">リダ</td>
-									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-success text-success draggable" propaty="1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding: 0; text-align: center; vertical-align: middle;">サブ</td>
-									<td if={opts.mode=='schedule' && user.status==-1} class="scheduleuserstatus bg-danger text-danger draggable" propaty="-1" onclick="switchType(this, 'status');" style="font-size: xx-small; padding: 0; text-align: center; vertical-align: middle;">急欠</td>
-									<td if={opts.mode=='schedule' && user.status!=-1 && user.status!=2 && user.status!=1} class="scheduleuserstatus draggable" propaty="0" onclick="switchType(this, 'status');" style="font-size: xx-small; padding: 0; text-align: center; vertical-align: middle;">&nbsp;</td>
-									<td if={opts.mode=='schedule' && user.voice==1} class="scheduleuservoice bg-info draggable" style="padding-left: auto; padding-right: auto;" propaty="1" onclick="switchType(this, 'voice');"><i class="fas fa-microphone"></i></td>
-									<td if={opts.mode=='schedule' && user.voice==2} class="scheduleuservoice bg-success draggable" style="padding-left: auto; padding-right: auto;" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
-									<td if={opts.mode=='schedule' && user.voice==-1} class="scheduleuservoice bg-success draggable" style="padding-left: auto; padding-right: auto;" propaty="-1" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
-									<td if={opts.mode=='schedule' && user.voice!=-1 && user.voice!=2 && user.voice!=1} class="scheduleuservoice draggable" style="padding-left: auto; padding-right: auto;" propaty="0" onclick="switchType(this, 'voice');"><i class="fas"></i></td>
-									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername draggable" style="font-size: xx-small; padding-left: 2px; padding-right: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.name}</td>
-									<td if={opts.mode!='contribution'} style="font-size: xx-small; padding-left: 1px; padding-right: 1px; text-align: right;">{user.cp}</td>
+									<td if={opts.mode=='schedule' && user.status==2} class="scheduleuserstatus bg-info text-info draggable" propaty="2" onclick="switchType(this, 'status');" style="font-size: xx-small;">リダ</td>
+									<td if={opts.mode=='schedule' && user.status==1} class="scheduleuserstatus bg-success text-success draggable" propaty="1" onclick="switchType(this, 'status');" style="font-size: xx-small;">サブ</td>
+									<td if={opts.mode=='schedule' && user.status==-1} class="scheduleuserstatus bg-danger text-danger draggable" propaty="-1" onclick="switchType(this, 'status');" style="font-size: xx-small;">急欠</td>
+									<td if={opts.mode=='schedule' && user.status!=-1 && user.status!=2 && user.status!=1} class="scheduleuserstatus draggable" propaty="0" onclick="switchType(this, 'status');" style="font-size: xx-small;">&nbsp;</td>
+									<td if={opts.mode=='schedule' && opts.submode!='bossraid' && user.voice==1} class="scheduleuservoice bg-info draggable" propaty="1" onclick="switchType(this, 'voice');"><i class="fas fa-microphone"></i></td>
+									<td if={opts.mode=='schedule' && opts.submode!='bossraid' && user.voice==2} class="scheduleuservoice bg-success draggable" propaty="2" onclick="switchType(this, 'voice');"><i class="fas fa-microphone-slash"></i></td>
+									<td if={opts.mode=='schedule' && opts.submode!='bossraid' && user.voice==-1} class="scheduleuservoice bg-success draggable" propaty="-1" onclick="switchType(this, 'voice');"><i class="fas">✕</i></td>
+									<td if={opts.mode=='schedule' && opts.submode!='bossraid' && user.voice!=-1 && user.voice!=2 && user.voice!=1} class="scheduleuservoice draggable" propaty="0" onclick="switchType(this, 'voice');"><i class="fas"></i></td>
+									<td if={opts.mode=='schedule' && opts.submode=='bossraid' && user.dual!=1} class="scheduleuserdual text-info draggable" propaty="0" onclick="switchType(this, 'dual');"></td>
+									<td if={opts.mode=='schedule' && opts.submode=='bossraid' && user.dual==1} class="scheduleuserdual bg-info text-info draggable" propaty="1" onclick="switchType(this, 'dual');">Dual</td>
+									<td onclick="onclickModify(this, '{user.ID}');" class="scheduleusername contributionusername draggable" style="text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.name}</td>
+									<td if={opts.mode!='contribution'} style="text-align: right;">{user.cp}</td>
 
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: orange; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: blue; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/><p if={1 == user.job3d}>3d</p></td>
-									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='近距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: salmon; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/></td>
-									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='遠距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue; padding: 5px; padding-left: 0px;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick;"><img src={jobimages[user.job]} title="{jobs[user.job]}" alt="{jobs[user.job]}" width="20"/><p if={1 != user.job3d}>2d</p></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: orange;"><img src={jobimages[user.job]} title="{jobs[user.job]}" alt="{jobs[user.job]}" width="20"/><p if={1 != user.job3d}>2d</p></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: blue;"><img src={jobimages[user.job]} title="{jobs[user.job]}" alt="{jobs[user.job]}" width="20"/><p if={1 != user.job3d}>2d</p></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green;"><img src={jobimages[user.job]} title="{jobs[user.job]}" alt="{jobs[user.job]}" width="20"/><p if={1 != user.job3d}>2d</p></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue;"><img src={jobimages[user.job]} title="{jobs[user.job]}" alt="{jobs[user.job]}" width="20"/><p if={1 != user.job3d}>2d</p></td>
+									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink;"><img src={jobimages[user.job]} title="{jobs[user.job]}" alt="{jobs[user.job]}" width="20"/><p if={1 != user.job3d}>2d</p></td>
+									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='近距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: salmon;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/></td>
+									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='遠距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/></td>
 									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="font-size: 5px;">{user.job}</td>
 
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 80 <= user.acce1 && 90 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px;  vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_75801_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 70 <= user.acce1 && 80 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66514_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 60 <= user.acce1 && 70 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(./images/l2r/kara.jpg)  no-repeat left top; background-size: auto 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 50 <= user.acce1 && 60 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66511_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 40 <= user.acce1 && 50 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66502_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 30 <= user.acce1 && 40 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66517_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 20 <= user.acce1 && 30 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66505_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 10 <= user.acce1 && 20 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66508_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && false === ('undefined' != typeof user.acce1 && 10 <= user.acce1)} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_noimage.png)  no-repeat center top; background-size: 0">&nbsp;</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="text-align: right;">{user.subcp}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: orange;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: blue;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && 'undefined' == typeof jobbufs[user.subjob]} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="font-size: 5px;">{user.subjob}</td>
 
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 80 <= user.acce2 && 90 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px;  vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_75801_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 70 <= user.acce2 && 80 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66514_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 60 <= user.acce2 && 70 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(./images/l2r/kara.jpg)  no-repeat left top; background-size: auto 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 50 <= user.acce2 && 60 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66511_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 40 <= user.acce2 && 50 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66502_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 30 <= user.acce2 && 40 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66517_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 20 <= user.acce2 && 30 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66505_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 10 <= user.acce2 && 20 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66508_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
-									<td if={mode==1 && opts.mode!='contribution' && false === ('undefined' != typeof user.acce2 && 10 <= user.acce2)} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; padding: 0px; vertical-align: middle; text-align: center; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_noimage.png)  no-repeat center top; background-size: 0">&nbsp;</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 80 <= user.acce1 && 90 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_75801_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 70 <= user.acce1 && 80 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66514_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 60 <= user.acce1 && 70 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(./images/l2r/kara.jpg)  no-repeat left top; background-size: auto 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 50 <= user.acce1 && 60 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66511_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 40 <= user.acce1 && 50 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66502_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 30 <= user.acce1 && 40 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66517_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 20 <= user.acce1 && 30 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66505_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 10 <= user.acce1 && 20 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66508_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && false === ('undefined' != typeof user.acce1 && 10 <= user.acce1)} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_noimage.png)  no-repeat center top; background-size: 0">&nbsp;</td>
 
-									<td if={mode==1 && opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 1px; text-align: right;">{user.bukicos}</td>
-									<td if={mode==1 && opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 1px; text-align: right;">{user.manto}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 80 <= user.acce2 && 90 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_75801_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 70 <= user.acce2 && 80 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66514_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 60 <= user.acce2 && 70 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(./images/l2r/kara.jpg)  no-repeat left top; background-size: auto 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 50 <= user.acce2 && 60 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66511_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 40 <= user.acce2 && 50 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66502_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 30 <= user.acce2 && 40 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66517_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 20 <= user.acce2 && 30 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66505_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce2 && 10 <= user.acce2 && 20 > user.acce2} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_66508_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce2+'').substring(1))+1}</td>
+									<td if={mode==1 && opts.mode!='contribution' && false === ('undefined' != typeof user.acce2 && 10 <= user.acce2)} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 20px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_noimage.png)  no-repeat center top; background-size: 0">&nbsp;</td>
 
-									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 1px; padding-right: 2px; text-align: right;">{user.level}</td>
-									<td if={mode==2 && opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 1px; padding-right: 2px; text-align: right;">{user.spiritlevel}</td>
-									<td if={mode==1 && opts.mode=='contribution' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
-									<td if={mode==1 && opts.mode=='contribution' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.meteo}</td>
-									<td if={mode==1 && user.dzone==10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; font-weight: bold; padding-left: 0; padding-right: 1px; text-align: right;">{user.dzone}</td>
-									<td if={mode==1 && isNaN(user.dzone)} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;"></td>
-									<td if={mode==1 && !isNaN(user.dzone) && user.dzone!=10} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dzone}</td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpat}</td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.pvpdf}</td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: yellow; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.sweet}</td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; font-size: xx-small; padding-left: 0; padding-right: 2px; text-align: right;">{user.mamono}</td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.dragon}</td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-size: xx-small; padding-left: 0; padding-right: 1px; text-align: right;">{user.boss}</td>
-									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">AC</td>
-									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small; padding-left: 1px; padding-right: 0;">IAC</td>
-									<td if={user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small; padding-left: 2px; padding-right: 0;">除</td>
-									<td if={user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info" style="font-size: xx-small; padding-left: 2px; padding-right: 0;">傭</td>
-									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="font-size: xx-small; padding:0; padding-top: 2px; padding-right: 3px; text-align: right;">{user.joind.replace('/', '\n')}</td>
-									<td if={opts.mode!='schedule'} onclick="onclickDetail(this, '{user.ID}');" style="font-size: 6px; padding-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{user.memo}</td>
-									<td if={opts.mode=='schedule'} onclick="onclickDetail(this, '{user.ID}');" class="schedulecomment" style="font-size: 6px; padding-left: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 0;">{user.comment}</td>
+									<td if={mode==1 && opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="text-align: right"> {user.bukicos}</td>
+									<td if={mode==1 && opts.mode!='contribution'} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="text-align: right">{user.manto}</td>
+
+									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{user.level}</td>
+									<td if={mode==2 && opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{user.spiritlevel}</td>
+									<td if={mode==1 && opts.mode=='contribution' && user.meteo==10} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{user.meteo}</td>
+									<td if={mode==1 && opts.mode=='contribution' && user.meteo!=10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="text-align: right;">{user.meteo}</td>
+									<td if={mode==1 && user.dzone==10} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-weight: bold; text-align: right;">{user.dzone}</td>
+									<td if={mode==1 && isNaN(user.dzone)} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;"></td>
+									<td if={mode==1 && !isNaN(user.dzone) && user.dzone!=10} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{user.dzone}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; text-align: right;">{user.pvpat}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: royalblue; color: white; text-align: right;">{user.pvpdf}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: yellow; text-align: right;">{user.sweet}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; text-align: right;">{user.mamono}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; text-align: right;">{user.dragon}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="text-align: right;">{user.boss}</td>
+									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small;">AC</td>
+									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small;">IAC</td>
+									<td if={user.activity==-9} onclick="onclickModify(this, '{user.ID}');" class="danger" style="font-size: xx-small;">除</td>
+									<td if={user.activity==-1} onclick="onclickModify(this, '{user.ID}');" class="info" style="font-size: xx-small;">傭</td>
+									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{user.joind.replace('/', '\n')}</td>
+									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{('string' == typeof user.modified)? user.modified.replace('/', '\n'): ''}</td>
+									<td if={opts.mode!='schedule'} onclick="onclickDetail(this, '{user.ID}');" style="font-size: 6px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.memo}</td>
+									<td if={opts.mode=='schedule'} onclick="onclickDetail(this, '{user.ID}');" class="schedulecomment" style="font-size: 6px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.comment}</td>
 								</tr>
 							</tbody>
 						</table>
@@ -3934,50 +4095,61 @@
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
 							}
-							if (0 > fields[0].indexOf('キャラ名')
-							 || 0 > fields[1].indexOf('戦闘力')
-							 || 0 > fields[2].indexOf('Job')
-							 || 0 > fields[3].indexOf('3次職')
-							 || 0 > fields[4].indexOf('装飾品')
-							 || 0 > fields[5].indexOf('特性')
-							 || 0 > fields[6].indexOf('サブ装飾品')
-							 || 0 > fields[7].indexOf('サブ特性')
-							 || 0 > fields[8].indexOf('武器コス')
-							 || 0 > fields[9].indexOf('マント')
-							 || 0 > fields[10].indexOf('Lv')
-							 || true == (0 > fields[11].indexOf('ディフェンスゾーンLv') && 0 > fields[11].indexOf('Dz'))
-							 || 0 > fields[12].indexOf('対人攻撃特性')
-							 || 0 > fields[13].indexOf('対人防御特性(平均)')
-							 || 0 > fields[14].indexOf('スイート特性')
-							 || 0 > fields[15].indexOf('魔物特性')
-							 || true == (0 > fields[16].indexOf('竜特性') && 0 > fields[16].indexOf('竜'))
-							 || 0 > fields[17].indexOf('ボス特性')
-							 || 0 > fields[18].indexOf('区分')
-							 || 0 > fields[19].indexOf('入隊日')
-							 || 0 > fields[20].indexOf('メモ')
+							if (0 > fields[1].indexOf('キャラ名')
+							 || 0 > fields[2].indexOf('戦闘力')
+							 || 0 > fields[3].indexOf('Job')
+							 || 0 > fields[4].indexOf('3次職')
+							 || 0 > fields[5].indexOf('デュアル戦闘力')
+							 || 0 > fields[6].indexOf('デュアルクラス')
+							 || 0 > fields[7].indexOf('デュアル3次職')
+							 || 0 > fields[8].indexOf('装飾品')
+							 || 0 > fields[9].indexOf('特性')
+							 || 0 > fields[10].indexOf('サブ装飾品')
+							 || 0 > fields[11].indexOf('サブ特性')
+							 || 0 > fields[12].indexOf('武器コス')
+							 || 0 > fields[13].indexOf('マント')
+							 || 0 > fields[14].indexOf('Lv')
+							 || 0 > fields[15].indexOf('ディフェンスゾーンLv')
+							 || 0 > fields[16].indexOf('対人攻撃特性')
+							 || 0 > fields[17].indexOf('対人防御特性(平均)')
+							 || 0 > fields[18].indexOf('スイート特性')
+							 || 0 > fields[19].indexOf('魔物特性')
+							 || 0 > fields[20].indexOf('竜特性')
+							 || 0 > fields[21].indexOf('ボス特性')
+							 || 0 > fields[22].indexOf('区分')
+							 || 0 > fields[23].indexOf('入隊日')
+							 || 0 > fields[24].indexOf('更新日')
+							 || 0 > fields[25].indexOf('メモ')
 							) {
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
 							}
 							var _users = [];
 							for (var lidx=1; lidx < lines.length; lidx++) {
-								line = lines[lidx].replace(/[\r\n"]/g, '').trim();
+								line = lines[lidx].replace(/[\r\n]/g, '').trim();
 								if (1 > line.length || -1 < line.indexOf('キャラ名') || -1 < line.indexOf('戦闘力') || -1 < line.indexOf('cp') || -1 < line.indexOf('CP')) {
 									continue;
 								}
 								var cols = line.split(',');
 								console.log(cols);
-								if (21 > cols.length){
+								if (25 > cols.length){
 									alert('項目が足らない行がありました。\n' + lidx + '行目か' + (lidx+1) + '行目かを確認して下さい。');
 									return;
 								}
+								for (var colidx=1; colidx < cols.length; colidx++) {
+									cols[colidx] = cols[colidx].replace(/^"(.*)"$/, '$1');
+								}
+								console.log(cols);
 								var _user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: 0, meteo: 0, dzone: null, acce1: 0, acce2: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, boss: null, memo: '', activity: 9, joind: '' };
-								_user.name = cols[0].trim();
-								_user.cp = parseInt(cols[1].trim());
-								_user.job = cols[2].trim();
-								_user.job3d = (cols[3].trim() == '3次職')? 1: 0;
-								_user.acce1 = cols[4].trim();
-								acce1tokusei = cols[5].trim();
+								_user.name = cols[1].replace(/""/, '"').trim();
+								_user.cp = parseInt(cols[2].trim());
+								_user.job = rejobs[cols[3].trim()];
+								_user.job3d = (cols[4].trim() == '3次職')? 1: 0;
+								_user.subcp = ('' == cols[5].trim())? null: parseInt(cols[5].trim());
+								_user.subjob = ('' == cols[6].trim())? null: rejobs[cols[6].trim()];
+								_user.subjob3d = ('' == cols[7].trim())? null: ((cols[7].trim() == '3次職')? 1: 0);
+								_user.acce1 = cols[8].trim();
+								acce1tokusei = cols[9].trim();
 								if (-1 < _user.acce1.indexOf('カラ')) {
 									_user.acce1 = 60 + parseInt(acce1tokusei) -1;
 								}
@@ -4005,8 +4177,8 @@
 								else {
 									_user.acce1 = 0;
 								}
-								_user.acce2 = cols[6].trim();
-								acce2tokusei = cols[7].trim();
+								_user.acce2 = cols[10].trim();
+								acce2tokusei = cols[11].trim();
 								if (-1 < _user.acce2.indexOf('カラ')) {
 									_user.acce2 = 60 + parseInt(acce2tokusei) -1;
 								}
@@ -4034,18 +4206,18 @@
 								else {
 									_user.acce2 = 0;
 								}
-								_user.bukicos = cols[8].trim();
-								_user.manto = cols[9].trim();
-								_user.level = parseInt(cols[10].trim());
+								_user.bukicos = cols[12].trim();
+								_user.manto = cols[13].trim();
+								_user.level = parseInt(cols[14].trim());
 								_user.meteo = 10;
-								_user.dzone = (cols[11].trim() == '')? null: parseInt(cols[11].trim());
-								_user.pvpat = (cols[12].trim() == '')? null: parseInt(cols[12].trim());
-								_user.pvpdf = (cols[13].trim() == '')? null: parseInt(cols[13].trim());
-								_user.sweet = (cols[14].trim() == '')? null: parseInt(cols[14].trim());
-								_user.mamono = (cols[15].trim() == '')? null: parseInt(cols[15].trim());
-								_user.dragon = (cols[16].trim() == '')? null: parseInt(cols[16].trim());
-								_user.boss = (cols[17].trim() == '')? null: parseInt(cols[17].trim());
-								_user.activity = cols[18].trim();
+								_user.dzone = (cols[15].trim() == '')? null: parseInt(cols[15].trim());
+								_user.pvpat = (cols[16].trim() == '')? null: parseInt(cols[16].trim());
+								_user.pvpdf = (cols[17].trim() == '')? null: parseInt(cols[17].trim());
+								_user.sweet = (cols[18].trim() == '')? null: parseInt(cols[18].trim());
+								_user.mamono = (cols[19].trim() == '')? null: parseInt(cols[19].trim());
+								_user.dragon = (cols[20].trim() == '')? null: parseInt(cols[20].trim());
+								_user.boss = (cols[21].trim() == '')? null: parseInt(cols[21].trim());
+								_user.activity = cols[22].trim();
 								if (_user.activity == 'アクティブ') {
 									_user.activity = 1;
 								}
@@ -4058,9 +4230,13 @@
 								else if (_user.activity == '除名') {
 									_user.activity = -9;
 								}
-								var _joind = cols[19].trim().replace(' ', '/').split('/');
+								var _joind = cols[23].trim().replace(' ', '/').split('/');
 								_user.joind = (('0000' + _joind[0]).slice(-4)) + '/' + (('00' + _joind[1]).slice(-2)) + '/' + (('00' + _joind[2]).slice(-2));
-								_user.memo = cols[20].trim();
+								var _modified = (cols[24].trim() == '')? null: cols[24].trim().replace(' ', '/').split('/');
+								if (null != _modified) {
+									_user.modified = (('0000' + _modified[0]).slice(-4)) + '/' + (('00' + _modified[1]).slice(-2)) + '/' + (('00' + _modified[2]).slice(-2));
+								}
+								_user.memo = cols[25].replace(/""/, '"').trim();
 								_users.push(_user);
 							}
 							console.log('usser=');
@@ -5538,6 +5714,10 @@
 				jobimages['オークモンク'] = 'https://gamewith.akamaized.net/img/eb56eea5facb08c64db160a857002113.jpg';
 				jobimages['オークシャーマン'] = 'https://gamewith.akamaized.net/img/54a52e90e88f746817616177416386b1.jpg';
 
+				jobimages['バーサーカー'] = './images/l2r/kamaeru-heavy.png';
+				jobimages['アヴァレスタ'] = './images/l2r/kamaeru-light.png';
+				jobimages['ソウルブレーカー'] = './images/l2r/kamaeru-magic.png';
+
 				// クロサバ用
 				if (mode == 2) {
 					jobimages = []
@@ -5589,6 +5769,10 @@
 				jobnamesForURL['https://gamewith.akamaized.net/img/eb56eea5facb08c64db160a857002113.jpg'] = 'オークモンク';
 				jobnamesForURL['https://gamewith.akamaized.net/img/54a52e90e88f746817616177416386b1.jpg'] = 'オークシャーマン';
 
+				jobnamesForURL['./images/l2r/kamaeru-heavy.png'] = 'バーサーカー';
+				jobnamesForURL['./images/l2r/kamaeru-light.png'] = 'アヴァレスタ';
+				jobnamesForURL['./images/l2r/kamaeru-magic.png'] = 'ソウルブレーカー';
+
 				// クロサバ用
 				if (mode == 2) {
 					jobnamesForURL = [];
@@ -5639,6 +5823,9 @@
 				jobbufs['オークレイダー'] = '攻撃';
 				jobbufs['オークモンク'] = '命中';
 				jobbufs['オークシャーマン'] = 'クリ';
+				jobbufs['バーサーカー'] = '攻撃';
+				jobbufs['アヴァレスタ'] = '命中';
+				jobbufs['ソウルブレーカー'] = 'クリ';
 
 				// クロサバ用
 				if (mode == 2) {
@@ -5660,6 +5847,145 @@
 					jobbufs['ダークナイト'] = '近距離';
 					jobbufs['ラン'] = '遠距離';
 					jobbufs['アーチャー'] = '遠距離';
+				}
+
+				var jobs = [];
+				jobs['パラディン'] = 'フェニックスナイト';
+				jobs['ウォーロード'] = 'ドレッドノート';
+				jobs['トレジャーハンター'] = 'アドベンチャラー';
+				jobs['ホークアイ'] = 'サジタリウス';
+				jobs['ソーサラー'] = 'アークメイジ';
+				jobs['ビショップ'] = 'カーディナル';
+				jobs['テンプルナイト'] = 'エヴァステンプラー';
+				jobs['ソードシンガー'] = 'ソードミューズ';
+				jobs['プレインズウォーカー'] = 'ウィンドライダー';
+				jobs['シルバーレンジャー'] = 'ムーンライトセンティネル';
+				jobs['スペルシンガー'] = 'ミスティックミューズ';
+				jobs['エルダー'] = 'エヴァスセイント';
+				jobs['シリエンナイト'] = 'シリエンテンプラー';
+				jobs['ブレードダンサー'] = 'スペクトラルダンサー';
+				jobs['アビスウォーカー'] = 'ゴーストハンター';
+				jobs['ファントムレンジャー'] = 'ゴーストセンティネル';
+				jobs['スペルハウラー'] = 'ストームスクリーマー';
+				jobs['シリエンエルダー'] = 'シリエンセイント';
+				jobs['ガーディアン'] = 'エターナルガーディアン';
+				jobs['スレイヤー'] = 'ウォースレイヤー';
+				jobs['スカベンジャー'] = 'バウンティハンター';
+				jobs['ウォーレンジャー'] = 'ウォースミス';
+				jobs['クォーラルウィザード'] = 'エルドリッチウィザード';
+				jobs['セイジ'] = 'マスターセイジ';
+				jobs['オークレイダー'] = 'デストロイヤー';
+				jobs['オークモンク'] = 'タイラント';
+				jobs['オークシャーマン'] = 'ウォークライヤー';
+				jobs['バーサーカー'] = 'ドゥームブリンガー';
+				jobs['アヴァレスタ'] = 'トリックスター';
+				jobs['ソウルブレーカー'] = 'ソウルハウンド';
+
+				// クロサバ用
+				if (mode == 2) {
+					jobs = [];
+					jobs['ウォーリア'] = 'ウォーリア';
+					jobs['ヴァルキリー'] = 'ヴァルキリー';
+					jobs['ジャイアント'] = 'ジャイアント';
+					jobs['ウイッチ'] = 'ウイッチ';
+					jobs['レンジャー'] = 'レンジャー';
+					jobs['ブレイダー'] = 'ブレイダー';
+					jobs['リトルサマナー'] = 'リトルサマナー';
+					jobs['ソーサレス'] = 'ソーサレス';
+					jobs['ウィザード'] = 'ウィザード';
+					jobs['ツバキ'] = 'ツバキ';
+					jobs['ニンジャ'] = 'ニンジャ';
+					jobs['クノイチ'] = 'クノイチ';
+					jobs['ミスティック'] = 'ミスティック';
+					jobs['格闘家'] = '格闘家';
+					jobs['ダークナイト'] = 'ダークナイト';
+					jobs['ラン'] = 'ラン';
+					jobs['アーチャー'] = 'アーチャー';
+				}
+
+				var rejobs = [];
+				rejobs['フェニックスナイト'] = 'パラディン';
+				rejobs['ドレッドノート'] = 'ウォーロード';
+				rejobs['アドベンチャラー'] = 'トレジャーハンター';
+				rejobs['サジタリウス'] = 'ホークアイ';
+				rejobs['アークメイジ'] = 'ソーサラー';
+				rejobs['カーディナル'] = 'ビショップ';
+				rejobs['エヴァステンプラー'] = 'テンプルナイト';
+				rejobs['ソードミューズ'] = 'ソードシンガー';
+				rejobs['ウィンドライダー'] = 'プレインズウォーカー';
+				rejobs['ムーンライトセンティネル'] = 'シルバーレンジャー';
+				rejobs['ミスティックミューズ'] = 'スペルシンガー';
+				rejobs['エヴァスセイント'] = 'エルダー';
+				rejobs['シリエンテンプラー'] = 'シリエンナイト';
+				rejobs['スペクトラルダンサー'] = 'ブレードダンサー';
+				rejobs['ゴーストハンター'] = 'アビスウォーカー';
+				rejobs['ゴーストセンティネル'] = 'ファントムレンジャー';
+				rejobs['ストームスクリーマー'] = 'スペルハウラー';
+				rejobs['シリエンセイント'] = 'シリエンエルダー';
+				rejobs['エターナルガーディアン'] = 'ガーディアン';
+				rejobs['ウォースレイヤー'] = 'スレイヤー';
+				rejobs['バウンティハンター'] = 'スカベンジャー';
+				rejobs['ウォースミス'] = 'ウォーレンジャー';
+				rejobs['エルドリッチウィザード'] = 'クォーラルウィザード';
+				rejobs['マスターセイジ'] = 'セイジ';
+				rejobs['デストロイヤー'] = 'オークレイダー';
+				rejobs['タイラント'] = 'オークモンク';
+				rejobs['ウォークライヤー'] = 'オークシャーマン';
+				rejobs['ドゥームブリンガー'] = 'バーサーカー';
+				rejobs['トリックスター'] = 'アヴァレスタ';
+				rejobs['ソウルハウンド'] = 'ソウルブレーカー';
+
+				rejobs['パラディン'] = 'パラディン';
+				rejobs['ウォーロード'] = 'ウォーロード';
+				rejobs['トレジャーハンター'] = 'トレジャーハンター';
+				rejobs['ホークアイ'] = 'ホークアイ';
+				rejobs['ソーサラー'] = 'ソーサラー';
+				rejobs['ビショップ'] = 'ビショップ';
+				rejobs['テンプルナイト'] = 'テンプルナイト';
+				rejobs['ソードシンガー'] = 'ソードシンガー';
+				rejobs['プレインズウォーカー'] = 'プレインズウォーカー';
+				rejobs['シルバーレンジャー'] = 'シルバーレンジャー';
+				rejobs['スペルシンガー'] = 'スペルシンガー';
+				rejobs['エルダー'] = 'エルダー';
+				rejobs['シリエンナイト'] = 'シリエンナイト';
+				rejobs['ブレードダンサー'] = 'ブレードダンサー';
+				rejobs['アビスウォーカー'] = 'アビスウォーカー';
+				rejobs['ファントムレンジャー'] = 'ファントムレンジャー';
+				rejobs['スペルハウラー'] = 'スペルハウラー';
+				rejobs['シリエンエルダー'] = 'シリエンエルダー';
+				rejobs['ガーディアン'] = 'ガーディアン';
+				rejobs['スレイヤー'] = 'スレイヤー';
+				rejobs['スカベンジャー'] = 'スカベンジャー';
+				rejobs['ウォーレンジャー'] = 'ウォーレンジャー';
+				rejobs['クォーラルウィザード'] = 'クォーラルウィザード';
+				rejobs['セイジ'] = 'セイジ';
+				rejobs['オークレイダー'] = 'オークレイダー';
+				rejobs['オークモンク'] = 'オークモンク';
+				rejobs['オークシャーマン'] = 'オークシャーマン';
+				rejobs['バーサーカー'] = 'バーサーカー';
+				rejobs['アヴァレスタ'] = 'アヴァレスタ';
+				rejobs['ソウルブレーカー'] = 'ソウルブレーカー';
+
+				// クロサバ用
+				if (mode == 2) {
+					rejobs = [];
+					rejobs['ウォーリア'] = 'ウォーリア';
+					rejobs['ヴァルキリー'] = 'ヴァルキリー';
+					rejobs['ジャイアント'] = 'ジャイアント';
+					rejobs['ウイッチ'] = 'ウイッチ';
+					rejobs['レンジャー'] = 'レンジャー';
+					rejobs['ブレイダー'] = 'ブレイダー';
+					rejobs['リトルサマナー'] = 'リトルサマナー';
+					rejobs['ソーサレス'] = 'ソーサレス';
+					rejobs['ウィザード'] = 'ウィザード';
+					rejobs['ツバキ'] = 'ツバキ';
+					rejobs['ニンジャ'] = 'ニンジャ';
+					rejobs['クノイチ'] = 'クノイチ';
+					rejobs['ミスティック'] = 'ミスティック';
+					rejobs['格闘家'] = '格闘家';
+					rejobs['ダークナイト'] = 'ダークナイト';
+					rejobs['ラン'] = 'ラン';
+					rejobs['アーチャー'] = 'アーチャー';
 				}
 			</script>
 		</section>
@@ -6316,8 +6642,7 @@
 								if ('undefined' != typeof data.modified && 'string' != typeof data.modified) {
 									data.modified = data.modified.toDate();
 									data.modified = data.modified.toLocaleString();
-									// 表示を置き換え
-									data.joind = data.modified.split(' ')[0];
+									data.modified = data.modified.split(' ')[0];
 								}
 								datas.push(data);
 							}
@@ -7023,6 +7348,19 @@
 						var usermamono = $('#registerform').find('select[name=usermamono] option:selected').val();
 						var userdragon = $('#registerform').find('select[name=userdragon] option:selected').val();
 						var userboss = $('#registerform').find('select[name=userboss] option:selected').val();
+
+						var usersubjob = $('#registerform').find('select[name=usersubjob] option:selected').val();
+						var usersubjob3d = $('#registerform').find('select[name=usersubjob3d] option:selected').val();
+						var usersubcp = $('#registerform').find('input[name=usersubcp]').val();
+						if ('デュアルクラス' === usersubjob) {
+							usersubjob = null;
+							usersubjob3d = null;
+							usersubcp = null;
+						}
+						else {
+							usersubjob3d = parseInt(usersubjob3d);
+							usersubcp = parseInt(usersubcp);
+						}
 						if ('対人攻撃特性' === userpvpat) {
 							userpvpat = null;
 						}
@@ -7094,6 +7432,9 @@
 						data.mamono = usermamono;
 						data.dragon = userdragon;
 						data.boss = userboss;
+						data.subjob = usersubjob;
+						data.subjob3d = usersubjob3d;
+						data.subcp = usersubcp;
 					}
 					else if (mode==2) {
 						var userspiritlevel = $('#registerform').find('input[name=userspiritlevel]').val();
@@ -7384,8 +7725,8 @@
 				var onclickCSVExport = function (target) {
 					// 配列 の用意
 					var fields = $(target).parent().find('thead tr');
+					console.log(fields);
 					var users = $(target).parent().find('#partylist tr');
-					//var array_data = [['りんご',1,200],['メロン',2,4000],['バナナ',4,500]];
 					var array_data = [];
 					for (var uidx=0; uidx < fields.length; uidx++) {
 						var cols = $(fields[uidx]).find('th');
@@ -7401,10 +7742,16 @@
 							else if (label == 'Job') {
 								label = 'Job","3次職';
 							}
-							else if (label == '飾') {
+							else if (label == 'Dual戦闘力') {
+								label = 'デュアル戦闘力';
+							}
+							else if (label == 'Dualクラス') {
+								label = 'デュアルクラス","デュアル3次職';
+							}
+							else if (label == '装飾品') {
 								label = '装飾品","特性';
 							}
-							else if (label == 'サブ飾') {
+							else if (label == 'サブ装飾品') {
 								label = 'サブ装飾品","サブ特性';
 							}
 							else if (label == '武') {
@@ -7459,32 +7806,30 @@
 							value = value.replace(/[\r\n]/g, ' ');
 							value = value.trim();
 							value = value.replace(/"/g, '""');
-							console.log(value);
-							if (value == '<i class="fas fa-microphone"></i>') {
+							//console.log(value);
+							if (value == '<i class=""fas fa-microphone""></i>') {
 								value = 'VC可';
 							}
-							else if (value == '<i class="fas fa-microphone-slash"></i>') {
+							else if (value == '<i class=""fas fa-microphone-slash""></i>') {
 								value = '聞き専';
 							}
-							else if (value == '<i class="fas">✕</i>') {
+							else if (value == '<i class="fas"">✕</i>') {
 								value = 'VC不可';
 							}
-							else if (value == '<i class="fas"></i>') {
-								value = '';
-							}
-							else if (value == '<i class="fas"></i>') {
+							else if (value == '<i class=""fas""></i>') {
 								value = '';
 							}
 							else if (-1 < value.indexOf('<img ')) {
 								var imgURL = $(userDatas[didx]).find('img').attr('src');
-								if (0 < value.indexOf('3d')) {
-									console.log('imgURL=' + imgURL);
-									value = jobnamesForURL[imgURL] + '","3次職';
+								if (0 < value.indexOf('2d')) {
+									value = jobnamesForURL[imgURL] + '","2次職';
 								}
 								else {
-									value = jobnamesForURL[imgURL] + '","';;
+									value = jobs[jobnamesForURL[imgURL]] + '","3次職';
 								}
-								console.log('job value=' + value);
+							}
+							else if ($(cols[didx]).text() == 'Dualクラス') {
+								value = '","';
 							}
 							else if (value == 'リダ') {
 								value = 'PTリーダー';

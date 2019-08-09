@@ -705,9 +705,10 @@ bot.on('messageCreate', (msg) => {
       msg.channel.createMessage(strings.botMessageTails[6] + '\n');
     }
   }
-  else if (0 === msg.content.indexOf('参加△ ') || msg.content == '参加△') {
+  else if (0 === msg.content.indexOf('参加△ ') || msg.content == '参加△' || 0 === msg.content.indexOf('未定 ') || msg.content == '未定') {
     msg.channel.createMessage(strings.botMessageTails[7] + '\n');
     var entry = msg.content.replace('参加△', '').trim();
+    entry = entry.replace('未定', '').trim();
     cmd = 4;
     subcmd = 0;
     newSelection = 0;
