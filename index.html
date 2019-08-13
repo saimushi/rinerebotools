@@ -7360,6 +7360,9 @@
 						else {
 							usersubjob3d = parseInt(usersubjob3d);
 							usersubcp = parseInt(usersubcp);
+							if (isNaN(usersubcp)) {
+								usersubcp = null;
+							}
 						}
 						if ('対人攻撃特性' === userpvpat) {
 							userpvpat = null;
