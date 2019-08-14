@@ -799,7 +799,15 @@
 							<div if={'#setting' == location.hash} class="form-check">
 								<input if={'number' == typeof clan.twitterDisabled && clan.twitterDisabled === 1} type="checkbox" name="twitterDisabled" value="1"  class="form-check-input" id="twitterDisabled"/>
 								<input if={false == ('number' == typeof clan.twitterDisabled && clan.twitterDisabled === 1)} type="checkbox" name="twitterDisabled" value="1"  class="form-check-input" id="twitterDisabled" checked="checked"/>
-								<label class="form-check-label" for="twitterDisabled">公式ツイートを自動通知</label>
+								<label if={mode==1} class="form-check-label" for="twitterDisabled">公式ツイートを自動通知</label>
+								<label if={mode==2} class="form-check-label" for="twitterDisabled">黒砂モバイル公式ツイートを自動通知</label>
+								<br/>
+								<br/>
+							</div>
+							<div if={'#setting' == location.hash && mode == 2} class="form-check">
+								<input if={'number' == typeof clan.twitterPCEnabled && clan.twitterPCEnabled === 1} type="checkbox" name="twitterPCEnabled" value="1"  class="form-check-input" id="twitterPCEnabled" checked="checked"/>
+								<input if={false == ('number' == typeof clan.twitterPCEnabled && clan.twitterPCEnabled === 1)} type="checkbox" name="twitterPCEnabled" value="1"  class="form-check-input" id="twitterPCEnabled"/>
+								<label class="form-check-label" for="twitterPCEnabled">黒砂PC公式ツイートを自動通知</label>
 								<br/>
 								<br/>
 							</div>
@@ -3920,7 +3928,7 @@
 									<th if={mode==1 && opts.mode!='contribution'} style="font-size: 6px; width: 25px; max-width: 23px; min-width: 25px;">武器<br>コス</th>
 									<th if={mode==1 && opts.mode!='contribution'} style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">マント</th>
 									<th if={opts.mode!='schedule'} onclick="{sortLevel}" style="width: 20px; max-width: 20px; min-width: 20px;">Lv</th>
-									<th if={mode==2 && opts.mode!='schedule'} onclick="{sortLevel}" style="width: 20px; max-width: 20px; min-width: 20px;">精霊</th>
+									<th if={mode==2 && opts.mode!='schedule'} onclick="{sortLevel}" style="font-size: 6px; width: 20px; max-width: 20px; min-width: 20px;">精霊<br>Lv</th>
 									<th if={mode==1 && opts.mode=='contribution'} style="font-size: 6px; width: 20px; max-width: 20px; min-width: 20px;">メテオ</th>
 									<th if={mode==1} style="width: 15px; max-width: 15px; min-width: 15px;">Dz</th>
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='gvg')} style="background-color: royalblue; color: white; width: 15px; max-width: 15px; min-width: 15px;">攻</th>
@@ -6245,6 +6253,42 @@
 									callback(data);
 								}
 								loading(false);
+								// 鍵が掛かっていた場合は鍵を入れないと入れない
+								if ('string' == typeof data.clanpass) {
+									var showPassAlert = function () {
+										swal({
+											title: 'パスワード',
+											content: {
+												element: 'input',
+												attributes: {
+													id: 'clanpass',
+													type: 'password',
+												},
+											},
+											buttons: {
+										    cancel: "キャンセル",
+										    ok: true
+										  }
+										}).then(function(val) {
+											if (val) {
+												// 入力値を受け取る
+												if (data.clanpass.toLowerCase() === CryptoJS.SHA1($('#clanpass').val()).toString().toLowerCase()) {
+													// 一致
+													return;
+												}
+												else {
+													alert('パスワードが一致しませんでした。');
+													showPassAlert();
+												}
+											}
+											else {
+												// ログイン画面へ
+												location.href = './#login';
+											}
+										});
+									};
+									showPassAlert();
+								}
 								return;
 							}
 						}
@@ -7067,6 +7111,10 @@
 						data.twitterDisabled = 1;
 						if ($('#registerClanform').find('input[name=twitterDisabled]').prop('checked')) {
 							data.twitterDisabled = 0;
+						}
+						data.twitterPCEnabled = 0;
+						if ($('#registerClanform').find('input[name=twitterPCEnabled]').prop('checked')) {
+							data.twitterPCEnabled = 1;
 						}
 						console.log(data);
 						registerClan(updateClnaID, data, function (newClanID){

@@ -1,5 +1,7 @@
 
 require('date-utils');
+const crypto = require('crypto');
+const shasum = crypto.createHash('sha1');
 
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
@@ -25,7 +27,7 @@ var bot = new Eris(process.env.TOKEN);
 
 var strings = require('./' + process.env.PROJECT_DOMAIN + '.json');
 var mode = 2;// 1=l2r 2=kurosaba
-if (process.env.PROJECT_DOMAIN == 'erikasama') {
+if (process.env.PROJECT_DOMAIN == 'erikasama' || process.env.PROJECT_DOMAIN == 'elisabethsama') {
   mode = 1;
 }
 
@@ -341,31 +343,42 @@ var _infojob = function (targetClans, targetStart, notifyMode, notifyTime) {
   }
 };
 
-var _notifyOfficalInfo = function (targetClans, targetClan, targetNotifies, notifyIndex) {
+var _notifyOfficalInfo = function (targetClans, targetClan, targetNotifies, notifyIndex, platformIsPC, callback) {
   if (0 < targetClans.length && targetClan == null) {
     targetClan = targetClans[0];
     targetClans.shift();
   }
   if ('object' == typeof targetClan && null != targetClan && notifyIndex < targetNotifies.length && 'object' == typeof targetNotifies[notifyIndex]) {
     var targetNotify = targetNotifies[notifyIndex];
-    console.log('@everyone \n' + targetNotify.message);
     var _name = 'ギルド管理ツールからのお知らせ';
     var _avatarURL = 'https://kurosaba.fun/images/kurosaba/titlelogo.png';
     if (mode == 1) {
       _name = '血盟管理ツールからのお知らせ';
       _avatarURL = 'https://line2revo.fun/images/l2r/titlelogo.png';
     }
-    if (!(-1 < targetNotify.message.indexOf('公式がツイートしました') && 'undefined' != typeof targetClan.twitterDisabled && 1 == targetClan.twitterDisabled)) {
-      _sendWebhookMessage(targetClan, null, '@everyone \n' + targetNotify.message , _name, _avatarURL);
+    if (true === platformIsPC) {
+      if (-1 < targetNotify.message.indexOf('公式(PC)がツイートしました') && 'undefined' != typeof targetClan.twitterPCEnabled && 1 == targetClan.twitterPCEnabled) {
+        console.log('@everyone \n' + targetNotify.message);
+        _sendWebhookMessage(targetClan, null, '@everyone \n' + targetNotify.message , _name, _avatarURL);
+      }
+    }
+    else {
+      if (!(-1 < targetNotify.message.indexOf('公式がツイートしました') && 'undefined' != typeof targetClan.twitterDisabled && 1 == targetClan.twitterDisabled)) {
+        console.log('@everyone \n' + targetNotify.message);
+        _sendWebhookMessage(targetClan, null, '@everyone \n' + targetNotify.message , _name, _avatarURL);
+      }
     }
     firestore.collection("notify").doc(targetNotify.ID).update({notified: true}).then(function(querySnapshot) {
       notifyIndex = notifyIndex + 1;
-      _notifyOfficalInfo(targetClans, targetClan, targetNotifies, notifyIndex);
+      _notifyOfficalInfo(targetClans, targetClan, targetNotifies, notifyIndex, platformIsPC, callback);
     });
   }
   else if (0 < targetClans.length){
     // 次の血盟
-    _notifyOfficalInfo(targetClans, null, targetNotifies, 0);
+    _notifyOfficalInfo(targetClans, null, targetNotifies, 0, platformIsPC, callback);
+  }
+  else if ('function' == typeof callback) {
+    callback();
   }
   return;
 };
@@ -381,6 +394,7 @@ var infojob = function (testClanID) {
     var datas5 = [];
     var datas6 = [];
     var datas7 = [];
+    var datas8 = [];
     querySnapshot.forEach(function(snapshot) {
       if(snapshot.exists) {
         var data = snapshot.data();
@@ -395,6 +409,7 @@ var infojob = function (testClanID) {
             datas4.push(data);
             datas6.push(data);
             datas7.push(data);
+            datas8.push(data);
           }
           datas2.push(data);
         }
@@ -512,12 +527,14 @@ var infojob = function (testClanID) {
       if (0 < datas7.length) {
         console.log("tweet scraip");
         var targettwitter = 'https://twitter.com/BlackDesertM_JP';
+        var tweetpage = 1;
         if (mode == 1) {
           targettwitter = 'https://twitter.com/Line2Revo';
+          tweetpage = 2;
         }
         JSDOM.fromURL(targettwitter).then(dom => {
           if (typeof dom.window !== 'undefined') {
-            var lastTweetURL = dom.window.document.querySelector('.stream-items li:nth-child(2) small.time a').href;
+            var lastTweetURL = dom.window.document.querySelector('.stream-items li:nth-child('+tweetpage+') small.time a').href;
             console.log('lastTweetURL='+lastTweetURL);
             firestore.collection("lastTweetURL").where('lastTweetURL', '==', lastTweetURL).get().then(function(querySnapshot) {
               var latesttweet = null;
@@ -528,13 +545,47 @@ var infojob = function (testClanID) {
                 }
               });
               console.log('latesttweet='+latesttweet);
+              var pcTweetInfo = function () {
+                if (mode == 1) {
+                  return;
+                }
+                JSDOM.fromURL('https://twitter.com/OFFICIAL_BDJP').then(dom => {
+                  if (typeof dom.window !== 'undefined') {
+                    var lastPCTweetURL = dom.window.document.querySelector('.stream-items li:nth-child(1) small.time a').href;
+                    console.log('lastPCTweetURL='+lastPCTweetURL);
+                    firestore.collection("lastTweetURL").where('lastPCTweetURL', '==', lastPCTweetURL).get().then(function(querySnapshot) {
+                      var lastPCTweet = null;
+                      querySnapshot.forEach(function(snapshot) {
+                        console.log('snapshot='+snapshot);
+                        if(snapshot.exists) {
+                          lastPCTweet = true;
+                        }
+                      });
+                      console.log('lastPCTweet='+lastPCTweet);
+                      if (null == lastPCTweet) {
+                        firestore.collection("lastTweetURL").doc('lastPCTweetURL').set({lastPCTweetURL:lastPCTweetURL}).then(function() {
+                          var notify = { ID: 'PC-'+dt.toFormat("YYYY-MM-DD HH24:MI:SS"), message: '公式(PC)がツイートしました！\n' + lastPCTweetURL + '\n', notified: false };
+                          firestore.collection("notify").doc(notify.ID).set({message: '公式(PC)がツイートしました！\n' + lastPCTweetURL + '\n', notified: false}).then(function(setSnapShot) {
+                            _notifyOfficalInfo(datas8, null,  [notify], 0, true);
+                          });
+                        });
+                      }
+                    });
+                  }
+                });
+              };
               if (null == latesttweet) {
                 firestore.collection("lastTweetURL").doc('lastTweetURL').set({lastTweetURL:lastTweetURL}).then(function() {
                   var notify = { ID: dt.toFormat("YYYY-MM-DD HH24:MI:SS"), message: '公式がツイートしました！\n' + lastTweetURL + '\n', notified: false };
                   firestore.collection("notify").doc(notify.ID).set({message: '公式がツイートしました！\n' + lastTweetURL + '\n', notified: false}).then(function(setSnapShot) {
-                    _notifyOfficalInfo(datas7, null,  [notify], 0);
+                    _notifyOfficalInfo(datas7, null,  [notify], 0, null, function () {
+                      pcTweetInfo();
+                    });
                   });
                 });
+              }
+              else {
+                pcTweetInfo();
               }
             });
           }
@@ -568,6 +619,10 @@ bot.on('messageCreate', (msg) => {
   // ボット同士の会話禁止
   if ('エリカ様の血盟管理お手伝い' ==  msg.author.username) {
     console.log('エリカ様は無視');
+    return;
+  }
+  if ('エルゼベート様の血盟管理お手伝い' ==  msg.author.username) {
+    console.log('エルゼベート様は無視');
     return;
   }
   // ボット同士の会話禁止
@@ -611,8 +666,8 @@ bot.on('messageCreate', (msg) => {
     newcp = parseInt(msg.content);
     cmd = 1;
     var randnum = 1 + Math.floor( Math.random() * 100 );
-    if (mode == 2 && ('つかさ#7044' == msg.author.username + '#' + msg.author.discriminator || 'Vega#3839' == msg.author.username + '#' + msg.author.discriminator)) {
-      if (randnum > 30 && randnum <= 40) {
+    if (mode == 2 && ('さよ七#1358' == msg.author.username + '#' + msg.author.discriminator || 'Vega#3839' == msg.author.username + '#' + msg.author.discriminator)) {
+      /*if (randnum > 30 && randnum <= 40) {
         msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[0] + '\n\n・・・ってあれ？？' + msg.author.username + '今日こんなもん？？\n');
         randnum = 999;
       }
@@ -628,8 +683,8 @@ bot.on('messageCreate', (msg) => {
         msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[0] + '\n\n今日あと10回くらいは更新するんだよな？？\n');
         randnum = 999;
       }
-      else if (randnum > 60 && randnum <= 70) {
-        msg.channel.createMessage('<@' + msg.author.id + '> はいはい戦闘力の更新なー。\n\nでも俺が思ってたより低いわ。ショージキもっと上げてくると思ってたわ。\n\n本当にこれで更新しちゃっていいの？？\n');
+      else */if (randnum > 60 && randnum <= 70) {
+        msg.channel.createMessage('<@' + msg.author.id + '> はいはい戦闘力の更新なー。\n\n仕方ないからチュンカ1万で手を打ってやるよ。\n');
         randnum = 999;
       }
       else if (randnum > 80 && randnum <= 90) {
@@ -1434,6 +1489,22 @@ bot.on('messageCreate', (msg) => {
     cmd = 1;
     subcmd = 11;
   }
+  else if (0 === msg.content.indexOf('パスワード ')) {
+    var password = msg.content.replace('パスワード', '');
+    password = password.trim();
+    var hash = null;
+    if (password == '削除') {
+      cmd = 10;
+      msg.channel.createMessage('パスワード設定を解除します。\nパスワード設定を解除するとURLを知っていれば誰でもWebからツールへアクセス可能な、最初の状態に戻ります。');
+    }
+    else if (4 <= password.length && msg.author.id == msg.channel.guild.ownerID) {
+      cmd = 10;
+      msg.channel.createMessage('新しいパスワードを設定します。\nパスワードを設定するとWebからのツールのアクセスはパスワードが無いとアクセス出来なくなります。');
+      shasum.update(password);
+      var hash = shasum.digest('hex');
+    }
+    console.log('pass=' + hash);
+  }
   else if (msg.content === 'お知らせ通知') {
     msg.channel.createMessage(strings.botMessageTails[13] + '\n');
     cmd = 2;
@@ -1507,38 +1578,76 @@ bot.on('messageCreate', (msg) => {
     msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[15] + '\n');
   }
   else if (mode == 1 && -1 < msg.content.indexOf('エリカ様今日悲しいことあった')) {
-    var randnum = 1 + Math.floor( Math.random() * 100 );
-    if (randnum > 40 && randnum < 50) {
-      msg.channel.createMessage(msg.author.username + 'ちゃん、諦めないで頑張ろ！！');
+    if ('エリカ様の血盟管理お手伝い' == strings.botname) {
+      var randnum = 1 + Math.floor( Math.random() * 100 );
+      if (randnum > 40 && randnum < 70) {
+        msg.channel.createMessage(msg.author.username + 'ちゃん、諦めないで頑張ろ！！');
+        return;
+      }
+      if (randnum > 10 && randnum < 40) {
+        msg.channel.createMessage(msg.author.username + 'ちゃんの泣き言なんて聞きたくないっ！！');
+        return;
+      }
+      msg.channel.createMessage(msg.author.username + 'ちゃん、よしよし');
+      cmd = 0;
       return;
     }
-    if (randnum > 30 && randnum < 40) {
-      msg.channel.createMessage(msg.author.username + 'ちゃんの泣き言なんて聞きたくないっ！！');
+  }
+  else if (mode == 1 && -1 < msg.content.indexOf('エルゼベート様今日悲しいことあった')) {
+    if ('エルゼベート様の血盟管理お手伝い' == strings.botname) {
+      var randnum = 1 + Math.floor( Math.random() * 100 );
+      if (randnum > 40 && randnum < 70) {
+        msg.channel.createMessage('あら、燃やして上げましょうか？楽になるわよ？♥');
+        return;
+      }
+      if (randnum > 10 && randnum < 40) {
+        msg.channel.createMessage('あんたの泣き言なんて聞きたくないのよ。そう言うことはエリカにでも言ってみたら？');
+        return;
+      }
+      msg.channel.createMessage('テオドールー！慰めてあげたらー？？あたしはパーーース');
+      cmd = 0;
       return;
     }
-    msg.channel.createMessage(msg.author.username + 'ちゃん、よしよし');
-    cmd = 0;
-    return;
   }
   else if (mode == 1 && true == (-1 < msg.content.indexOf('エリカ様だいすき') || -1 < msg.content.indexOf('エリカ様大好き') || -1 < msg.content.indexOf('エリカ様好き') || -1 < msg.content.indexOf('エリカ様すき'))) {
-    var randnum = 1 + Math.floor( Math.random() * 100 );
-    if (randnum > 40 && randnum < 50) {
-      msg.channel.createMessage(msg.author.username + 'ちゃん・・・ちょっとキモいわ・・・');
+    if ('エリカ様の血盟管理お手伝い' ==  strings.botname) {
+      var randnum = 1 + Math.floor( Math.random() * 100 );
+      if (randnum > 40 && randnum < 70) {
+        msg.channel.createMessage(msg.author.username + 'ちゃん・・・ちょっとキモいわ・・・');
+        return;
+      }
+      if (randnum > 10 && randnum < 40) {
+        msg.channel.createMessage(msg.author.username + 'ちゃん♥エリカスゴくウレシイ♥♥');
+        return;
+      }
+      msg.channel.createMessage(msg.author.username + 'ちゃん私もっ♥');
+      msg.channel.createMessage('もし良かったら・・・作者に寄付して上げて★\n寄付はここから出来るわ♥\nhttps://' + strings.domain + '/#donation');
+      cmd = 0;
       return;
     }
-    if (randnum > 30 && randnum < 40) {
-      msg.channel.createMessage(msg.author.username + 'ちゃん♥エリカスゴくウレシイ♥♥');
+  }
+  else if (mode == 1 && true == (-1 < msg.content.indexOf('エルゼベート様だいすき') || -1 < msg.content.indexOf('エルゼベート様大好き') || -1 < msg.content.indexOf('エルゼベート様好き') || -1 < msg.content.indexOf('エルゼベート様すき'))) {
+    if ('エルゼベート様の血盟管理お手伝い' == strings.botname) {
+      var randnum = 1 + Math.floor( Math.random() * 100 );
+      if (randnum > 40 && randnum < 70) {
+        msg.channel.createMessage('普通に・・・キモいわね。燃やすわよ？');
+        return;
+      }
+      if (randnum > 10 && randnum < 40) {
+        msg.channel.createMessage(msg.author.username + 'ちゃん♥エリカスゴくウレシイ♥♥ ・・・ってエリカならいいそうね。頭に花咲いてるのかしら。');
+        return;
+      }
+      msg.channel.createMessage('その気があるなら作者に寄付でもしてあげたら？\nテオドールはバカだから寄付してたわよ♥\nhttps://' + strings.domain + '/#donation');
+      cmd = 0;
       return;
     }
-    msg.channel.createMessage(msg.author.username + 'ちゃん私もっ♥');
-    msg.channel.createMessage('もし良かったら・・・作者に寄付して上げて★\n寄付はここから出来るわ♥\nhttps://' + strings.domain + '/#donation');
-    cmd = 0;
-    return;
   }
   else if (mode == 1 && true == (-1 < msg.content.indexOf('エリカ様お疲れ') || -1 < msg.content.indexOf('エリカ様おつかれ') || -1 < msg.content.indexOf('エリカさまお疲れ') || -1 < msg.content.indexOf('エリカさまおつかれ'))) {
-    msg.channel.createMessage('あら！ありがとうーー♪嬉しいわー！\n私へのお給料の振込はここから出来るわ♥\nhttps://' + strings.domain + '/#donation');
-    cmd = 0;
-    return;
+    if ('エリカ様の血盟管理お手伝い' == strings.botname) {
+      msg.channel.createMessage('あら！ありがとうーー♪嬉しいわー！\n私へのお給料の振込はここから出来るわ♥\nhttps://' + strings.domain + '/#donation');
+      cmd = 0;
+      return;
+    }
   }
   else if (-1 < msg.content.indexOf(strings.metaname) && true == (-1 < msg.content.indexOf('ヘルプ') || -1 < msg.content.indexOf('パンツ') || -1 < msg.content.indexOf('助け') || -1 < msg.content.indexOf('おしえ') || -1 < msg.content.indexOf('たすけ') || -1 < msg.content.indexOf('教え'))) {
     var cmdMsg = strings.botMessageTails[16] + '\n\n戦闘力の更新 **[1012543]**\nレベルの更新 **[レベル 1〜9999]**\n';
@@ -1785,70 +1894,72 @@ bot.on('messageCreate', (msg) => {
                         }
                         marginTxt = '**順調に成長してて偉いわね！**\n';
                       }
-                      if (3000000 < newcp) {
-                        if (3000000 > currentcp) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'ついに異次元の強さだわ・・・\n本当におめでとう。もうエリカから教えられる事は何も無いわ！貴方が正しいと思う道を行くのが正解よ！エリカはずっと応援してるわ★\n');
+                      if ('エリカ様の血盟管理お手伝い' ==  msg.author.username) {
+                        if (3000000 < newcp) {
+                          if (3000000 > currentcp) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'ついに異次元の強さだわ・・・\n本当におめでとう。もうエリカから教えられる事は何も無いわ！貴方が正しいと思う道を行くのが正解よ！エリカはずっと応援してるわ★\n');
+                          }
                         }
-                      }
-                      else if (2500000 < newcp) {
-                        if (randnum > 0 && randnum <= 25) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '凄いわ・・・ここまで来てしまうなんて！！\nいよいよLRソウルストーンが必要な時よ！先ずは攻撃のLRソウルストーン、その後は防御のLRが簡単よ！\n全身LRソウルストーンになるころにはきっとまたスゴく強くなってるハズよ！頑張って！！\n');
+                        else if (2500000 < newcp) {
+                          if (randnum > 0 && randnum <= 25) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '凄いわ・・・ここまで来てしまうなんて！！\nいよいよLRソウルストーンが必要な時よ！先ずは攻撃のLRソウルストーン、その後は防御のLRが簡単よ！\n全身LRソウルストーンになるころにはきっとまたスゴく強くなってるハズよ！頑張って！！\n');
+                          }
+                          else if (randnum > 25 && randnum <= 50) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '凄いわ・・・ここまで来てしまうなんて！！\n兎に角装備実績を積みましょう。25万は欲しいところね・・・全ての武器と1種類のアクセサリーオールコンプリートでそのくらいよ！\n先は長いけどここまで来たなら頑張りましょう！！\n');
+                          }
+                          else if (randnum > 50 && randnum <= 75) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '250万オーバー！？分かってる、異世界のアデナを使ったのね。凄いわ・・・\n兎に角装備実績を積みましょう。\n武器の装備実績を終わらせる頃にはきっとまたスゴく強くなってるハズよ！頑張って！！\n');
+                          }
+                          else if (randnum > 75 && randnum <= 100) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '250万オーバー！？分かってる、異世界のアデナを使ったのね。凄いわ・・・\nココからはMAXセットを目指しましょう！全身が終わったら次は赤防具か2種目の装飾品がいいんじゃないかしら。\nでも正直もうエリカには分からない世界だわ・・・\n');
+                          }
+                          return;
                         }
-                        else if (randnum > 25 && randnum <= 50) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '凄いわ・・・ここまで来てしまうなんて！！\n兎に角装備実績を積みましょう。25万は欲しいところね・・・全ての武器と1種類のアクセサリーオールコンプリートでそのくらいよ！\n先は長いけどここまで来たなら頑張りましょう！！\n');
+                        else if (2000000 < newcp) {
+                          if (randnum > 0 && randnum <= 25) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いよいよ200万オーバーなのね！凄い頑張ってるわ！\nこれからは装備実績も積み上げて行かないと行けないわね。\nイベントショップでアデナで買える選択祝福はオススメよ！毎週買って貯めるといいわよ！\n');
+                          }
+                          else if (randnum > 25 && randnum <= 50) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いよいよ200万オーバーなのね！凄い頑張ってるわ！\nココからは強化セットも狙っていかないと中々上がらないわ・・・\nでも慎重に！**くれぐれもマーブル無しでなんてやらないでね！エリカからのお願いよ・・・！**\n');
+                          }
+                          else if (randnum > 50 && randnum <= 75) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'もうココまで来てるのね、凄いわ！\nとにかくエリクサーがまだなら終わらせましょう！\n要塞ショップは欠かさず買うのよ！！エリクサーエッセンス選択ボックスももちろん毎日買うのよ！！\n');
+                          }
+                          else if (randnum > 75 && randnum <= 100) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'もうココまで来てるのね、凄いわ！\n200万から先は修羅の道よ・・・防御クリスタルが足りない時はHRの分解も視野に入れてみて。\nどーしても直ぐに欲しい時は・・・悔しいけどネトマの力に頼るしか無いわね・・・\n');
+                          }
+                          return;
                         }
-                        else if (randnum > 50 && randnum <= 75) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '250万オーバー！？分かってる、異世界のアデナを使ったのね。凄いわ・・・\n兎に角装備実績を積みましょう。\n武器の装備実績を終わらせる頃にはきっとまたスゴく強くなってるハズよ！頑張って！！\n');
+                        else if (1500000 < newcp) {
+                          if (randnum > 0 && randnum <= 25) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に強くなっているわ！\nてっとり速くMAX装備が欲しくなるけど慎重にね・・・\n**マーブル無しで打つのだけはダメ、絶対！エリカと約束！！**\n');
+                          }
+                          else if (randnum > 25 && randnum <= 50) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に強くなっているわ！\nLR装備を揃え始める時期だわ。先ずはエリート武器、その次に青武器が私のオススメよ！\nペニーワイズの言うことを信じちゃダメよ！\nサン★フレアは信じちゃったみたいだけど・・・\n');
+                          }
+                          else if (randnum > 50 && randnum <= 75) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いい感じに成長してるわね！\nレベル250でURエリクサーが開放されるわ！\nURエリクサーはトータル1200万アデナも使うけど、戦闘力が8万近く上がるから絶対に見逃さないでね★\n');
+                          }
+                          else if (randnum > 75 && randnum <= 100) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いい感じに成長してるわね！\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
+                          }
+                          return;
                         }
-                        else if (randnum > 75 && randnum <= 100) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '250万オーバー！？分かってる、異世界のアデナを使ったのね。凄いわ・・・\nココからはMAXセットを目指しましょう！全身が終わったら次は赤防具か2種目の装飾品がいいんじゃないかしら。\nでも正直もうエリカには分からない世界だわ・・・\n');
+                        else {
+                          if (randnum > 0 && randnum <= 25) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'まだ駆け出しの段階ね！\n今は装備を揃えることとモンスターコアをコンプする事が重要よ！\n頑張ってね★\n');
+                          }
+                          else if (randnum > 25 && randnum <= 50) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'まだ駆け出しの段階ね！\n決闘は面倒でも欠かさずやっておいた方がいい日課よ。\n名誉ランクで上がる戦闘力は馬鹿にならないのよ★\n');
+                          }
+                          else if (randnum > 50 && randnum <= 75) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に成長してるわね。\nレベル上げと同時にルーンのレベルも上げていくといいわ！\nルーンはアデナを大量に使うから、しっかりアデナを貯めて置くことも大事よ★\n');
+                          }
+                          else if (randnum > 75 && randnum <= 100) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に成長してるわね。\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
+                          }
+                          return;
                         }
-                        return;
-                      }
-                      else if (2000000 < newcp) {
-                        if (randnum > 0 && randnum <= 25) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いよいよ200万オーバーなのね！凄い頑張ってるわ！\nこれからは装備実績も積み上げて行かないと行けないわね。\nイベントショップでアデナで買える選択祝福はオススメよ！毎週買って貯めるといいわよ！\n');
-                        }
-                        else if (randnum > 25 && randnum <= 50) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いよいよ200万オーバーなのね！凄い頑張ってるわ！\nココからは強化セットも狙っていかないと中々上がらないわ・・・\nでも慎重に！**くれぐれもマーブル無しでなんてやらないでね！エリカからのお願いよ・・・！**\n');
-                        }
-                        else if (randnum > 50 && randnum <= 75) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'もうココまで来てるのね、凄いわ！\nとにかくエリクサーがまだなら終わらせましょう！\n要塞ショップは欠かさず買うのよ！！エリクサーエッセンス選択ボックスももちろん毎日買うのよ！！\n');
-                        }
-                        else if (randnum > 75 && randnum <= 100) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'もうココまで来てるのね、凄いわ！\n200万から先は修羅の道よ・・・防御クリスタルが足りない時はHRの分解も視野に入れてみて。\nどーしても直ぐに欲しい時は・・・悔しいけどネトマの力に頼るしか無いわね・・・\n');
-                        }
-                        return;
-                      }
-                      else if (1500000 < newcp) {
-                        if (randnum > 0 && randnum <= 25) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に強くなっているわ！\nてっとり速くMAX装備が欲しくなるけど慎重にね・・・\n**マーブル無しで打つのだけはダメ、絶対！エリカと約束！！**\n');
-                        }
-                        else if (randnum > 25 && randnum <= 50) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に強くなっているわ！\nLR装備を揃え始める時期だわ。先ずはエリート武器、その次に青武器が私のオススメよ！\nペニーワイズの言うことを信じちゃダメよ！\nサン★フレアは信じちゃったみたいだけど・・・\n');
-                        }
-                        else if (randnum > 50 && randnum <= 75) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いい感じに成長してるわね！\nレベル250でURエリクサーが開放されるわ！\nURエリクサーはトータル1200万アデナも使うけど、戦闘力が8万近く上がるから絶対に見逃さないでね★\n');
-                        }
-                        else if (randnum > 75 && randnum <= 100) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'いい感じに成長してるわね！\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
-                        }
-                        return;
-                      }
-                      else {
-                        if (randnum > 0 && randnum <= 25) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'まだ駆け出しの段階ね！\n今は装備を揃えることとモンスターコアをコンプする事が重要よ！\n頑張ってね★\n');
-                        }
-                        else if (randnum > 25 && randnum <= 50) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + 'まだ駆け出しの段階ね！\n決闘は面倒でも欠かさずやっておいた方がいい日課よ。\n名誉ランクで上がる戦闘力は馬鹿にならないのよ★\n');
-                        }
-                        else if (randnum > 50 && randnum <= 75) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に成長してるわね。\nレベル上げと同時にルーンのレベルも上げていくといいわ！\nルーンはアデナを大量に使うから、しっかりアデナを貯めて置くことも大事よ★\n');
-                        }
-                        else if (randnum > 75 && randnum <= 100) {
-                          msg.channel.createMessage('<@' + msg.author.id + '> ' + marginTxt + '順調に成長してるわね。\n戦闘力を上げるには装備の超越も重要よ！日々小まめに合成を行うのよ！！\nそしたら功績だって達成出来るんだから★\n');
-                        }
-                        return;
                       }
                     }
                     else if (0 > cpmargin) {
@@ -2214,6 +2325,11 @@ bot.on('messageCreate', (msg) => {
               });
               return;
             }
+            else if (10 == cmd) {
+              firestore.collection("clans").doc(clanID).update({'clanpass': hash}).then(function(querySnapshot){
+                msg.channel.createMessage('パスワードの設定が完了しました。\n');
+              });
+            }
             return;
           }
           return;
@@ -2246,6 +2362,8 @@ app.get("/", (request, response) => {
   var date = new Date();
   var time = date.toFormat("HH24MI");
   console.log(time + " Ping Received");
-  infojob(false);
+  if (process.env.PROJECT_DOMAIN != 'elisabethsama') {
+    infojob(false);
+  }
 });
 app.listen(process.env.PORT);
