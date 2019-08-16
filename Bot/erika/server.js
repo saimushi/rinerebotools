@@ -1442,6 +1442,26 @@ bot.on('messageCreate', (msg) => {
       return;
     }
   }
+  else if (mode == 2 && true == (0 === msg.content.indexOf('家門 ') || 0 === msg.content.indexOf('家紋 '))) {
+    msg.content = msg.content.replace(/[０-９]/g, function(s){
+        return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+    });
+    var subcp = msg.content.replace('家門', '');
+    subcp = subcp.replace('家紋', '');
+    subcp = subcp.trim();
+    console.log(subcp);
+    cmd = 1;
+    subcp = parseInt(subcp);
+    if (0 < subcp) {
+      newSelection = subcp;
+      msg.channel.createMessage('<@' + msg.author.id + '> 家門' + strings.botMessageTails[0] + '\n');
+      subcmd = 15;
+    }
+    if (true != ('number' == typeof newSelection && 0 < newSelection)) {
+      cmd = 0;
+      return;
+    }
+  }
   else if (mode == 1 && 0 === msg.content.indexOf('ディフェンスゾーン ')) {
     msg.content = msg.content.replace(/[０-９]/g, function(s){
         return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
@@ -1493,7 +1513,7 @@ bot.on('messageCreate', (msg) => {
     var password = msg.content.replace('パスワード', '');
     password = password.trim();
     var hash = null;
-    if (password == '削除') {
+    if (password == '削除' || password == '解除') {
       cmd = 10;
       msg.channel.createMessage('パスワード設定を解除します。\nパスワード設定を解除するとURLを知っていれば誰でもWebからツールへアクセス可能な、最初の状態に戻ります。');
     }
@@ -1849,6 +1869,9 @@ bot.on('messageCreate', (msg) => {
                         }
                         if (14 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                           targetUser.spiritlevel = newSelection;
+                        }
+                        if (15 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                          targetUser.subcp = newSelection;
                         }
                       }
                       return;
