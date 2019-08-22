@@ -1050,13 +1050,6 @@
 								</select>
 							</div>
 							<div if={mode==1} class="form-group">
-								<select class="form-control" name="usersubjob3d">
-									<option value="0">デュアルクラス3次職未転職</option>
-									<option if={user.subjob3d=='1'} value="1" selected="selected">デュアルクラス3次職転職済</option>
-									<option if={user.subjob3d!='1'} value="1">デュアルクラス3次職転職済</option>
-								</select>
-							</div>
-							<div if={mode==1} class="form-group">
 								<div class="btn-group">
 									<input type="number" pattern="\d{4,8}" name="usersubcp" value="{user.subcp}" class="form-control" placeholder="デュアルクラス戦闘力"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
@@ -2363,8 +2356,10 @@
 									}
 									if (1 == data[pidx].dual) {
 										data[pidx].job = data[pidx].subjob;
-										data[pidx].job3d = data[pidx].subjob3d;
-										data[pidx].cp = data[pidx].subcp;
+										data[pidx].job3d = 1;
+										if (null != data[pidx].subcp && 100000 < data[pidx].subcp) {
+											data[pidx].cp = data[pidx].subcp;
+										}
 										data[pidx].activity = -1;
 									}
 								}
@@ -4022,13 +4017,14 @@
 									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='遠距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue;"><img src={jobimages[user.job]} title="{user.job}" alt="{user.job}" width="20"/></td>
 									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="font-size: 5px;">{user.job}</td>
 
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="text-align: right;">{user.subcp}</td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: orange;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: blue;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
-									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/><p if={1 != user.subjob3d}>2d</p></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && true == (!user.subjob || true == (user.subjob && null != user.subcp))} style="text-align: right;">{user.subcp}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && false == (!user.subjob || true == (user.subjob && null != user.subcp))} style="text-align: right;">{user.cp}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='攻撃'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: firebrick;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='クリ'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: orange;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='防御'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: blue;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='移動'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: green;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='命中'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/></td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && jobbufs[user.subjob]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink;"><img src={jobimages[user.subjob]} title="{jobs[user.subjob]}" alt="{jobs[user.subjob]}" width="20"/></td>
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && 'undefined' == typeof jobbufs[user.subjob]} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="font-size: 5px;">{user.subjob}</td>
 
 									<td if={mode==1 && opts.mode!='contribution' && 'undefined' != typeof user.acce1 && 80 <= user.acce1 && 90 > user.acce1} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="font-weight: bolder; font-size: 16px; color: white; background: url(https://gamewith.akamaized.net/article_tools/lineage2/gacha/i_75801_ur.png)  no-repeat center top; background-size: 30px;">{parseInt((user.acce1+'').substring(1))+1}</td>
@@ -7411,7 +7407,7 @@
 						var userboss = $('#registerform').find('select[name=userboss] option:selected').val();
 
 						var usersubjob = $('#registerform').find('select[name=usersubjob] option:selected').val();
-						var usersubjob3d = $('#registerform').find('select[name=usersubjob3d] option:selected').val();
+						var usersubjob3d = 1;
 						var usersubcp = $('#registerform').find('input[name=usersubcp]').val();
 						if ('デュアルクラス' === usersubjob) {
 							usersubjob = null;
