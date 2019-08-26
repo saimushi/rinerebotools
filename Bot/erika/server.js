@@ -1088,6 +1088,34 @@ bot.on('messageCreate', (msg) => {
         msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **アリスシリーズの特性Lv' + toLv + '** で登録するわね。\n');
       }
     }
+    if (-1 < buki.indexOf('おもちゃ')) {
+      var toLv = parseInt(buki.replace('玩具', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '玩具' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **おもちゃシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('オモチャ')) {
+      var toLv = parseInt(buki.replace('オモチャ', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '玩具' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **おもちゃシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('屋台')) {
+      var toLv = parseInt(buki.replace('屋台', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '屋台' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **屋台シリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    if (-1 < buki.indexOf('おでん')) {
+      var toLv = parseInt(buki.replace('おでん', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = '屋台' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **屋台シリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
     console.log('武器コスID=' + newSelection);
     if (true != ('string' == typeof newSelection && 0 < newSelection.length)) {
       msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つからなかったわ・・・\n「武器コス 海賊5」みたいな指定をしてみて！5の部分は特性レベルを入れるのよ！\n');
@@ -1582,9 +1610,9 @@ bot.on('messageCreate', (msg) => {
   }
   else if (mode == 1 && true == (-1 < msg.content.indexOf('AF') || -1 < msg.content.indexOf('アーティファクト'))) {
     if (-1 < msg.content.indexOf('計算') || -1 < msg.content.indexOf('最適') || -1 < msg.content.indexOf('教えて') || -1 < msg.content.indexOf('知りたい')) {
-      msg.channel.createMessage('フレヤサーバーの @KK1116 さん、 @Lsama さんが **アーティファクト計算ツール** を作って公開してくれているわ！\n'
-      + 'それを活用するのがベストよ！\nhttps://t.co/gBKX2KnG0P\n\n'
-      + '**【使い方(PC)】**\nリンクを開いた後に「ファイル」 => 「コピーを作成」とやって自分専用のシートにコピーして使うのよ！\n決して作者さんに権限追加依頼を出さないように注意してね。\n\nhttps://twitter.com/KK11161/status/1132613198182436864 \n\n'
+      msg.channel.createMessage('フレヤサーバーの @Lsama さん、@KK1116 さんが **アーティファクト計算ツール** を作って公開してくれているわ！\n'
+      + 'それを活用するのがベストよ！\n\n【CP計算特化デュアルデッキ対応版】 https://t.co/QCWX8rnHs4\n【経験値基準計算特化デュアルデッキ対応版】 https://t.co/GmT2qViZxV\n\n'
+      + '**【使い方(PC)】**\nリンクを開いた後に「ファイル」 => 「コピーを作成」とやって自分専用のシートにコピーして使うのよ！\n決して作者さんに権限追加依頼を出さないように注意してね。\n\nhttps://twitter.com/lsama1005/status/1165797365929766912?s=20 \n\n'
       + '**【使い方(スマホ)】**\nスマホの場合は「Googleスプレッドシート」アプリ( https://www.google.com/intl/ja_jp/sheets/about/ )\nをインストールしてからリンクを開くとアプリが起動するわ。\nメニューから「共有とエクスポート」 => 「コピーの作成」ってやるとPCと同じ事が出来るわ！\n\n'
       + '**【スマホ版シートの開き方説明動画】**\nhttps://youtu.be/xKo-PGzjALI\n*※提供のねーこちゃんありがとう♥*'
       /*+ 'アプリを入れずにどうしても直ぐに試してみたい場合は作者が用意してるコチラのリンク\nhttps://docs.google.com/spreadsheets/d/1cBqk4uM34QEhBOiqw1X2XTlh9VxnDejenYu4dKh902c/edit?usp=sharing\nを使ってみて！\n他の人が編集している場合があるし、後から他の人に見られたりするからくれぐれも注意して使ってね。\n\n'*/
