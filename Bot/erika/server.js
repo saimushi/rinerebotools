@@ -1,5 +1,6 @@
 
 require('date-utils');
+const request = require('request-promise');
 const crypto = require('crypto');
 const shasum = crypto.createHash('sha1');
 
@@ -527,7 +528,7 @@ var infojob = function (testClanID) {
       if (0 < datas7.length) {
         console.log("tweet scraip");
         var targettwitter = 'https://twitter.com/BlackDesertM_JP';
-        var tweetpage = 1;
+        var tweetpage = 2;
         if (mode == 1) {
           targettwitter = 'https://twitter.com/Line2Revo';
           tweetpage = 2;
@@ -599,6 +600,49 @@ var infojob = function (testClanID) {
   return;
 };
 
+var afSheetGasURL = 'https://script.google.com/macros/s/AKfycby_7mexXV_W4DUjIm3FCo-1tPH3m-QjKeIRGx0khrcE4mDHnhc/exec';
+var responsAF = function (msg, body) {
+  msg.channel.createMessage('<@' + msg.author.id + '> 計算できたわ！確認してちょうだい♥');
+  var AFResults = body;
+  if ('string' == typeof AFResults) {
+    AFResults = JSON.parse(body);
+  }
+  if (0 < AFResults.AFList.length) {
+    var AFList = '';
+    var currentSerise = '';
+    console.log(AFResults.AFList);
+    msg.channel.createMessage('AF一覧\n');
+    for (var afidx=0; afidx < AFResults.AFList.length; afidx++) {
+      if (null != AFResults.AFList[afidx]) {
+        if (currentSerise == '') {
+          currentSerise = AFResults.AFList[afidx].series;
+        }
+        else if (currentSerise != AFResults.AFList[afidx].series) {
+          currentSerise = AFResults.AFList[afidx].series;
+          msg.channel.createMessage(AFList);
+          AFList = '';
+        }
+        AFList += '[' + AFResults.AFList[afidx].series + '] ' + AFResults.AFList[afidx].name + ' ' + AFResults.AFList[afidx].value + '\n';
+      }
+    }
+    if (0 < AFList.length) {
+      msg.channel.createMessage(AFList);
+    }
+  }
+  msg.channel.createMessage('<@' + msg.author.id + '>\n'
+    + 'メインデッキ: **'+ AFResults.MainDeck + '**\n'
+    + 'メインサブデッキ: **'+ AFResults.MainSubDeck + '**\n'
+    + 'デュアルデッキ: **'+ AFResults.DualDeck + '**\n'
+    + 'デュアルサブデッキ: **'+ AFResults.DualSubDeck + '**\n'
+    + '**合計CP '+ parseInt(AFResults.TotalCP).toLocaleString() + '**\n'
+    + 'AFシート '+ AFResults.sheetURL + '\n\n'
+    + 'オフセットワーニングメッセージ '+ AFResults.Warrning + '\n\n'
+    + 'AFの情報を更新したい場合は「AF登録」って書いて改行を入れた後に「AF一覧」の中から更新したいAFを選んでコピーして、限凸レベルを0〜6(数値の前にスペースを忘れずにお願いね！)までの数字で入力してくれればそのデータで再計算を行うわ。\n'
+    + 'AFの更新は複数行を同時に送っても大丈夫よ！\n'
+    + '他にも「サブスロット数 数値」「デュアルスロット数 数値」「パーティーバフ優先」「メイン優先」「デュアル優先」「オフセット 数値」が指定出来るから計算に利用してみて。\n'
+  );
+};
+
 bot.on('ready', () => {
   console.log('Eris Bot is Online.');
   var dt = new Date();
@@ -639,6 +683,60 @@ bot.on('messageCreate', (msg) => {
       firestore.collection("notify").doc(now.toFormat("YYYY-MM-DD HH24:MI:SS")).set({message: message, notified: false, registerd: now}).then(function(snapshot) {
         msg.channel.createMessage('<@' + msg.author.id + '> お知らせを追加しました。');
       });
+      return;
+    }
+    else if (mode == 1 && true == (-1 < msg.content.indexOf('AF') || -1 < msg.content.indexOf('アーティファクト')) && true == (-1 < msg.content.indexOf('登録\n') || -1 < msg.content.indexOf('登録 '))) {
+      // AFの登録は特別
+      var afs = msg.content.split('\n');
+      console.log('afs=');
+      console.log(afs);
+      var _name = afs[0].split(' ');
+      var json = { name : msg.author.id + '-' + msg.author.username, af: {} };
+      if ('string' == typeof _name[1] && 1 < _name[1].length) {
+        json.name = msg.author.id + '-' + _name[1].trim();
+      }
+      for (var aidx=1; aidx < afs.length; aidx++) {
+        var _afs = afs[aidx].split(' ');
+        console.log('_afs=');
+        console.log(_afs);
+        if ('パーティーバフ優先' == _afs[0]) {
+          json.partybuffplayolity = 1;
+        }
+        if ('メイン優先' == _afs[0]) {
+          json.deckplayolity = 'main';
+        }
+        else if ('デュアル優先' == _afs[0]) {
+          json.deckplayolity = 'dual';
+        }
+        if ('サブスロット数' == _afs[0] || 'サブスロット' == _afs[0]) {
+          json.subslot = _afs[1];
+        }
+        if ('デュアルスロット数' == _afs[0] || 'デュアルスロット' == _afs[0]) {
+          json.dualslot = _afs[1];
+        }
+        else if ('オフセット' == _afs[0]) {
+          json.offcet = _afs[1];
+        }
+        else if (_afs[1]) {
+          json.af[_afs[1]] = _afs[2];
+        }
+      }
+      console.log(json);
+      msg.channel.createMessage('アーティファクトを再登録して計算し直すわ！\n'
+      + 'ちょっと時間が掛かるからしばらく待っててちょうだい・・・！\n');
+      var options = {
+        uri: afSheetGasURL,
+        method: 'POST',
+        json: json,
+        followAllRedirects: true,
+      };
+      request(options).then(function (body) {
+        responsAF(msg, body);
+      })/*
+      .catch(function (error) {
+        console.error("Error: ", error);
+        msg.channel.createMessage(strings.systemErrorMessageTail + '\n');
+      })*/;
       return;
     }
     else {
@@ -1089,7 +1187,7 @@ bot.on('messageCreate', (msg) => {
       }
     }
     if (-1 < buki.indexOf('おもちゃ')) {
-      var toLv = parseInt(buki.replace('玩具', '').trim());
+      var toLv = parseInt(buki.replace('おもちゃ', '').trim());
       if (0 < toLv && 10 >= toLv) {
         newSelection = '玩具' + toLv;
         msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **おもちゃシリーズの特性Lv' + toLv + '** で登録するわね。\n');
@@ -1289,6 +1387,51 @@ bot.on('messageCreate', (msg) => {
         newSelection = toLv;
         msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **竜特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
         subcmd = 9;
+      }
+    }
+    if (-1 < tokusei.indexOf('人特性')) {
+      var toLv = parseInt(tokusei.replace('人特性', '').trim());
+      tokusei = '';
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **人型特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 16;
+      }
+    }
+    if (-1 < tokusei.indexOf('人型特性')) {
+      var toLv = parseInt(tokusei.replace('人型特性', '').trim());
+      tokusei = '';
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **人型特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 16;
+      }
+    }
+    if (-1 < tokusei.indexOf('人間特性')) {
+      var toLv = parseInt(tokusei.replace('人間特性', '').trim());
+      tokusei = '';
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **人型特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 16;
+      }
+    }
+    if (-1 < tokusei.indexOf('人型')) {
+      var toLv = parseInt(tokusei.replace('人型', '').trim());
+      tokusei = '';
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **人型特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 16;
+      }
+    }
+    if (-1 < tokusei.indexOf('人間')) {
+      var toLv = parseInt(tokusei.replace('人間', '').trim());
+      tokusei = '';
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **人型特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 16;
       }
     }
     if (-1 < tokusei.indexOf('スイート')) {
@@ -1610,13 +1753,33 @@ bot.on('messageCreate', (msg) => {
   }
   else if (mode == 1 && true == (-1 < msg.content.indexOf('AF') || -1 < msg.content.indexOf('アーティファクト'))) {
     if (-1 < msg.content.indexOf('計算') || -1 < msg.content.indexOf('最適') || -1 < msg.content.indexOf('教えて') || -1 < msg.content.indexOf('知りたい')) {
-      msg.channel.createMessage('フレヤサーバーの @Lsama さん、@KK1116 さんが **アーティファクト計算ツール** を作って公開してくれているわ！\n'
-      + 'それを活用するのがベストよ！\n\n【CP計算特化デュアルデッキ対応版】 https://t.co/QCWX8rnHs4\n【経験値基準計算特化デュアルデッキ対応版】 https://t.co/GmT2qViZxV\n\n'
-      + '**【使い方(PC)】**\nリンクを開いた後に「ファイル」 => 「コピーを作成」とやって自分専用のシートにコピーして使うのよ！\n決して作者さんに権限追加依頼を出さないように注意してね。\n\nhttps://twitter.com/lsama1005/status/1165797365929766912?s=20 \n\n'
-      + '**【使い方(スマホ)】**\nスマホの場合は「Googleスプレッドシート」アプリ( https://www.google.com/intl/ja_jp/sheets/about/ )\nをインストールしてからリンクを開くとアプリが起動するわ。\nメニューから「共有とエクスポート」 => 「コピーの作成」ってやるとPCと同じ事が出来るわ！\n\n'
-      + '**【スマホ版シートの開き方説明動画】**\nhttps://youtu.be/xKo-PGzjALI\n*※提供のねーこちゃんありがとう♥*'
-      /*+ 'アプリを入れずにどうしても直ぐに試してみたい場合は作者が用意してるコチラのリンク\nhttps://docs.google.com/spreadsheets/d/1cBqk4uM34QEhBOiqw1X2XTlh9VxnDejenYu4dKh902c/edit?usp=sharing\nを使ってみて！\n他の人が編集している場合があるし、後から他の人に見られたりするからくれぐれも注意して使ってね。\n\n'*/
-      );
+      if (0 > msg.content.indexOf('めんどい')) {
+        msg.channel.createMessage('フレヤサーバーの @Lsama さん、@KK1116 さんが **アーティファクト計算ツール** を作って公開してくれているわ！\n'
+        + 'それを活用するのがベストよ！\n\n【CP計算特化デュアルデッキ対応版】 https://t.co/GeA3kfPYvt\n【経験値基準計算特化デュアルデッキ対応版】 https://t.co/yjKeY7LtQx\n\n'
+        + '**【使い方(PC)】**\nリンクを開いた後に「ファイル」 => 「コピーを作成」とやって自分専用のシートにコピーして使うのよ！\n決して作者さんに権限追加依頼を出さないように注意してね。\n\nhttps://twitter.com/lsama1005/status/1167258456912318464?s=20 \n\n'
+        + '**【使い方(スマホ)】**\nスマホの場合は「Googleスプレッドシート」アプリ( https://www.google.com/intl/ja_jp/sheets/about/ )\nをインストールしてからリンクを開くとアプリが起動するわ。\nメニューから「共有とエクスポート」 => 「コピーの作成」ってやるとPCと同じ事が出来るわ！\n\n'
+        + '**【スマホ版シートの開き方説明動画】**\nhttps://youtu.be/xKo-PGzjALI\n*※提供のねーこちゃんありがとう♥*'
+        );
+      }
+      else {
+        // AFの計算をめんどうくさがった時の処理
+        msg.channel.createMessage('フレヤサーバーの @Lsama さん、@KK1116 さんが **アーティファクト計算ツール** を作って公開してくれているわ！\n'
+        + '\n\n【CP計算特化デュアルデッキ対応版】 https://t.co/GeA3kfPYvt\n【経験値基準計算特化デュアルデッキ対応版】 https://t.co/yjKeY7LtQx\n\n');
+        msg.channel.createMessage('コレを使って私が代わりに計算してあげるわ！\n'
+        + 'ちょっと時間が掛かるからしばらく待っててちょうだい・・・！\n'
+        );
+        var options = {
+          uri: afSheetGasURL + '?name=' + encodeURIComponent(msg.author.id +'-'+ msg.author.username),
+          method: 'GET',
+        };
+        request(options).then(function (body) {
+          responsAF(msg, body);
+        })
+        .catch(function (error) {
+          console.error("Error: ", error);
+          msg.channel.createMessage(strings.systemErrorMessageTail + '\n');
+        });
+      }
       return;
     }
   }
@@ -1900,6 +2063,9 @@ bot.on('messageCreate', (msg) => {
                         }
                         if (15 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                           targetUser.subcp = newSelection;
+                        }
+                        if (16 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                          targetUser.humanoid = newSelection;
                         }
                       }
                       return;

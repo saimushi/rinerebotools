@@ -17,6 +17,13 @@
 今後共血盟管理ツールをよろしくお願い致しますm(　)m
 
 
+ギルド管理ツールは無料のツールですが寄付も募集しております！＞＜
+寄付すると広告枠がなんと非表示に！
+更に作戦書が無限に作成可能になります！！
+寄付はコチラからm(　)m => https://kurosaba.fun/#donation
+今後共ギルド管理ツールをよろしくお願い致しますm(　)m
+
+
 ギルド管理ツール導入手順「 http://kurosaba-tool-guide.strikingly.com/ 」
 #黒い砂漠
 #黒い砂漠モバイル
@@ -59,6 +66,13 @@ NDk2MjAzNTk3MTk4MTMxMjAx.DpNN6A.Fu9aH3x9siWDzTfBvUE9lIBJMvk
 
 https://discordapp.com/oauth2/authorize?client_id=496203597198131201&scope=bot&permissions=131072
 https://glitch.com/edit/#!/erikasama?path=server.js:862:83
+
+
+## エリゼベート様
+
+https://discordapp.com/oauth2/authorize?client_id=500252623493005312&scope=bot&permissions=131072
+https://glitch.com/edit/#!/elisabethsama?path=server.js:862:83
+
 
 ## cron
 
