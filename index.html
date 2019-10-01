@@ -4317,9 +4317,9 @@
 								_user.sweet = (cols[18].trim() == '')? null: parseInt(cols[18].trim());
 								_user.mamono = (cols[19].trim() == '')? null: parseInt(cols[19].trim());
 								_user.dragon = (cols[20].trim() == '')? null: parseInt(cols[20].trim());
-								_user.humanoid = (cols[20].trim() == '')? null: parseInt(cols[20].trim());
-								_user.boss = (cols[21].trim() == '')? null: parseInt(cols[21].trim());
-								_user.activity = cols[22].trim();
+								_user.humanoid = (cols[21].trim() == '')? null: parseInt(cols[21].trim());
+								_user.boss = (cols[22].trim() == '')? null: parseInt(cols[22].trim());
+								_user.activity = cols[23].trim();
 								if (_user.activity == 'アクティブ') {
 									_user.activity = 1;
 								}
@@ -4332,13 +4332,13 @@
 								else if (_user.activity == '除名') {
 									_user.activity = -9;
 								}
-								var _joind = cols[23].trim().replace(' ', '/').split('/');
+								var _joind = cols[24].trim().replace(' ', '/').split('/');
 								_user.joind = (('0000' + _joind[0]).slice(-4)) + '/' + (('00' + _joind[1]).slice(-2)) + '/' + (('00' + _joind[2]).slice(-2));
-								var _modified = (cols[24].trim() == '')? null: cols[24].trim().replace(' ', '/').split('/');
+								var _modified = (cols[25].trim() == '')? null: cols[25].trim().replace(' ', '/').split('/');
 								if (null != _modified) {
 									_user.modified = (('0000' + _modified[0]).slice(-4)) + '/' + (('00' + _modified[1]).slice(-2)) + '/' + (('00' + _modified[2]).slice(-2));
 								}
-								_user.memo = cols[25].replace(/""/, '"').trim();
+								_user.memo = cols[26].replace(/""/, '"').trim();
 								_users.push(_user);
 							}
 							console.log('usser=');
@@ -5974,9 +5974,7 @@
 				jobs['スレイヤー'] = 'ウォースレイヤー';
 				jobs['スカベンジャー'] = 'バウンティハンター';
 				jobs['ウォーレンジャー'] = 'ウォースミス';
-				jobs['クォーラルウィザード'] = 'エルドリッチウィザード';
 				jobs['クォーラルウィザード'] = 'エルドリッヂウィザード';
-				jobs['クォーラルウィザード'] = 'エルドリッジウィザード';
 				jobs['セイジ'] = 'マスターセイジ';
 				jobs['オークレイダー'] = 'デストロイヤー';
 				jobs['オークモンク'] = 'タイラント';
@@ -6065,6 +6063,8 @@
 				rejobs['バウンティハンター'] = 'スカベンジャー';
 				rejobs['ウォースミス'] = 'ウォーレンジャー';
 				rejobs['エルドリッヂウィザード'] = 'クォーラルウィザード';
+				rejobs['エルドリッジウィザード'] = 'クォーラルウィザード';
+				rejobs['エルドリッチウィザード'] = 'クォーラルウィザード';
 				rejobs['マスターセイジ'] = 'セイジ';
 				rejobs['デストロイヤー'] = 'オークレイダー';
 				rejobs['タイラント'] = 'オークモンク';
