@@ -643,6 +643,226 @@ var responsAF = function (msg, body) {
   );
 };
 
+var getDiscordDayLabel = function (nowDay) {
+  var nowDay1 = nowDay.slice(0,1);
+  var nowDay2 = nowDay.slice(1,2);
+  if (nowDay1 == '0') {
+    nowDay1 = ':zero:';
+  }
+  else if (nowDay1 == '1') {
+    nowDay1 = ':one:';
+  }
+  else if (nowDay1 == '2') {
+    nowDay1 = ':two:';
+  }
+  else if (nowDay1 == '3') {
+    nowDay1 = ':three:';
+  }
+  if (nowDay2 == '0') {
+    nowDay2 = ':zero:';
+  }
+  else if (nowDay2 == '1') {
+    nowDay2 = ':one:';
+  }
+  else if (nowDay2 == '2') {
+    nowDay2 = ':two:';
+  }
+  else if (nowDay2 == '3') {
+    nowDay2 = ':three:';
+  }
+  else if (nowDay2 == '4') {
+    nowDay2 = ':four:';
+  }
+  else if (nowDay2 == '5') {
+    nowDay2 = ':five:';
+  }
+  else if (nowDay2 == '6') {
+    nowDay2 = ':six:';
+  }
+  else if (nowDay2 == '7') {
+    nowDay2 = ':seven:';
+  }
+  else if (nowDay2 == '8') {
+    nowDay2 = ':eight:';
+  }
+  else if (nowDay2 == '9') {
+    nowDay2 = ':nine:';
+  }
+  return nowDay1 + nowDay2;
+};
+
+var _infoCalendar = function (msg, events, schedules, targetClan, calendars) {
+  var nowDate = new Date();
+  var nowYear = parseInt(nowDate.toFormat('YYYY'));
+  var nowMonth = nowDate.toFormat('MM');
+  var nextMonth = parseInt(nowMonth) + 1;
+  if (12 < nextMonth) {
+    nextMonth = 1;
+  }
+  if (10 > nextMonth) {
+    nextMonth = '0' + nextMonth;
+  }
+  if (null == events) {
+    firestore.collection("events").where('date', '>=', new Date(nowYear+'-'+nowMonth+'-01 00:00:00')).where('date', '<', new Date(nowYear+'-'+nextMonth+'-01 00:00:00')).get().then(function(querySnapshot) {
+      calendars = {};
+      calendars[getDiscordDayLabel('01')] = null;
+      calendars[getDiscordDayLabel('02')] = null;
+      calendars[getDiscordDayLabel('03')] = null;
+      calendars[getDiscordDayLabel('04')] = null;
+      calendars[getDiscordDayLabel('05')] = null;
+      calendars[getDiscordDayLabel('06')] = null;
+      calendars[getDiscordDayLabel('07')] = null;
+      calendars[getDiscordDayLabel('08')] = null;
+      calendars[getDiscordDayLabel('09')] = null;
+      calendars[getDiscordDayLabel('10')] = null;
+      calendars[getDiscordDayLabel('11')] = null;
+      calendars[getDiscordDayLabel('12')] = null;
+      calendars[getDiscordDayLabel('13')] = null;
+      calendars[getDiscordDayLabel('14')] = null;
+      calendars[getDiscordDayLabel('15')] = null;
+      calendars[getDiscordDayLabel('16')] = null;
+      calendars[getDiscordDayLabel('17')] = null;
+      calendars[getDiscordDayLabel('18')] = null;
+      calendars[getDiscordDayLabel('19')] = null;
+      calendars[getDiscordDayLabel('20')] = null;
+      calendars[getDiscordDayLabel('21')] = null;
+      calendars[getDiscordDayLabel('22')] = null;
+      calendars[getDiscordDayLabel('23')] = null;
+      calendars[getDiscordDayLabel('24')] = null;
+      calendars[getDiscordDayLabel('25')] = null;
+      calendars[getDiscordDayLabel('26')] = null;
+      calendars[getDiscordDayLabel('27')] = null;
+      calendars[getDiscordDayLabel('28')] = null;
+      calendars[getDiscordDayLabel('29')] = null;
+      calendars[getDiscordDayLabel('30')] = null;
+      calendars[getDiscordDayLabel('31')] = null;
+      events = [];
+      querySnapshot.forEach(function(snapshot) {
+        if(snapshot.exists) {
+          var event = snapshot.data();
+          if ('undefined' != typeof event.date) {
+            event.date = event.date.toDate();
+            event.dateLabel = getDiscordDayLabel(event.date.toFormat('DD'));
+          }
+          event.label = '🌏 ' + event.label;
+          events.push(event);
+          if (null == calendars[event.dateLabel]) {
+            calendars[event.dateLabel] = [];
+          }
+          calendars[event.dateLabel].push(event);
+        }
+      });
+      console.log(events);
+      // 再起処理
+      return _infoCalendar(msg, events, schedules, targetClan, calendars);
+    })
+    .catch(function(error) {
+      console.error("Error read event: ", error);
+      msg.channel.createMessage('イベントの検索に失敗しました。');
+    });
+    return;
+  }
+
+  if (null == schedules) {
+    console.log(targetClan);
+    firestore.collection("schedules").where('clanid', '==', targetClan.ID).where('date', '>=', new Date(nowYear+'-'+nowMonth+'-01 00:00:00')).where('date', '<', new Date(nowYear+'-'+nextMonth+'-01 00:00:00')).get().then(function(querySnapshot) {
+      console.log('is??');
+      schedules = [];
+      querySnapshot.forEach(function(snapshot) {
+        if(snapshot.exists) {
+          var schedule = snapshot.data();
+          schedule.label = schedule.name;
+          if ('undefined' != typeof schedule.date) {
+            schedule.date = schedule.date.toDate();
+            schedule.dateLabel = getDiscordDayLabel(schedule.date.toFormat('DD'));
+            schedule.label = '🏠 ' + schedule.date.toFormat('HH24時MI') + '〜 ' + schedule.label;
+          }
+          schedule.url = 'https://' + strings.domain + '/?clanid=' + targetClan.ID + '&scheduleid=' + snapshot.id + '&view=on#detailschedule';
+          schedules.push(schedule);
+          if (null == calendars[schedule.dateLabel]) {
+            calendars[schedule.dateLabel] = [];
+          }
+          calendars[schedule.dateLabel].push(schedule);
+        }
+      });
+      console.log(schedules);
+      // 再起処理
+      _infoCalendar(msg, events, schedules, targetClan, calendars);
+    })
+    .catch(function(error) {
+      console.error("Error read schedule: ", error);
+      msg.channel.createMessage('スケジュールの検索に失敗しました。');
+    });
+    return;
+  }
+
+  var nowDayLabel = getDiscordDayLabel(nowDate.toFormat('DD'));
+  var fieldtmp = '';
+  var valtmp = '';
+  var valtmpExec = false;
+  var embed = { fields: [] };
+  var currentDate = null;
+  console.log(calendars);
+  var calendarkeys = Object.keys(calendars);
+  console.log(calendarkeys);
+  for (var cidx = 0; cidx < calendarkeys.length; cidx++) {
+    valtmp = '';
+    if (calendars[calendarkeys[cidx]]) {
+      var dayLabel = '';
+      var day = calendars[calendarkeys[cidx]][0].date.toFormat('DDD');
+      if (day == 'Sun') {
+        dayLabel = '日';
+      }
+      else if (day == 'Mon') {
+        dayLabel = '月';
+      }
+      else if (day == 'Tue') {
+        dayLabel = '火';
+      }
+      else if (day == 'Wed') {
+        dayLabel = '水';
+      }
+      else if (day == 'Thu') {
+        dayLabel = '木';
+      }
+      else if (day == 'Fri') {
+        dayLabel = '金';
+      }
+      else if (day == 'Sat') {
+        dayLabel = '土';
+      }
+      fieldtmp = calendarkeys[cidx] + '日 【' + dayLabel + '】';
+      if (calendarkeys[cidx] == nowDayLabel) {
+        fieldtmp = fieldtmp + ' **本日**';
+      }
+      for (var eidx = 0; eidx < calendars[calendarkeys[cidx]].length; eidx++) {
+        if (1024 < valtmp.length + ('[' + calendars[calendarkeys[cidx]][eidx].label + '](' + calendars[calendarkeys[cidx]][eidx].url + ')').length) {
+          embed.fields.push({name:fieldtmp, value: valtmp});
+          valtmp = '';
+          fieldtmp = '.';
+        }
+        valtmp = valtmp + '[' + calendars[calendarkeys[cidx]][eidx].label + '](' + calendars[calendarkeys[cidx]][eidx].url + ')';
+        /*if (calendars[calendarkeys[cidx]][eidx].tag) {
+          valtmp = valtmp + ' [' + calendars[calendarkeys[cidx]][eidx].tag + '](' + calendars[calendarkeys[cidx]][eidx].tag + ')';
+        }*/
+        valtmp = valtmp + '\n';
+      }
+      embed.fields.push({name:fieldtmp, value: valtmp});
+    }
+  }
+
+  if (0 == embed.fields.length) {
+    msg.channel.createMessage('今の所何も予定は無いわね。');
+  }
+  else {
+    console.log(embed);
+    embed.title = '今月の予定';
+    msg.channel.createMessage({ embed: embed });
+  }
+  return;
+};
+
+
 bot.on('ready', () => {
   console.log('Eris Bot is Online.');
   var dt = new Date();
@@ -682,6 +902,21 @@ bot.on('messageCreate', (msg) => {
       var now = new Date();
       firestore.collection("notify").doc(now.toFormat("YYYY-MM-DD HH24:MI:SS")).set({message: message, notified: false, registerd: now}).then(function(snapshot) {
         msg.channel.createMessage('<@' + msg.author.id + '> お知らせを追加しました。');
+      });
+      return;
+    }
+    else if ('サンフレ#9241' == msg.author.username + '#' + msg.author.discriminator && -1 < msg.content.indexOf('イベント追加\n')) {
+      var message = msg.content.replace('イベント追加\n', '');
+      var messages = message.split(' ');
+      var label1 = messages[0];
+      var label2 = messages[1];
+      var url = messages[2];
+      var date = messages[3];
+      var time = messages[4];
+      console.log('イベント追加');
+      console.log(msg.content);
+      firestore.collection("events").add({label: label1 + ' ' + label2, url: url, date: new Date(date + ' ' + time)}).then(function(snapshot) {
+        msg.channel.createMessage('<@' + msg.author.id + '> イベントを追加しました。');
       });
       return;
     }
@@ -1755,7 +1990,7 @@ bot.on('messageCreate', (msg) => {
     if (-1 < msg.content.indexOf('計算') || -1 < msg.content.indexOf('最適') || -1 < msg.content.indexOf('教えて') || -1 < msg.content.indexOf('知りたい')) {
       if (0 > msg.content.indexOf('めんどい')) {
         msg.channel.createMessage('フレヤサーバーの @Lsama さんが **アーティファクト計算ツール** を作って公開してくれているわ！\n'
-        + 'それを活用するのがベストよ！\n\n【リネあふ for Web】 l2rartifact.com\n\n'
+        + 'それを活用するのがベストよ！\n\n【リネあふ for Web】 https://l2rartifact.com\n\n'
         + 'ブラウザから会員登録をしてアーティファクトのデータを入力したら「計算」って押すだけになってるわ！\n簡単だから試してみて！'
         );
       }
@@ -1785,6 +2020,9 @@ bot.on('messageCreate', (msg) => {
     cmd = 8;
     var newTopicID = msg.content;
     msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[15] + '\n');
+  }
+  else if (0 == msg.content.indexOf('予定みたい') || 0 == msg.content.indexOf('予定知りたい') || 0 == msg.content.indexOf('予定教えて') || 0 == msg.content.indexOf('カレンダーみたい') || 0 == msg.content.indexOf('カレンダーみせて')) {
+    cmd = 11;
   }
   else if (mode == 1 && -1 < msg.content.indexOf('エリカ様今日悲しいことあった')) {
     if ('エリカ様の血盟管理お手伝い' == strings.botname) {
@@ -1979,13 +2217,16 @@ bot.on('messageCreate', (msg) => {
         console.log(snapshot.exists);
         if(snapshot.exists) {
           var clan = snapshot.data();
+          clan.ID = snapshot.id;
           console.log('clan=');
           console.log(clan);
           // 血盟名が取れていればOK
           if ('undefined' != typeof clan.name && 0 < clan.name.length) {
             console.log('clan exists!');
-            msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[19] + '\n***' + clan.name + '*** ' + strings.botMessageTails[20] + '\n');
-            if (1 == cmd || 4 == cmd || 5 == cmd || 8 == cmd || 9 == cmd) {
+            if (11 != cmd) {
+              msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[19] + '\n***' + clan.name + '*** ' + strings.botMessageTails[20] + '\n');
+            }
+            if (1 == cmd || 4 == cmd || 5 == cmd || 8 == cmd || 9 == cmd || 11 == cmd) {
               // 血盟員の一覧を取得し、更新対象を特定する
               firestore.collection("users").where('clanid', '==', clanID).where('activity', '>', -9).get().then(function(querySnapshot) {
                 var targetUserID = null;
@@ -2004,7 +2245,9 @@ bot.on('messageCreate', (msg) => {
                     }
                     else if (-1 < user.name.indexOf(who) || true === ('undefined' != typeof user.discord && -1 < user.discord.indexOf(who + '#'))) {
                       console.log('user exists!');
-                      msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[21] + '\n***' + user.name + '*** ' + strings.botMessageTails[20] + '\n');
+                      if (11 != cmd) {
+                        msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[21] + '\n***' + user.name + '*** ' + strings.botMessageTails[20] + '\n');
+                      }
                       targetUser = user;
                       // CP更新
                       targetUserID = snapshot.id;
@@ -2202,6 +2445,9 @@ bot.on('messageCreate', (msg) => {
                     return;
                   });
                   return;
+                }
+                else if (11 == cmd) {
+                  return _infoCalendar(msg, null, null, clan);
                 }
                 else if (4 == cmd || 5 == cmd || 9 == cmd) {
                   if (null === scheduleID) {
@@ -2551,7 +2797,7 @@ bot.on('messageCreate', (msg) => {
         }
         msg.channel.createMessage(strings.botMessageTails[45]);
         return;
-    }).catch(function(error) {
+      }).catch(function(error) {
         console.error("Error read clan: ", error);
         msg.channel.createMessage(strings.botMessageTails[45]);
       });

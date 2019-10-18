@@ -652,6 +652,9 @@
 									this.totalcp = totalcp;
 									this.prelrtcp = prelrtcp;
 									for (var uidx=0; uidx < users.length; uidx++) {
+										if (mode == 2 && true == (0 >= parseInt(users[uidx].job3d) || isNaN(parseInt(users[uidx].job3d)))) {
+											users[uidx].job3d = 0;
+										}
 										if (users[uidx].activity > 0) {
 											this.totalcp += parseInt(users[uidx].cp);
 											if (30 > this.usercnt) {
@@ -976,6 +979,8 @@
 									<option value="0">未覚醒・未継承</option>
 									<option if={user.job3d=='1'} value="1" selected="selected">覚醒</option>
 									<option if={user.job3d!='1'} value="1">覚醒</option>
+									<option if={user.job3d=='2'} value="2" selected="selected">継承</option>
+									<option if={user.job3d!='2'} value="2">継承</option>
 								</select>
 							</div>
 							<div class="form-group">
@@ -1676,6 +1681,28 @@
 										<option if={user.bukicos!='屋台2'} value="屋台2">屋台 特性Lv2</option>
 										<option if={user.bukicos!='屋台1'} value="屋台1">屋台 特性Lv1</option>
 									</optgroup>
+									<optgroup label="ホラーナイト">
+										<option if={user.bukicos=='ﾎﾗｰ10'} value="ﾎﾗｰ10" selected="selected">ホラーナイト 特性Lv10</option>
+										<option if={user.bukicos=='ﾎﾗｰ9'} value="ﾎﾗｰ9" selected="selected">ホラーナイト 特性Lv9</option>
+										<option if={user.bukicos=='ﾎﾗｰ8'} value="ﾎﾗｰ8" selected="selected">ホラーナイト 特性Lv8</option>
+										<option if={user.bukicos=='ﾎﾗｰ7'} value="ﾎﾗｰ7" selected="selected">ホラーナイト 特性Lv7</option>
+										<option if={user.bukicos=='ﾎﾗｰ6'} value="ﾎﾗｰ6" selected="selected">ホラーナイト 特性Lv6</option>
+										<option if={user.bukicos=='ﾎﾗｰ5'} value="ﾎﾗｰ5" selected="selected">ホラーナイト 特性Lv5</option>
+										<option if={user.bukicos=='ﾎﾗｰ4'} value="ﾎﾗｰ4" selected="selected">ホラーナイト 特性Lv4</option>
+										<option if={user.bukicos=='ﾎﾗｰ3'} value="ﾎﾗｰ3" selected="selected">ホラーナイト 特性Lv3</option>
+										<option if={user.bukicos=='ﾎﾗｰ2'} value="ﾎﾗｰ2" selected="selected">ホラーナイト 特性Lv2</option>
+										<option if={user.bukicos=='ﾎﾗｰ1'} value="ﾎﾗｰ1" selected="selected">ホラーナイト 特性Lv1</option>
+										<option if={user.bukicos!='ﾎﾗｰ10'} value="ﾎﾗｰ10">ホラーナイト 特性Lv10</option>
+										<option if={user.bukicos!='ﾎﾗｰ9'} value="ﾎﾗｰ9">ホラーナイト 特性Lv9</option>
+										<option if={user.bukicos!='ﾎﾗｰ8'} value="ﾎﾗｰ8">ホラーナイト 特性Lv8</option>
+										<option if={user.bukicos!='ﾎﾗｰ7'} value="ﾎﾗｰ7">ホラーナイト 特性Lv7</option>
+										<option if={user.bukicos!='ﾎﾗｰ6'} value="ﾎﾗｰ6">ホラーナイト 特性Lv6</option>
+										<option if={user.bukicos!='ﾎﾗｰ5'} value="ﾎﾗｰ5">ホラーナイト 特性Lv5</option>
+										<option if={user.bukicos!='ﾎﾗｰ4'} value="ﾎﾗｰ4">ホラーナイト 特性Lv4</option>
+										<option if={user.bukicos!='ﾎﾗｰ3'} value="ﾎﾗｰ3">ホラーナイト 特性Lv3</option>
+										<option if={user.bukicos!='ﾎﾗｰ2'} value="ﾎﾗｰ2">ホラーナイト 特性Lv2</option>
+										<option if={user.bukicos!='ﾎﾗｰ1'} value="ﾎﾗｰ1">ホラーナイト 特性Lv1</option>
+									</optgroup>
 								</select>
 							</div>
 							<div if={mode==1} class="form-group">
@@ -1866,6 +1893,68 @@
 										<option if={user.manto!='氷結3'} value="氷結3">氷結Lv3</option>
 										<option if={user.manto!='氷結2'} value="氷結2">氷結Lv2</option>
 										<option if={user.manto!='氷結1'} value="氷結1">氷結Lv1</option>
+									</optgroup>
+									<optgroup label="ローランのマント">
+										<option if={user.manto=='ﾛｰﾗﾝ30'} value="ﾛｰﾗﾝ30" selected="selected">ローランLv30</option>
+										<option if={user.manto=='ﾛｰﾗﾝ29'} value="ﾛｰﾗﾝ29" selected="selected">ローランLv29</option>
+										<option if={user.manto=='ﾛｰﾗﾝ28'} value="ﾛｰﾗﾝ28" selected="selected">ローランLv28</option>
+										<option if={user.manto=='ﾛｰﾗﾝ27'} value="ﾛｰﾗﾝ27" selected="selected">ローランLv27</option>
+										<option if={user.manto=='ﾛｰﾗﾝ26'} value="ﾛｰﾗﾝ26" selected="selected">ローランLv26</option>
+										<option if={user.manto=='ﾛｰﾗﾝ25'} value="ﾛｰﾗﾝ25" selected="selected">ローランLv25</option>
+										<option if={user.manto=='ﾛｰﾗﾝ24'} value="ﾛｰﾗﾝ24" selected="selected">ローランLv24</option>
+										<option if={user.manto=='ﾛｰﾗﾝ23'} value="ﾛｰﾗﾝ23" selected="selected">ローランLv23</option>
+										<option if={user.manto=='ﾛｰﾗﾝ22'} value="ﾛｰﾗﾝ22" selected="selected">ローランLv22</option>
+										<option if={user.manto=='ﾛｰﾗﾝ21'} value="ﾛｰﾗﾝ21" selected="selected">ローランLv21</option>
+										<option if={user.manto=='ﾛｰﾗﾝ20'} value="ﾛｰﾗﾝ20" selected="selected">ローランLv20</option>
+										<option if={user.manto=='ﾛｰﾗﾝ19'} value="ﾛｰﾗﾝ19" selected="selected">ローランLv19</option>
+										<option if={user.manto=='ﾛｰﾗﾝ18'} value="ﾛｰﾗﾝ18" selected="selected">ローランLv18</option>
+										<option if={user.manto=='ﾛｰﾗﾝ17'} value="ﾛｰﾗﾝ17" selected="selected">ローランLv17</option>
+										<option if={user.manto=='ﾛｰﾗﾝ16'} value="ﾛｰﾗﾝ16" selected="selected">ローランLv16</option>
+										<option if={user.manto=='ﾛｰﾗﾝ15'} value="ﾛｰﾗﾝ15" selected="selected">ローランLv15</option>
+										<option if={user.manto=='ﾛｰﾗﾝ14'} value="ﾛｰﾗﾝ14" selected="selected">ローランLv14</option>
+										<option if={user.manto=='ﾛｰﾗﾝ13'} value="ﾛｰﾗﾝ13" selected="selected">ローランLv13</option>
+										<option if={user.manto=='ﾛｰﾗﾝ12'} value="ﾛｰﾗﾝ12" selected="selected">ローランLv12</option>
+										<option if={user.manto=='ﾛｰﾗﾝ11'} value="ﾛｰﾗﾝ11" selected="selected">ローランLv11</option>
+										<option if={user.manto=='ﾛｰﾗﾝ10'} value="ﾛｰﾗﾝ10" selected="selected">ローランLv10</option>
+										<option if={user.manto=='ﾛｰﾗﾝ9'} value="ﾛｰﾗﾝ9" selected="selected">ローランLv9</option>
+										<option if={user.manto=='ﾛｰﾗﾝ8'} value="ﾛｰﾗﾝ8" selected="selected">ローランLv8</option>
+										<option if={user.manto=='ﾛｰﾗﾝ7'} value="ﾛｰﾗﾝ7" selected="selected">ローランLv7</option>
+										<option if={user.manto=='ﾛｰﾗﾝ6'} value="ﾛｰﾗﾝ6" selected="selected">ローランLv6</option>
+										<option if={user.manto=='ﾛｰﾗﾝ5'} value="ﾛｰﾗﾝ5" selected="selected">ローランLv5</option>
+										<option if={user.manto=='ﾛｰﾗﾝ4'} value="ﾛｰﾗﾝ4" selected="selected">ローランLv4</option>
+										<option if={user.manto=='ﾛｰﾗﾝ3'} value="ﾛｰﾗﾝ3" selected="selected">ローランLv3</option>
+										<option if={user.manto=='ﾛｰﾗﾝ2'} value="ﾛｰﾗﾝ2" selected="selected">ローランLv2</option>
+										<option if={user.manto=='ﾛｰﾗﾝ1'} value="ﾛｰﾗﾝ1" selected="selected">ローランLv1</option>
+										<option if={user.manto!='ﾛｰﾗﾝ30'} value="ﾛｰﾗﾝ30">ローランLv30</option>
+										<option if={user.manto!='ﾛｰﾗﾝ29'} value="ﾛｰﾗﾝ29">ローランLv29</option>
+										<option if={user.manto!='ﾛｰﾗﾝ28'} value="ﾛｰﾗﾝ28">ローランLv28</option>
+										<option if={user.manto!='ﾛｰﾗﾝ27'} value="ﾛｰﾗﾝ27">ローランLv27</option>
+										<option if={user.manto!='ﾛｰﾗﾝ26'} value="ﾛｰﾗﾝ26">ローランLv26</option>
+										<option if={user.manto!='ﾛｰﾗﾝ25'} value="ﾛｰﾗﾝ25">ローランLv25</option>
+										<option if={user.manto!='ﾛｰﾗﾝ24'} value="ﾛｰﾗﾝ24">ローランLv24</option>
+										<option if={user.manto!='ﾛｰﾗﾝ23'} value="ﾛｰﾗﾝ23">ローランLv23</option>
+										<option if={user.manto!='ﾛｰﾗﾝ22'} value="ﾛｰﾗﾝ22">ローランLv22</option>
+										<option if={user.manto!='ﾛｰﾗﾝ21'} value="ﾛｰﾗﾝ21">ローランLv21</option>
+										<option if={user.manto!='ﾛｰﾗﾝ20'} value="ﾛｰﾗﾝ20">ローランLv20</option>
+										<option if={user.manto!='ﾛｰﾗﾝ19'} value="ﾛｰﾗﾝ19">ローランLv19</option>
+										<option if={user.manto!='ﾛｰﾗﾝ18'} value="ﾛｰﾗﾝ18">ローランLv18</option>
+										<option if={user.manto!='ﾛｰﾗﾝ17'} value="ﾛｰﾗﾝ17">ローランLv17</option>
+										<option if={user.manto!='ﾛｰﾗﾝ16'} value="ﾛｰﾗﾝ16">ローランLv16</option>
+										<option if={user.manto!='ﾛｰﾗﾝ15'} value="ﾛｰﾗﾝ15">ローランLv15</option>
+										<option if={user.manto!='ﾛｰﾗﾝ14'} value="ﾛｰﾗﾝ14">ローランLv14</option>
+										<option if={user.manto!='ﾛｰﾗﾝ13'} value="ﾛｰﾗﾝ13">ローランLv13</option>
+										<option if={user.manto!='ﾛｰﾗﾝ12'} value="ﾛｰﾗﾝ12">ローランLv12</option>
+										<option if={user.manto!='ﾛｰﾗﾝ11'} value="ﾛｰﾗﾝ11">ローランLv11</option>
+										<option if={user.manto!='ﾛｰﾗﾝ10'} value="ﾛｰﾗﾝ10">ローランLv10</option>
+										<option if={user.manto!='ﾛｰﾗﾝ9'} value="ﾛｰﾗﾝ9">ローランLv9</option>
+										<option if={user.manto!='ﾛｰﾗﾝ8'} value="ﾛｰﾗﾝ8">ローランLv8</option>
+										<option if={user.manto!='ﾛｰﾗﾝ7'} value="ﾛｰﾗﾝ7">ローランLv7</option>
+										<option if={user.manto!='ﾛｰﾗﾝ6'} value="ﾛｰﾗﾝ6">ローランLv6</option>
+										<option if={user.manto!='ﾛｰﾗﾝ5'} value="ﾛｰﾗﾝ5">ローランLv5</option>
+										<option if={user.manto!='ﾛｰﾗﾝ4'} value="ﾛｰﾗﾝ4">ローランLv4</option>
+										<option if={user.manto!='ﾛｰﾗﾝ3'} value="ﾛｰﾗﾝ3">ローランLv3</option>
+										<option if={user.manto!='ﾛｰﾗﾝ2'} value="ﾛｰﾗﾝ2">ローランLv2</option>
+										<option if={user.manto!='ﾛｰﾗﾝ1'} value="ﾛｰﾗﾝ1">ローランLv1</option>
 									</optgroup>
 								</select>
 							</div>
@@ -3071,7 +3160,10 @@
 													thisis.scheduleusers[suidx].subcp = thisis.selectusers[uidx].subcp;
 												}
 												else {
-													thisis.scheduleusers[suidx].job3d = thisis.selectusers[uidx].job3d;
+													thisis.scheduleusers[suidx].job3d = 0;
+													if (thisis.selectusers[uidx].job3d) {
+														thisis.scheduleusers[suidx].job3d = thisis.selectusers[uidx].job3d;
+													}
 													thisis.scheduleusers[suidx].subcp = thisis.selectusers[uidx].subcp;
 												}
 												thisis.selectusers[uidx].outlabel = '';
@@ -4028,7 +4120,7 @@
 									<th style="width: 15px; max-width: 15px; min-width: 15px;">区</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">入隊日</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">更新日</th>
-									<th if={mode==2} style="font-size: 6px; width: 40px; max-width: 40px; min-width: 40px;">家門戦闘力</th>
+									<th if={mode==2} onclick="{sortSubCP}" style="font-size: 6px; width: 40px; max-width: 40px; min-width: 40px;">家門戦闘力</th>
 									<th if={opts.mode=='schedule'} style="font-size: 6px; text-align: left; width: auto; max-width: 3000px; min-width: 30px;">コメント</th>
 									<th if={opts.mode!='schedule'} style="font-size: 6px; text-align: left; width: auto; max-width: 3000px; min-width: 30px;">メモ</th>
 								</tr>
@@ -4384,6 +4476,7 @@
 						});
 					});
 					var cpdesc = false;
+					var subcpdesc = false;
 					var leveldesc = true;
 					var joinddesc = true;
 					var jobdesc = true;
@@ -4392,6 +4485,7 @@
 					sortCP = function () {
 						if (cpdesc) {
 							cpdesc = false;
+							subcpdesc = false;
 							leveldesc = false;
 							joinddesc = false;
 							jobdesc = false;
@@ -4406,6 +4500,7 @@
 						}
 						else {
 							cpdesc = true;
+							subcpdesc = true;
 							leveldesc = true;
 							joinddesc = true;
 							jobdesc = true;
@@ -4419,9 +4514,46 @@
 							});
 						}
 					};
+					sortSubCP = function () {
+						if (subcpdesc) {
+							cpdesc = false;
+							subcpdesc = false;
+							leveldesc = false;
+							joinddesc = false;
+							jobdesc = false;
+							partydesc = false;
+							acce1desc = false;
+							opts.data.sort(function(a, b){
+								if( a.activity < 0 ) return 1;
+								if( 'number' != typeof b.subcp ) return -1;
+								if( 'number' != typeof a.subcp ) return 1;
+								if( parseInt(a.subcp) < parseInt(b.subcp) ) return -1;
+								if( parseInt(a.subcp) > parseInt(b.subcp) ) return 1;
+								return 0;
+							});
+						}
+						else {
+							cpdesc = true;
+							subcpdesc = true;
+							leveldesc = true;
+							joinddesc = true;
+							jobdesc = true;
+							partydesc = true;
+							acce1desc = true;
+							opts.data.sort(function(a, b){
+								if( a.activity < 0 ) return 1;
+								if( 'number' != typeof b.subcp ) return -1;
+								if( 'number' != typeof a.subcp ) return 1;
+								if( parseInt(a.subcp) > parseInt(b.subcp) ) return -1;
+								if( parseInt(a.subcp) < parseInt(b.subcp) ) return 1;
+								return 0;
+							});
+						}
+					};
 					sortLevel = function () {
 						if (leveldesc) {
 							cpdesc = false;
+							subcpdesc = false;
 							leveldesc = false;
 							joinddesc = false;
 							jobdesc = false;
@@ -4436,6 +4568,7 @@
 						}
 						else {
 							cpdesc = true;
+							subcpdesc = true;
 							leveldesc = true;
 							joinddesc = true;
 							jobdesc = true;
@@ -4452,6 +4585,7 @@
 					sortPT = function () {
 						if (partydesc) {
 							cpdesc = false;
+							subcpdesc = false;
 							leveldesc = false;
 							joinddesc = false;
 							jobdesc = false;
@@ -4465,6 +4599,7 @@
 						}
 						else {
 							cpdesc = true;
+							subcpdesc = true;
 							leveldesc = true;
 							joinddesc = true;
 							jobdesc = true;
@@ -4481,6 +4616,7 @@
 						if (jobdesc) {
 							cpdesc = false;
 							leveldesc = false;
+							subcpdesc = false;
 							joinddesc = false;
 							jobdesc = false;
 							partydesc = false;
@@ -4494,6 +4630,7 @@
 						}
 						else {
 							cpdesc = true;
+							subcpdesc = true;
 							leveldesc = true;
 							joinddesc = true;
 							jobdesc = true;
@@ -4510,6 +4647,7 @@
 					sortAcce1 = function () {
 						if (acce1desc) {
 							cpdesc = false;
+							subcpdesc = false;
 							leveldesc = false;
 							joinddesc = false;
 							jobdesc = false;
@@ -4526,6 +4664,7 @@
 						}
 						else {
 							cpdesc = true;
+							subcpdesc = true;
 							leveldesc = true;
 							joinddesc = true;
 							jobdesc = true;
@@ -4544,6 +4683,7 @@
 					sortJoind = function () {
 						if (joinddesc) {
 							cpdesc = false;
+							subcpdesc = false;
 							leveldesc = false;
 							joinddesc = false;
 							jobdesc = false;
@@ -4561,6 +4701,7 @@
 						}
 						else {
 							cpdesc = true;
+							subcpdesc = true;
 							leveldesc = true;
 							joinddesc = true;
 							jobdesc = true;
@@ -6020,15 +6161,15 @@
 					jobs[1]['格闘家'] = '格闘家';
 					jobs[1]['ラン'] = 'ラン';
 					jobs[1]['アーチャー'] = 'アーチャー';
-					jobs[2]['ウォーリア'] = 'バーサーカー';
-					jobs[2]['ヴァルキリー'] = 'ランサー';
-					jobs[2]['ジャイアント'] = 'デストロイヤー';
-					jobs[2]['ウイッチ'] = 'アークメイジ';
-					jobs[2]['レンジャー'] = 'ウィンドウォーカー';
-					jobs[2]['ブレイダー'] = 'ブレイドアウェイク';
-					jobs[2]['リトルサマナー'] = 'シリウス';
-					jobs[2]['ソーサレス'] = 'リーパー';
-					jobs[2]['ダークナイト'] = 'ダークネス';
+					jobs[2]['ウォーリア'] = 'グラディエーター';
+					jobs[2]['ヴァルキリー'] = 'パラディン';
+					jobs[2]['ジャイアント'] = 'タイタン';
+					jobs[2]['ウイッチ'] = 'アークマジシャン';
+					jobs[2]['レンジャー'] = 'ハンター';
+					jobs[2]['ブレイダー'] = 'ブレイドスピリッツ';
+					jobs[2]['リトルサマナー'] = 'ルプスドミナ';
+					jobs[2]['ソーサレス'] = 'レイヴン';
+					jobs[2]['ダークナイト'] = 'シャドウ';
 					jobs[2]['ウィザード'] = 'ウィザード';
 					jobs[2]['ツバキ'] = 'ツバキ';
 					jobs[2]['ニンジャ'] = 'ニンジャ';
@@ -7523,6 +7664,7 @@
 					var userdiscord = $('#registerform').find('input[name=discord]').val();
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
+					var userjob3d = $('#registerform').find('select[name=userjob3d] option:selected').val();
 					if (true != ('職業' != userjob && '区分' != useractivity && 0 < username.length && 0 < userjob.length && 0 < userlevel.length && 0 < usercp.length && 0 < useractivity.length)) {
 						if ('職業' == userjob) {
 							alert('職業を選択して下さい。');
@@ -7538,7 +7680,6 @@
 						data.joind = new Date(userjoind);
 					}
 					if (mode==1) {
-						var userjob3d = $('#registerform').find('select[name=userjob3d] option:selected').val();
 						var usermeteo = $('#registerform').find('select[name=usermeteo] option:selected').val();
 						var userdzone = $('#registerform').find('select[name=userdzone] option:selected').val();
 						var userpvpat = $('#registerform').find('select[name=userpvpat] option:selected').val();
