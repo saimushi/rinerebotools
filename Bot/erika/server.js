@@ -1449,6 +1449,20 @@ bot.on('messageCreate', (msg) => {
         msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **屋台シリーズの特性Lv' + toLv + '** で登録するわね。\n');
       }
     }
+    if (-1 < buki.indexOf('ホラーナイト')) {
+      var toLv = parseInt(buki.replace('ホラーナイト', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'ﾎﾗｰ' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **ホラーナイトシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    else if (-1 < buki.indexOf('ホラー')) {
+      var toLv = parseInt(buki.replace('ホラー', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'ﾎﾗｰ' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **ホラーナイトシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
     console.log('武器コスID=' + newSelection);
     if (true != ('string' == typeof newSelection && 0 < newSelection.length)) {
       msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つからなかったわ・・・\n「武器コス 海賊5」みたいな指定をしてみて！5の部分は特性レベルを入れるのよ！\n');
@@ -1505,6 +1519,13 @@ bot.on('messageCreate', (msg) => {
       if (0 < toLv && 30 >= toLv) {
         newSelection = '氷結' + toLv;
         msg.channel.createMessage('<@' + msg.author.id + '> 該当のマントが見つかったわ！\n **堅守なる氷結のマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
+      }
+    }
+    if (-1 < manto.indexOf('ローラン')) {
+      var toLv = parseInt(manto.replace('ローラン', '').trim());
+      if (0 < toLv && 30 >= toLv) {
+        newSelection = 'ﾛｰﾗﾝ' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当のマントが見つかったわ！\n **ローランのマント** ね。 **Lv' + toLv + '** で登録するわ！\n');
       }
     }
     console.log('マントID=' + newSelection);

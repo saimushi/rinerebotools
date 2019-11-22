@@ -596,6 +596,7 @@
 						</div>
 						<div class="col-xs-8">
 							<div class="container-fluid">
+								<button style="margin-left: 10px;" click={addColum}><small>+項目追加</small></button>
 								<div if={mode==1} style="width: 150px; margin-top: -45px; margin-left: auto; margin-right: 10px; margin-bottom: 5px;">
 									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: firebrick;">&nbsp;前衛&nbsp;{attckAssistans}</span>
 									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: orange;">&nbsp;魔攻&nbsp;{criticalAssistants}</span>
@@ -693,6 +694,48 @@
 						});
 						dispatchPortlateLayout();
 					});
+					addColum = function (event) {
+						event.stopPropagation();
+						swal({
+							title: '追加する項目名を決めて下さい',
+							content: {
+								element: 'input',
+								attributes: {
+									id: 'addcolumname',
+									type: 'text',
+									value: '',
+								},
+							},
+							buttons: {
+								cancel: "キャンセル",
+								ok: "追加"
+							}
+						}).then(function(val) {
+							var ok = false;
+							if (val) {
+								var addcolumname = $('#addcolumname').val();
+								if (0 < addcolumname.length) {
+									ok = true;
+								}
+								if (!ok) {
+									return addColum(event);
+								}
+								console.log('clan=', clan);
+								var updata = { customColums: {} }
+								if (null != clan.customColums && 'object' == typeof clan.customColums) {
+									updata.customColums = clan.customColums;
+								}
+								console.log('addcolumname=', addcolumname);
+								console.log('updata=', updata);
+								updata.customColums['customColum' + addcolumname] = addcolumname;
+								console.log('updata=', updata);
+								registerClan(clan.ID, updata, function (newClanID){
+									alert('追加しました。');
+									location.reload();
+								});
+							}
+						});
+					};
 				</dashboard>
 			</script>
 
@@ -3178,6 +3221,12 @@
 												if ('undefined' != typeof thisis.scheduleusers[suidx].voice) {
 													thisis.selectusers[uidx].voice = thisis.scheduleusers[suidx].voice;
 												}
+												if (null != clan.customColums && 'object' == typeof clan.customColums) {
+													var customColumKeys = Object.keys(clan.customColums);
+													for (var ccidx = 0; ccidx < customColumKeys.length; ccidx++) {
+														thisis.scheduleusers[suidx][customColumKeys[ccidx]] = thisis.selectusers[uidx][customColumKeys[ccidx]];
+													}
+												}
 												if (inLoop < thisis.scheduleusers.length) {
 													// 種別振り分けは一度すれば十分
 													if (jobbufs[thisis.scheduleusers[suidx].job]=='攻撃') {
@@ -4121,12 +4170,13 @@
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">入隊日</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">更新日</th>
 									<th if={mode==2} onclick="{sortSubCP}" style="font-size: 6px; width: 40px; max-width: 40px; min-width: 40px;">家門戦闘力</th>
+									<th if={null != clan.customColums && 'object' == typeof clan.customColums} each="{customColumName, customColumIndex in clan.customColums}" style="color: green; font-size: 8px; text-align: left; width: auto; max-width: 3000px; min-width: 30px;" click={modifyColum} customColumIndex={customColumIndex}>{customColumName}</th>
 									<th if={opts.mode=='schedule'} style="font-size: 6px; text-align: left; width: auto; max-width: 3000px; min-width: 30px;">コメント</th>
 									<th if={opts.mode!='schedule'} style="font-size: 6px; text-align: left; width: auto; max-width: 3000px; min-width: 30px;">メモ</th>
 								</tr>
 							</thead>
 							<tbody id="partylist" class="mode{mode}partylist">
-								<tr each="{user, index in opts.data}" class="activity{user.activity}" id="party_{index+1}" index="{index}">
+								<tr each="{user, index in opts.data}" class="activity{user.activity}" id="party_{index+1}" index="{index}" uid="{user.ID}">
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{index+1}</td>
 									<td if={opts.mode=='contribution' && 'undefined' != typeof opts.contributiondata[user.ID]} class="text-info contribution draggable" contribution="{opts.contributiondata[user.ID].contribution}" onclick="onclickModify(this, '{user.ID}');" style="text-align: right;"><b>{opts.contributiondata[user.ID].contribution - (50*opts.contributiondata[user.ID].weekquestcnt)}</b></td>
 									<td if={opts.mode=='contribution' && 'undefined' == typeof opts.contributiondata[user.ID]} class="contribution draggable" contribution="0" onclick="onclickModify(this, '{user.ID}');">未入力</td>
@@ -4247,6 +4297,7 @@
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{user.joind.replace('/', '\n')}</td>
 									<td if={opts.mode!='schedule'} onclick="onclickModify(this, '{user.ID}');" style="text-align: right;">{('string' == typeof user.modified)? user.modified.replace('/', '\n'): ''}</td>
 									<td if={mode==2} style="text-align: right;">{user.subcp}</td>
+									<td if={null != clan.customColums && 'object' == typeof clan.customColums} each="{customColumName, customColumIndex in clan.customColums}" style="color: green; font-size: 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" click={saveCustomData} customColumName={customColumName} customColumIndex={customColumIndex}>{user[customColumIndex]}</td>
 									<td if={opts.mode!='schedule'} onclick="onclickDetail(this, '{user.ID}');" style="font-size: 6px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.memo}</td>
 									<td if={opts.mode=='schedule'} onclick="onclickDetail(this, '{user.ID}');" class="schedulecomment" style="font-size: 6px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{user.comment}</td>
 								</tr>
@@ -4263,6 +4314,7 @@
 					this.on('mount', function() {
 						thisis = this;
 						thisis.users = opts.data;
+						users = thisis.users;
 						var reader = new FileReader();
 						reader.addEventListener('load', function() {
 							var fileBody = reader.result;
@@ -4716,6 +4768,118 @@
 								return 0;
 							});
 						}
+					};
+					modifyColum = function(event) {
+						event.stopPropagation();
+						var beforeColumName = $(event.target).text();
+						var customColumIndex = $(event.target).attr('customColumIndex');
+						swal({
+							title: '項目を変更しますか？',
+							content: {
+								element: 'input',
+								attributes: {
+									id: 'modifycustomcolumName',
+									type: 'text',
+									value: beforeColumName,
+								},
+							},
+							buttons: {
+								cancel: "キャンセル",
+								ok: "保存",
+								delete: {
+      						text: "削除",
+      						value: -1,
+									className: "btn-danger",
+    						}
+							}
+						}).then(function(val) {
+							var ok = false;
+							console.log(val);
+							if (-1 == val) {
+								console.log('delete colum');
+								// 項目削除
+								var updata = { customColums: null };
+								if (null != clan.customColums && 'object' == typeof clan.customColums) {
+									var customColumKeys = Object.keys(clan.customColums);
+									for (var ccidx=0; ccidx < customColumKeys.length; ccidx++) {
+										if (customColumKeys[ccidx] != customColumIndex) {
+											if (null == updata.customColums) {
+												updata.customColums = {};
+											}
+											updata.customColums[customColumKeys[ccidx]] = clan.customColums[customColumKeys[ccidx]];
+										}
+									}
+								}
+								console.log('updata=', updata);
+								registerClan(clan.ID, updata, function (newClanID){
+									alert('項目を削除しました。');
+									location.reload();
+								});
+							}
+							else if (val) {
+								console.log('modify colum');
+								var modifycustomcolumName = $('#modifycustomcolumName').val();
+								if (0 < modifycustomcolumName.length && beforeColumName != modifycustomcolumName) {
+									ok = true;
+								}
+								if (!ok) {
+									return modifyColum(event);
+								}
+								console.log('clan=', clan);
+								var updata = { customColums: {} }
+								if (null != clan.customColums && 'object' == typeof clan.customColums) {
+									updata.customColums = clan.customColums;
+								}
+								updata.customColums[customColumIndex] = modifycustomcolumName;
+								console.log('updata=', updata);
+								registerClan(clan.ID, updata, function (newClanID){
+									alert('変更しました。');
+									//$(event.target).text(modifycustomcolumName);
+									clan.customColums[customColumIndex] = modifycustomcolumName;
+									riot.update();
+								});
+							}
+						});
+					};
+					saveCustomData = function(event) {
+						event.stopPropagation();
+						var target = $(event.target);
+						console.log('target = ', target);
+						var uid = target.parent().attr('uid');
+						var uidx = target.parent().attr('index');
+						var customColumName = target.attr('customColumName');
+						var customColumIndex = target.attr('customColumIndex');
+						console.log('customColumName = ', customColumName);
+						console.log('customColumIndex = ', customColumIndex);
+						swal({
+							title: customColumName,
+							content: {
+								element: 'input',
+								attributes: {
+									id: 'modifyCustomColum',
+									type: 'text',
+									value: target.text(),
+								},
+							},
+							buttons: {
+								cancel: "キャンセル",
+								ok: "保存"
+							}
+						}).then(function(val) {
+							var ok = false;
+							if (val) {
+								var updata = { ID: uid }
+								var modifyCustomColum = $('#modifyCustomColum').val();
+								updata[customColumIndex] = modifyCustomColum;
+								console.log('updata=', updata);
+								registerUser(clan.ID, updata, function (){
+									alert('保存しました。');
+									console.log('users=', users);
+									opts.data[uidx][customColumIndex] = modifyCustomColum;
+									riot.update();
+								});
+							}
+						});
 					};
 				</users>
 			</script>
