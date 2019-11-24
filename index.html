@@ -4170,7 +4170,7 @@
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">入隊日</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">更新日</th>
 									<th if={mode==2} onclick="{sortSubCP}" style="font-size: 6px; width: 40px; max-width: 40px; min-width: 40px;">家門戦闘力</th>
-									<th if={null != clan.customColums && 'object' == typeof clan.customColums} each="{customColumName, customColumIndex in clan.customColums}" style="color: green; font-size: 8px; text-align: left; width: auto; max-width: 3000px; min-width: 30px;" click={modifyColum} customColumIndex={customColumIndex}>{customColumName}</th>
+									<th if={null != clan.customColums && 'object' == typeof clan.customColums} each="{customColumName, customColumIndex in clan.customColums}" style="color: green; font-size: 8px; text-align: left; width: auto; max-width: 3000px; min-width: 30px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" click={modifyColum} customColumIndex={customColumIndex}>{customColumName}</th>
 									<th if={opts.mode=='schedule'} style="font-size: 6px; text-align: left; width: auto; max-width: 3000px; min-width: 30px;">コメント</th>
 									<th if={opts.mode!='schedule'} style="font-size: 6px; text-align: left; width: auto; max-width: 3000px; min-width: 30px;">メモ</th>
 								</tr>
