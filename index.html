@@ -596,7 +596,7 @@
 						</div>
 						<div class="col-xs-8">
 							<div class="container-fluid">
-								<button style="margin-left: 10px;" click={addColum}><small>+項目追加</small></button>
+								<button if={'on'!=getParams['view']} style="margin-left: 10px;" click={addColum}><small>+項目追加</small></button>
 								<div if={mode==1} style="width: 150px; margin-top: -45px; margin-left: auto; margin-right: 10px; margin-bottom: 5px;">
 									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: firebrick;">&nbsp;前衛&nbsp;{attckAssistans}</span>
 									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: orange;">&nbsp;魔攻&nbsp;{criticalAssistants}</span>
@@ -4304,7 +4304,7 @@
 							</tbody>
 						</table>
 						<botton if={mode==1} class="btn btn-danger" onclick="onclickCSVExport(this);">CSVエクスポート</botton>
-						<label if={mode==1} class="btn btn-info" for="csvimport">CSVインポート</label>
+						<label if={mode==1 && 'on' != getParams['view']} class="btn btn-info" for="csvimport">CSVインポート</label>
 						<a style="display:none;" id="downloader" href="#"></a>
 						<form style="display:none;" id="csvimportForm" name="csvimport">
 							<input id="csvimport" name="csv" type="file" />
@@ -4364,12 +4364,21 @@
 							 || 0 > fields[23].indexOf('区分')
 							 || 0 > fields[24].indexOf('入隊日')
 							 || 0 > fields[25].indexOf('更新日')
-							 || 0 > fields[26].indexOf('メモ')
 							) {
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
 							}
 							var _users = [];
+							var customColumKeys = null;
+							if (fields[27] && 'object' == typeof clan.customColums) {
+								var _customColumKeys = Object.keys(clan.customColums);
+								if (0 < _customColumKeys.length) {
+									customColumKeys = {};
+									for (var _ccidx = 0; _ccidx < _customColumKeys.length; _ccidx ++) {
+										customColumKeys[clan.customColums[_customColumKeys[_ccidx]]] = _customColumKeys[_ccidx];
+									}
+								}
+							}
 							for (var lidx=1; lidx < lines.length; lidx++) {
 								line = lines[lidx].replace(/[\r\n]/g, '').trim();
 								if (1 > line.length || -1 < line.indexOf('キャラ名') || -1 < line.indexOf('戦闘力') || -1 < line.indexOf('cp') || -1 < line.indexOf('CP')) {
@@ -4384,7 +4393,7 @@
 								for (var colidx=1; colidx < cols.length; colidx++) {
 									cols[colidx] = cols[colidx].replace(/^"(.*)"$/, '$1');
 								}
-								console.log(cols);
+								console.log('cols=', cols);
 								var _user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: 0, meteo: 0, dzone: null, acce1: 0, acce2: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, humanoid: null, boss: null, memo: '', activity: 9, joind: '' };
 								_user.name = cols[1].replace(/""/, '"').trim();
 								_user.cp = parseInt(cols[2].trim());
@@ -4482,7 +4491,21 @@
 								if (null != _modified) {
 									_user.modified = (('0000' + _modified[0]).slice(-4)) + '/' + (('00' + _modified[1]).slice(-2)) + '/' + (('00' + _modified[2]).slice(-2));
 								}
-								_user.memo = cols[26].replace(/""/, '"').trim();
+								var ccidx = 26;
+								console.log('is?', fields[27]);
+								console.log('clan.customColums.length', clan.customColums.length);
+								if (fields[27] && 'object' == typeof clan.customColums && customColumKeys) {
+									console.log('is??', fields[27]);
+									for (ccidx = 26; ccidx < fields.length - 1; ccidx++) {
+										var fieldBaseName = fields[ccidx].replace(/^"(.*)\(※\)"$/, '$1');
+										console.log('fieldBaseName=', fieldBaseName);
+										if (customColumKeys[fieldBaseName]) {
+											console.log('customColumKeys[fieldBaseName]=', customColumKeys[fieldBaseName]);
+											_user[customColumKeys[fieldBaseName]] = cols[ccidx].replace(/""/, '"').trim();
+										}
+									}
+								}
+								_user.memo = cols[fields.length -1].replace(/""/, '"').trim();
 								_users.push(_user);
 							}
 							console.log('usser=');
@@ -4771,6 +4794,9 @@
 					};
 					modifyColum = function(event) {
 						event.stopPropagation();
+						if ('on' == getParams['view']) {
+							return;
+						}
 						var beforeColumName = $(event.target).text();
 						var customColumIndex = $(event.target).attr('customColumIndex');
 						swal({
@@ -8316,6 +8342,9 @@
 							}
 							else if (label == '') {
 								label = '参加可否';
+							}
+							if ($(cols[didx]).attr('customColumIndex')) {
+								label = label + '(※)';
 							}
 							dataArr.push('"' + label + '"');
 						}
