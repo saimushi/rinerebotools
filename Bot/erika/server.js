@@ -1238,6 +1238,18 @@ bot.on('messageCreate', (msg) => {
       return;
     }
   }
+  else if (mode == 1 && true == (0 === msg.content.indexOf('カスタム ') || 0 === msg.content.indexOf('※ '))) {
+    msg.content = msg.content.replace(/[０-９]/g, function(s){
+        return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
+    });
+    var custom = msg.content.split(' ');
+    console.log('custom=', custom);
+    var customKey = custom[1];
+    var customVal = custom[2];
+    cmd = 1;
+    subcmd = 17;
+    msg.channel.createMessage('<@' + msg.author.id + '> ' + customKey + strings.botMessageTails[11] + '\n');
+  }
   else if (mode == 1 && 0 === msg.content.indexOf('武器コス ')) {
     msg.content = msg.content.replace(/[０-９]/g, function(s){
         return String.fromCharCode(s.charCodeAt(0)-0xFEE0);
@@ -1994,7 +2006,7 @@ bot.on('messageCreate', (msg) => {
   else if (mode == 1 && true == (-1 < msg.content.indexOf('ボス石教え') || -1 < msg.content.indexOf('ボス石おしえ') || -1 < msg.content.indexOf('ボス石確認') || -1 < msg.content.indexOf('ボス石教えてにゃ'))) {
     cmd = 7;
     if (-1 < msg.content.indexOf('ボス石教えてにゃ')) {
-      if ('ねーこ#5826' == (msg.author.username + '#' + msg.author.discriminator)) {
+      if ('ねーこ#5826' == (msg.author.username + '#' + msg.author.discriminator) || 378119996686991362 == msg.author.id) {
         msg.channel.createMessage('ねーこちゃんの依頼か・・・少し面倒だけどしょうがないからやるわね・・・\n登録されているボス石の数を確認したいのね・・・\n');
       }
       else {
@@ -2256,6 +2268,7 @@ bot.on('messageCreate', (msg) => {
                 var incount = 0;
                 var currentcp = 0;
                 var cpmargin = 0;
+                var looperror = false;
                 querySnapshot.forEach(function(snapshot) {
                   if(snapshot.exists && false === targetUser) {
                     var user = snapshot.data();
@@ -2329,11 +2342,33 @@ bot.on('messageCreate', (msg) => {
                         if (16 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                           targetUser.humanoid = newSelection;
                         }
+                        if (17 == subcmd && 'string' == typeof customKey && 'string' == typeof customVal) {
+                          var realCustomKey = null;
+                          if ('object' == typeof clan.customColums && null != clan.customColums) {
+                            var customColumKeys = Object.keys(clan.customColums);
+                            console.log(clan.customColums);
+                            console.log(customColumKeys);
+                            for (var ccidx=0; ccidx < customColumKeys.length; ccidx++) {
+                              if (customKey == clan.customColums[customColumKeys[ccidx]]) {
+                                realCustomKey = customColumKeys[ccidx];
+                              }
+                            }
+                          }
+                          if (null == realCustomKey) {
+                            msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[46]);
+                            looperror = true;
+                            return;
+                          }
+                          targetUser[realCustomKey] = customVal;
+                        }
                       }
                       return;
                     }
                   }
                 });
+                if (looperror) {
+                  return;
+                }
                 if (5 != cmd && false === targetUser) {
                   msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[22] + strings.domain + '/?clanid=' + clanID + strings.botMessageTails[23] + whoDiscord + strings.botMessageTails[24]);
                   return;
