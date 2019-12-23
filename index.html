@@ -556,7 +556,7 @@
 							<div class="container-fluid" style="padding: 10px;">
 								<h2 style="margin-top: 5px;"><a href="{clanurl}">{clanname}</a></h2>
 								<h4>アクティブ{clanMemberLabel}数: {usercnt}</h4>
-								<h5 if={mode==1}><a href="https://l2.netmarble.jp/event/lrt3/" target="_blank" style="color: #31b0d5;">LRT選考基準CP: {prelrtcp.toLocaleString()}</a></h5>
+								<h5 if={mode==1}><a href="https://l2.netmarble.jp/event/lrt4/" target="_blank" style="color: #31b0d5;">LRT選考基準CP: {prelrtcp.toLocaleString()}</a></h5>
 								<h5>総アクティブCP: {totalcp.toLocaleString()}</h5>
 								<small>
 									<b style="font-size: x-small;">{url}</b>
@@ -1745,6 +1745,50 @@
 										<option if={user.bukicos!='ﾎﾗｰ3'} value="ﾎﾗｰ3">ホラーナイト 特性Lv3</option>
 										<option if={user.bukicos!='ﾎﾗｰ2'} value="ﾎﾗｰ2">ホラーナイト 特性Lv2</option>
 										<option if={user.bukicos!='ﾎﾗｰ1'} value="ﾎﾗｰ1">ホラーナイト 特性Lv1</option>
+									</optgroup>
+									<optgroup label="二ノ国">
+										<option if={user.bukicos=='ﾆﾉ国10'} value="ﾆﾉ国10" selected="selected">二ノ国 特性Lv10</option>
+										<option if={user.bukicos=='ﾆﾉ国9'} value="ﾆﾉ国9" selected="selected">二ノ国 特性Lv9</option>
+										<option if={user.bukicos=='ﾆﾉ国8'} value="ﾆﾉ国8" selected="selected">二ノ国 特性Lv8</option>
+										<option if={user.bukicos=='ﾆﾉ国7'} value="ﾆﾉ国7" selected="selected">二ノ国 特性Lv7</option>
+										<option if={user.bukicos=='ﾆﾉ国6'} value="ﾆﾉ国6" selected="selected">二ノ国 特性Lv6</option>
+										<option if={user.bukicos=='ﾆﾉ国5'} value="ﾆﾉ国5" selected="selected">二ノ国 特性Lv5</option>
+										<option if={user.bukicos=='ﾆﾉ国4'} value="ﾆﾉ国4" selected="selected">二ノ国 特性Lv4</option>
+										<option if={user.bukicos=='ﾆﾉ国3'} value="ﾆﾉ国3" selected="selected">二ノ国 特性Lv3</option>
+										<option if={user.bukicos=='ﾆﾉ国2'} value="ﾆﾉ国2" selected="selected">二ノ国 特性Lv2</option>
+										<option if={user.bukicos=='ﾆﾉ国1'} value="ﾆﾉ国1" selected="selected">二ノ国 特性Lv1</option>
+										<option if={user.bukicos!='ﾆﾉ国10'} value="ﾆﾉ国10">二ノ国 特性Lv10</option>
+										<option if={user.bukicos!='ﾆﾉ国9'} value="ﾆﾉ国9">二ノ国 特性Lv9</option>
+										<option if={user.bukicos!='ﾆﾉ国8'} value="ﾆﾉ国8">二ノ国 特性Lv8</option>
+										<option if={user.bukicos!='ﾆﾉ国7'} value="ﾆﾉ国7">二ノ国 特性Lv7</option>
+										<option if={user.bukicos!='ﾆﾉ国6'} value="ﾆﾉ国6">二ノ国 特性Lv6</option>
+										<option if={user.bukicos!='ﾆﾉ国5'} value="ﾆﾉ国5">二ノ国 特性Lv5</option>
+										<option if={user.bukicos!='ﾆﾉ国4'} value="ﾆﾉ国4">二ノ国 特性Lv4</option>
+										<option if={user.bukicos!='ﾆﾉ国3'} value="ﾆﾉ国3">二ノ国 特性Lv3</option>
+										<option if={user.bukicos!='ﾆﾉ国2'} value="ﾆﾉ国2">二ノ国 特性Lv2</option>
+										<option if={user.bukicos!='ﾆﾉ国1'} value="ﾆﾉ国1">二ノ国 特性Lv1</option>
+									</optgroup>
+									<optgroup label="フロストバイト">
+										<option if={user.bukicos=='ﾌﾛｽﾄ10'} value="ﾌﾛｽﾄ10" selected="selected">フロストバイト 特性Lv10</option>
+										<option if={user.bukicos=='ﾌﾛｽﾄ9'} value="ﾌﾛｽﾄ9" selected="selected">フロストバイト 特性Lv9</option>
+										<option if={user.bukicos=='ﾌﾛｽﾄ8'} value="ﾌﾛｽﾄ8" selected="selected">フロストバイト 特性Lv8</option>
+										<option if={user.bukicos=='ﾌﾛｽﾄ7'} value="ﾌﾛｽﾄ7" selected="selected">フロストバイト 特性Lv7</option>
+										<option if={user.bukicos=='ﾌﾛｽﾄ6'} value="ﾌﾛｽﾄ6" selected="selected">フロストバイト 特性Lv6</option>
+										<option if={user.bukicos=='ﾌﾛｽﾄ5'} value="ﾌﾛｽﾄ5" selected="selected">フロストバイト 特性Lv5</option>
+										<option if={user.bukicos=='ﾌﾛｽﾄ4'} value="ﾌﾛｽﾄ4" selected="selected">フロストバイト 特性Lv4</option>
+										<option if={user.bukicos=='ﾌﾛｽﾄ3'} value="ﾌﾛｽﾄ3" selected="selected">フロストバイト 特性Lv3</option>
+										<option if={user.bukicos=='ﾌﾛｽﾄ2'} value="ﾌﾛｽﾄ2" selected="selected">フロストバイト 特性Lv2</option>
+										<option if={user.bukicos=='ﾌﾛｽﾄ1'} value="ﾌﾛｽﾄ1" selected="selected">フロストバイト 特性Lv1</option>
+										<option if={user.bukicos!='ﾌﾛｽﾄ10'} value="ﾌﾛｽﾄ10">フロストバイト 特性Lv10</option>
+										<option if={user.bukicos!='ﾌﾛｽﾄ9'} value="ﾌﾛｽﾄ9">フロストバイト 特性Lv9</option>
+										<option if={user.bukicos!='ﾌﾛｽﾄ8'} value="ﾌﾛｽﾄ8">フロストバイト 特性Lv8</option>
+										<option if={user.bukicos!='ﾌﾛｽﾄ7'} value="ﾌﾛｽﾄ7">フロストバイト 特性Lv7</option>
+										<option if={user.bukicos!='ﾌﾛｽﾄ6'} value="ﾌﾛｽﾄ6">フロストバイト 特性Lv6</option>
+										<option if={user.bukicos!='ﾌﾛｽﾄ5'} value="ﾌﾛｽﾄ5">フロストバイト 特性Lv5</option>
+										<option if={user.bukicos!='ﾌﾛｽﾄ4'} value="ﾌﾛｽﾄ4">フロストバイト 特性Lv4</option>
+										<option if={user.bukicos!='ﾌﾛｽﾄ3'} value="ﾌﾛｽﾄ3">フロストバイト 特性Lv3</option>
+										<option if={user.bukicos!='ﾌﾛｽﾄ2'} value="ﾌﾛｽﾄ2">フロストバイト 特性Lv2</option>
+										<option if={user.bukicos!='ﾌﾛｽﾄ1'} value="ﾌﾛｽﾄ1">フロストバイト 特性Lv1</option>
 									</optgroup>
 								</select>
 							</div>
