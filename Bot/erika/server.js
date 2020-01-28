@@ -1475,6 +1475,41 @@ bot.on('messageCreate', (msg) => {
         msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **ホラーナイトシリーズの特性Lv' + toLv + '** で登録するわね。\n');
       }
     }
+    else if (-1 < buki.indexOf('二ノ国')) {
+      var toLv = parseInt(buki.replace('二ノ国', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'ﾆﾉ国' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **二ノ国シリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    else if (-1 < buki.indexOf('ニノ国')) {
+      var toLv = parseInt(buki.replace('ニノ国', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'ﾆﾉ国' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **二ノ国シリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    else if (-1 < buki.indexOf('フロストバイト')) {
+      var toLv = parseInt(buki.replace('フロストバイト', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'ﾌﾛｽﾄ' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **フロストバイトシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    else if (-1 < buki.indexOf('フロスト')) {
+      var toLv = parseInt(buki.replace('フロスト', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'ﾌﾛｽﾄ' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **フロストバイトシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
+    else if (-1 < buki.indexOf('フロバイ')) {
+      var toLv = parseInt(buki.replace('フロバイ', '').trim());
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = 'ﾌﾛｽﾄ' + toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つかったわ！\n **フロストバイトシリーズの特性Lv' + toLv + '** で登録するわね。\n');
+      }
+    }
     console.log('武器コスID=' + newSelection);
     if (true != ('string' == typeof newSelection && 0 < newSelection.length)) {
       msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器コスが見つからなかったわ・・・\n「武器コス 海賊5」みたいな指定をしてみて！5の部分は特性レベルを入れるのよ！\n');
