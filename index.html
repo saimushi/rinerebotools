@@ -3268,7 +3268,9 @@
 												if (null != clan.customColums && 'object' == typeof clan.customColums) {
 													var customColumKeys = Object.keys(clan.customColums);
 													for (var ccidx = 0; ccidx < customColumKeys.length; ccidx++) {
-														thisis.scheduleusers[suidx][customColumKeys[ccidx]] = thisis.selectusers[uidx][customColumKeys[ccidx]];
+														if (thisis.selectusers[uidx][customColumKeys[ccidx]]) {
+															thisis.scheduleusers[suidx][customColumKeys[ccidx]] = thisis.selectusers[uidx][customColumKeys[ccidx]];
+														}
 													}
 												}
 												if (inLoop < thisis.scheduleusers.length) {

@@ -2561,7 +2561,7 @@ bot.on('messageCreate', (msg) => {
                       console.log('targetSchedule=');
                       console.log(targetSchedule);
                       incount = targetSchedule.incount;
-                      msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[32] + '\n**' + dateLabel + 'に予定さてる「' + targetSchedule.name + '」**' + strings.botMessageTails[20] + '\n現在 **' + incount + strings.botMessageTails[33] + '\n');
+                      msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[32] + '\n**' + dateLabel + 'に予定されてる「' + targetSchedule.name + '」**' + strings.botMessageTails[20] + '\n現在 **' + incount + strings.botMessageTails[33] + '\n');
                       if (9 == cmd) {
                         msg.channel.edit({topic: 'clanid=' + clanID + '&scheduleid=' + scheduleID }).then(function(){
                           msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[34] + '\n');
