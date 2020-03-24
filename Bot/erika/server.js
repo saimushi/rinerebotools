@@ -2054,6 +2054,10 @@ bot.on('messageCreate', (msg) => {
       msg.channel.createMessage('登録されているボス石の数を確認したいのね、私に任せて！\n');
     }
   }
+  else if (mode == 1 && true == (-1 < msg.content.indexOf('MP消滅') && true == (-1 < msg.content.indexOf('教え') || -1 < msg.content.indexOf('確認')))) {
+    cmd = 12;
+    msg.channel.createMessage('登録されているMP消滅ポーションの数を確認したいのね、私に任せて！\n');
+  }
   else if (mode == 1 && true == (-1 < msg.content.indexOf('AF') || -1 < msg.content.indexOf('アーティファクト'))) {
     if (-1 < msg.content.indexOf('計算') || -1 < msg.content.indexOf('最適') || -1 < msg.content.indexOf('教えて') || -1 < msg.content.indexOf('知りたい')) {
       if (0 > msg.content.indexOf('めんどい')) {
@@ -2294,7 +2298,7 @@ bot.on('messageCreate', (msg) => {
             if (11 != cmd) {
               msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[19] + '\n***' + clan.name + '*** ' + strings.botMessageTails[20] + '\n');
             }
-            if (1 == cmd || 4 == cmd || 5 == cmd || 8 == cmd || 9 == cmd || 11 == cmd) {
+            if (1 == cmd || 4 == cmd || 5 == cmd || 8 == cmd || 9 == cmd || 11 == cmd || 12 == cmd) {
               // 血盟員の一覧を取得し、更新対象を特定する
               firestore.collection("users").where('clanid', '==', clanID).where('activity', '>', -9).get().then(function(querySnapshot) {
                 var targetUserID = null;
@@ -2307,9 +2311,20 @@ bot.on('messageCreate', (msg) => {
                 querySnapshot.forEach(function(snapshot) {
                   if(snapshot.exists && false === targetUser) {
                     var user = snapshot.data();
-                    if (5 == cmd) {
+                    if (5 == cmd || 12 == cmd) {
                       user.ID = snapshot.id;
                       user.out = true;
+                      /*if (12 == cmd) {
+                        var realCustomKey = null;
+                        if ('object' == typeof clan.customColums && null != clan.customColums) {
+                          var customColumKeys = Object.keys(clan.customColums);
+                          console.log(clan.customColums);
+                          console.log(customColumKeys);
+                          for (var ccidx=0; ccidx < customColumKeys.length; ccidx++) {
+                            user[clan.customColums[customColumKeys[ccidx]]] = clan.customColums[customColumKeys[ccidx]];
+                          }
+                        }
+                      }*/
                       targetUsers.push(user);
                     }
                     else if (-1 < user.name.indexOf(who) || true === ('undefined' != typeof user.discord && -1 < user.discord.indexOf(who + '#'))) {
@@ -2404,7 +2419,7 @@ bot.on('messageCreate', (msg) => {
                 if (looperror) {
                   return;
                 }
-                if (5 != cmd && false === targetUser) {
+                if (12 != cmd && 5 != cmd && false === targetUser) {
                   msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[22] + strings.domain + '/?clanid=' + clanID + strings.botMessageTails[23] + whoDiscord + strings.botMessageTails[24]);
                   return;
                 }
@@ -2539,6 +2554,25 @@ bot.on('messageCreate', (msg) => {
                 }
                 else if (11 == cmd) {
                   return _infoCalendar(msg, null, null, clan);
+                }
+                else if (12 == cmd) {
+                  var totalMPCount = 0;
+                  var message = '';
+                  for (var tuidx=0; tuidx < targetUsers.length; tuidx++) {
+                      console.log('targetUser=', targetUsers[tuidx]);
+                      var myMPCount = parseInt(targetUsers[tuidx]['customColumMP消滅保有数'])
+                      if (targetUsers[tuidx]['customColumMP消滅保有数'] && !isNaN(myMPCount) && 0 < myMPCount) {
+                        totalMPCount += myMPCount;
+                        message += '**' + targetUsers[tuidx].name + ' ' + myMPCount + '個**\n';
+                      }
+                      /*
+                      else {
+                        myMPCount = 0;
+                        message += targetUsers[tuidx].name + ' ' + myMPCount + '個\n';
+                      }*/
+                  }
+                  message += '\n***合計 ' + totalMPCount.toLocaleString() + '***\n';
+                  msg.channel.createMessage('現在の状況は\n\n' + message + '\nって登録されてるわよ！\n');
                 }
                 else if (4 == cmd || 5 == cmd || 9 == cmd) {
                   if (null === scheduleID) {

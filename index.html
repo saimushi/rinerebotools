@@ -1008,6 +1008,8 @@
 									<option if={user.job!='ラン'} value="ラン">ラン</option>
 									<option if={user.job=='アーチャー'} value="アーチャー" selected="selected">アーチャー</option>
 									<option if={user.job!='アーチャー'} value="アーチャー">アーチャー</option>
+									<option if={user.job=='シャイ'} value="シャイ" selected="selected">シャイ</option>
+									<option if={user.job!='シャイ'} value="シャイ">シャイ</option>
 								</select>
 							</div>
 							<div if={mode==1} class="form-group">
@@ -2529,6 +2531,7 @@
 														<span if={mode==1 && jobbufs[puser.job]=='HP'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: deeppink;"><img src="{jobimages[puser.job]}" title="{puser.job}" alt="{puser.job}" width="20" height="18"/><p if={1 != puser.job3d}>2d</p></span>
 														<span if={mode==2 && jobbufs[puser.job]=='近距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: salmon;"><img src="{jobimages[puser.job]}" title="{jobs[puser.job3d][puser.job]}" alt="{jobs[puser.job3d][puser.job]}" width="20" height="18"/><p if={1 == puser.job3d} class="blackdesert">覚醒</p><p if={2 == puser.job3d} class="blackdesert">継承</p></span>
 														<span if={mode==2 && jobbufs[puser.job]=='遠距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{jobs[puser.job3d][puser.job]}" alt="{jobs[puser.job3d][puser.job]}" width="20" height="18"/><p if={1 == puser.job3d} class="blackdesert">覚醒</p><p if={2 == puser.job3d} class="blackdesert">継承</p></span>
+														<span if={mode==2 && jobbufs[puser.job]=='近・遠距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: mediumaquamarine;"><img src="{jobimages[puser.job]}" title="{jobs[puser.job3d][puser.job]}" alt="{jobs[puser.job3d][puser.job]}" width="20" height="18"/><p if={1 == puser.job3d} class="blackdesert">覚醒</p><p if={2 == puser.job3d} class="blackdesert">継承</p></span>
 														<span if={'undefined' == typeof jobbufs[puser.job]} class="jobimage" style="border: none; padding: 3px; background-color: #444;">&nbsp;</span>
 													</li>
 													<li if={'on'!=getParams['view']} class="partycp pt{pusers[0].party}" style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
@@ -4287,6 +4290,7 @@
 									<td if={mode==1 && opts.mode!='contribution' && jobbufs[user.job]=='HP'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: deeppink;"><img src={jobimages[user.job]} title="{jobs[user.job]}" alt="{jobs[user.job]}" width="20"/><p if={1 != user.job3d}>2d</p></td>
 									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='近距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: salmon;"><img src={jobimages[user.job]} title="{jobs[user.job3d][user.job]}" alt="{jobs[user.job3d][user.job]}" width="20"/><p if={1 == user.job3d} class="blackdesert">覚醒</p><p if={2 == user.job3d} class="blackdesert">継承</p></td>
 									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='遠距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue;"><img src={jobimages[user.job]} title="{jobs[user.job3d][user.job]}" alt="{jobs[user.job3d][user.job]}" width="20"/><p if={1 == user.job3d} class="blackdesert">覚醒</p><p if={2 == user.job3d} class="blackdesert">継承</p></td>
+									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='近・遠距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: mediumaquamarine;"><img src={jobimages[user.job]} title="{jobs[user.job3d][user.job]}" alt="{jobs[user.job3d][user.job]}" width="20"/><p if={1 == user.job3d} class="blackdesert">覚醒</p><p if={2 == user.job3d} class="blackdesert">継承</p></td>
 									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="font-size: 5px;">{user.job}</td>
 
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && true == (!user.subjob || true == (user.subjob && null != user.subcp))} style="text-align: right;">{user.subcp}</td>
@@ -6216,6 +6220,7 @@
 					jobimages['ダークナイト'] = './images/kurosaba/classes/icn_dark knight.png';
 					jobimages['ラン'] = './images/kurosaba/classes/icn_lahn.png';
 					jobimages['アーチャー'] = './images/kurosaba/classes/icn_archer.png';
+					jobimages['シャイ'] = './images/kurosaba/classes/icn_shai.png';
 				}
 
 				var jobnamesForURL = [];
@@ -6271,6 +6276,7 @@
 					jobnamesForURL['./images/kurosaba/classes/icn_dark knight.png'] = 'ダークナイト';
 					jobnamesForURL['./images/kurosaba/classes/icn_lahn.png'] = 'ラン';
 					jobnamesForURL['./images/kurosaba/classes/icn_archer.png'] = 'アーチャー';
+					jobnamesForURL['./images/kurosaba/classes/icn_shai.png'] = 'シャイ';
 				}
 
 				var jobbufs = [];
@@ -6325,6 +6331,7 @@
 					jobbufs['ダークナイト'] = '近距離';
 					jobbufs['ラン'] = '遠距離';
 					jobbufs['アーチャー'] = '遠距離';
+					jobbufs['シャイ'] = '近・遠距離';
 				}
 
 				var jobs = [];
@@ -6379,6 +6386,7 @@
 					jobs[0]['格闘家'] = '格闘家';
 					jobs[0]['ラン'] = 'ラン';
 					jobs[0]['アーチャー'] = 'アーチャー';
+					jobs[0]['シャイ'] = 'シャイ';
 					jobs[1]['ウォーリア'] = 'バーサーカー';
 					jobs[1]['ヴァルキリー'] = 'ランサー';
 					jobs[1]['ジャイアント'] = 'デストロイヤー';
@@ -6396,6 +6404,7 @@
 					jobs[1]['格闘家'] = '格闘家';
 					jobs[1]['ラン'] = 'ラン';
 					jobs[1]['アーチャー'] = 'アーチャー';
+					jobs[1]['シャイ'] = 'シャイ';
 					jobs[2]['ウォーリア'] = 'グラディエーター';
 					jobs[2]['ヴァルキリー'] = 'パラディン';
 					jobs[2]['ジャイアント'] = 'タイタン';
@@ -6413,6 +6422,7 @@
 					jobs[2]['格闘家'] = '格闘家';
 					jobs[2]['ラン'] = 'ラン';
 					jobs[2]['アーチャー'] = 'アーチャー';
+					jobs[2]['シャイ'] = 'シャイ';
 				}
 
 				var rejobs = [];
@@ -6500,6 +6510,7 @@
 					rejobs['格闘家'] = '格闘家';
 					rejobs['ラン'] = 'ラン';
 					rejobs['アーチャー'] = 'アーチャー';
+					rejobs['シャイ'] = 'シャイ';
 
 					rejobs['ウォーリア'] = 'ウォーリア';
 					rejobs['ヴァルキリー'] = 'ヴァルキリー';
@@ -6518,6 +6529,7 @@
 					rejobs['ダークナイト'] = 'ダークナイト';
 					rejobs['ラン'] = 'ラン';
 					rejobs['アーチャー'] = 'アーチャー';
+					rejobs['シャイ'] = 'シャイ';
 				}
 			</script>
 		</section>

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "rinerebo-210503"
+    "default": "rinerebo-210503",
+    "blackdesert": "blackdesert-7c0e8"
   }
 }
