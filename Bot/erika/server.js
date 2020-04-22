@@ -416,11 +416,6 @@ var infojob = function (testClanID) {
         }
       }
     });
-    console.log('datas1.length='+datas1.length);
-    console.log('datas2.length='+datas2.length);
-    console.log('datas3.length='+datas3.length);
-    console.log('datas4.length='+datas4.length);
-    console.log('datas5.length='+datas5.length);
     if (0 < datas1.length || 0 < datas2.length || 0 < datas3.length || 0 < datas4.length || 0 < datas5.length || 0 < datas6.length || 0 < datas7.length) {
       var dt = new Date();
       /*var dayLabel = dt.toFormat("DDD");
@@ -979,15 +974,19 @@ bot.on('messageCreate', (msg) => {
       return;
     }
   }
-  if (msg.channel.id == 379464851560595468 || msg.channel.id == 530716770030452756) {
-    bot.executeWebhook('584953379336486922', 'v4_osSlytIf42DnXa5JvUStVWtp8IIcxuah1-VHv_wHpiF3HBYa60CFr6apmYx2wvy_M', {
+  if (msg.channel.id == 648449228649136128 || msg.channel.id == 473768529926291456 || msg.channel.id == 648447031127441408 || msg.channel.id == 698150423839637574) {
+    bot.executeWebhook('697389101824868402', 'G4dCGm78BOs2K5FmtEjEK6hkRfIO_TX6sV_w8Jf4QrIt8mZp-spVKQVObShlFDOSK49z', {
       disableEveryone: false,
       content: '[' + msg.author.username + ']' +  msg.content + '\n\n'
     });
-    bot.executeWebhook('585021387262001152', '5Q_fZ_ddid8DXtlyxUqL5tbUno4_u4czvawKnR4rK5-CEhmpSdcn3IqqkGLiapXu1XWb', {
-      disableEveryone: false,
-      content: '[' + msg.author.username + ']' +  msg.content + '\n\n'
-    });
+    if (msg.attachments && 0 < msg.attachments.length) {
+      for (var aidx=0; aidx < msg.attachments.length; aidx++) {
+        bot.executeWebhook('697389101824868402', 'G4dCGm78BOs2K5FmtEjEK6hkRfIO_TX6sV_w8Jf4QrIt8mZp-spVKQVObShlFDOSK49z', {
+          disableEveryone: false,
+          content: '[' + msg.author.username + ']' +  msg.attachments[aidx].url + '\n\n'
+        });
+      }
+    }
   }
   console.log(msg.channel.id);
   console.log(msg.content);
@@ -1737,6 +1736,24 @@ bot.on('messageCreate', (msg) => {
         subcmd = 16;
       }
     }
+    if (-1 < tokusei.indexOf('悪魔特性')) {
+      var toLv = parseInt(tokusei.replace('悪魔特性', '').trim());
+      tokusei = '';
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **悪魔特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 18;
+      }
+    }
+    if (-1 < tokusei.indexOf('悪魔')) {
+      var toLv = parseInt(tokusei.replace('悪魔', '').trim());
+      tokusei = '';
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **悪魔特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 18;
+      }
+    }
     if (-1 < tokusei.indexOf('スイート')) {
       var toLv = parseInt(tokusei.replace('スイート', '').trim());
       tokusei = '';
@@ -2391,6 +2408,9 @@ bot.on('messageCreate', (msg) => {
                         }
                         if (16 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                           targetUser.humanoid = newSelection;
+                        }
+                        if (18 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                          targetUser.demon = newSelection;
                         }
                         if (17 == subcmd && 'string' == typeof customKey && 'string' == typeof customVal) {
                           var realCustomKey = null;
