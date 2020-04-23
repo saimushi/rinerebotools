@@ -3269,7 +3269,9 @@
 													thisis.scheduleusers[suidx].mamono = thisis.selectusers[uidx].mamono;
 													thisis.scheduleusers[suidx].dragon = thisis.selectusers[uidx].dragon;
 													thisis.scheduleusers[suidx].humanoid = thisis.selectusers[uidx].humanoid;
-													thisis.scheduleusers[suidx].demon = thisis.selectusers[uidx].demon;
+													if ('undefined' != typeof thisis.scheduleusers[suidx].demon) {
+														thisis.scheduleusers[suidx].demon = thisis.selectusers[uidx].demon;
+													}
 													thisis.scheduleusers[suidx].boss = thisis.selectusers[uidx].boss;
 													thisis.scheduleusers[suidx].subjob = thisis.selectusers[uidx].subjob;
 													thisis.scheduleusers[suidx].subjob3d = thisis.selectusers[uidx].subjob3d;
