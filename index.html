@@ -3215,6 +3215,7 @@
 						auth(false, function (clan) {
 							getUsers(clan.ID, false, function(users) {
 								thisis.selectusers = users;
+								console.log('thisis.selectusers=', thisis.selectusers);
 								getScheduleUsers(getParams['scheduleid'], null, function(scheduleusers) {
 									thisis.attckAssistans = attckAssistans;
 									thisis.criticalAssistants = criticalAssistants;
@@ -3269,7 +3270,7 @@
 													thisis.scheduleusers[suidx].mamono = thisis.selectusers[uidx].mamono;
 													thisis.scheduleusers[suidx].dragon = thisis.selectusers[uidx].dragon;
 													thisis.scheduleusers[suidx].humanoid = thisis.selectusers[uidx].humanoid;
-													if ('undefined' != typeof thisis.scheduleusers[suidx].demon) {
+													if ('undefined' != typeof thisis.selectusers[uidx].demon) {
 														thisis.scheduleusers[suidx].demon = thisis.selectusers[uidx].demon;
 													}
 													thisis.scheduleusers[suidx].boss = thisis.selectusers[uidx].boss;
