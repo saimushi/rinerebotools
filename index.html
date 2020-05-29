@@ -6107,6 +6107,7 @@
 
 			<!-- bootstrap -->
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+			<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 			<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 			<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment-with-locales.min.js"></script>
 			<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -6822,6 +6823,9 @@
 								loading(false);
 								// 鍵が掛かっていた場合は鍵を入れないと入れない
 								if ('string' == typeof data.clanpass) {
+									if (data.clanpass.toLowerCase() === $.cookie('clanpass')) {
+										return;
+									}
 									var showPassAlert = function () {
 										swal({
 											title: 'パスワード',
@@ -6840,6 +6844,7 @@
 											if (val) {
 												// 入力値を受け取る
 												if (data.clanpass.toLowerCase() === CryptoJS.SHA1($('#clanpass').val()).toString().toLowerCase()) {
+													$.cookie('clanpass', CryptoJS.SHA1($('#clanpass').val()).toString().toLowerCase());
 													// 一致
 													return;
 												}
