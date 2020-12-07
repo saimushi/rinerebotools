@@ -2683,6 +2683,10 @@ bot.on('messageCreate', (msg) => {
                             }
                             else if (2 == subcmd && 0 === targetUsers[suidx].entry && targetUsers[suidx].activity > -1 && targetUsers[suidx].comment != '同一タグの前回のPT編成をコピー') {
                               mybeUsers = mybeUsers + targetUsers[suidx].name;
+                              if (targetUsers[suidx].discordID) {
+                                mybeUsers = mybeUsers + ' (<@' + targetUsers[suidx].discordID + '>)';
+                              }
+                              /*
                               var botUser = bot.users.find(function(element) {
                                 if ('string' == typeof targetUsers[suidx].discord && 0 < targetUsers[suidx].discord.length && targetUsers[suidx].discord == element.username + '#' + element.discriminator) {
                                   return true;
@@ -2695,6 +2699,7 @@ bot.on('messageCreate', (msg) => {
                               if (botUser) {
                                 mybeUsers = mybeUsers + ' (<@' + botUser.id + '>)';
                               }
+                              */
                               mybeUsers = mybeUsers + '\n';
                             }
                           }
