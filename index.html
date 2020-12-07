@@ -81,13 +81,13 @@
 			var clanLabel = '血盟';
 			var clanPageLabel = '血盟コミュ';
 			var clanMemberLabel = '血盟員';
-			if (-1 < location.hostname.indexOf('kurosaba') || 4000 == location.port) {
+		//	if (-1 < location.hostname.indexOf('kurosaba') || 4000 == location.port) {
 				console.log('mode=kurosaba');
 				mode = 2;
 				clanLabel = 'ギルド';
 				clanPageLabel = 'ギルドサイト';
 				clanMemberLabel = 'ギルドメンバー';
-			}
+			//}
 		</script>
 
 		<!-- this app styles -->
@@ -1010,6 +1010,8 @@
 									<option if={user.job!='アーチャー'} value="アーチャー">アーチャー</option>
 									<option if={user.job=='シャイ'} value="シャイ" selected="selected">シャイ</option>
 									<option if={user.job!='シャイ'} value="シャイ">シャイ</option>
+									<option if={user.job=='ハサシン'} value="ハサシン" selected="selected">ハサシン</option>
+									<option if={user.job!='ハサシン'} value="ハサシン">ハサシン</option>
 								</select>
 							</div>
 							<div if={mode==1} class="form-group">
@@ -1137,7 +1139,7 @@
 							</div>
 							<div class="form-group">
 								<div class="btn-group">
-									<input type="text" name="discordid" value="{user.discordID}" class="form-control" placeholder="375149832362393600"/>
+									<input type="text" name="discordid" value="{user.discordID}" class="form-control" placeholder="ディスコードID (375149832362393600などの数値)"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
 							</div>
@@ -6261,6 +6263,7 @@
 					jobimages['ラン'] = './images/kurosaba/classes/icn_lahn.png';
 					jobimages['アーチャー'] = './images/kurosaba/classes/icn_archer.png';
 					jobimages['シャイ'] = './images/kurosaba/classes/icn_shai.png';
+					jobimages['ハサシン'] = './images/kurosaba/classes/icn_hasashin.png';
 				}
 
 				var jobnamesForURL = [];
@@ -6317,6 +6320,7 @@
 					jobnamesForURL['./images/kurosaba/classes/icn_lahn.png'] = 'ラン';
 					jobnamesForURL['./images/kurosaba/classes/icn_archer.png'] = 'アーチャー';
 					jobnamesForURL['./images/kurosaba/classes/icn_shai.png'] = 'シャイ';
+					jobnamesForURL['./images/kurosaba/classes/icn_hasashin.png'] = 'ハサシン';
 				}
 
 				var jobbufs = [];
@@ -6372,6 +6376,7 @@
 					jobbufs['ラン'] = '遠距離';
 					jobbufs['アーチャー'] = '遠距離';
 					jobbufs['シャイ'] = '近・遠距離';
+					jobbufs['ハサシン'] = '近距離';
 				}
 
 				var jobs = [];
@@ -6427,6 +6432,7 @@
 					jobs[0]['ラン'] = 'ラン';
 					jobs[0]['アーチャー'] = 'アーチャー';
 					jobs[0]['シャイ'] = 'シャイ';
+					jobs[0]['ハサシン'] = 'ハサシン';
 					jobs[1]['ウォーリア'] = 'バーサーカー';
 					jobs[1]['ヴァルキリー'] = 'ランサー';
 					jobs[1]['ジャイアント'] = 'デストロイヤー';
@@ -6445,6 +6451,7 @@
 					jobs[1]['ラン'] = 'ラン';
 					jobs[1]['アーチャー'] = 'アーチャー';
 					jobs[1]['シャイ'] = 'シャイ';
+					jobs[1]['ハサシン'] = 'ハサシン';
 					jobs[2]['ウォーリア'] = 'グラディエーター';
 					jobs[2]['ヴァルキリー'] = 'パラディン';
 					jobs[2]['ジャイアント'] = 'タイタン';
@@ -6463,6 +6470,7 @@
 					jobs[2]['ラン'] = 'ラン';
 					jobs[2]['アーチャー'] = 'アーチャー';
 					jobs[2]['シャイ'] = 'シャイ';
+					jobs[2]['ハサシン'] = 'ハサシン';
 				}
 
 				var rejobs = [];
@@ -6551,6 +6559,7 @@
 					rejobs['ラン'] = 'ラン';
 					rejobs['アーチャー'] = 'アーチャー';
 					rejobs['シャイ'] = 'シャイ';
+					rejobs['ハサシン'] = 'ハサシン';
 
 					rejobs['ウォーリア'] = 'ウォーリア';
 					rejobs['ヴァルキリー'] = 'ヴァルキリー';
@@ -6570,6 +6579,7 @@
 					rejobs['ラン'] = 'ラン';
 					rejobs['アーチャー'] = 'アーチャー';
 					rejobs['シャイ'] = 'シャイ';
+					rejobs['ハサシン'] = 'ハサシン';
 				}
 			</script>
 		</section>
