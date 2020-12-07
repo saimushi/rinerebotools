@@ -1137,6 +1137,12 @@
 							</div>
 							<div class="form-group">
 								<div class="btn-group">
+									<input type="text" name="discordid" value="{user.discordID}" class="form-control" placeholder="375149832362393600"/>
+									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="btn-group">
 									<input type="text" name="memo" value="{user.memo}" class="form-control" placeholder="なんでもメモ"/>
 									<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
 								</div>
@@ -7947,6 +7953,7 @@
 					var usercp = $('#registerform').find('input[name=usercp]').val();
 					var usermemo = $('#registerform').find('input[name=memo]').val();
 					var userdiscord = $('#registerform').find('input[name=discord]').val();
+					var userdiscordID = $('#registerform').find('input[name=discordid]').val();
 					var useractivity = $('#registerform').find('select[name=useractivity] option:selected').val();
 					var userjoind = $('#registerform').find('#joinddate').data().date;
 					var userjob3d = $('#registerform').find('select[name=userjob3d] option:selected').val();
@@ -7961,6 +7968,9 @@
 						return;
 					}
 					var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, activity: parseInt(useractivity), discord: userdiscord, };
+					if (!isNaN(parseInt(userdiscordID))) {
+						data.discordid = parseInt(userdiscordID);
+					}
 					if (0 < userjoind.length) {
 						data.joind = new Date(userjoind);
 					}

@@ -2444,6 +2444,9 @@ bot.on('messageCreate', (msg) => {
                   return;
                 }
                 if (1 == cmd) {
+                  if ('number' != typeof targetUser.discordID) {
+                    targetUser.discordID = msg.author.id;
+                  }
                   targetUser.modified = new Date();
                   firestore.collection("users").doc(targetUserID).update(targetUser).then(function(snapshot) {
                     msg.channel.createMessage('<@' + msg.author.id + '> ' + strings.botMessageTails[25] + '\n' + targetUser.name + ': https://' + strings.domain + '/?clanid=' + clanID + '&userid=' + targetUserID + '&view=on#modifyuser\n');
@@ -2661,7 +2664,10 @@ bot.on('messageCreate', (msg) => {
                           for (var suidx=0; suidx < targetUsers.length; suidx++) {
                             if (true === targetUsers[suidx].out && targetUsers[suidx].activity > -1) {
                               outUsers = outUsers + targetUsers[suidx].name;
-                              var botUser = bot.users.find(function(element) {
+                              if (targetUsers[suidx].discordID) {
+                                outUsers = outUsers + ' (<@' + targetUsers[suidx].discordID + '>)';
+                              }
+                              /*var botUser = bot.users.find(function(element) {
                                 if ('string' == typeof targetUsers[suidx].discord && 0 < targetUsers[suidx].discord.length && targetUsers[suidx].discord == element.username + '#' + element.discriminator) {
                                   return true;
                                 }
@@ -2672,7 +2678,7 @@ bot.on('messageCreate', (msg) => {
                               });
                               if (botUser) {
                                 outUsers = outUsers + ' (<@' + botUser.id + '>)';
-                              }
+                              }*/
                               outUsers = outUsers + '\n';
                             }
                             else if (2 == subcmd && 0 === targetUsers[suidx].entry && targetUsers[suidx].activity > -1 && targetUsers[suidx].comment != '同一タグの前回のPT編成をコピー') {
