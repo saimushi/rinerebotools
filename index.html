@@ -7978,8 +7978,8 @@
 						return;
 					}
 					var data = { ID: userID, name: username, job: userjob, level: parseInt(userlevel), cp: parseInt(usercp), memo: usermemo, activity: parseInt(useractivity), discord: userdiscord, };
-					if (!isNaN(parseInt(userdiscordID))) {
-						data.discordid = parseInt(userdiscordID);
+					if (!isNaN(Number(userdiscordID))) {
+						data.discordID = userdiscordID;
 					}
 					if (0 < userjoind.length) {
 						data.joind = new Date(userjoind);
