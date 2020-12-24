@@ -1012,6 +1012,8 @@
 									<option if={user.job!='シャイ'} value="シャイ">シャイ</option>
 									<option if={user.job=='ハサシン'} value="ハサシン" selected="selected">ハサシン</option>
 									<option if={user.job!='ハサシン'} value="ハサシン">ハサシン</option>
+									<option if={user.job=='ノヴァ'} value="ノヴァ" selected="selected">ノヴァ</option>
+									<option if={user.job!='ノヴァ'} value="ノヴァ">ノヴァ</option>
 								</select>
 							</div>
 							<div if={mode==1} class="form-group">
@@ -2305,6 +2307,31 @@
 									<option if={user.demon!=1} value="1">悪魔特性Lv1</option>
 								</select>
 							</div>
+							<div if={mode==1} class="form-group">
+								<select class="form-control" name="userundead">
+									<option>アンデッド特性</option>
+									<option if={user.undead==10} value="10" selected="selected">アンデッド特性Lv10</option>
+									<option if={user.undead==9} value="9" selected="selected">アンデッド特性Lv9</option>
+									<option if={user.undead==8} value="8" selected="selected">アンデッド特性Lv8</option>
+									<option if={user.undead==7} value="7" selected="selected">アンデッド特性Lv7</option>
+									<option if={user.undead==6} value="6" selected="selected">アンデッド特性Lv6</option>
+									<option if={user.undead==5} value="5" selected="selected">アンデッド特性Lv5</option>
+									<option if={user.undead==4} value="4" selected="selected">アンデッド特性Lv4</option>
+									<option if={user.undead==3} value="3" selected="selected">アンデッド特性Lv3</option>
+									<option if={user.undead==2} value="2" selected="selected">アンデッド特性Lv2</option>
+									<option if={user.undead==1} value="1" selected="selected">アンデッド特性Lv1</option>
+									<option if={user.undead!=10} value="10">アンデッド特性Lv10</option>
+									<option if={user.undead!=9} value="9">アンデッド特性Lv9</option>
+									<option if={user.undead!=8} value="8">アンデッド特性Lv8</option>
+									<option if={user.undead!=7} value="7">アンデッド特性Lv7</option>
+									<option if={user.undead!=6} value="6">アンデッド特性Lv6</option>
+									<option if={user.undead!=5} value="5">アンデッド特性Lv5</option>
+									<option if={user.undead!=4} value="4">アンデッド特性Lv4</option>
+									<option if={user.undead!=3} value="3">アンデッド特性Lv3</option>
+									<option if={user.undead!=2} value="2">アンデッド特性Lv2</option>
+									<option if={user.undead!=1} value="1">アンデッド特性Lv1</option>
+								</select>
+							</div>
 							<div if={mode==2} class="form-group">
 								<div class="btn-group">
 									<input type="number" pattern="\d{4,8}" name="usersubcp" value="{user.subcp}" class="form-control" placeholder="家門戦闘力"/>
@@ -2332,7 +2359,7 @@
 							<botton if={user.ID!='' && 'on'!= getParams['view']} class="btn btn-danger" onclick="onclickUnregister(this, '{user.ID}')">削除</botton>
 						</form>
 					</div>
-					var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', spiritlevel:'', meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, humanoid: null, demon: null, boss: null, memo: '', activity: 9, joind: '',};
+					var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', spiritlevel:'', meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, humanoid: null, demon: null, undead: null, boss: null, memo: '', activity: 9, joind: '',};
 					this.on('mount', function() {
 						//$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00",});
 						auth(false, function (clan) {
@@ -2565,6 +2592,7 @@
 														<span if={mode==2 && jobbufs[puser.job]=='近距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: salmon;"><img src="{jobimages[puser.job]}" title="{jobs[puser.job3d][puser.job]}" alt="{jobs[puser.job3d][puser.job]}" width="20" height="18"/><p if={1 == puser.job3d} class="blackdesert">覚醒</p><p if={2 == puser.job3d} class="blackdesert">継承</p></span>
 														<span if={mode==2 && jobbufs[puser.job]=='遠距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: dodgerblue;"><img src="{jobimages[puser.job]}" title="{jobs[puser.job3d][puser.job]}" alt="{jobs[puser.job3d][puser.job]}" width="20" height="18"/><p if={1 == puser.job3d} class="blackdesert">覚醒</p><p if={2 == puser.job3d} class="blackdesert">継承</p></span>
 														<span if={mode==2 && jobbufs[puser.job]=='近・遠距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: mediumaquamarine;"><img src="{jobimages[puser.job]}" title="{jobs[puser.job3d][puser.job]}" alt="{jobs[puser.job3d][puser.job]}" width="20" height="18"/><p if={1 == puser.job3d} class="blackdesert">覚醒</p><p if={2 == puser.job3d} class="blackdesert">継承</p></span>
+														<span if={mode==2 && jobbufs[puser.job]=='中距離'} class="jobimage" style="border: none; padding: 3px; padding-left: 1px; background-color: gold;"><img src="{jobimages[puser.job]}" title="{jobs[puser.job3d][puser.job]}" alt="{jobs[puser.job3d][puser.job]}" width="20" height="18"/><p if={1 == puser.job3d} class="blackdesert">覚醒</p><p if={2 == puser.job3d} class="blackdesert">継承</p></span>
 														<span if={'undefined' == typeof jobbufs[puser.job]} class="jobimage" style="border: none; padding: 3px; background-color: #444;">&nbsp;</span>
 													</li>
 													<li if={'on'!=getParams['view']} class="partycp pt{pusers[0].party}" style="padding: 0; border: solid 1px gray; border-top: solid 1px #ddd; border-bottom: solid 1px #ddd; background-color: white; text-align: right; height: 20px;">
@@ -3280,6 +3308,9 @@
 													thisis.scheduleusers[suidx].humanoid = thisis.selectusers[uidx].humanoid;
 													if ('undefined' != typeof thisis.selectusers[uidx].demon) {
 														thisis.scheduleusers[suidx].demon = thisis.selectusers[uidx].demon;
+													}
+													if ('undefined' != typeof thisis.selectusers[uidx].undead) {
+														thisis.scheduleusers[suidx].undead = thisis.selectusers[uidx].undead;
 													}
 													thisis.scheduleusers[suidx].boss = thisis.selectusers[uidx].boss;
 													thisis.scheduleusers[suidx].subjob = thisis.selectusers[uidx].subjob;
@@ -4252,6 +4283,7 @@
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 15px; max-width: 15px; min-width: 15px;">竜</th>
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 15px; max-width: 15px; min-width: 15px;">人</th>
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 15px; max-width: 15px; min-width: 15px;">悪</th>
+									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="background-color: crimson; color: white; width: 15px; max-width: 15px; min-width: 15px;">死</th>
 									<th if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} style="width: 15px; max-width: 15px; min-width: 15px;">ボ</th>
 									<th style="width: 15px; max-width: 15px; min-width: 15px;">区</th>
 									<th if={opts.mode!='schedule'} onclick="{sortJoind}" style="font-size: 6px; width: 25px; max-width: 25px; min-width: 25px;">入隊日</th>
@@ -4329,6 +4361,7 @@
 									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='近距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: salmon;"><img src={jobimages[user.job]} title="{jobs[user.job3d][user.job]}" alt="{jobs[user.job3d][user.job]}" width="20"/><p if={1 == user.job3d} class="blackdesert">覚醒</p><p if={2 == user.job3d} class="blackdesert">継承</p></td>
 									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='遠距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: dodgerblue;"><img src={jobimages[user.job]} title="{jobs[user.job3d][user.job]}" alt="{jobs[user.job3d][user.job]}" width="20"/><p if={1 == user.job3d} class="blackdesert">覚醒</p><p if={2 == user.job3d} class="blackdesert">継承</p></td>
 									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='近・遠距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: mediumaquamarine;"><img src={jobimages[user.job]} title="{jobs[user.job3d][user.job]}" alt="{jobs[user.job3d][user.job]}" width="20"/><p if={1 == user.job3d} class="blackdesert">覚醒</p><p if={2 == user.job3d} class="blackdesert">継承</p></td>
+									<td if={mode==2 && opts.mode!='contribution' && jobbufs[user.job]=='中距離'} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="background-color: gold;"><img src={jobimages[user.job]} title="{jobs[user.job3d][user.job]}" alt="{jobs[user.job3d][user.job]}" width="20"/><p if={1 == user.job3d} class="blackdesert">覚醒</p><p if={2 == user.job3d} class="blackdesert">継承</p></td>
 									<td if={opts.mode!='contribution' && 'undefined' == typeof jobbufs[user.job]} onclick="onclickModify(this, '{user.ID}');" class="draggable jobimage" style="font-size: 5px;">{user.job}</td>
 
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid') && true == (!user.subjob || true == (user.subjob && null != user.subcp))} style="text-align: right;">{user.subcp}</td>
@@ -4378,6 +4411,7 @@
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; text-align: right;">{user.dragon}</td>
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; text-align: right;">{user.humanoid}</td>
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; text-align: right;">{user.demon}</td>
+									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="background-color: crimson; color: white; text-align: right;">{user.undead}</td>
 									<td if={mode==1 && true==(!opts.mode || opts.submode=='bossraid')} onclick="onclickModify(this, '{user.ID}');" class="draggable" style="text-align: right;">{user.boss}</td>
 									<td if={user.activity==1} onclick="onclickModify(this, '{user.ID}');" class="success" style="font-size: xx-small;">AC</td>
 									<td if={user.activity==0} onclick="onclickModify(this, '{user.ID}');" class="warning" style="font-size: xx-small;">IAC</td>
@@ -4450,10 +4484,11 @@
 							 || 0 > fields[20].indexOf('竜特性')
 							 || 0 > fields[21].indexOf('人型特性')
 							 || 0 > fields[22].indexOf('悪魔特性')
-							 || 0 > fields[23].indexOf('ボス特性')
-							 || 0 > fields[24].indexOf('区分')
-							 || 0 > fields[25].indexOf('入隊日')
-							 || 0 > fields[26].indexOf('更新日')
+							 || 0 > fields[23].indexOf('アンデッド特性')
+							 || 0 > fields[24].indexOf('ボス特性')
+							 || 0 > fields[25].indexOf('区分')
+							 || 0 > fields[26].indexOf('入隊日')
+							 || 0 > fields[27].indexOf('更新日')
 							) {
 								alert('指定されたファイルは項目数が足りないか\n独自フォーマットのCSVです\n\nCSVエクスポートしたCSVと同じ項目とフォーマットの\nCSVをお使い下さい');
 								return;
@@ -4484,7 +4519,7 @@
 									cols[colidx] = cols[colidx].replace(/^"(.*)"$/, '$1');
 								}
 								console.log('cols=', cols);
-								var _user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: 0, meteo: 0, dzone: null, acce1: 0, acce2: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, humanoid: null, demon: null, boss: null, memo: '', activity: 9, joind: '' };
+								var _user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: 0, meteo: 0, dzone: null, acce1: 0, acce2: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, humanoid: null, demon: null, undead: null, boss: null, memo: '', activity: 9, joind: '' };
 								_user.name = cols[1].replace(/""/, '"').trim();
 								_user.cp = parseInt(cols[2].trim());
 								_user.job = rejobs[cols[3].trim()];
@@ -4562,8 +4597,9 @@
 								_user.dragon = (cols[20].trim() == '')? null: parseInt(cols[20].trim());
 								_user.humanoid = (cols[21].trim() == '')? null: parseInt(cols[21].trim());
 								_user.demon = (cols[22].trim() == '')? null: parseInt(cols[22].trim());
-								_user.boss = (cols[23].trim() == '')? null: parseInt(cols[23].trim());
-								_user.activity = cols[24].trim();
+								_user.undead = (cols[23].trim() == '')? null: parseInt(cols[23].trim());
+								_user.boss = (cols[24].trim() == '')? null: parseInt(cols[24].trim());
+								_user.activity = cols[25].trim();
 								if (_user.activity == 'アクティブ') {
 									_user.activity = 1;
 								}
@@ -4576,17 +4612,17 @@
 								else if (_user.activity == '除名') {
 									_user.activity = -9;
 								}
-								var _joind = cols[25].trim().replace(' ', '/').split('/');
+								var _joind = cols[26].trim().replace(' ', '/').split('/');
 								_user.joind = (('0000' + _joind[0]).slice(-4)) + '/' + (('00' + _joind[1]).slice(-2)) + '/' + (('00' + _joind[2]).slice(-2));
-								var _modified = (cols[26].trim() == '')? null: cols[26].trim().replace(' ', '/').split('/');
+								var _modified = (cols[27].trim() == '')? null: cols[27].trim().replace(' ', '/').split('/');
 								if (null != _modified) {
 									_user.modified = (('0000' + _modified[0]).slice(-4)) + '/' + (('00' + _modified[1]).slice(-2)) + '/' + (('00' + _modified[2]).slice(-2));
 								}
-								var ccidx = 28;
-								console.log('is?', fields[28]);
-								if (fields[28] && 'object' == typeof clan.customColums && customColumKeys) {
-									console.log('is??', fields[28]);
-									for (ccidx = 27; ccidx < fields.length - 1; ccidx++) {
+								var ccidx = 29;
+								console.log('is?', fields[29]);
+								if (fields[29] && 'object' == typeof clan.customColums && customColumKeys) {
+									console.log('is??', fields[29]);
+									for (ccidx = 29; ccidx < fields.length - 1; ccidx++) {
 										var fieldBaseName = fields[ccidx].replace(/^"(.*)\(※\)"$/, '$1');
 										console.log('fieldBaseName=', fieldBaseName);
 										if (customColumKeys[fieldBaseName]) {
@@ -6202,7 +6238,7 @@
 				}
 
 				var clan = { ID: '', name: '', discordhookid: '', discordhooktoken: '', };
-				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', spiritlevel: '', meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, humanoid: null, demon: null, boss: null, memo: '', activity: 9, joind: '', discord: '', };
+				var user = { ID: '', name: '', job: '', job3d: 0, cp: '', level: '', spiritlevel: '', meteo: 0, dzone: null, acce1: 0, bukicos: '', manto: '', pvpat: null, pvpdf: null, sweet: null, mamono: null, dragon: null, humanoid: null, demon: null, undead: null, boss: null, memo: '', activity: 9, joind: '', discord: '', };
 				var schedule = { ID: '', name: '', date: '', tag: '', incount: 0, type: 0, autoReset: null, };
 				var partySchedule = {name:'', date: '', incount: 0, };
 				var news = { ID: '', text: '', tag: '', notifymode: 0, notifytime: 0, };
@@ -6264,6 +6300,7 @@
 					jobimages['アーチャー'] = './images/kurosaba/classes/icn_archer.png';
 					jobimages['シャイ'] = './images/kurosaba/classes/icn_shai.png';
 					jobimages['ハサシン'] = './images/kurosaba/classes/icn_hasashin.png';
+					jobimages['ノヴァ'] = './images/kurosaba/classes/icn_nova.png';
 				}
 
 				var jobnamesForURL = [];
@@ -6321,6 +6358,7 @@
 					jobnamesForURL['./images/kurosaba/classes/icn_archer.png'] = 'アーチャー';
 					jobnamesForURL['./images/kurosaba/classes/icn_shai.png'] = 'シャイ';
 					jobnamesForURL['./images/kurosaba/classes/icn_hasashin.png'] = 'ハサシン';
+					jobnamesForURL['./images/kurosaba/classes/icn_nova.png'] = 'ノヴァ';
 				}
 
 				var jobbufs = [];
@@ -6377,6 +6415,7 @@
 					jobbufs['アーチャー'] = '遠距離';
 					jobbufs['シャイ'] = '近・遠距離';
 					jobbufs['ハサシン'] = '近距離';
+					jobbufs['ノヴァ'] = '中距離';
 				}
 
 				var jobs = [];
@@ -6433,6 +6472,7 @@
 					jobs[0]['アーチャー'] = 'アーチャー';
 					jobs[0]['シャイ'] = 'シャイ';
 					jobs[0]['ハサシン'] = 'ハサシン';
+					jobs[0]['ノヴァ'] = 'ノヴァ';
 					jobs[1]['ウォーリア'] = 'バーサーカー';
 					jobs[1]['ヴァルキリー'] = 'ランサー';
 					jobs[1]['ジャイアント'] = 'デストロイヤー';
@@ -6452,6 +6492,7 @@
 					jobs[1]['アーチャー'] = 'アーチャー';
 					jobs[1]['シャイ'] = 'シャイ';
 					jobs[1]['ハサシン'] = 'ハサシン';
+					jobs[1]['ノヴァ'] = 'ノヴァ';
 					jobs[2]['ウォーリア'] = 'グラディエーター';
 					jobs[2]['ヴァルキリー'] = 'パラディン';
 					jobs[2]['ジャイアント'] = 'タイタン';
@@ -6471,6 +6512,7 @@
 					jobs[2]['アーチャー'] = 'アーチャー';
 					jobs[2]['シャイ'] = 'シャイ';
 					jobs[2]['ハサシン'] = 'ハサシン';
+					jobs[2]['ノヴァ'] = 'ノヴァ';
 				}
 
 				var rejobs = [];
@@ -6560,6 +6602,7 @@
 					rejobs['アーチャー'] = 'アーチャー';
 					rejobs['シャイ'] = 'シャイ';
 					rejobs['ハサシン'] = 'ハサシン';
+					rejobs['ノヴァ'] = 'ノヴァ';
 
 					rejobs['ウォーリア'] = 'ウォーリア';
 					rejobs['ヴァルキリー'] = 'ヴァルキリー';
@@ -6580,6 +6623,7 @@
 					rejobs['アーチャー'] = 'アーチャー';
 					rejobs['シャイ'] = 'シャイ';
 					rejobs['ハサシン'] = 'ハサシン';
+					rejobs['ノヴァ'] = 'ノヴァ';
 				}
 			</script>
 		</section>
@@ -7994,6 +8038,7 @@
 						var userdragon = $('#registerform').find('select[name=userdragon] option:selected').val();
 						var userhumanoid = $('#registerform').find('select[name=userhumanoid] option:selected').val();
 						var userdemon = $('#registerform').find('select[name=userdemon] option:selected').val();
+						var userundead = $('#registerform').find('select[name=userundead] option:selected').val();
 						var userboss = $('#registerform').find('select[name=userboss] option:selected').val();
 
 						var usersubjob = $('#registerform').find('select[name=usersubjob] option:selected').val();
@@ -8058,6 +8103,12 @@
 						else {
 							userdemon = parseInt(userdemon);
 						}
+						if ('アンデッド特性' === userundead) {
+							userundead = null;
+						}
+						else {
+							userundead = parseInt(userundead);
+						}
 						if ('' === userdzone) {
 							userdzone = null;
 						}
@@ -8094,6 +8145,7 @@
 						data.dragon = userdragon;
 						data.humanoid = userhumanoid;
 						data.demon = userdemon;
+						data.undead = userundead;
 						data.boss = userboss;
 						data.subjob = usersubjob;
 						data.subjob3d = usersubjob3d;
@@ -8453,6 +8505,9 @@
 							}
 							else if (label == '悪') {
 								label = '悪魔特性';
+							}
+							else if (label == '死') {
+								label = 'アンデッド特性';
 							}
 							else if (label == 'メ') {
 								label = 'メテオLv';
