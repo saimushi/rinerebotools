@@ -1014,6 +1014,12 @@
 									<option if={user.job!='ハサシン'} value="ハサシン">ハサシン</option>
 									<option if={user.job=='ノヴァ'} value="ノヴァ" selected="selected">ノヴァ</option>
 									<option if={user.job!='ノヴァ'} value="ノヴァ">ノヴァ</option>
+									<option if={user.job=='ガーディアン'} value="ガーディアン" selected="selected">ガーディアン</option>
+									<option if={user.job!='ガーディアン'} value="ガーディアン">ガーディアン</option>
+									<option if={user.job=='ソラリス'} value="ソラリス" selected="selected">ソラリス</option>
+									<option if={user.job!='ソラリス'} value="ソラリス">ソラリス</option>
+									<option if={user.job=='修羅'} value="修羅" selected="selected">修羅</option>
+									<option if={user.job!='修羅'} value="修羅">修羅</option>
 								</select>
 							</div>
 							<div if={mode==1} class="form-group">
@@ -6280,7 +6286,7 @@
 
 				// クロサバ用
 				if (mode == 2) {
-					jobimages = []
+					jobimages = [];
 					jobimages['ウォーリア'] = './images/kurosaba/classes/icn_warrior.png';
 					jobimages['ヴァルキリー'] = './images/kurosaba/classes/icn_valkyrie.png';
 					jobimages['ジャイアント'] = './images/kurosaba/classes/icn_giant.png';
@@ -6301,6 +6307,9 @@
 					jobimages['シャイ'] = './images/kurosaba/classes/icn_shai.png';
 					jobimages['ハサシン'] = './images/kurosaba/classes/icn_hasashin.png';
 					jobimages['ノヴァ'] = './images/kurosaba/classes/icn_nova.png';
+					jobimages['ガーディアン'] = './images/kurosaba/classes/icn_guardian.png';
+					jobimages['ソラリス'] = './images/kurosaba/classes/icn_solaris.png';
+					jobimages['修羅'] = './images/kurosaba/classes/icn_syura.png';
 				}
 
 				var jobnamesForURL = [];
@@ -6359,6 +6368,9 @@
 					jobnamesForURL['./images/kurosaba/classes/icn_shai.png'] = 'シャイ';
 					jobnamesForURL['./images/kurosaba/classes/icn_hasashin.png'] = 'ハサシン';
 					jobnamesForURL['./images/kurosaba/classes/icn_nova.png'] = 'ノヴァ';
+					jobnamesForURL['./images/kurosaba/classes/icn_guardian.png'] = 'ガーディアン';
+					jobnamesForURL['./images/kurosaba/classes/icn_solaris.png'] = 'ソラリス';
+					jobnamesForURL['./images/kurosaba/classes/icn_syura.png'] = '修羅';
 				}
 
 				var jobbufs = [];
@@ -6416,6 +6428,9 @@
 					jobbufs['シャイ'] = '近・遠距離';
 					jobbufs['ハサシン'] = '近距離';
 					jobbufs['ノヴァ'] = '中距離';
+					jobbufs['ガーディアン'] = '近距離';
+					jobbufs['ソラリス'] = '近距離';
+					jobbufs['修羅'] = '近距離';
 				}
 
 				var jobs = [];
@@ -6473,6 +6488,9 @@
 					jobs[0]['シャイ'] = 'シャイ';
 					jobs[0]['ハサシン'] = 'ハサシン';
 					jobs[0]['ノヴァ'] = 'ノヴァ';
+					jobs[0]['ガーディアン'] = 'ガーディアン';
+					jobs[0]['ソラリス'] = 'ソラリス';
+					jobs[0]['修羅'] = '修羅';
 					jobs[1]['ウォーリア'] = 'バーサーカー';
 					jobs[1]['ヴァルキリー'] = 'ランサー';
 					jobs[1]['ジャイアント'] = 'デストロイヤー';
@@ -6493,6 +6511,9 @@
 					jobs[1]['シャイ'] = 'シャイ';
 					jobs[1]['ハサシン'] = 'ハサシン';
 					jobs[1]['ノヴァ'] = 'ノヴァ';
+					jobs[1]['ガーディアン'] = 'ガーディアン';
+					jobs[1]['ソラリス'] = 'ソラリス';
+					jobs[1]['修羅'] = '修羅';
 					jobs[2]['ウォーリア'] = 'グラディエーター';
 					jobs[2]['ヴァルキリー'] = 'パラディン';
 					jobs[2]['ジャイアント'] = 'タイタン';
@@ -6513,6 +6534,9 @@
 					jobs[2]['シャイ'] = 'シャイ';
 					jobs[2]['ハサシン'] = 'ハサシン';
 					jobs[2]['ノヴァ'] = 'ノヴァ';
+					jobs[2]['ガーディアン'] = 'ガーディアン';
+					jobs[2]['ソラリス'] = 'ソラリス';
+					jobs[2]['修羅'] = '修羅';
 				}
 
 				var rejobs = [];
@@ -6603,6 +6627,9 @@
 					rejobs['シャイ'] = 'シャイ';
 					rejobs['ハサシン'] = 'ハサシン';
 					rejobs['ノヴァ'] = 'ノヴァ';
+					rejobs['ガーディアン'] = 'ガーディアン';
+					rejobs['ソラリス'] = 'ソラリス';
+					rejobs['修羅'] = '修羅';
 
 					rejobs['ウォーリア'] = 'ウォーリア';
 					rejobs['ヴァルキリー'] = 'ヴァルキリー';
@@ -6624,6 +6651,9 @@
 					rejobs['シャイ'] = 'シャイ';
 					rejobs['ハサシン'] = 'ハサシン';
 					rejobs['ノヴァ'] = 'ノヴァ';
+					rejobs['ガーディアン'] = 'ガーディアン';
+					rejobs['ソラリス'] = 'ソラリス';
+					rejobs['修羅'] = '修羅';
 				}
 			</script>
 		</section>

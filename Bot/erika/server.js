@@ -1754,6 +1754,15 @@ bot.on('messageCreate', (msg) => {
         subcmd = 18;
       }
     }
+    if (-1 < tokusei.indexOf('アンデッド')) {
+      var toLv = parseInt(tokusei.replace('アンデッド', '').trim());
+      tokusei = '';
+      if (0 < toLv && 10 >= toLv) {
+        newSelection = toLv;
+        msg.channel.createMessage('<@' + msg.author.id + '> 該当の武器が見つかったわ！\n **アンデッド特性武器** ね。 **特性Lv' + toLv + '** で登録するわ！\n');
+        subcmd = 19;
+      }
+    }
     if (-1 < tokusei.indexOf('スイート')) {
       var toLv = parseInt(tokusei.replace('スイート', '').trim());
       tokusei = '';
@@ -2411,6 +2420,9 @@ bot.on('messageCreate', (msg) => {
                         }
                         if (18 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
                           targetUser.demon = newSelection;
+                        }
+                        if (19 == subcmd && 'number' == typeof newSelection && 0 < newSelection) {
+                          targetUser.undead = newSelection;
                         }
                         if (17 == subcmd && 'string' == typeof customKey && 'string' == typeof customVal) {
                           var realCustomKey = null;
