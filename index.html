@@ -5,12 +5,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<meta name="robots" content="noindex"/>
-		<!-- Line2revo -->
+		<!-- Line2revo
 		<meta name="description" content="血盟管理ツール"/>
 		<meta id="ogimage" property="og:image" content="https://line2revo.fun/images/l2r/ogimage.png" />
 		<title>L2R Tool</title>
 		<!-- end/ -->
-		<!-- kurosaba --
+		<!-- kurosaba -->
 		<meta name="description" content="ギルド管理ツール"/>
 		<meta id="ogimage" property="og:image" content="https://kurosaba.fun/images/kurosaba/ogimage.png" />
 		<title>【黒い砂漠】ギルド管理 Tool</title>
@@ -424,6 +424,9 @@
 				<route path="manage">
 					<manage class="riotcontes"/>
 				</route>
+				<route path="classsetting">
+					<classsetting class="riotcontes"/>
+				</route>
 				<route path="donation">
 					<donat class="riotcontes"/>
 				</route>
@@ -597,6 +600,7 @@
 						<div class="col-xs-8">
 							<div class="container-fluid">
 								<button if={'on'!=getParams['view']} style="margin-left: 10px;" click={addColum}><small>+項目追加</small></button>
+								<a if={'on'!=getParams['view']} style="margin-left: 10px;" href="#classsetting"><small>+クラス追加</small></a>
 								<div if={mode==1} style="width: 150px; margin-top: -45px; margin-left: auto; margin-right: 10px; margin-bottom: 5px;">
 									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: firebrick;">&nbsp;前衛&nbsp;{attckAssistans}</span>
 									<span style="font-size: 12px; display: block; width: 50px; float: left; padding: 2px; padding-top: 3px; color: white; background-color: orange;">&nbsp;魔攻&nbsp;{criticalAssistants}</span>
@@ -972,7 +976,7 @@
 								</select>
 							</div>
 							<div if={mode==2} class="form-group">
-								<select class="form-control" name="userjob">
+								<select id="userjob" class="form-control" name="userjob">
 									<option>クラス</option>
 									<option if={user.job=='ウォーリア'} value="ウォーリア" selected="selected">ウォーリア</option>
 									<option if={user.job!='ウォーリア'} value="ウォーリア">ウォーリア</option>
@@ -1020,6 +1024,7 @@
 									<option if={user.job!='ソラリス'} value="ソラリス">ソラリス</option>
 									<option if={user.job=='修羅'} value="修羅" selected="selected">修羅</option>
 									<option if={user.job!='修羅'} value="修羅">修羅</option>
+									<option each="{classes, index in addClasses}" value="{classes}" >{classes}</option>
 								</select>
 							</div>
 							<div if={mode==1} class="form-group">
@@ -2376,6 +2381,9 @@
 									console.log(this.user);
 									$('#joinddate').datetimepicker({locale: 'ja', inline: true, sideBySide: true, format: "YYYY/MM/DD 00:00:00", defaultDate: user.joind, });
 									riot.update();
+									setTimeout(function () {
+										$('#userjob option[value="' + user.job + '"]').prop('selected', true);
+									}, 2000);
 								});
 							}
 							else {
@@ -6148,6 +6156,150 @@
 					});
 				</manage>
 			</script>
+
+			<script type="riot/tag">
+				<classsetting>
+					<div  class="row">
+						<div class="col-xs-4">
+							<div class="container-fluid">
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h3>追加クラス登録</h3>
+									<form id="editclass">
+										<br/>
+										<h4>追加クラス名</h4>
+										<div class="form-group">
+											<div class="btn-group">
+												<input type="text" id="classname" name="classname" class="form-control" value="" placeholder="コルセア"/>
+												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+											</div>
+										</div>
+										<br/>
+										<h4>クラスアイコンURL</h4>
+										<div class="form-group">
+											<div class="btn-group">
+												<input type="text" id="classimageurl" name="classimageurl" class="form-control" value="" placeholder="http://"/>
+												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+											</div>
+										</div>
+										<br/>
+										<h4>タイプ</h4>
+										<div class="form-group">
+											<select class="form-control" name="classbuf">
+												<option value="遠距離">遠距離</option>
+												<option value="中距離">中距離</option>
+												<option value="近距離">近距離</option>
+												<option value="近・遠距離">近・遠距離</option>
+											</select>
+										</div>
+										<br/>
+										<h4>継承クラス名</h4>
+										<div class="form-group">
+											<div class="btn-group">
+												<input type="text" id="classinheritname" name="classinheritname" class="form-control" value="" placeholder="コルセア"/>
+												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+											</div>
+										</div>
+										<br/>
+										<h4>覚醒クラス名</h4>
+										<div class="form-group">
+											<div class="btn-group">
+												<input type="text" id="classawakename" name="classawakename" class="form-control" value="" placeholder="コルセア"/>
+												<span class="clearbtn glyphicon glyphicon-remove-circle" onclick="clerinput(this)"></span>
+											</div>
+										</div>
+										<br/>
+										<botton if={'on'!= getParams['view']} class="btn btn-success" onclick={onclickRegisterClass}>保存</botton>
+										<input type="hidden" id="classid" name="classid" class="form-control" value=""/>
+										<br/>
+										<br/>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-8">
+							<div class="container-fluid">
+								<div style="padding-left: 10px; padding-right: 10px;">
+									<h3>追加クラス一覧</h3>
+									<table class="table table-bordered table-hover table-striped">
+										<thead>
+											<tr class="info">
+												<th style="width:100px;">クラス名</th>
+												<th style="width:100px;">クラスアイコン</th>
+												<th>クラスアイコンURL</th>
+												<th style="width:100px;">タイプ</th>
+												<th style="width:100px;">継承クラス名</th>
+												<th style="width:100px;">覚醒クラス名</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr each="{classesetting, index in classes}">
+												<td style="width:100px;" onclick="onclickClasses(this, '{index}');">{classesetting.name}</td>
+												<td style="width:100px;" onclick="onclickClasses(this, '{index}');"><img src="{classesetting.imageurl}"/></td>
+												<td onclick="onclickClasses(this, '{index}');">{classesetting.imageurl}</td>
+												<td onclick="onclickClasses(this, '{index}');" style="width:100px;">{classesetting.buf}</td>
+												<td onclick="onclickClasses(this, '{index}');" style="width:100px;">{classesetting.inherit}</td>
+												<td onclick="onclickClasses(this, '{index}');" style="width:100px;">{classesetting.awake}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					var classes = {};
+					var thisis;
+					this.on('mount', function() {
+						this.classes = classes;
+						thisis = this;
+						// 認証
+						auth(false, function (clan) {
+							getClasses(clan.ID, function(classes) {
+								console.log('classes=', classes);
+								thisis.classes = classes;
+								riot.update();
+							});
+						});
+						onclickClasses = function(event, index) {
+							var classes = thisis.classes[index];
+							console.log('classes=', classes);
+							$('#editclass').find('input[name=classid]').val(classes.ID);
+							$('#editclass').find('input[name=classname]').val(classes.name);
+							$('#editclass').find('input[name=classimageurl]').val(classes.imageurl);
+							$('#editclass').find('select[name=classbuf] option[value="' + classes.buf + '"]').prop('selected', true);
+							$('#editclass').find('input[name=classinheritname]').val(classes.inherit);
+							$('#editclass').find('input[name=classawakename]').val(classes.awake);
+						};
+						onclickRegisterClass = function(event) {
+							var classID = $('#editclass').find('input[name=classid]').val();
+							if (true != ('string' == typeof classID && 0 < classID.length)) {
+								classID = '';
+							}
+							var classname = $('#editclass').find('input[name=classname]').val();
+							var classimageurl = $('#editclass').find('input[name=classimageurl]').val();
+							var classbuf = $('#editclass').find('select[name=classbuf] option:selected').val();
+							var classinheritname = $('#editclass').find('input[name=classinheritname]').val();
+							if (true != ('string' == typeof classinheritname && 0 < classinheritname.length)) {
+								classinheritname = classname;
+							}
+							var classawakename = $('#editclass').find('input[name=classawakename]').val();
+							if (true != ('string' == typeof classawakename && 0 < classawakename.length)) {
+								classawakename = classname;
+							}
+							if ('string' == typeof classname && 0 < classname.length && 'string' == typeof classimageurl && 0 < classimageurl.length) {
+								var data = { ID: classID, name: classname, imageurl: classimageurl, buf: classbuf, inherit: classinheritname, awake: classawakename, };
+								registerClasses(clan.ID, data, function (){
+									alert('登録しました。');
+									location.reload();
+									return;
+								});
+								return;
+							}
+							alert('入力が正しくない項目があった為、処理を中断します。');
+						};
+					});
+				</classsetting>
+			</script>
+
 		</section>
 
 		<!-- libraries -->
@@ -6250,7 +6402,7 @@
 				var news = { ID: '', text: '', tag: '', notifymode: 0, notifytime: 0, };
 				var partyUsers = null;
 
-				var jobimages = [];
+				var jobimages = {};
 				jobimages['パラディン'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/pa_icon.png';
 				jobimages['ウォーロード'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/waro_icon.png';
 				jobimages['トレジャーハンター'] = 'https://gamewith.akamaized.net/article_tools/lineage2/gacha/tr_icon.png';
@@ -6286,7 +6438,7 @@
 
 				// クロサバ用
 				if (mode == 2) {
-					jobimages = [];
+					jobimages = {};
 					jobimages['ウォーリア'] = './images/kurosaba/classes/icn_warrior.png';
 					jobimages['ヴァルキリー'] = './images/kurosaba/classes/icn_valkyrie.png';
 					jobimages['ジャイアント'] = './images/kurosaba/classes/icn_giant.png';
@@ -6312,7 +6464,7 @@
 					jobimages['修羅'] = './images/kurosaba/classes/icn_syura.png';
 				}
 
-				var jobnamesForURL = [];
+				var jobnamesForURL = {};
 				jobnamesForURL['https://gamewith.akamaized.net/article_tools/lineage2/gacha/pa_icon.png'] = 'パラディン';
 				jobnamesForURL['https://gamewith.akamaized.net/article_tools/lineage2/gacha/waro_icon.png'] = 'ウォーロード';
 				jobnamesForURL['https://gamewith.akamaized.net/article_tools/lineage2/gacha/tr_icon.png'] = 'トレジャーハンター';
@@ -6347,7 +6499,7 @@
 
 				// クロサバ用
 				if (mode == 2) {
-					jobnamesForURL = [];
+					jobnamesForURL = {};
 					jobnamesForURL['./images/kurosaba/classes/icn_warrior.png'] = 'ウォーリア';
 					jobnamesForURL['./images/kurosaba/classes/icn_valkyrie.png'] = 'ヴァルキリー';
 					jobnamesForURL['./images/kurosaba/classes/icn_giant.png'] = 'ジャイアント';
@@ -6373,7 +6525,7 @@
 					jobnamesForURL['./images/kurosaba/classes/icn_syura.png'] = '修羅';
 				}
 
-				var jobbufs = [];
+				var jobbufs = {};
 				jobbufs['パラディン'] = '防御';
 				jobbufs['ウォーロード'] = '攻撃';
 				jobbufs['トレジャーハンター'] = '移動';
@@ -6407,7 +6559,7 @@
 
 				// クロサバ用
 				if (mode == 2) {
-					jobbufs = [];
+					jobbufs = {};
 					jobbufs['ウォーリア'] = '近距離';
 					jobbufs['ヴァルキリー'] = '近距離';
 					jobbufs['ジャイアント'] = '近距離';
@@ -6433,7 +6585,7 @@
 					jobbufs['修羅'] = '近距離';
 				}
 
-				var jobs = [];
+				var jobs = {};
 				jobs['パラディン'] = 'フェニックスナイト';
 				jobs['ウォーロード'] = 'ドレッドノート';
 				jobs['トレジャーハンター'] = 'アドベンチャラー';
@@ -6467,7 +6619,7 @@
 
 				// クロサバ用
 				if (mode == 2) {
-					jobs = [[], [], []];
+					jobs = [{}, {}, {}];
 					jobs[0]['ウォーリア'] = 'ウォーリア';
 					jobs[0]['ヴァルキリー'] = 'ヴァルキリー';
 					jobs[0]['ジャイアント'] = 'ジャイアント';
@@ -6539,7 +6691,7 @@
 					jobs[2]['修羅'] = '修羅';
 				}
 
-				var rejobs = [];
+				var rejobs = {};
 				rejobs['フェニックスナイト'] = 'パラディン';
 				rejobs['ドレッドノート'] = 'ウォーロード';
 				rejobs['アドベンチャラー'] = 'トレジャーハンター';
@@ -6606,7 +6758,7 @@
 
 				// クロサバ用
 				if (mode == 2) {
-					rejobs = [];
+					rejobs = {};
 					rejobs['バーサーカー'] = 'ウォーリア';
 					rejobs['ランサー'] = 'ヴァルキリー';
 					rejobs['デストロイヤー'] = 'ジャイアント';
@@ -6655,6 +6807,9 @@
 					rejobs['ソラリス'] = 'ソラリス';
 					rejobs['修羅'] = '修羅';
 				}
+
+				var addClasses = {};
+
 			</script>
 		</section>
 
@@ -6889,7 +7044,7 @@
 						return;
 					}
 					// firbase問い合わせ
-					firebase.firestore().collection("clans").doc(key).get().then(function(snapshot){
+					firebase.firestore().collection("clans").doc(key).get().then(async function(snapshot){
   					if(snapshot.exists) {
 							var data = snapshot.data();
 							// 血盟名が取れていればOK
@@ -6907,6 +7062,33 @@
 								if (!('undefined' != typeof clan.addisabled && clan.addisabled)) {
 									riot.mount('footerbar');
 								}
+
+								if (mode==2) {
+									var res = await (() => new Promise(function (resolve, reject) {
+										getClasses(clan.ID, function(classes) {
+											if (0 < Object.keys(classes).length) {
+												for (var cidx=0; cidx < Object.keys(classes).length; cidx++) {
+													var addclass = classes[Object.keys(classes)[cidx]];
+													console.log('jobimages=', jobimages);
+													console.log('addclass=', addclass.name);
+													jobimages[addclass.name] = addclass.imageurl;
+													jobnamesForURL[addclass.imageurl] = addclass.name;
+													jobbufs[addclass.name] = addclass.buf;
+													jobs[0][addclass.name] = addclass.name;
+													jobs[1][addclass.name] = addclass.awake;
+													jobs[2][addclass.name] = addclass.inherit;
+													rejobs[addclass.inherit] = addclass.name;
+													rejobs[addclass.awake] = addclass.awake;
+													addClasses[addclass.name] = addclass.name;
+												}
+											}
+											resolve(true);
+										});
+									}))();
+									console.log('jobimages=', jobimages);
+									console.log('addClasses=', addClasses);
+								}
+
 								if (callback) {
 									callback(data);
 								}
@@ -7281,6 +7463,44 @@
 						// ログイン出来ていないのでログイン画面へ戻す
 						loading(false);
 					});
+				};
+				var registerClasses = function (clanID, data, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					data.clanid = clanID;
+					if (data.ID != '') {
+						classID = data.ID;
+						delete data.ID;
+						firebase.firestore().collection("classes").doc(classID).update(data).then(function(snapshot) {
+							if (callback) {
+								callback(classID);
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('追加クラス更新エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
+					else {
+						delete data.ID;
+						firebase.firestore().collection("classes").add(data).then(function(snapshot) {
+							if (callback) {
+								callback(snapshot.id);
+							}
+							loading(false);
+							return;
+						}).catch(function(error) {
+							alert('追加クラス登録エラーが発生した為、処理を中断します。');
+							console.error("Error writing document: ", error);
+							// ログイン出来ていないのでログイン画面へ戻す
+							loading(false);
+						});
+					}
 				};
 				var getSchedules = function (clanID, callback) {
 					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
@@ -7693,6 +7913,38 @@
 							loading(false);
 							return;
 						});
+					}).catch(function(error) {
+						alert('作戦書一覧参照エラーが発生した為、処理を中断します。');
+						console.error("Error writing document: ", error);
+						// ログイン出来ていないのでログイン画面へ戻す
+						loading(false);
+					});
+				};
+				var getClasses = function (clanID, callback) {
+					if (clanID == null || 'undefined' == typeof clanID || 1 > clanID.length) {
+						return;
+					}
+					loading(true);
+					firebase.firestore().collection("classes").where("clanid", "==", clanID).orderBy("name", "asc").get().then(function(querySnapshot) {
+						var datas = {};
+						querySnapshot.forEach(function(snapshot) {
+							if(snapshot.exists) {
+								var data = snapshot.data();
+								data.ID = snapshot.id;
+								if ('undefined' != typeof data.date) {
+									data.date = data.date.toDate();
+									data.date = data.date.toLocaleString();
+								}
+								datas[data.ID] = data;
+							}
+						});
+						if ('undefined' != typeof datas) {
+							if (callback) {
+								callback(datas);
+							}
+						}
+						loading(false);
+						return;
 					}).catch(function(error) {
 						alert('作戦書一覧参照エラーが発生した為、処理を中断します。');
 						console.error("Error writing document: ", error);
